@@ -1,0 +1,149 @@
+@page
+@model Ventas.RegistroVentaModel
+
+@{
+    ViewData["Title"] = "Registro Venta";
+}
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="products-tab" data-toggle="tab" href="#products" role="tab" aria-controls="products" aria-selected="true">Productos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="false">Servicios</a>
+  </li>
+</ul>
+<form>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="products" role="tabpanel" aria-labelledby="products-tab">
+      <div class="bg-white m-4 px-4 pt-2 pb-2 rounded">
+        <label>Datos del Cliente</label>
+        <div class="m-2 py-2 bg-light rounded">
+          <div class="row p-2">
+            <div class="col">
+              <label>Nombre</label>
+              <input type="text" class="form-control bg-white" name="Nombre" placeholder="Nombre completo">
+            </div>
+            <div class="col">
+              <label>NIT</label>
+              <input type="text" class="form-control bg-white" name="Nit" placeholder="####-######-###-#">
+            </div>
+          </div>
+          <div class="row p-2">
+            <div class="col">
+              <label>Dirección</label>
+              <textarea class="form-control bg-white" name="Direccion" placeholder="Dirección"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white m-4 px-4 pt-2 pb-2 rounded">
+        <label>Datos de la Venta</label>
+        <div class="m-2 py-2 bg-light rounded">
+          <div class="row p-2">
+            <div class="col-md-3">
+              <label>Fecha de la venta: </label>
+              <input type="date" name="FechaVenta" class="form-control bg-white" placeholder="dd/mm/yyyy">
+            </div>
+            <div class="col-md-3 offset-md-6">
+              <label>Monto Total:</label>
+              <input type="text" name="Monto" placeholder="0.0" class="form-control bg-white" readonly>
+            </div>
+          </div>
+          <div class="row p-2">
+            <div class="col">
+              <label>Lista de Productos</label>
+            </div>
+            <div class="col text-right">
+              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-producto-modal-lg" name="AgregarProducto"><i class="fas fa-plus"></i> Agregar productos</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <table class="table table-sm table-hover" name="TablaVenta">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Unitario</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
+      ...
+    </div>
+  </div>
+  <div class="modal fade bd-producto-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myLargeModalLabel">Productos</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-inline">
+            <div class="row pl-3">
+              <!-- <div class="col">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
+              </div>
+              <div class="col">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Buscar</button>
+              </div> -->
+              <div class="search-box">
+                  <input type="text" name="" class="search-txt" placeholder="Buscar..."/>
+                  <a class="search-btn" href="#">
+                      <i class="fas fa-search"></i>
+                  </a>
+              </div>
+            </div>
+            <div class="row pt-3 px-5 pt-5">
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1"><span class="badge badge-pill badge-primary">Lapices</span></label>
+              </div>
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                <label class="custom-control-label" for="customCheck2"><span class="badge badge-pill badge-secondary">Cuadernos</span></label>
+              </div>
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck3">
+                <label class="custom-control-label" for="customCheck3"><span class="badge badge-pill badge-success">Libros</span></label>
+              </div>
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck4">
+                <label class="custom-control-label" for="customCheck4"><span class="badge badge-pill badge-danger">Borradores</span></label>
+              </div>
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck5">
+                <label class="custom-control-label" for="customCheck5"><span class="badge badge-pill badge-warning">Sacapuntas</span></label>
+              </div>
+              <div class="col">
+                <input type="checkbox" class="custom-control-input" id="customCheck6">
+                <label class="custom-control-label" for="customCheck6"><span class="badge badge-pill badge-info">Calculadoras</span></label>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col">
+                <div class="card" style="width: 10rem; height: 18rem;">
+                  <img src="https://www.hoptoys.es/30680-tm_thickbox_default/lapices-de-colores-jumbo-grip-x-12.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <span class="h5">Lapiz</span>
+                    <p class="card-text">Variedad de lapices muchos colores.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
