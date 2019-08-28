@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -14,14 +13,5 @@ namespace SGLibreria.Models
         public string Direccion { get; set; }
 
         public virtual Usuario Usuario { get; set; }
-    }
-    public enum genero
-    {
-        [Display(Name = "Seleccione")]
-        Desconocido = 0,
-        [Display(Name = "Masculino")]
-        Masculino = 1,
-        [Display(Name = "Femenino")]
-        Femenino = 2
     }
 }

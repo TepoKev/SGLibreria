@@ -22,12 +22,5 @@ namespace SGLibreria.Models
         public virtual Usuario IdUsuarioNavigation { get; set; }
         public virtual ICollection<Compra> Compra { get; set; }
         public virtual ICollection<Venta> Venta { get; set; }
-
-        public byte edad()
-        {
-            DateTime nacimiento = this.FechaNacimiento; //Fecha de nacimiento
-            byte edad =(byte)(DateTime.Today.AddTicks(-nacimiento.Ticks).Year - 1);//Edad
-            return  edad;
-        }
     }
 }
