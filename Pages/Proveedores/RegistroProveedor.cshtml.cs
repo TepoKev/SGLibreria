@@ -28,6 +28,6 @@ namespace SGLibreria.Pages.Proveedores
             _context.Proveedores.Add(Proveedor);
             await _context.SaveChangesAsync();
             return RedirectToPage("/Proveedores/RegistroProveedor");
-        }
+        } 
     }
 }

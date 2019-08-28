@@ -11,7 +11,6 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
-        public sbyte Activo { get; set; }
         public double Descuento { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }

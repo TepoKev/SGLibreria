@@ -13,9 +13,9 @@ namespace SGLibreria.Models
         public int Id { get; set; }
         public int IdVenta { get; set; }
         public int Cantidad { get; set; }
-        public int IdPrecioVenta { get; set; }
+        public int IdProducto { get; set; }
 
-        public virtual Precioventa IdPrecioVentaNavigation { get; set; }
+        public virtual Producto IdProductoNavigation { get; set; }
         public virtual Venta IdVentaNavigation { get; set; }
         public virtual ICollection<Kardex> Kardex { get; set; }
     }
