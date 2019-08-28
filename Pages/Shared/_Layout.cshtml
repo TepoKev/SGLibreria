@@ -119,17 +119,14 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
+
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i class="fa fa-bars"></i></button>
 
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="search-box">
-                            <input type="text" name="" class="search-txt" placeholder="Buscar..."/>
-                            <a class="search-btn" href="#">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </div>
-                    </form>
+                        <h1 class="h3 mb-0 text-gray-800">
+                                @ViewData["Title"]
+                         </h1>
+
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -289,16 +286,10 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <div class="row">
-                        <div class="col-md-6 offset-md-3 text-center mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">
-                                @ViewData["Title"]
-                            </h1>
-                        </div>
-                    </div>
+                    
                     <partial name="_CookieConsentPartial" />
-                    <main role="main" class="pb-3">
+                    <main role="main" class="pb-3 position-relative">
+
                         @RenderBody()
                     </main>
                 </div>
@@ -332,15 +323,14 @@
     <!-- Bootstrap core JavaScript-->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="~/vendor/jquery-selectric/jquery.selectric.js"></script>
+    
     <!-- Core plugin JavaScript-->
     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin-2.min.js"></script>
-    <script src="~/js/busqueda.js"></script>
     <partial name="_ValidationScriptsPartial" />
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

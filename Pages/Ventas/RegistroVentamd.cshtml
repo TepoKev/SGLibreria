@@ -1,0 +1,461 @@
+@page
+@model Ventas.RegistroVentaModel
+
+@{
+ViewData["Title"] = "Registro Venta";
+}
+
+<style>
+  body {
+    color: #555;
+  }
+
+  #nav-inferior .btn-dark:hover {
+    background-color: #1597a8 !important;
+  }
+
+  #productos-seleccionados {
+    right:0;
+    position:absolute;
+    transition:max-width .4s;
+  }
+
+  #productos-seleccionados:hover {
+
+  }
+
+</style>
+<div class="row" style='margin-top:-15px;'>
+
+  <div class="col-lg-9" id='productos'>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+          aria-selected="true">Productos </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+          aria-selected="false">Servicios</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+
+
+        <div class="card-group" style="border-top:solid#1597a8">
+
+          <div class="card">
+            <div class="card-title mt-3 mx-2">             
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+              <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Colores <span class="badge badge-primary">50</span></h5>
+              </div>
+              <div class="card-img-top">
+                <img src="~/Productos/colores.jpg" class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <p class="card-text"></p>
+              </div>
+              <div class="card-footer">
+                <small class="font-weight-bold text-primary h6">Precio: $1.25</small>
+              </div>
+            </div>
+        <!---->
+        <div class="card">
+              <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Cuadernos <span class="badge badge-primary">50</span></h5>
+              </div>
+              <div class="card-img-top">
+                <img src="~/Productos/cuaderno.jpg" class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <p class="card-text"></p>
+              </div>
+              <div class="card-footer">
+                <small class="font-weight-bold text-primary h6">Precio: $1.00</small>
+              </div>
+            </div>
+
+        <!---->
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Lapiceros <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/lapiceros.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+      </div>
+
+      <div class="card-group" style="border-top:solid#1597a8">
+          <div class="card">
+              <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-primary">50</span></h5>
+              </div>
+              <div class="card-img-top">
+                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <p class="card-text"></p>
+              </div>
+              <div class="card-footer">
+                <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+              </div>
+            </div>
+        <!---->
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Lapiceros <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/lapiceros.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+        <!---->
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+        <!---->
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Cuadernos <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/cuaderno.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+      </div>
+
+
+    </div><!-- Productos-->
+    <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="card-group">
+<!---->
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="~/Servicios/fotocopia.jpg" class="card-img-top" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Fotocopias</h5>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="fc1">
+                  <label class="custom-control-label" for="fc1">Normal</label>
+                  <p>$ 0.02</p>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="fc2">
+                  <label class="custom-control-label" for="fc2">Colores</label>
+                  <p>$ 0.05</p>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="fc3">
+                  <label class="custom-control-label" for="fc3">Imagenes</label>
+                  <p>$ 0.10</p>
+                </div>
+                <p class="card-text">Hojas: ______</p> <!--debe dejar ingresar el numero de las hojas-->
+                <p class="card-text"><small class="text-muted">Total= $0.00</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+<!---->
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="~/Servicios/impresion.jpg" class="card-img-top" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Impresiones</h5>
+
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="ip1">
+                  <label class="custom-control-label" for="ip1">Normal</label>
+                  <p>$ 0.05</p>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="ip2">
+                  <label class="custom-control-label" for="ip2">Colores</label>
+                  <p>$ 0.10</p>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="ip3">
+                  <label class="custom-control-label" for="ip3">Imagenes</label>
+                  <p>$ 0.15</p>
+                </div>
+                <p class="card-text">Hojas: ______</p> <!--debe dejar ingresar el numero de las hojas-->
+                <p class="card-text"><small class="text-muted">Total= $0.00</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+<!---->
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="~/Servicios/telefono.png" class="card-img-top" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Recargas /</h5>
+                <h5 class="card-subtitle">Paquetes</h5>
+
+                <form>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" id="m1" name="example1" value="customEx">
+                      <label class="custom-control-label" for="m1">Movistar</label>
+                    </div>
+                  </form> 
+                  <form>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="c1" name="example1" value="customEx">
+                        <label class="custom-control-label" for="c1">Claro</label>
+                      </div>
+                    </form> 
+                    <form>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="d1" name="example1" value="customEx">
+                          <label class="custom-control-label" for="d1">Digicel</label>
+                        </div>
+                      </form> 
+                      <form>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="t1" name="example1" value="customEx">
+                            <label class="custom-control-label" for="t1">Tigo</label>
+                          </div>
+                        </form> <!--estos radios solo debe dejar seleccionar uno, no mas-->
+                <p class="card-text"><small class="text-muted">Monto: _______</small></p> <!--debe dejar ingresar el monto-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---->
+      </div>
+
+
+    </div><!-- Servicios -->
+  </div>
+
+
+</div>
+<!--columna de productos y servicios -->
+
+
+
+<div class="col-lg-3  bg-white" id="productos-seleccionados">
+
+  <h3 class="h5 bg-primary text-white p-1 text-center">Venta a realizar</h3>
+  <div>
+
+  <div class="form-group row">
+    <label for="prod1" class="col-sm-7 col-form-label col-form-label-sm">Cuaderno cuadriculado</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <input type="number" class="form-control form-control-sm" value="2" id="prod1" placeholder="Cant">
+        <div class="input-group-append">
+          <a class="text-danger btn" href="#"><i class="fas fa-trash"></i></a>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="prod1" class="col-sm-7 col-form-label col-form-label-sm">Cuaderno de dibujo</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <input type="number" class="form-control form-control-sm" value="2" id="prod1" placeholder="Cant">
+        <div class="input-group-append">
+          <a class="text-danger btn" href="#"><i class="fas fa-trash"></i></a>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="prod1" class="col-sm-7 col-form-label col-form-label-sm">Pliego de Papel Bond</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <input type="number" class="form-control form-control-sm" value="2" id="prod1" placeholder="Cant">
+        <div class="input-group-append">
+          <a class="text-danger btn" href="#"><i class="fas fa-trash"></i></a>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="prod1" class="col-sm-7 col-form-label col-form-label-sm">Diccionario inglés español</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <input type="number" class="form-control form-control-sm" value="2" id="prod1" placeholder="Cant">
+        <div class="input-group-append">
+          <a class="text-danger btn" href="#"><i class="fas fa-trash"></i></a>
+        </div>
+      </div>      
+    </div>
+  </div>
+   
+  <div class="form-group row">
+    <label for="prod1" class="col-sm-7 col-form-label col-form-label-sm">Cuaderno cuadriculado</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <input type="number" class="form-control form-control-sm" value="2" id="prod1" placeholder="Cant">
+        <div class="input-group-append">
+          <a class="text-danger btn" href="#"><i class="fas fa-trash"></i></a>
+        </div>
+      </div>      
+    </div>
+  </div>
+  <div class="row alert-info alert font-weight-bold">
+    <div class="col-lg-6">Total: </div>
+    <div class="col-lg-6"> $ 10.86</div>
+  </div>
+
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="custom-control custom-checkbox pt-2">
+        <input type="checkbox" class="custom-control-input" id="factura">
+        <label class="custom-control-label" for="factura">Con factura</label>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <a class="btn btn-outline-primary" href="#"> <i class="fas fa-save"></i> Vender </a>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
+  <div class="col-lg-4">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Nombre o código de producto"  aria-describedby="button-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <nav aria-label="...">
+    <ul class="pagination mb-0">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <<</a> </li> <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">3</a>
+      </li>
+
+      <li class="page-item">
+        <a class="page-link" href="#">>></a>
+      </li>
+    </ul>
+  </nav>
+
+
+  </div>
+  
+
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-dark">Papelería</button>
+    <button type="button" class="btn btn-dark">Cuadernos</button>
+    <button type="button" class="btn btn-dark">Novelas</button>
+    <button type="button" class="btn btn-dark">Utilería</button>
+    <button type="button" class="btn btn-dark">Geometria</button>
+    <button type="button" class="btn btn-dark">Colores</button>
+    <button type="button" class="btn btn-dark">Tijeras</button>
+    <button type="button" class="btn btn-dark">Correctores</button>
+    <button type="button" class="btn btn-dark">Tirros</button>
+    <button type="button" class="btn btn-dark"> <i class="fas fa-plus"></i> </button>
+  </div>
+
+</div>
+
+<script>
+
+  var doc = document;
+
+  var prodSel = document.getElementById('productos-seleccionados');
+  prodSel.addEventListener('mouseover', function(event) {
+    event.stopPropagation();
+    this.classList.remove('col-lg-3');
+    this.classList.add('col-lg-4');
+  });
+  var prodDisponibles = doc.getElementById('productos'); 
+  doc.body.addEventListener('click', function(event) {
+    if(!prodSel.contains(event.target)) {
+      prodSel.classList.add('col-lg-3');
+      prodSel.classList.remove('col-lg-4');
+    }
+
+  });
+
+  var botonIniciar = doc.getElementById('boton-iniciar');
+  botonIniciar.addEventListener('click', iniciar);
+  function iniciar() {
+    var productos = doc.getElementById('productos-seleccionados');
+    var lista = [3.25, 3.50, 3.14];
+    var listaColores = ['text-primary', 'text-info', 'text-warning'];
+    var ele;
+    for (var i = 0; i < lista.length; i++) {
+      ele = doc.createElement('p');
+      ele.className = listaColores[i];
+      ele.innerHTML = lista[i];
+      productos.appendChild(ele);
+    }
+  }
+
+  //var activo = doc.getElementById('myTab');
+  //console.log(activo.id);
+  //console.log(activo.className);
+</script>
