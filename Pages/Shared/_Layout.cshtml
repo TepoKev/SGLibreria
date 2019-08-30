@@ -98,7 +98,7 @@
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Ventas/RegistroVentaK">Registrar Venta Kevin</a>
+                        <a class="collapse-item" asp-page="/Ventas/RegistroVentaK">Registrar</a>
                         <a class="collapse-item" asp-page="#">Lista Ventas</a>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
 
                         <h1 class="h3 mb-0 text-gray-800">
                                 @ViewData["Title"]
-                         </h1>
+                        </h1>
 
 
                     <!-- Topbar Navbar -->
@@ -279,18 +279,13 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    
                     <partial name="_CookieConsentPartial" />
                     <main role="main" class="pb-3 position-relative">
-
                         @RenderBody()
                     </main>
                 </div>
