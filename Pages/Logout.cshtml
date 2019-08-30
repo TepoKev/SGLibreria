@@ -1,0 +1,38 @@
+@page
+@model Ventas.RegistroVentaModel
+@{
+    Layout = "_Login";
+}
+<!-- Nested Row within Card Body -->
+<div class="row bg-login-image">
+    <div class="col-lg-6 d-none d-lg-block"></div>
+    <div class="col-lg-6" style="background-color:rgba(0,0,0,.5)">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-white mb-4">!Bienvenido/a a SGLibreria!</h1>
+            </div>
+            <form class="user" method="get" action="/">
+                <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="usuario"
+                        aria-describedby="emailHelp" placeholder="Usuario">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="clave"
+                        placeholder="Contraseña">
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox small text-white">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Mantener activa la sesión al cerrar el navegador</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-user btn-block">
+                    <i class="fas fa-user"></i> Iniciar sesión
+                </button>
+                <hr>
+                <a class="small" href="forgot-password.html">Olvidé mi contraseña?</a>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
