@@ -4,10 +4,6 @@
 @{
     ViewData["Title"] = "Lista Proveedores";
 }
-
-@section Styles{
-    <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
-}
 <!-- DataTales -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -63,11 +59,13 @@
                             }else{
                                 <td></td>
                             }
-                            @if(item.Id != 0){
-                            <td>@Html.Raw("<a href=\""+item.Enlace+"\" target=\"_blank\"><button class=\"btn btn-outline-success\"><i class=\"fas fa-pencil-alt\"></i></button></a>")</td>
-                            }else{
-                                <td></td>
-                            }
+                            <td>
+                                <a asp-page="/Proveedores/ModificarProveedor" asp-route-id="@item.Id">
+                                    <button class="btn btn-outline-success">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </a>
+                            </td>
                         </tr>
                         i++;
                     }
