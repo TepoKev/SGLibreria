@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SGLibreria.Models
 {
@@ -9,6 +10,7 @@ namespace SGLibreria.Models
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Telefono { get; set; }
+        [DisplayName("Género")]
         public int Genero { get; set; }
         public string Direccion { get; set; }
 
