@@ -1,25 +1,26 @@
 @page
-@model Proveedores.RegistroProveedorModel
+@model Proveedores.ModificarProveedorModel
 
 @{
-    ViewData["Title"] = "Resgistro Proveedores";
+    ViewData["Title"] = "Modificación de Proveedor";
 }
 
-@section Styles{
-    <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
-}
 <div class="pt-5">
     <form class="bg-gray-200 col-lg-10 offset-lg-1 rounded py-5" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Proveedor.Id" />
         <div class="row">
             <label asp-for="Proveedor.Nombre" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
                 <input type="text" class="form-control form-control-user mb-2" asp-for="Proveedor.Nombre" placeholder="Ingrese un nombre">
+                <span class="text-warning" asp-validation-for="Proveedor.Nombre"></span>
             </div>
         </div>
         <div class="row">
             <label asp-for="Proveedor.Correo" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
                 <input type="email" class="form-control form-control-user mb-2" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
+                <span class="" asp-validation-for="Proveedor.Correo"></span>
             </div>
         </div>
         <div class="row">
@@ -32,17 +33,19 @@
             <label asp-for="Proveedor.Direccion" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
                 <textarea class="form-control form-control-user mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..."></textarea>
+                <span class="" asp-validation-for="Proveedor.Direccion"></span>
             </div>
         </div>
         <div class="row">
             <label asp-for="Proveedor.Enlace" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
                 <input class="form-control form-control-user mb-2" asp-for="Proveedor.Enlace" placeholder="www.ejemplo.com">
+                <span class="" asp-validation-for="Proveedor.Enlace"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-3 offset-md-4">
-                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Registrar Proveedor</button>
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
             </div>
         </div>
     </form>

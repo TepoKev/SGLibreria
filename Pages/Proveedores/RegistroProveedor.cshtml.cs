@@ -17,6 +17,7 @@ namespace SGLibreria.Pages.Proveedores
         public Proveedor Proveedor { get; set; }
         public async Task<IActionResult> OnPostAsync()
         {
+            this.Proveedor.Estado = 1;
             if (!ModelState.IsValid)
             {
                 return Page();
