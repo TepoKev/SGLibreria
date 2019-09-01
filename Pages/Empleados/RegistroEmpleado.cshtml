@@ -7,12 +7,18 @@
 @section Scripts{
     <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
     <script>
-        $(function() {
-            $('select').selectric();
-        });
+        var gens = [
+         {elemento: '', texto:'Seleccione'}, 
+         {elemento: '<i class="fas fa-female"></i>', texto:'Femenino'}, 
+         {elemento: '<i class="fas fa-male"></i>', texto:'Masculino'}     
+        ];
         $('.custom-options').selectric({
             optionsItemBuilder: function(itemData, element, index) {
-                return element.val().length ? '<span class="ico ico-' + element.val() +  '"></span>' + itemData.text : itemData.text;
+                console.log(itemData);
+                console.log(element);
+                console.log(index);
+                console.log(element.val());
+                return '<span class="h6">'+gens[index].elemento+' '+gens[index].texto+'</span>';
             }
         });
     </script>
@@ -39,8 +45,8 @@
             <div class="form-group col-sm-6">
                 <select class="custom-options">
                     <option value="">Seleccione...</option>
-                    <option value="0"><i class="fas fa-female"></i> Femenino</option>
-                    <option value="1"><i class="fas fa-male"></i> Masculino</option>
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
                 </select>
             </div>
         </div>
