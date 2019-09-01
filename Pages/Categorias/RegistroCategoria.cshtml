@@ -1,0 +1,25 @@
+@page
+@model Ventas.RegistroVentaModel
+
+@{
+    ViewData["Title"] = "Registro Categoría";
+}
+
+<form class="mt-5">
+    <div class="form-group row">
+        <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span class="font-weight-bold text-danger">*</span></label>
+        <div class="col-lg-4">
+            <input type="text" class="form-control" id="Nombre" aria-describedby="emailHelp" placeholder="Libros">
+            <small id="emailHelp" class="form-text text-muted">La categoría es usada para agrupar productos del negocio</small>
+        </div>
+
+    </div>
+        <div class="row text-right">
+        <div class="col-lg-6">
+            <div class="btn-group">
+                <a href="/Categorias/ListaCategoria"class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</a>
+            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</form>
