@@ -12,15 +12,18 @@
     <environment include="Development">
     </environment>
     <environment exclude="Development">
+        <!--
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
             crossorigin="anonymous"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+        -->
     </environment>
     <!-- Custom fonts for this template-->
     <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!--    
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+    -->
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/css/busqueda.css" rel="stylesheet">
@@ -64,57 +67,95 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProveedores" aria-expanded="true" aria-controls="collapseOne">
                     <i class="far fa-address-card"></i>
                     <span>Proveedores</span>
                 </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                <div id="collapseForProveedores" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Proveedores/RegistroProveedor">Registrar</a>
-                        <a class="collapse-item" asp-page="/Proveedores/ListaProveedor">Lista Proveedores</a>
+                        <a class="collapse-item" asp-page="/Proveedores/RegistroProveedor"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Proveedores/ListaProveedor"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForCompras" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-store-alt"></i>
                     <span>Compras</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseForCompras" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Compras/RegistroCompra">Registrar</a>
-                        <a class="collapse-item" asp-page="#">Lista Compras</a>
+                        <a class="collapse-item" asp-page="/Compras/RegistroCompra"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Compras/ListaCompra"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForVentas" aria-expanded="true" aria-controls="collapseThree">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Ventas</span>
                 </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div id="collapseForVentas" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Ventas/RegistroVentaK">Registrar</a>
-                        <a class="collapse-item" asp-page="#">Lista Ventas</a>
+                        <a class="collapse-item" asp-page="/Ventas/RegistroVentaK"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Ventas/ListaVenta#"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFor" aria-expanded="true" aria-controls="collapseFor">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProductos" aria-expanded="true" aria-controls="collapseFor">
+                    <i class="fab fa-product-hunt"></i>
+                    <span>Productos</span>
+                </a>
+                <div id="collapseForProductos" class="collapse" aria-labelledby="headingFor" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Lista de Opciones:</h6>
+                        <a class="collapse-item" asp-page="/Productos/RegistroProducto"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Productos/ListaProducto"><i class="fas fa-list-alt"></i> Lista</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForServicios" aria-expanded="true" aria-controls="collapseForServicios">
+                    <i class="fas fa-print"></i><i class="ml-0 fas fa-phone"></i>
+                    <span>Servicios</span>
+                </a>
+                <div id="collapseForServicios" class="collapse" aria-labelledby="headingFive" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Lista de Opciones:</h6>
+                        <a class="collapse-item" asp-page="/Servicios/RegistroServicio"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Servicios/ListaServicio"><i class="fas fa-list-alt"></i> Lista</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategorias" aria-expanded="true" aria-controls="collapseCategorias">
+                    <i class="fas fa-tag"></i>
+                    <span>Categorias</span>
+                </a>
+                <div id="collapseCategorias" class="collapse" aria-labelledby="headingCategorias" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Lista de Opciones:</h6>
+                        <a class="collapse-item" asp-page="/Categorias/RegistroCategoria"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Categorias/ListaCategoria"><i class="fas fa-list-alt"></i> Lista</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmpleados" aria-expanded="true" aria-controls="collapseEmpleados">
                     <i class="fas fa-users"></i>
                     <span>Empleados</span>
                 </a>
-                <div id="collapseFor" class="collapse" aria-labelledby="headingFor" data-parent="#accordionSidebar">
+                <div id="collapseEmpleados" class="collapse" aria-labelledby="headingEmpleados" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Empleados/RegistroEmpleado">Registrar</a>
-                        <a class="collapse-item" asp-page="#">Lista Empleados</a>
+                        <a class="collapse-item" asp-page="/Empleados/RegistroEmpleado"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="#"><i class="fas fa-list-alt"></i> Lista Empleados</a>
                     </div>
                 </div>
             </li>
@@ -289,7 +330,7 @@
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Registro de Actividad
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/Logout">
+                                <a class="dropdown-item" href="/Login">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión
                                 </a>
                             </div>
@@ -320,6 +361,7 @@
     <environment include="Development">
     </environment>
     <environment exclude="Development">
+        <!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
@@ -330,6 +372,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
         </script>
+        -->
     </environment>
     <!-- Bootstrap core JavaScript-->
     <script src="~/vendor/jquery/jquery.min.js"></script>
