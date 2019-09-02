@@ -31,6 +31,8 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                 </div>
 
+                
+
             </div>
         </div>
         <br>
@@ -42,19 +44,70 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group pt-2">
-                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                                data-target="#modalInventario">Añadir Producto</button>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" 
+                            data-target="#producto" name="AgregarProducto">Añadir Producto</button>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row bg-white m-2 px-4 pt-2 pb-2 rounded">
-                    <label for="cfecha" class="col-lg-2 col-form-label">Fecha:</label>
-                    <div class="col-lg-4">
-                        <input type="date" class="form-control form-control-user mb-2" id="cfecha"
-                            placeholder="Libreria Miriam">
+                <div class="row">
+                    <div class="col">
+                      <table class="table table-sm table-hover bg-white" name="TablaVenta">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Precio Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Cuaderno Scribe</td>
+                            <td>
+                              <div class="def-number-input number-input safari_only">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                  class="minus"></button>
+                                <input class="quantity" min="0" name="quantity" value="3" type="number">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                  class="plus"></button>
+                              </div>
+                            </td>
+                            <td>$ 1.00</td>
+                            <td>$ 3.00</td>
+                          </tr>
+                          <tr>
+                            <td>Lapiz Bic</td>
+                            <td>
+                              <div class="def-number-input number-input safari_only">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                  class="minus"></button>
+                                <input class="quantity" min="0" name="quantity" value="10" type="number">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                  class="plus"></button>
+                              </div>
+                            </td>
+                            <td>$ 0.25</td>
+                            <td>$ 2.25</td>
+                          </tr>
+                          <tr>
+                            <td><h4 class="font-weight-bold" >Total</h4></td>
+                            <td></td>
+                            <td class="font-weight-bold">$ 1.25</td>
+                            <td class="font-weight-bold">$ 5.25</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                </div>
+                  </div>
 
+            </div>
+        </div>
+        <div class="row">
+            <div class=" offset-lg-5 col-lg-6">
+                <div class="form-group pt-2">
+                    <button type="button" class="btn btn-outline-primary"><i class="fas fa-save"> Registrar</i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle"> Cerrar</i></button>
+                </div>
             </div>
         </div>
 
@@ -85,27 +138,34 @@ ViewData["Title"] = "Registro Compras";
                     </div>
 
                     <div class="form-group row">
-                        <label for="pnombre" class="offset-lg-1 col-lg-3 col-form-label">Nombre*:</label>
+                        <label for="pnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*:</label>
                         <div class="col-lg-7">
                             <input type="text" class="form-control form-control-user mb-2" id="pnombre"
                                 placeholder="Libreria Miriam">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="pdireccion" class="offset-lg-1 col-lg-3 col-form-label">Direccion*:</label>
+                        <label for="pdireccion" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Direccion*:</label>
                         <div class="col-lg-7">
                             <textarea class="form-control" id="pdireccion" rows="3"
                                 placeholder="Final Av. Crescencio Miranda"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="pcorreo" class="offset-lg-1 col-lg-3 col-form-label">Correo electronico:</label>
+                        <label for="ptelefono" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*:</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control form-control-user mb-2" id="ptelefono"
+                                placeholder="2345-5190">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pcorreo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Correo electronico:</label>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="pcorreo" placeholder="example@gmail.com">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="penlace" class="offset-lg-1 col-lg-3 col-form-label">Enlace a red social:</label>
+                        <label for="penlace" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Enlace a red social:</label>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="penlace" placeholder="www.ejemplo.com">
                         </div>
@@ -144,27 +204,27 @@ ViewData["Title"] = "Registro Compras";
                 </div>
 
                 <div class="form-group row">
-                    <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label">Nombre*:</label>
+                    <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*:</label>
                     <div class="col-lg-7">
                         <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
                             placeholder="Lapicero">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label">Marca*:</label>
+                    <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*:</label>
                     <div class="col-lg-7">
                         <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
                             placeholder="Facela">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label">Codigo:</label>
+                    <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo:</label>
                     <div class="col-lg-7">
                         <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pdcategoria" class="offset-lg-1 col-lg-3 col-form-label">Categoría*:</label>
+                    <label for="pdcategoria" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*:</label>
                     <div class="col-lg-7">
                         <select class="custom-select form-control" id="pdcategoria">
                             <option selected>-- Seleccione categoría --</option>
@@ -175,20 +235,26 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pddireccion" class="offset-lg-1 col-lg-3 col-form-label">Descripción*:</label>
+                    <label for="pddireccion" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción:</label>
                     <div class="col-lg-7">
                         <textarea class="form-control" id="pddireccion" rows="3"
                             placeholder="Lapicedo color morado con bordes"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label">Existencia mínima*:</label>
+                    <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia mínima*:</label>
                     <div class="col-lg-7">
                         <input type="number" class="form-control" id="pdstock" value="10">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label">Seleccione foto:</label>
+                    <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha vencimiento:</label>
+                    <div class="col-lg-7">
+                        <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione foto:</label>
                     <div class="col-lg-7">
 
                         <div class="custom-file">
@@ -205,8 +271,6 @@ ViewData["Title"] = "Registro Compras";
                     <br>
                     <br>
                 </div>
-
-
 
             </div>
             <div class="modal-footer">
@@ -563,7 +627,7 @@ ViewData["Title"] = "Registro Compras";
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#imagePreview').html("<img src='" + e.target.result +
-                        "' class='rounded mx-auto d-block img-fluid' />");
+                        "' class='rounded mx-auto d-block img-fluid' style='width:250px' />");
                 }
                 reader.readAsDataURL(input.files[0]);
             }
