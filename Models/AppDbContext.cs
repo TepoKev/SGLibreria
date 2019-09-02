@@ -22,10 +22,11 @@ namespace SGLibreria.Models
         public virtual DbSet<Categoria> Categorias { get; set; }
         public virtual DbSet<Compania> Companias { get; set; }
         public virtual DbSet<Compra> Compras { get; set; }
-        public virtual DbSet<Configuracion> Configuracion { get; set; }
+        public virtual DbSet<Configuracion> Configuraciones { get; set; }
         public virtual DbSet<Detallecompra> Detallecompra { get; set; }
         public virtual DbSet<Detalleservicio> Detalleservicio { get; set; }
         public virtual DbSet<Detalleventa> Detalleventa { get; set; }
+        public virtual DbSet<Documento> Documentos { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Imagen> Imagenes { get; set; }
         public virtual DbSet<Kardex> Kardex { get; set; }
@@ -34,7 +35,6 @@ namespace SGLibreria.Models
         public virtual DbSet<Persona> Personas { get; set; }
         public virtual DbSet<Precioventa> Precioventa { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
-        public virtual DbSet<ProductoPerecedero> ProductosPerecederos { get; set; }
         public virtual DbSet<Proveedor> Proveedores { get; set; }
         public virtual DbSet<Recuperacioncuenta> Recuperacioncuenta { get; set; }
         public virtual DbSet<Ruta> Rutas { get; set; }
@@ -139,17 +139,11 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.Factura)
-                    .IsRequired()
-                    .HasColumnType("varchar(75)");
-
                 entity.Property(e => e.Fecha).HasColumnType("datetime");
 
                 entity.Property(e => e.IdEmpleado).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdProveedor).HasColumnType("int(11)");
-
-                entity.Property(e => e.TipoCompra).HasColumnType("int(11)");
 
                 entity.HasOne(d => d.IdEmpleadoNavigation)
                     .WithMany(p => p.Compra)
@@ -276,6 +270,37 @@ namespace SGLibreria.Models
                     .HasForeignKey(d => d.IdVenta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("detalleventa_ibfk_1");
+            });
+
+            modelBuilder.Entity<Documento>(entity =>
+            {
+                entity.HasIndex(e => e.IdCompra)
+                    .HasName("IdCompra");
+
+                entity.HasIndex(e => e.IdRuta)
+                    .HasName("IdRuta");
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdCompra).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdRuta).HasColumnType("int(11)");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnType("varchar(256)");
+
+                entity.HasOne(d => d.IdCompraNavigation)
+                    .WithMany(p => p.Documento)
+                    .HasForeignKey(d => d.IdCompra)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Documento_ibfk_2");
+
+                entity.HasOne(d => d.IdRutaNavigation)
+                    .WithMany(p => p.Documento)
+                    .HasForeignKey(d => d.IdRuta)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Documento_ibfk_1");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -459,6 +484,9 @@ namespace SGLibreria.Models
                 entity.HasIndex(e => e.IdCategoria)
                     .HasName("IdCategoria");
 
+                entity.HasIndex(e => e.IdImagen)
+                    .HasName("IdImagen");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Codigo).HasColumnType("int(25)");
@@ -469,7 +497,11 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Estado).HasColumnType("tinyint(3)");
 
+                entity.Property(e => e.FechaVencimiento).HasColumnType("date");
+
                 entity.Property(e => e.IdCategoria).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdImagen).HasColumnType("int(11)");
 
                 entity.Property(e => e.Marca)
                     .IsRequired()
@@ -486,24 +518,12 @@ namespace SGLibreria.Models
                     .HasForeignKey(d => d.IdCategoria)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("producto_ibfk_1");
-            });
 
-            modelBuilder.Entity<ProductoPerecedero>(entity =>
-            {
-                entity.HasIndex(e => e.IdProducto)
-                    .HasName("fk_idProducto");
-
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.FechaVencimiento).HasColumnType("date");
-
-                entity.Property(e => e.IdProducto).HasColumnType("int(11)");
-
-                entity.HasOne(d => d.IdProductoNavigation)
-                    .WithMany(p => p.ProductoPerecedero)
-                    .HasForeignKey(d => d.IdProducto)
+                entity.HasOne(d => d.IdImagenNavigation)
+                    .WithMany(p => p.Producto)
+                    .HasForeignKey(d => d.IdImagen)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_idProducto");
+                    .HasConstraintName("producto_ibfk_2");
             });
 
             modelBuilder.Entity<Proveedor>(entity =>
@@ -573,11 +593,16 @@ namespace SGLibreria.Models
                 entity.HasIndex(e => e.IdCompania)
                     .HasName("fk_IdCompania");
 
+                entity.HasIndex(e => e.IdImagen)
+                    .HasName("IdImagen");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Estado).HasColumnType("tinyint(3)");
 
                 entity.Property(e => e.IdCompania).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdImagen).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdTipoServicio).HasColumnType("int(11)");
 
@@ -590,6 +615,12 @@ namespace SGLibreria.Models
                     .HasForeignKey(d => d.IdCompania)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_IdCompania");
+
+                entity.HasOne(d => d.IdImagenNavigation)
+                    .WithMany(p => p.Servicio)
+                    .HasForeignKey(d => d.IdImagen)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Servicio_ibfk_1");
             });
 
             modelBuilder.Entity<Telefono>(entity =>
@@ -655,6 +686,8 @@ namespace SGLibreria.Models
                     .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Estado).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.IdImagen).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdPersona).HasColumnType("int(11)");
 

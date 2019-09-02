@@ -3,3 +3,4 @@ obj/
 Properties/
 wwwroot/Productos/
 wwwroot/Servicios/
+appsettings.json

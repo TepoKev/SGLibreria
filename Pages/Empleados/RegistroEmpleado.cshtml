@@ -1,0 +1,59 @@
+@page
+@model Empleados.RegistroEmpleadoModel
+
+@{
+    ViewData["title"] = "Registro de Empleado";
+}
+@section Scripts{
+    <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
+    <script>
+        var gens = [
+         {elemento: '', texto:'Seleccione'}, 
+         {elemento: '<i class="fas fa-female"></i>', texto:'Femenino'}, 
+         {elemento: '<i class="fas fa-male"></i>', texto:'Masculino'}     
+        ];
+        $('.custom-options').selectric({
+            optionsItemBuilder: function(itemData, element, index) {
+                console.log(itemData);
+                console.log(element);
+                console.log(index);
+                console.log(element.val());
+                return '<span class="h6">'+gens[index].elemento+' '+gens[index].texto+'</span>';
+            }
+        });
+    </script>
+}
+<div class="pt-3">
+    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post">
+        <div class="row">
+            <h2 class="offset-4 pb-4">Datos Personales</h2>
+        </div>
+        <div class="row">
+            <label asp-for="Persona.Nombres" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
+            <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-user mb-2" asp-for="Persona.Nombres" placeholder="Digite sus nombres">
+            </div>
+        </div>
+        <div class="row">
+            <label asp-for="Persona.Apellidos" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
+            <div class="form-group col-sm-6">
+                <input type="text" class="form-control form-control-user mb-2" asp-for="Persona.Apellidos" placeholder="Digite sus apellidos">
+            </div>
+        </div>
+        <div class="row">
+            <label asp-for="Persona.Genero" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
+            <div class="form-group col-sm-6">
+                <select class="custom-options">
+                    <option value="">Seleccione...</option>
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 offset-md-5">
+                <button type="button" class="btn btn-outline-primary"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+            </div>
+        </div>
+    </form>
+</div>

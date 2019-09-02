@@ -2,14 +2,28 @@
 @model Proveedores.RegistroProveedorModel
 
 @{
-    ViewData["Title"] = "Resgistro Proveedores";
+    ViewData["title"] = "Registro de Proveedor";
 }
 
-@section Styles{
+@section Scripts{
     <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
+    <script>
+        $(function() {
+            $('select').selectric();
+        });
+        $('#dynamic').selectric();
+        $('#bt_add_val').click(function() {
+            // Store the value in a variable
+            var value = $('#add_val').val();
+            // Append to original select
+            $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
+            // Refresh Selectric
+            $('#dynamic').selectric('refresh');
+        });
+    </script>
 }
-<div class="pt-5">
-    <form class="bg-gray-200 col-lg-10 offset-lg-1 rounded py-5" method="post">
+<div class="pt-3">
+    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post">
         <div class="row">
             <label asp-for="Proveedor.Nombre" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
@@ -25,7 +39,15 @@
         <div class="row">
             <label asp-for="Proveedor.Telefono" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
-                
+                <select id="dynamic">
+                    <option value="">Seleccione...</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row form-group col-sm-6 offset-3">
+                <input type="text" class="form-control col-lg-7" id="add_val" name="add_val">
+                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Agregar</button>
             </div>
         </div>
         <div class="row">

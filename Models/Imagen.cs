@@ -5,10 +5,18 @@ namespace SGLibreria.Models
 {
     public partial class Imagen
     {
+        public Imagen()
+        {
+            Producto = new HashSet<Producto>();
+            Servicio = new HashSet<Servicio>();
+        }
+
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int IdRuta { get; set; }
 
         public virtual Ruta IdRutaNavigation { get; set; }
+        public virtual ICollection<Producto> Producto { get; set; }
+        public virtual ICollection<Servicio> Servicio { get; set; }
     }
 }
