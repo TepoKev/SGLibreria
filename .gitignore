@@ -3,4 +3,6 @@ obj/
 Properties/
 wwwroot/Productos/
 wwwroot/Servicios/
+wwwroot/node_modules/
+wwwroot/scss/
 appsettings.json
