@@ -135,8 +135,21 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategorias" aria-expanded="true" aria-controls="collapseCategorias">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOfertas" aria-expanded="true" aria-controls="collapseCategorias">
                     <i class="fas fa-tag"></i>
+                    <span>Ofertas</span>
+                </a>
+                <div id="collapseOfertas" class="collapse" aria-labelledby="headingOferta" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Lista de Opciones:</h6>
+                        <a class="collapse-item" asp-page="/Ofertas/RegistroOferta"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Categorias/ListaOferta"><i class="fas fa-list-alt"></i> Lista</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategorias" aria-expanded="true" aria-controls="collapseCategorias">
+                    <i class="fas fa-layer-group"></i>
                     <span>Categorias</span>
                 </a>
                 <div id="collapseCategorias" class="collapse" aria-labelledby="headingCategorias" data-parent="#accordionSidebar">
