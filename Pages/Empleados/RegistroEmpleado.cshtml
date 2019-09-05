@@ -7,8 +7,8 @@
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item" aria-current="page"><a href="#">Empleado</a></li>
-            <li class="breadcrumb-item" id="lUsuario">Usuario</li>
+            <li class="breadcrumb-item" aria-current="page" id="lEmpleado"><a href="#" id="hEmpleado">Empleado</a></li>
+            <li class="breadcrumb-item" id="lUsuario"><a href="#" id="hUsuario" hidden >Usuario</a></li>
         </ol>
     </nav>
 </div>
@@ -175,12 +175,13 @@
         var Contenido = BtnProcess.innerHTML;
         var FrmEmpleado = document.getElementById("FormEmpleado");
         var FrmUsuario = document.getElementById("FormUsuario");
+        var HEmpleado = document.getElementById("hEmpleado");
+        var HUsuario = document.getElementById("hUsuario");
         console.log(Contenido);
         BtnProcess.addEventListener("click", (e) => {
             if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
             {
-                var LUsuario = document.getElementById("lUsuario");
-                LUsuario.innerHTML = '<a href="#">Usuario</a>';
+                HUsuario.removeAttribute("hidden");
                 BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar Empleado';
                 FrmEmpleado.setAttribute("hidden","");
                 FrmUsuario.removeAttribute("hidden");
@@ -190,6 +191,16 @@
                     //Aqui se va a enviar el Formulario al servidor
                 }
             }
+        });
+        HEmpleado.addEventListener("click", () => {
+            BtnProcess.innerHTML = '<i class="fas fa-arrow-circle-right"></i> Siguiente';
+            FrmUsuario.setAttribute("hidden","");
+            FrmEmpleado.removeAttribute("hidden");
+        });
+        HUsuario.addEventListener("click", () => {
+            BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar Empleado';
+            FrmEmpleado.setAttribute("hidden","");
+            FrmUsuario.removeAttribute("hidden");
         });
     </script>
 }
