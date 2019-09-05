@@ -13,7 +13,7 @@
     </nav>
 </div>
 <form class="col-lg-10 offset-lg-1 rounded py-4 border border-secondary-100" method="post" style="background-color: rgba(103, 230, 220,.9); color: white;">
-    <div id="divFormulario">
+    <div id="FormEmpleado">
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Empleado</h2>
         </div>
@@ -100,9 +100,54 @@
             </div>
         </div>
     </div>
+    <div id="FormUsuario" hidden>
+        <div class="row">
+            <h2 class="offset-4 pb-4">Datos del Usuario</h2>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Usuario.Nombre" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col">
+                <div class="row">
+                    <label asp-for="Usuario.Correo" class="col-lg-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+                <div class="col">
+                    <div class="row">
+                        <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                        <div class="col-lg-9 offset-1 pl-3">
+                            <select>
+                                <option value="">Seleccione...</option>
+                                <option value="0">Vendedor</option>
+                                <option value="1">Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <label asp-for="Usuario.Clave" class="col-lg-1 col-form-label font-weight-bold"></label>
+                        <div class="form-group col-lg-9 offset-1 pl-3">
+                            <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
     <div class="row pt-3">
         <div class="col-lg-3 offset-5">
-            <button class="btn btn-outline-primary" id="SiguienteP"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
         </div>
     </div>
 </form>
@@ -111,6 +156,9 @@
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
+        $(function() {
+            $('select').selectric();
+        });
         var gens = [
             {elemento: '', texto:'Seleccione'},
             {elemento: '<i class="fas fa-female"></i>', texto:'Femenino'},
@@ -121,10 +169,27 @@
                 return '<span class="h6">'+gens[index].elemento+' '+gens[index].texto+'</span>';
             }
         });
-        $(function () {
-            $('#SiguienteP').on('click', function () {
-                $('#divFormulario').load('/RegistroEmpleado?handler=UsuarioPartial');
-            });
+    </script>
+    <script>
+        var BtnProcess = document.getElementById("process");
+        var Contenido = BtnProcess.innerHTML;
+        var FrmEmpleado = document.getElementById("FormEmpleado");
+        var FrmUsuario = document.getElementById("FormUsuario");
+        console.log(Contenido);
+        BtnProcess.addEventListener("click", (e) => {
+            if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
+            {
+                var LUsuario = document.getElementById("lUsuario");
+                LUsuario.innerHTML = '<a href="#">Usuario</a>';
+                BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar Empleado';
+                FrmEmpleado.setAttribute("hidden","");
+                FrmUsuario.removeAttribute("hidden");
+            }else{
+                if(Contenido == '<i class="fas fa-save"></i> Registrar Empleado')
+                {
+                    //Aqui se va a enviar el Formulario al servidor
+                }
+            }
         });
     </script>
 }
