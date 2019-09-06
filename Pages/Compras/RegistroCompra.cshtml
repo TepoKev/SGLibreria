@@ -30,7 +30,7 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                     <label for="cproveedor" class="offset-lg-1 col-lg-1 col-form-label font-weight-bold ">Proveedor:</label>
                     <div class="offset-lg-1 form-group col-lg-5 ml-5" id="cproveedor">
-                        <select id="dynamic">
+                        <select >
                             <option disabled>-- Seleccione --</option>
                             <option value="">Libreria Miriam</option>
                         </select>
@@ -166,11 +166,19 @@ ViewData["Title"] = "Registro Compras";
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="ptelefono"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*:</label>
+                        <label for="ptelefono" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*:</label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="ptelefono"
-                                placeholder="2345-5190">
+                            <select id="dynamic">
+                                <option disabled>-- Seleccione --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-lg-4 col-lg-4">
+                            <input type="text" class="form-control" id="add_val" name="add_val">
+                        </div>
+                        <div class="col-lg-3">
+                            <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -643,11 +651,22 @@ ViewData["Title"] = "Registro Compras";
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
-    <script>
-        $(function() {
-            $('select').selectric();
-        });
-    </script>
+
+<script>
+    $(function() {
+        $('select').selectric();
+    });
+    $('#dynamic').selectric();
+    $('#bt_add_val').click(function() {
+        // Store the value in a variable
+        var value = $('#add_val').val();
+        // Append to original select
+        $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
+        // Refresh Selectric
+        $('#dynamic').selectric('refresh');
+    });
+</script>
+
 
 <script type="text/javascript">
     (function () {
