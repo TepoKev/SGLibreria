@@ -182,11 +182,11 @@
             if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
             {
                 HUsuario.removeAttribute("hidden");
-                BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar Empleado';
+                BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar';
                 FrmEmpleado.setAttribute("hidden","");
                 FrmUsuario.removeAttribute("hidden");
             }else{
-                if(Contenido == '<i class="fas fa-save"></i> Registrar Empleado')
+                if(Contenido == '<i class="fas fa-save"></i> Registrar')
                 {
                     //Aqui se va a enviar el Formulario al servidor
                 }
@@ -198,7 +198,7 @@
             FrmEmpleado.removeAttribute("hidden");
         });
         HUsuario.addEventListener("click", () => {
-            BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar Empleado';
+            BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar';
             FrmEmpleado.setAttribute("hidden","");
             FrmUsuario.removeAttribute("hidden");
         });
