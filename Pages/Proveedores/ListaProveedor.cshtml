@@ -11,15 +11,14 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <label class="offset-6  m-0 pr-1 pt-2">Mostrar </label>
-            <select class="form-control col-lg-1">
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-                <option>20</option>
-                <option>25</option>
+            <label class="col-lg-1">Mostrar </label>
+            <select>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
             </select>
-            <label class="col m-0 pt-2">Registros</label>
+            <label class="col-lg-2">Registros</label>
         </div>
         <div class="table-responsive pt-3">
             <table class="table table-sm table-hover bg-white" cellspacing="0">
@@ -98,10 +97,12 @@
     </div>
 </div>
 <!-- End Datatables -->
-<script>
-$('.custom-options').selectric({
-    optionsItemBuilder: function(itemData, element, index) {
-        return element.val().length ? '<span class="ico ico-' + element.val() +  '"></span>' + itemData.text : itemData.text;
-    }
-});
-</script>
+@section Scripts{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        $(function() {
+            $('select').selectric();
+        });
+    </script>
+}

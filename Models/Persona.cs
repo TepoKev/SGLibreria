@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -9,9 +7,11 @@ namespace SGLibreria.Models
         public int Id { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
+        [Display(Name="Teléfono")]
         public string Telefono { get; set; }
-        [DisplayName("Género")]
+        [Display(Name="Género")]
         public int Genero { get; set; }
+        [Display(Name="Dirección")]
         public string Direccion { get; set; }
 
         public virtual Usuario Usuario { get; set; }
