@@ -253,7 +253,7 @@ ViewData["Title"] = "Registro Compras";
                         class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*:</label>
                     <div class="col-lg-7">
                         <select class="custom-select form-control" id="pdcategoria">
-                            <option selected>-- Seleccione categoría --</option>
+                            <option disabled>-- Seleccione categoría --</option>
                             <option value="1">Papeleria</option>
                             <option value="2">Colores</option>
                             <option value="3">Lapiceros</option>
@@ -650,7 +650,8 @@ ViewData["Title"] = "Registro Compras";
 @section Scripts {
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
 
 <script>
     $(function() {
