@@ -8,6 +8,13 @@ namespace SGLibreria.Pages.Servicios
     {
         [BindProperty]
         public Servicio Servicio { get; set; }
+        [BindProperty]
+        public Compania Compania { get; set; }
+        [BindProperty]
+        public TipoServicio Tipo { get; set; }
+        public ModificarServicioModel()
+        {
+        }
         public void OnGet(int? id)
         {
         }
