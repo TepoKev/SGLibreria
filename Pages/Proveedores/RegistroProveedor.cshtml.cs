@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,7 +16,7 @@ namespace SGLibreria.Pages.Proveedores
         public Proveedor Proveedor { get; set; }
         public async Task<IActionResult> OnPostAsync()
         {
-            this.Proveedor.Estado = 1;
+            this.Proveedor.Estado = (sbyte) 1;
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -29,6 +28,6 @@ namespace SGLibreria.Pages.Proveedores
             _context.Proveedores.Add(Proveedor);
             await _context.SaveChangesAsync();
             return RedirectToPage("/Proveedores/RegistroProveedor");
-        } 
+        }
     }
 }
