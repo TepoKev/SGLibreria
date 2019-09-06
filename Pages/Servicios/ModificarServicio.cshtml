@@ -1,0 +1,137 @@
+@page
+@model Servicios.ModificarServicioModel
+
+@{
+    ViewData["title"] = "Modificacion de Servicio";
+}
+
+<div class="pt-3">
+    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border
+        border-secondary-100" method="post">
+        <div class="form-group row">
+            <label asp-for="Tipo.Nombre" class="col-lg-1 offset-2
+                col-form-label font-weight-bold"></label>
+            <div class="col-lg-6">
+                <input type="text" class="form-control mb-2"
+                    asp-for="Tipo.Nombre" placeholder="Nombre del servicio">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Compania.Nombre" class="col-lg-1 offset-2
+                col-form-label font-weight-bold"></label>
+            <div class="col-lg-6">
+                <select>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-success"
+                    id="btnComp" data-toggle="modal" data-target="#companiaModal">Nueva</button>
+            </div>
+        </div>
+        <!-- Modal Compañia -->
+        <div class="modal fade" id="companiaModal" tabindex="-1" role="dialog"
+            aria-labelledby="companiaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="companiaModalLabel">Registro de Compañia</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="offset-1 col-form-label font-weight-bold">Nombre</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control mb-2"
+                                    asp-for="Compania.Nombre" placeholder="Nombre de la compañia">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btnSaveCompania">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Servicio.Nombre" class="col-lg-1 offset-2 col-form-label
+                font-weight-bold"></label>
+            <div class="col-lg-6">
+                <select>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-success"
+                    id="btnTipo" data-toggle="modal" data-target="#servicioModal">Nuevo</button>
+            </div>
+        </div>
+        <!-- Modal Servicio -->
+        <div class="modal fade" id="servicioModal" tabindex="-1" role="dialog"
+            aria-labelledby="servicioModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="servicioModalLabel">Registro Tipo de Servicio</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="offset-1 col-form-label font-weight-bold">Nombre</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control mb-2"
+                                    asp-for="Servicio.Nombre" placeholder="Nombre del servicio">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btnSaveServicio">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Tipo.Precio" class="col-lg-1 offset-2
+                col-form-label font-weight-bold"></label>
+            <div class="col-lg-6">
+                <input type="text" class="form-control mb-2"
+                    asp-for="Tipo.Precio" placeholder="##.##">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 offset-md-4">
+                <button type="submit" class="btn btn-outline-primary"><i
+                        class="fas fa-save"></i> Registrar Servicio</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script>
+        $(function() {
+            $('select').selectric();
+        });
+        /*$('#dynamic').selectric();
+        $('#bt_add_val').click(function() {
+            // Store the value in a variable
+            var value = $('#add_val').val();
+            // Append to original select
+            $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
+            // Refresh Selectric
+            $('#dynamic').selectric('refresh');
+        });*/
+    </script>
+}

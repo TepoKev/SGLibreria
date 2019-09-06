@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -13,6 +14,7 @@ namespace SGLibreria.Models
 
         public int Id { get; set; }
         public int IdImagen { get; set; }
+        [Display(Name = "Tipo")]
         public string Nombre { get; set; }
         public sbyte Estado { get; set; }
         public int IdCompania { get; set; }
