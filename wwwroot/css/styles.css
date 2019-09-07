@@ -1,3 +1,10 @@
+.card-footer {
+    padding-left:5px;
+    padding-right:5px;
+}
+.card-group {
+    border-top:solid#1597a8;
+}
 .sidebar .sidebar-brand {
     text-transform: none;
     letter-spacing: normal;
