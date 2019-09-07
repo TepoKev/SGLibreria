@@ -1,3 +1,16 @@
+.sidebar .sidebar-brand {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: bold;
+    font-style: italic;
+}
+.bg-login-image {
+        background-image: url(/img/logov1.png);
+        background-repeat:no-repeat;
+        background-position: left top;
+        background-attachment: local;
+        background-size: 50% auto;
+} 
 .search-box {
     position: absolute;
     left: 10px;

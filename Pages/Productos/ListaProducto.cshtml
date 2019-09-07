@@ -1,0 +1,274 @@
+@page
+@model Categorias.ListaCategoriaModel;
+
+@{
+ViewData["Title"] = "Lista de Productos";
+}
+
+<style>
+  body {
+    color: #555;
+  }
+
+  #nav-inferior .btn-dark:hover {
+    background-color: #1597a8 !important;
+  }
+
+  #productos-seleccionados {
+    right: 0;
+    position: absolute;
+    transition: max-width .4s;
+  }
+
+  #productos-seleccionados:hover {}
+</style>
+<div class="row" style='margin-top:-15px;'>
+
+  <div class="col-lg-12" id='productos'>
+    <div id="myTabContent">
+      <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class="card-group" style="border-top:solid#1597a8">
+
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Colores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/colores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $1.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Cuadernos <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/cuaderno.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $1.00</small>
+            </div>
+          </div>
+
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Lapiceros <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/lapiceros.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Colores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/colores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $1.25</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-group" style="border-top:solid#1597a8">
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Lapiceros <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/lapiceros.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Cuadernos <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/cuaderno.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Borradores <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/borradores.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+
+          <div class="card">
+            <div class="card-title mt-3 mx-2">
+              <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-primary">50</span></h5>
+            </div>
+            <div class="card-img-top">
+              <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="card-body">
+              <p class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            </div>
+          </div>
+          <!---->
+        </div>
+
+
+      </div><!-- Productos-->
+    </div>
+
+
+  </div>
+  <!--columna de productos-->
+</div>
+
+<div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
+  <div class="col-lg-4">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Nombre o código de producto"
+        aria-describedby="button-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <nav aria-label="...">
+      <ul class="pagination mb-0">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+            <<</a> </li> <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">3</a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="#">>></a>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+
+
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-dark">Papelería</button>
+    <button type="button" class="btn btn-dark">Cuadernos</button>
+    <button type="button" class="btn btn-dark">Novelas</button>
+    <button type="button" class="btn btn-dark">Utilería</button>
+    <button type="button" class="btn btn-dark">Geometria</button>
+    <button type="button" class="btn btn-dark">Colores</button>
+    <button type="button" class="btn btn-dark">Tijeras</button>
+    <button type="button" class="btn btn-dark">Correctores</button>
+    <button type="button" class="btn btn-dark">Tirros</button>
+    <button type="button" class="btn btn-dark"> <i class="fas fa-plus"></i> </button>
+  </div>
+
+</div>
