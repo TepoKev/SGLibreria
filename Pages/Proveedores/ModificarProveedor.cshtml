@@ -5,24 +5,6 @@
     ViewData["Title"] = "Modificación de Proveedor";
 }
 
-@section Scripts{
-    <link href="~/vendor/jquery-selectric/selectric.css" rel="stylesheet">
-    <script>
-        $(function() {
-            $('select').selectric();
-        });
-        $('#dynamic').selectric();
-        $('#bt_add_val').click(function() {
-            // Store the value in a variable
-            var value = $('#add_val').val();
-            // Append to original select
-            $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
-            // Refresh Selectric
-            $('#dynamic').selectric('refresh');
-        });
-    </script>
-}
-
 <div class="pt-5">
     <form class="bg-gray-200 col-lg-10 offset-lg-1 rounded py-5" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -76,3 +58,13 @@
         </div>
     </form>
 </div>
+
+@section Scripts{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        $(function() {
+            $('select').selectric();
+        });
+    </script>
+}
