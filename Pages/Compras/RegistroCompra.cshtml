@@ -2,7 +2,7 @@
 @model Compras.RegistroCompraModel
 
 @{
-ViewData["Title"] = "Registro Compras";
+    ViewData["Title"] = "Registro Compras";
 }
 
 <form class="container-fluid ">
@@ -11,10 +11,10 @@ ViewData["Title"] = "Registro Compras";
         <div class="row">
             <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <h5 class="text-lg-left p-2">Datos</h5>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-5" style="align-content: flex-end;">
                         <div class="form-group pt-2">
                             <button type="button" class="btn btn-outline-success" data-toggle="modal"
                                 data-target="#modalProveedor">Registrar Proveedor</button>
@@ -44,10 +44,10 @@ ViewData["Title"] = "Registro Compras";
         <div class="row">
             <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
                 <div class="row">
-                    <div class="col-lg-10">
+                    <div class="col-lg-9">
                         <h5 class="text-lg-left p-2">Detalles</h5>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="form-group pt-2">
                             <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                 data-target="#producto" name="AgregarProducto">Añadir Producto</button>
@@ -63,6 +63,7 @@ ViewData["Title"] = "Registro Compras";
                                     <th scope="col">Cantidad</th>
                                     <th scope="col">Precio Unitario</th>
                                     <th scope="col">Precio Total</th>
+                                    <th scope="col">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +82,7 @@ ViewData["Title"] = "Registro Compras";
                                     </td>
                                     <td>$ 1.00</td>
                                     <td>$ 3.00</td>
+                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>Lapiz Bic</td>
@@ -97,6 +99,7 @@ ViewData["Title"] = "Registro Compras";
                                     </td>
                                     <td>$ 0.25</td>
                                     <td>$ 2.25</td>
+                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -105,6 +108,7 @@ ViewData["Title"] = "Registro Compras";
                                     <td></td>
                                     <td class="font-weight-bold">$ 1.25</td>
                                     <td class="font-weight-bold">$ 5.25</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -273,6 +277,20 @@ ViewData["Title"] = "Registro Compras";
                         mínima*:</label>
                     <div class="col-lg-7">
                         <input type="number" class="form-control" id="pdstock" value="10">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdpreciocompra" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de compra*:</label>
+                    <div class="col-lg-7">
+                        <input type="number" class="form-control form-control-user mb-2" id="pdpreciocompra"
+                            value="0.15">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de venta*:</label>
+                    <div class="col-lg-7">
+                        <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
+                            value="0.25">
                     </div>
                 </div>
                 <div class="form-group row">
