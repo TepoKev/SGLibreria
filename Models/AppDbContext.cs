@@ -73,7 +73,7 @@ namespace SGLibreria.Models
                 entity.Property(e => e.IdBitacora).HasColumnType("int(11)");
 
                 entity.HasOne(d => d.IdBitacoraNavigation)
-                    .WithMany(p => p.Accion)
+                    .WithMany(p => p.Acciones)
                     .HasForeignKey(d => d.IdBitacora)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("accion_ibfk_1");

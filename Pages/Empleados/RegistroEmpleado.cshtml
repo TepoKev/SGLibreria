@@ -104,46 +104,47 @@
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Usuario</h2>
         </div>
-        <div class="form-group row">
-            <div class="col">
-                <div class="row">
+        <div class="row">
+            <div class="col-lg-6 mt-4">
+                <div class="form-group row">
                     <label asp-for="Usuario.Nombre" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
                     <div class="col-lg-9 offset-1 pl-3">
                         <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
                     </div>
                 </div>
-            </div>
-            <div class="form-group col">
-                <div class="row">
-                    <label asp-for="Usuario.Correo" class="col-lg-1 col-form-label font-weight-bold"></label>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Correo" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
                     <div class="col-lg-9 offset-1 pl-3">
                         <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <select>
+                            <option value="">Seleccione...</option>
+                            <option value="0">Vendedor</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Clave" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="form-group col-lg-9 offset-1 pl-3">
+                        <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group row offset-3 text-center">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="200px" width="200px">
+                </div>
+                <div class="form-group offset-3">
+                    <label for="uimage">Seleccione una imagen</label>
+                    <input type="file" class="form-control-file" id="uimage">
+                </div>
             </div>
         </div>
-        <div class="form-group row">
-                <div class="col">
-                    <div class="row">
-                        <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                        <div class="col-lg-9 offset-1 pl-3">
-                            <select>
-                                <option value="">Seleccione...</option>
-                                <option value="0">Vendedor</option>
-                                <option value="1">Administrador</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <label asp-for="Usuario.Clave" class="col-lg-1 col-form-label font-weight-bold"></label>
-                        <div class="form-group col-lg-9 offset-1 pl-3">
-                            <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
     <div class="row pt-3">
         <div class="col-lg-3 offset-5">

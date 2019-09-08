@@ -7,7 +7,7 @@ namespace SGLibreria.Models
     {
         public Bitacora()
         {
-            Accion = new HashSet<Accion>();
+            Acciones = new HashSet<Accion>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace SGLibreria.Models
         public DateTime CierreSesion { get; set; }
 
         public virtual Usuario IdUsuarioNavigation { get; set; }
-        public virtual ICollection<Accion> Accion { get; set; }
+        public virtual ICollection<Accion> Acciones { get; set; }
     }
 }
