@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SGLibreria.Pages{
-    public class LoginModel : PageModel
+namespace SGLibreria.Pages
+{
+    public class LoginWithCodeModel: PageModel
     {
-        public LoginModel() {
+        public LoginWithCodeModel() {
 
         }
         public void OnGet() {
