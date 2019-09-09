@@ -53,7 +53,8 @@
     </form>
 </div>
 
-@section Scripts{
+@section Scripts
+{
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
@@ -64,10 +65,12 @@
         $('#bt_add_val').click(function() {
             // Store the value in a variable
             var value = $('#add_val').val();
-            // Append to original select
-            $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
-            // Refresh Selectric
-            $('#dynamic').selectric('refresh');
+            if(value != ""){
+                // Append to original select
+                $('#dynamic').append('<option selected>' + value + '</option>');
+                // Refresh Selectric
+                $('#dynamic').selectric('refresh');
+            }
         });
     </script>
 }

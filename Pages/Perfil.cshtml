@@ -1,0 +1,118 @@
+@page
+@model PerfilModel
+
+@{
+    ViewData["title"] = "Mi Perfil";
+}
+<div class="pt-5">
+    <form class="col-lg-10 offset-lg-1 py-5 rounded border border-secondary-100 pr-5" method="post">
+        <div class="row" id="frmUser">
+            <div class="col-lg-6 mt-5">
+                <div class="form-group row">
+                    <label class="col-lg-1 offset-1 col-form-label font-weight-bold">Usuario</label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Correo" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
+                    </div>
+                </div>
+                <div class="form-group row pt-3">
+                    <button type="button" class="col offset-1 btn btn-outline-secondary" id="btnPass"><i class="fas fa-key"></i> Cambiar Contraseña</button>
+                    <button type="button" class="col offset-1 btn btn-outline-secondary" id="btnPerson"><i class="fas fa-users-cog"></i> Cambiar Datos Personales</button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group row offset-4 text-center">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="200px" width="200px">
+                </div>
+                <div class="form-group offset-2">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="pdimagen">
+                        <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="frmPass" class="pt-5" hidden>
+            <div class="form-group row">
+                <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Contraseña Actual</label>
+                <div class="col-lg-6 pl-3">
+                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su contraseña actual">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Nueva Contraseña</label>
+                <div class="col-lg-6 pl-3">
+                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nueva contraseña">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Repetir Contraseña Nueva</label>
+                <div class="col-lg-6 pl-3">
+                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Retipita su contraseña nueva ">
+                </div>
+            </div>
+        </div>
+        <div id="frmEmpleado" class="pt-5" hidden>
+            <div class="form-group row">
+                <label class="col-lg-1 offset-1 col-form-label font-weight-bold">Dirección</label>
+                <div class="col-lg-8">
+                    <textarea class="form-control form-control-user" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-1 offset-1 col-form-label font-weight-bold">Télefono</label>
+                <div class="form-group col-lg-6 pl-3">
+                    <input class="form-control form-control-user mb-2" placeholder="####-####">
+                </div>
+            </div>
+        </div>
+        <div class="row offset-4 pt-3" id="divOpc">
+            <button type="button" class="col-lg-3 btn btn-outline-info" id="atras" hidden><i class="fas fa-undo-alt"></i> Regresar</button>
+            <button type="submit" class="col-lg-4 ml-5 btn btn-outline-success" id="process"><i class="fas fa-save"></i> Guardar Cambios</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script>
+        var BtnAtras = document.getElementById("atras");
+        var BtnPass = document.getElementById("btnPass");
+        var BtnPerson = document.getElementById("btnPerson");
+
+        BtnAtras.addEventListener("click", () => {
+            BtnAtras.setAttribute("hidden","");
+            let FrmUser = document.getElementById("frmUser");
+            let FrmPass = document.getElementById("frmPass");
+            let FrmEmpleado = document.getElementById("frmEmpleado");
+            FrmPass.setAttribute("hidden","");
+            FrmEmpleado.setAttribute("hidden","");
+            FrmUser.removeAttribute("hidden");
+        });
+
+        BtnPass.addEventListener("click", () => {
+            BtnAtras.removeAttribute("hidden");
+            let FrmUser = document.getElementById("frmUser");
+            let FrmPass = document.getElementById("frmPass");
+            let FrmEmpleado = document.getElementById("frmEmpleado");
+            FrmUser.setAttribute("hidden","");
+            FrmEmpleado.setAttribute("hidden","");
+            FrmPass.removeAttribute("hidden");
+        });
+
+        BtnPerson.addEventListener("click", () => {
+            BtnAtras.removeAttribute("hidden");
+            let FrmUser = document.getElementById("frmUser");
+            let FrmPass = document.getElementById("frmPass");
+            let FrmEmpleado = document.getElementById("frmEmpleado");
+            FrmUser.setAttribute("hidden","");
+            FrmPass.setAttribute("hidden","");
+            FrmEmpleado.removeAttribute("hidden");
+        });
+    </script>
+}
