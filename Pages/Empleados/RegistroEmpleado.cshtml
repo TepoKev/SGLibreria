@@ -12,7 +12,7 @@
         </ol>
     </nav>
 </div>
-<form class="col-lg-10 offset-lg-1 rounded py-4 border border-secondary-100" method="post">
+<form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post">
     <div id="FormEmpleado">
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Empleado</h2>
@@ -139,9 +139,11 @@
                 <div class="form-group row offset-3 text-center">
                     <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="200px" width="200px">
                 </div>
-                <div class="form-group offset-3">
-                    <label for="uimage">Seleccione una imagen</label>
-                    <input type="file" class="form-control-file" id="uimage">
+                <div class="form-group offset-1">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="pdimagen">
+                        <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,7 +155,8 @@
     </div>
 </form>
 
-@section Scripts{
+@section Scripts
+{
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
