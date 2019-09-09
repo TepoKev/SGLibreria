@@ -76,7 +76,7 @@ ViewData["Title"] = "Lista de Productos";
               <small class="font-weight-bold text-primary h6">
                 
                 Precio: $0.25
-                <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#exampleModalScrollable"><i class="fas fa-pencil-alt"></i></a>
+                <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i class="fas fa-pencil-alt"></i></a>
               </small>
             </div>
           </div>
@@ -138,26 +138,115 @@ ViewData["Title"] = "Lista de Productos";
     <button type="button" class="btn btn-dark"> <i class="fas fa-plus"></i> </button>
   </div>
 </div>
+
 @section Modal {
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+<div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title" id="modalProducto">Modificar Producto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                    <label>Campos obligatorios *</label>
+                </div>
+
+                <div class="form-group row">
+                    <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
+                            placeholder="Lapicero">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
+                            placeholder="Facela">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdcategoria"
+                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                    <div class="col-lg-7">
+                        <select class="custom-select form-control" id="pdcategoria">
+                            <option disabled>-- Seleccione categoría --</option>
+                            <option value="1">Papeleria</option>
+                            <option value="2">Colores</option>
+                            <option value="3">Lapiceros</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pddireccion"
+                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción:</label>
+                    <div class="col-lg-7">
+                        <textarea class="form-control" id="pddireccion" rows="3"
+                            placeholder="Lapicedo color morado con bordes"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+                        mínima*</label>
+                    <div class="col-lg-7">
+                        <input type="number" class="form-control" id="pdstock" value="10">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de venta*:</label>
+                    <div class="col-lg-7">
+                        <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
+                            value="0.25">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                        vencimiento</label>
+                    <div class="col-lg-7">
+                        <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                        foto</label>
+                    <div class="col-lg-7">
+
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="pdimagen">
+                            <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                        </div>
+                    </div>
+                </div>
+                ​
+                <div id="imagePreview">
+                    <br>
+                    <br>
+                    <h5 class="text-lg-center">Vista Previa</h5>
+                    <br>
+                    <br>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                        class="fas fa-save"> Guardar</i></button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                        class="fas fa-times-circle"> Cerrar</i></button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<!--    Inicia Modal Inventario-->
 }
