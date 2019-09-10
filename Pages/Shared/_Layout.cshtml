@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
@@ -35,18 +34,15 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand bg-dark d-flex align-items-center justify-content-center" asp-page="/Index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-page="/Index" style="background-color: #28CC9E">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <img width="75" height="75" src="/img/logov1.png"/>
                 </div>
                 <div class="sidebar-brand-text mx-3">SGLibreria</div>
             </a>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" asp-page="/Index">
@@ -56,15 +52,12 @@
                     </span>
                 </a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Secciones
             </div>
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProveedores" aria-expanded="true" aria-controls="collapseOne">
@@ -79,7 +72,6 @@
                     </div>
                 </div>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForCompras" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-store-alt"></i>
@@ -93,7 +85,6 @@
                     </div>
                 </div>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForVentas" aria-expanded="true" aria-controls="collapseThree">
                     <i class="fas fa-shopping-cart"></i>
@@ -172,12 +163,10 @@
                     </div>
                 </div>
             </li>
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline mt-2">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
         <!-- End of Sidebar -->
 
@@ -186,20 +175,12 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow border-left" style="background-color: #28CC9E">
                     <!-- Sidebar Toggle (Topbar) -->
-
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i class="fa fa-bars"></i></button>
-
-                        <h1 class="h3 mb-0 text-gray-800">
-                                @ViewData["Title"]
-                        </h1>
-
-
+                        <h1 class="h3 mb-0 text-white">@ViewData["Title"]</h1>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -217,11 +198,10 @@
                                 </form>
                             </div>
                         </li>
-
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw text-white"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
@@ -266,11 +246,10 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas las notificaciones</a>
                             </div>
                         </li>
-
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-info-circle"></i>
+                                <i class="fas fa-info-circle  text-white"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -282,46 +261,35 @@
                                 </a>
                             </div>
                         </li>
-
                         <!--Inicia Model-->
                         <div class="user" method="post">
-
                             <div class="modal fade" id="modalAcercade" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                        
                                         <!-- Modal Header -->
                                         <div class="modal-header bg-primary text-white">
                                             <h4 class="modal-title">¿Quiénes Somos?</h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
-                        
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            
                                         </div>
-                        
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
                                                     class="fas fa-times-circle"> Cerrar</i></button>
                                         </div>
-                        
                                     </div>
                                 </div>
                             </div>
-                        
                         </div>
-
                         <!--Fin del Modal-->
-
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Kevin Durán</span>
+                                <span class="mr-2 d-none d-lg-inline small text-white">Kevin Durán</span>
                                 <img class="img-profile rounded-circle" src="~/img/img1.jpg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -385,7 +353,6 @@
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin-2.min.js"></script>
     @RenderSection("Scripts", required: false)
