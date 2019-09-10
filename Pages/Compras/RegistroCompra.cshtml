@@ -28,12 +28,12 @@ ViewData["Title"] = "Registro Compras";
 
     <div class="user" method="post">
         <div class="row">
-            <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
-                <div class="row">
+            <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded ">
+                <div class="row ">
                     <div class="col-lg-6">
                         <h5 class="text-lg-left p-2">Datos</h5>
                     </div>
-                    <div class="col-lg-6" style="align-content: flex-end;">
+                    <div class="col-lg-6 pt-2" style="align-content: flex-end;">
                         <div class="form-group pt-2">
                             <button type="button" class="btn btn-outline-success" data-toggle="modal"
                                 data-target="#modalProveedor">Registrar Proveedor</button>
@@ -42,14 +42,14 @@ ViewData["Title"] = "Registro Compras";
                         </div>
                     </div>
                 </div>
-                <div class="form-group row bg-white m-2 px-4 pt-2 pb-2 rounded">
+                <div class="form-group row bg-white m-2 px-4 pt-2 rounded">
                     <label for="cfecha" class="col-lg-1 font-weight-bold col-form-label">Fecha:</label>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 pt-1">
                         <input type="date" class="form-control form-control-user mb-2" id="cfecha">
                     </div>
                     <label for="cproveedor"
                         class="offset-lg-1 col-lg-1 col-form-label font-weight-bold ">Proveedor:</label>
-                    <div class="offset-lg-1 form-group col-lg-5 ml-5" id="cproveedor">
+                    <div class="offset-lg-1 form-group col-lg-5 ml-5 pt-2" id="cproveedor">
                         <select>
                             <option disabled>-- Seleccione --</option>
                             <option value="">Libreria Miriam</option>
@@ -67,7 +67,7 @@ ViewData["Title"] = "Registro Compras";
                     <div class="col-lg-3">
                         <h5 class="text-lg-left p-2">Detalles</h5>
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-9 pt-2">
                         <div class="form-group pt-2">
 
                             <button type="button" class="btn btn-outline-primary" data-toggle="modal"
@@ -302,7 +302,7 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal Header -->
                 <div class="modal-header bg-primary text-white">
-                    <h4 class="modal-title">Registro de Categoría</h4>
+                    <h4 class="modal-title">Registro de Documento</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -479,19 +479,18 @@ ViewData["Title"] = "Registro Compras";
                 <form class="form-group">
 
                     <div class="row">
-                        <div class="col-lg-3 form-control-user px-5">
-                            <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>
-                                Agregar</button>
-                        </div>
-                        <div class="offset-lg-2 search-box">
+                        <div class=" search-box">
                             <input type="text" class="search-txt" placeholder="Buscar..." />
                             <a class="search-btn" href="#">
                                 <i class="fas fa-search"></i>
                             </a>
                         </div>
+                        <div class="offset-lg-10 col-lg-3 form-control-user px-5">
+                            <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>Agregar</button>
+                        </div>
                     </div>
 
-                    <div class="row px-5 py-3">
+                    <div class="offset-lg-1 row px-5 py-3 align-content-center">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-dark">Papelería</button>
                             <button type="button" class="btn btn-dark">Cuadernos</button>
@@ -554,11 +553,7 @@ ViewData["Title"] = "Registro Compras";
                                         <p class="card-text"></p>
                                       </div>
                                       <div class="card-footer">
-                                        <small class="font-weight-bold text-primary h6">
-                                          
-                                          Precio: $0.25
-                                          <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i class="fas fa-pencil-alt"></i></a>
-                                        </small>
+                                        <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
                                       </div>
                                     </div>
                                   }
@@ -572,7 +567,29 @@ ViewData["Title"] = "Registro Compras";
                             <!--columna de productos-->
                           </div>
 
-
+                    <div class="row">
+            <div class="col offset-5">
+                <nav aria-label="Paginacion ">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Siguiente</span>
+                        </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
                 </form>
             </div>
         </div>
