@@ -2,7 +2,7 @@
 @model Compras.ListaCompraModel
 
 @{
-    ViewData["Title"] = "Lista de Compras";
+ViewData["Title"] = "Lista de Compras";
 }
 
 <!-- DataTales -->
@@ -22,12 +22,12 @@
             </div>
             <label for="cproveedor" class="col-form-label font-weight-bold ">Proveedor:</label>
             <div class="form-group col-lg-4 " id="cproveedor">
-                <select >
+                <select>
                     <option disabled>-- Seleccione --</option>
                     <option value="">Libreria Miriam</option>
                 </select>
             </div>
-            
+
         </div>
         <div class="row">
             <label class="col-lg-1">Mostrar </label>
@@ -38,27 +38,28 @@
                 <option value="25">25</option>
             </select>
             <label class="col-lg-2">Registros</label>
-            
+
         </div>
         <div class="table-responsive pt-3">
             <table class="table table-sm table-hover bg-white" cellspacing="0">
                 <thead class="thead-dark">
                     <tr>
                         <th>Fecha</th>
+                        <th>Proveedor</th>
                         <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Precio Total</th>
+                        <th>Total Compra</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
                         <td>01-03-2019</td>
-                    <td>5</td>
-                    <td>0.50</td>
-                    <td>2.50</td>
-                    <td> <a href="#" class="text-info" title="Ver detalle"> <i class="fas fa-list-alt"></i></a></td>
+                        <td>Libreria Miriam</td>
+                        <td>2</td>
+                        <td>5.25</td>
+                        <td> <a href="#" data-toggle="modal" data-target="#modalDetalle" class="text-info"
+                                title="Ver detalle"> <i class="fas fa-list-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -77,10 +78,10 @@
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Siguiente</span>
-                        </a>
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -90,11 +91,113 @@
 </div>
 <!-- End Datatables -->
 @section Scripts{
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script>
-        $(function() {
-            $('select').selectric();
-        });
-    </script>
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script>
+    $(function () {
+        $('select').selectric();
+    });
+</script>
+
+<!-- The Modal -->
+<div class="user" method="post">
+
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title">Detalle de Compra</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label">Fecha:</label>
+                        <div class="offset-lg-1 col-lg-3 px-0">
+                            <input type="date" class="form-control form-control-user mb-2" id="cfecha" disabled>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <label for="cproveedor"
+                            class="offset-lg-1 col-lg-1 col-form-label font-weight-bold " >Proveedor:</label>
+                        <div class="offset-lg-1 col-lg-5 px-0">
+                            <input type="text" class="form-control form-control-user mb-2" id="cproveedor" value="Libreria Miriam" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-1">
+
+                        </div>
+                        <div class="col-lg-10">
+                            <form class="text-center">
+                                <h4
+                                    style="text-align: center; background-color: #eaecf4; margin-top: 3px; border-radius: 5px; color: black">
+                                    Detalle</h4>
+                            </form>
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Cuaderno Scribe</td>
+                                        <td>1.00</td>
+                                        <td>3.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Lapiz</td>
+                                        <td>0.25</td>
+                                        <td>2.25</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-sm-1">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <br>
+                        <div class="col-lg-7">
+                            <h2 style="text-align: center">Total</h2>
+                        </div>
+                        <div class="col-lg-2">
+                            <h2 style="text-align: right">$</h2>
+                        </div>
+                        <div class="col-lg-3">
+                            <h2 style="text-align: left">5.25</h2>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                            class="fas fa-times-circle"> Cerrar</i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- The Modal -->
 }
