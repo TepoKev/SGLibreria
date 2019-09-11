@@ -1,26 +1,24 @@
 @page
 @model Proveedores.RegistroProveedorModel
-
 @{
     ViewData["title"] = "Registro de Proveedor";
 }
-
 <div class="pt-3">
-    <form class="col-lg-10 offset-lg-1 rounded py-5 border border-secondary-100" method="post" style="background-color: #f1f6f2">
+    <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post" style="background-color: #f1f6f2">
         <div class="form-group row">
-            <label asp-for="Proveedor.Nombre" class="col-lg-1 offset-2 col-form-label mr-2 font-weight-bold"></label>
-            <div class="col-lg-6">
+            <label asp-for="Proveedor.Nombre" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
+            <div class="col-lg-9">
                 <input type="text" class="form-control mb-2" asp-for="Proveedor.Nombre" placeholder="Ingrese un nombre">
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Proveedor.Correo" class="col-lg-1 offset-2 col-form-label mr-2 font-weight-bold"></label>
-            <div class="col-lg-6">
+            <label asp-for="Proveedor.Correo" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
+            <div class="col-lg-9">
                 <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Proveedor.Telefono" class="col-lg-1 offset-2 col-form-label mr-2 font-weight-bold"></label>
+            <label asp-for="Proveedor.Telefono" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-6">
                 <select id="dynamic">
                     <option value="">Seleccione...</option>
@@ -28,31 +26,30 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="row col-lg-6 offset-3">
-                <input type="text" class="form-control col-lg-7 ml-2" id="add_val" name="add_val">
+            <div class="row col-lg-9 offset-2">
+                <input type="text" class="form-control col-lg-5 ml-3" id="add_val" name="add_val">
                 <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Agregar</button>
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Proveedor.Direccion" class="col-lg-1 offset-2 col-form-label mr-2 font-weight-bold"></label>
-            <div class="col-lg-6">
+            <label asp-for="Proveedor.Direccion" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
+            <div class="col-lg-9">
                 <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
             </div>
         </div>
         <div class="row">
-            <label asp-for="Proveedor.Enlace" class="col-lg-1 offset-2 col-form-label  mr-2 font-weight-bold"></label>
-            <div class="form-group col-lg-6">
+            <label asp-for="Proveedor.Enlace" class="col-lg-1 ml-5 col-form-label  mr-4 font-weight-bold"></label>
+            <div class="form-group col-lg-9">
                 <input class="form-control mb-2" asp-for="Proveedor.Enlace" placeholder="www.ejemplo.com">
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 offset-md-4">
+            <div class="col-lg-4 offset-md-4">
                 <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Registrar Proveedor</button>
             </div>
         </div>
     </form>
 </div>
-
 @section Scripts
 {
     <link href="~/selectric/src/selectric.css" rel="stylesheet">

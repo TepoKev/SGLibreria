@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @page
 @model Ofertas.RegistroOfertaModel;
 @using SGLibreria.Models;
@@ -6,41 +5,34 @@
     ViewData["Title"] = "Registro Ofertas";
 }
 <form class="container-fluid ">
-
     <div class="user" method="post">
         <div class="row">
             <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
                 <div class="row">
                     <div class="col-lg-7">
                         <h5 class="text-lg-left p-2">Datos</h5>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="form-group bg-white rounded">
                     <div class=" row  m-2 pt-2 rounded">
                         <label for="odescuento" class=" col-lg-2 font-weight-bold col-form-label">% Descuento:</label>
                         <div class="col-lg-3">
                             <input type="number" value="15" class="form-control form-control-user mb-2" id="odescuento" >
-                        </div>                    
+                        </div>
                     </div>
-    
                     <div class=" row  m-2 rounded">
                         <label for="cfechainicio" class="col-lg-2 font-weight-bold col-form-label">Fecha Inicio:</label>
                         <div class="col-lg-3">
                             <input type="date" class="form-control form-control-user mb-2" id="cfechainicio">
-                        </div> 
+                        </div>
                         <label for="cfechafin" class=" col-lg-2 font-weight-bold col-form-label">Fecha Fin:</label>
                         <div class="col-lg-3">
                             <input type="date" class="form-control form-control-user mb-2" id="cfechafin">
-                        </div>                    
+                        </div>
                     </div>
-
-
                 </div>
-
-
             </div>
         </div>
-
         <!---->
         <br>
         <div class="row">
@@ -70,279 +62,23 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Cuaderno</td>                                     
-                                    <td>Norma</td>                                      
+                                    <td>Cuaderno</td>
+                                    <td>Norma</td>
                                     <td>Cuadernos</td>
                                     <td>$ 1.00</td>
                                     <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
-                                </tr> 
-                                <tr>
-                                    <td>Cartulina</td>                                     
-                                    <td>---</td>                                      
-                                    <td>Papeleria</td>
-                                    <td>$ 0.75</td>
-                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
-                                </tr>                          
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class=" offset-lg-5 col-lg-6">
-                <div class="form-group pt-2">
-                    <button type="button" class="btn btn-outline-primary"><i class="fas fa-save"> Registrar</i></button>
-                    <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle">
-                            Cerrar</i></button>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-<!--    Inicia Modal Inventario-->
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true" id="producto">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title" id="modalInventario">Productos</h4>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-group">
-
-                    <div class="row">
-                        <div class=" search-box">
-                            <input type="text" class="search-txt" placeholder="Buscar..." />
-                            <a class="search-btn" href="#">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </div>
-                        <div class="offset-lg-10 col-lg-3 form-control-user px-5">
-                            <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>Agregar</button>
-                        </div>
-                    </div>
-
-                    <div class="offset-lg-1 row px-5 py-3 align-content-center">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-dark">Papelería</button>
-                            <button type="button" class="btn btn-dark">Cuadernos</button>
-                            <button type="button" class="btn btn-dark">Novelas</button>
-                            <button type="button" class="btn btn-dark">Utilería</button>
-                            <button type="button" class="btn btn-dark">Geometria</button>
-                            <button type="button" class="btn btn-dark">Colores</button>
-                            <button type="button" class="btn btn-dark">Tijeras</button>
-                            <button type="button" class="btn btn-dark">Correctores</button>
-                            <button type="button" class="btn btn-dark">Tirros</button>
-                        </div>
-                    </div>
-
-                    <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
-
-                            <div class="col-lg-12" id='productos'>
-                              <div class="mt-2">
-                              @{
-                                Producto obj;
-                                int i,j;
-                              }
-                              @for ( i = 0; i < Model.Productos.Count; i++) {
-                                  <div class="card-group">
-                                  @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
-                                    obj = Model.Productos[i+j];
-                                    <div class="card">
-                                      <div class="card-title mt-3 mx-2">             
-                                        <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                      </div>
-                                      <div class="card-img-top">
-                                        <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                      </div>
-                                      <div class="card-body">
-                                        <p class="card-text"></p>
-                                      </div>
-                                      <div class="card-footer">
-                                        <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                      </div>
-                                    </div>
-                                  }
-                                    
-                                  
-                                  </div>
-                                  i = i + j -1;
-                                }
-                          
-                          
-                                    @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
-                                  <div class="card-group">
-                                  @for( j = 0;j < 6 && i>=0; j++) {
-                                    obj = Model.Productos[i-j];
-                                    <div class="card">
-                                      <div class="card-title mt-3 mx-2">             
-                                        <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                      </div>
-                                      <div class="card-img-top">
-                                        <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                      </div>
-                                      <div class="card-body">
-                                        <p class="card-text"></p>
-                                      </div>
-                                      <div class="card-footer">
-                                        <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                      </div>
-                                    </div>
-                                  }
-                                    
-                                  
-                                  </div>
-                                  i = i - j +1;
-                                }
-                              </div><!-- .mt-2-->
-                            </div><!-- #productos -->
-                            <!--columna de productos-->
-                          </div>
-
-                    <div class="row">
-            <div class="col offset-5">
-                <nav aria-label="Paginacion ">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Siguiente</span>
-                        </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-</form>
-
-@section Scripts {
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
-
-<script>
-    $(function() {
-        $('select').selectric();
-    });
-   
-</script>
-
-}
-=======
-@page
-@model Ofertas.RegistroOfertaModel;
-
-@{
-    ViewData["Title"] = "Registro Ofertas";
-}
-<form class="container-fluid ">
-
-    <div class="user" method="post">
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <h5 class="text-lg-left p-2">Datos</h5>
-                    </div>                    
-                </div>
-                <div class="form-group bg-white rounded">
-                    <div class=" row  m-2 pt-2 rounded">
-                        <label for="odescuento" class=" col-lg-2 font-weight-bold col-form-label">% Descuento:</label>
-                        <div class="col-lg-3">
-                            <input type="number" value="15" class="form-control form-control-user mb-2" id="odescuento" >
-                        </div>                    
-                    </div>
-    
-                    <div class=" row  m-2 rounded">
-                        <label for="cfechainicio" class="col-lg-2 font-weight-bold col-form-label">Fecha Inicio:</label>
-                        <div class="col-lg-3">
-                            <input type="date" class="form-control form-control-user mb-2" id="cfechainicio">
-                        </div> 
-                        <label for="cfechafin" class=" col-lg-2 font-weight-bold col-form-label">Fecha Fin:</label>
-                        <div class="col-lg-3">
-                            <input type="date" class="form-control form-control-user mb-2" id="cfechafin">
-                        </div>                    
-                    </div>
-
-
-                </div>
-
-
-            </div>
-        </div>
-
-        <!---->
-        <br>
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1 bg-gray-200 rounded">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <h5 class="text-lg-left p-2">Detalles</h5>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group pt-2">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                data-target="#producto" name="AgregarProducto">Añadir Producto</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <table class="table table-sm table-hover bg-white" name="TablaVenta">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Marca</th>
-                                    <th scope="col">Categoria</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Acción</th>
                                 </tr>
-                            </thead>
-                            <tbody>
                                 <tr>
-                                    <td>Cuaderno</td>                                     
-                                    <td>Norma</td>                                      
-                                    <td>Cuadernos</td>
-                                    <td>$ 1.00</td>
-                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
-                                </tr> 
-                                <tr>
-                                    <td>Cartulina</td>                                     
-                                    <td>---</td>                                      
+                                    <td>Cartulina</td>
+                                    <td>---</td>
                                     <td>Papeleria</td>
                                     <td>$ 0.75</td>
                                     <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
-                                </tr>                          
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="row">
@@ -354,359 +90,137 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
     <!--    Inicia Modal Inventario-->
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-aria-hidden="true" id="producto">
-<div class="modal-dialog modal-xl">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modalInventario">Productos</h4>
-            <div class="col-lg-6">
-                <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>
-                    Agregar</button>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true" id="producto">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title" id="modalInventario">Productos</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group">
+                        <div class="row">
+                            <div class=" search-box">
+                                <input type="text" class="search-txt" placeholder="Buscar..." />
+                                <a class="search-btn" href="#">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                            </div>
+                            <div class="offset-lg-10 col-lg-3 form-control-user px-5">
+                                <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>Agregar</button>
+                            </div>
+                        </div>
+                        <div class="offset-lg-1 row px-5 py-3 align-content-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-dark">Papelería</button>
+                                <button type="button" class="btn btn-dark">Cuadernos</button>
+                                <button type="button" class="btn btn-dark">Novelas</button>
+                                <button type="button" class="btn btn-dark">Utilería</button>
+                                <button type="button" class="btn btn-dark">Geometria</button>
+                                <button type="button" class="btn btn-dark">Colores</button>
+                                <button type="button" class="btn btn-dark">Tijeras</button>
+                                <button type="button" class="btn btn-dark">Correctores</button>
+                                <button type="button" class="btn btn-dark">Tirros</button>
+                            </div>
+                        </div>
+                        <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
+                            <div class="col-lg-12" id='productos'>
+                                <div class="mt-2">
+                                @{
+                                    Producto obj;
+                                    int i,j;
+                                }
+                                @for ( i = 0; i < Model.Productos.Count; i++) {
+                                    <div class="card-group">
+                                    @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
+                                        obj = Model.Productos[i+j];
+                                    <div class="card">
+                                        <div class="card-title mt-3 mx-2">
+                                            <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
+                                        </div>
+                                        <div class="card-img-top">
+                                            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text"></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+                                        </div>
+                                    </div>
+                                    }
+                                    </div>
+                                    i = i + j -1;
+                                }
+                                    @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
+                                    <div class="card-group">
+                                        @for( j = 0;j < 6 && i>=0; j++) {
+                                        obj = Model.Productos[i-j];
+                                        <div class="card">
+                                            <div class="card-title mt-3 mx-2">
+                                                <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
+                                            </div>
+                                        <div class="card-img-top">
+                                            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text"></p>
+                                        </div>
+                                            <div class="card-footer">
+                                                <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+                                            </div>
+                                        </div>
+                                    }
+                                    </div>
+                                    i = i - j +1;
+                                }
+                                </div><!-- .mt-2-->
+                            </div><!-- #productos -->
+                                <!--columna de productos-->
+                        </div>
+                        <div class="row">
+                            <div class="col offset-5">
+                                <nav aria-label="Paginacion ">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Anterior</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Siguiente</span>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form class="form-inline">
-                <div class="row pb-2">
-                    <div class="search-box">
-                        <input type="text" class="search-txt" placeholder="Buscar..." />
-                        <a class="search-btn" href="#">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="row px-5 pt-5">
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1"><span
-                                class="badge badge-pill badge-primary">Lapices</span></label>
-                    </div>
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                        <label class="custom-control-label" for="customCheck2"><span
-                                class="badge badge-pill badge-secondary">Cuadernos</span></label>
-                    </div>
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3">
-                        <label class="custom-control-label" for="customCheck3"><span
-                                class="badge badge-pill badge-success">Libros</span></label>
-                    </div>
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck4">
-                        <label class="custom-control-label" for="customCheck4"><span
-                                class="badge badge-pill badge-danger">Borradores</span></label>
-                    </div>
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck5">
-                        <label class="custom-control-label" for="customCheck5"><span
-                                class="badge badge-pill badge-warning">Sacapuntas</span></label>
-                    </div>
-                    <div class="col">
-                        <input type="checkbox" class="custom-control-input" id="customCheck6">
-                        <label class="custom-control-label" for="customCheck6"><span
-                                class="badge badge-pill badge-info">Calculadoras</span></label>
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.hoptoys.es/30680-tm_thickbox_default/lapices-de-colores-jumbo-grip-x-12.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Lapiz</span>
-                                <p class="card-text">Variedad de lapices muchos colores.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="http://www.cotesudshop.com/wp-content/uploads/2019/04/cuaderno-l-rosa-1-1.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Cuaderno</span>
-                                <p class="card-text">Cuaderno L lila.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.misutiles.com/4296-thickbox_default/sacapunta-1-cuchilla.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Saca Punta</span>
-                                <p class="card-text">Sacapunta color azul.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://lapape.ec/wp-content/uploads/2018/06/BORRADOR-BLANCO-PZ20-PELIKAN.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Borrador</span>
-                                <p class="card-text">Borrador marca pelikan.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.hoptoys.es/30680-tm_thickbox_default/lapices-de-colores-jumbo-grip-x-12.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Lapiz</span>
-                                <p class="card-text">Variedad de lapices muchos colores.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="http://www.cotesudshop.com/wp-content/uploads/2019/04/cuaderno-l-rosa-1-1.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Cuaderno</span>
-                                <p class="card-text">Cuaderno L lila.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.misutiles.com/4296-thickbox_default/sacapunta-1-cuchilla.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Saca Punta</span>
-                                <p class="card-text">Sacapunta color azul.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://lapape.ec/wp-content/uploads/2018/06/BORRADOR-BLANCO-PZ20-PELIKAN.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Borrador</span>
-                                <p class="card-text">Borrador marca pelikan.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.hoptoys.es/30680-tm_thickbox_default/lapices-de-colores-jumbo-grip-x-12.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Lapiz</span>
-                                <p class="card-text">Variedad de lapices muchos colores.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="http://www.cotesudshop.com/wp-content/uploads/2019/04/cuaderno-l-rosa-1-1.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Cuaderno</span>
-                                <p class="card-text">Cuaderno L lila.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://www.misutiles.com/4296-thickbox_default/sacapunta-1-cuchilla.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Saca Punta</span>
-                                <p class="card-text">Sacapunta color azul.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem; height: 20rem;">
-                            <img src="https://lapape.ec/wp-content/uploads/2018/06/BORRADOR-BLANCO-PZ20-PELIKAN.jpg"
-                                class="card-img-top" alt="..." style="width: 125px; height:
-                125px;">
-                            <div class="card-body">
-                                <span class="h5">Borrador</span>
-                                <p class="card-text">Borrador marca pelikan.</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="def-number-input number-input safari_only">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="minus"></button>
-                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                    <button type="button"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="plus"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-</div>
-
-
 </form>
 
 @section Scripts {
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
-
-<script>
-    $(function() {
-        $('select').selectric();
-    });
-   
-</script>
-
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        $(function() {
+            $('select').selectric();
+        });
+    </script>
 }
->>>>>>> f094bacc920d39e6c310500de6171d74823dff2c

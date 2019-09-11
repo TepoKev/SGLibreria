@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 @page
 @model Ofertas.ListaOfertaModel
 
 @{
-ViewData["Title"] = "Lista de Ofertas";
+    ViewData["Title"] = "Lista de Ofertas";
 }
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -96,64 +95,3 @@ ViewData["Title"] = "Lista de Ofertas";
     });
 </script>
 }
-=======
-@page
-@model Ofertas.ListaOfertaModel
-
-@{
-    ViewData["Title"] = "Lista de Ofertas";
-}
- <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Datos detallados</h6>
-    </div>
-        <div class="px-3 table-responsive pt-3">
-            <table class="table table-sm table-hover bg-white" cellspacing="0">
-               <!--Encabezado de tabla-->
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Producto</th>
-                        <th>Descuento</th>
-                        <th>Precio Normal</th>
-                        <th>Descuento</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <!--fin Encabezado de tabla-->
-                <!--filas de tabla-->
-                  <tbody> 
-                    <tr>
-                        <td>Cuaderno</td>
-                        <td>15%</td>
-                        <td>$ 1.00</td>
-                        <td>$ 0.15</td>
-                        <td> <a href="#" class="text-info" title="Ver detalle"> <i class="fas fa-list-alt"></i></a></td>
-                    </tr>
-                </tbody>
-                <!--fin de fila de tabla-->
-                <!--filas de tabla-->
-                  <tbody> 
-                    <tr>
-                        <td>Cartulina</td>
-                        <td>25%</td>
-                        <td>$ 1.00</td>
-                        <td>$ 0.25</td>
-                        <td> <a href="#" class="text-info" title="Ver detalle"> <i class="fas fa-list-alt"></i></a></td>
-                    </tr>
-                </tbody>
-                <!--fin de fila de tabla-->
-            </table>
-        </div>
- </div>
-
- @section Scripts{
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script>
-        $(function() {
-            $('select').selectric();
-        });
-    </script>
-}
- 
->>>>>>> f094bacc920d39e6c310500de6171d74823dff2c
