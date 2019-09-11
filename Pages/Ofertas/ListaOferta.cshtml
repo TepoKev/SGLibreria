@@ -1,0 +1,97 @@
+@page
+@model Ofertas.ListaOfertaModel
+
+@{
+ViewData["Title"] = "Lista de Ofertas";
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos detallados</h6>
+    </div>
+    <div class="px-3 table-responsive pt-3">
+        <table class="table table-sm table-hover bg-white" cellspacing="0">
+            <!--Encabezado de tabla-->
+            <thead class="thead-dark">
+                <tr>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Producto</th>
+                    <th>Descuento</th>
+                    <th>Precio Normal</th>
+                    <th>Descuento</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <!--fin Encabezado de tabla-->
+            <!--filas de tabla-->
+            <tbody>
+                <tr>
+                    <td>03/09/2019</td>
+                    <td>10/09/2019</td>
+                    <td>Cuaderno</td>
+                    <td>15%</td>
+                    <td>$ 1.00</td>
+                    <td>$ 0.15</td>
+                    <td>
+                        <span class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch">
+                            <label class="custom-control-label" for="customSwitch">Deshabilitada</label>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <!--fin de fila de tabla-->
+            <!--filas de tabla-->
+            <tbody>
+                <tr>
+                    <td>03/09/2019</td>
+                    <td>10/09/2019</td>
+                    <td>Cartulina</td>
+                    <td>25%</td>
+                    <td>$ 1.00</td>
+                    <td>$ 0.25</td>
+                    <td>
+                        <span class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch" checked>
+                            <label class="custom-control-label" for="customSwitch">Habilitada</label>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+            <!--fin de fila de tabla-->
+        </table>
+    </div>
+    <div class="row">
+        <div class="col offset-5">
+            <nav aria-label="Paginacion ">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Anterior</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script>
+    $(function () {
+        $('select').selectric();
+    });
+</script>
+}
