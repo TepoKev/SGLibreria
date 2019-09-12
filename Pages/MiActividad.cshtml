@@ -43,13 +43,13 @@ ViewData["title"] = "Mi Actividad";
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button"
+                    <button class="btn btn-light collapsed" type="button"
                         data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
-                        2 de Septiembre de 2019
+                        2 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
                     </button>
                 </h2>
             </div>
-            <div id="collapseOne" class="nada collapse"
+            <div id="collapseOne" class="collapse"
                 aria-labelledby="headingOne">
                 <div class="card-body">
                     <div class="pl-5 col-lg-8">
@@ -72,14 +72,13 @@ ViewData["title"] = "Mi Actividad";
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button"
+                    <button class="btn btn-light collapsed" type="button"
                         data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">
-                        3 de Septiembre de 2019
+                        3 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
                     </button>
                 </h2>
             </div>
-            <div id="collapseTwo" class="nada collapse" aria-labelledby="headingTwo"
-                >
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
                 <div class="card-body">
                     <div class="pl-5 col-lg-8">
                         <div class="row p-1 rounded-pill mb-1" style="background-color: #DDFEE4">
@@ -101,13 +100,13 @@ ViewData["title"] = "Mi Actividad";
         <div class="card">
             <div class="card-header" id="headingThree">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button"
+                    <button class="btn btn-light collapsed" type="button"
                         data-toggle="collapse" data-target="#collapseThree" aria-controls="collapseThree">
-                        4 de Septiembre de 2019
+                        4 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
                     </button>
                 </h2>
             </div>
-            <div id="collapseThree" class="nada collapse"
+            <div id="collapseThree" class="collapse"
                 aria-labelledby="headingThree">
                 <div class="card-body">
                     <div class="pl-5 col-lg-8">
@@ -157,20 +156,31 @@ ViewData["title"] = "Mi Actividad";
     <script>
         var Expandir = document.getElementById("expandir");
         var Contraer = document.getElementById("contraer");
-
+        var btn = document.getElementsByClassName("btn btn-light collapsed");
+        for(var i = 0 ; i < btn.length ; i++){
+            btn[i].addEventListener("click" , (e) => {
+                var btn = e.currentTarget;
+                if(btn.children[0].className == "fas fa-chevron-right"){
+                    btn.children[0].className = "fas fa-chevron-down";
+                }else{
+                    if(btn.children[0].className == "fas fa-chevron-down"){
+                        btn.children[0].className = "fas fa-chevron-right";
+                    }
+                }
+            });
+        }
         Expandir.addEventListener("click", ()=>{
-            let colapse = document.getElementsByClassName("nada");
-            console.log(colapse);
+            let colapse = document.getElementsByClassName("card");
             for(var i = 0 ; i < colapse.length ; i++){
-                colapse[i].className = "nada collapse show";
+                colapse[i].children[0].children[0].children[0].children[0].className = 'fas fa-chevron-right';
+                colapse[i].children[1].className = "collapse show";
             }
         });
-
         Contraer.addEventListener("click", ()=>{
-            let colapse = document.getElementsByClassName("nada");
-            console.log("Contraer");
+            let colapse = document.getElementsByClassName("card");
             for(var i = 0 ;i < colapse.length ; i++){
-                colapse[i].className = "nada collapse";
+                colapse[i].children[0].children[0].children[0].children[0].className = 'fas fa-chevron-down';
+                colapse[i].children[1].className = "collapse";
             }
         });
     </script>
