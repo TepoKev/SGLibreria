@@ -153,6 +153,9 @@
     }
     }
 
+.nada{
+}
+
 .MiLista {
     counter-reset: li;
     list-style: none;
