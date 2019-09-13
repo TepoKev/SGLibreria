@@ -1,8 +1,19 @@
 @page
 @model ListaVentaModel;
 
+<style>
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #1597a8;
+    color:white;
+}
+</style>
+
 <div class="row">
     <div class="col-lg-9">
+
+
+            
+
         <table class="table table-sm table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -38,72 +49,116 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
+                    
                 <!-- Modal Header -->
                 <div class="modal-header bg-primary text-white">
-                    <h4 class="modal-title">Detalle de Compra</h4>
+                    <h4 class="modal-title">Detalle de Venta</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="row">
-                        <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label">Fecha:</label>
-                        <div class="offset-lg-1 col-lg-3 px-0">
-                            <input type="date" class="form-control form-control-user mb-2" id="cfecha" disabled>
+                        <div class="row">
+                                <br>
+                                <div class="col-sm-1">
+        
+                                </div>
+                                <div class="col-sm-1">
+        
+                                </div>
+        
+                            </div>
+                            <div class="row">
+                                    <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label">Fecha:</label>
+                                    <div class="offset-lg-1 col-lg-3 px-0">
+                                        <input type="date" class="form-control form-control-user mb-2" id="cfecha" disabled>
+                                    </div>
+            
+                                </div>
+
+            
+                        <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-productos" role="tab" aria-controls="nav-productos" aria-selected="true"><span class="font-weight-bold">10</span> productos</a>
+                                  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-servicios" role="tab" aria-controls="nav-servicios" aria-selected="false"><span class="font-weight-bold">2</span> servicios</a>
+                                </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-productos" role="tabpanel" aria-labelledby="nav-productos">
+
+                                        <table class="table table-sm table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Cantidad</th>
+                                                        <th>Producto</th>
+                                                        <th>Precio</th>
+                                                        <th>Valor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>
+                                                                <a class="text=primary" href="/Productos/ListaProducto">Cuaderno Scribe<i class="fas fa-arrow-right"></i></a></td>
+                                                        <td>1.00</td>
+                                                        <td>3.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10</td>
+                                                        <td>
+                                                                <a class="text=primary" href="/Productos/ListaProducto">Lapiz - Faceela<i class="fas fa-arrow-right"></i></a></td>
+                                                        <td>0.25</td>
+                                                        <td>2.25</td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td>10</td>
+                                                            <td><a class="text=primary" href="/Productos/ListaProducto">Borrador - Facela <i class="fas fa-arrow-right"></i></a></td>
+                                                            <td>0.25</td>
+                                                            <td>2.25</td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+
+                                </div>
+                                <div class="tab-pane fade" id="nav-servicios" role="tabpanel" aria-labelledby="nav-servicios">
+
+                                        <table class="table table-sm table-hover">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Cantidad</th>
+                                                        <th>Tipo de Servicio</th>
+                                                        <th>Precio</th>
+                                                        <th>Valor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>
+                                                                <a class="text=primary" href="/Servicios/ListaServicio">Recarga - Movistar<i class="fas fa-arrow-right"></i></a>
+                                                        </td>
+                                                        <td>1.00</td>
+                                                        <td>3.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td>
+                                                                <a class="text=primary" href="/Servicios/ListaServicio">Impresiones - a color<i class="fas fa-arrow-right"></i></a>
+                                                        </td>
+                                                        <td>0.07</td>
+                                                        <td>0.70</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+
+                                </div>
                         </div>
+            
 
-                    </div>
-                    <div class="row">
-                        <label for="cproveedor"
-                            class="offset-lg-1 col-lg-1 col-form-label font-weight-bold " >Proveedor:</label>
-                        <div class="offset-lg-1 col-lg-5 px-0">
-                            <input type="text" class="form-control form-control-user mb-2" id="cproveedor" value="Libreria Miriam" disabled>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <br>
-                        <div class="col-sm-1">
-
-                        </div>
-                        <div class="col-lg-10">
-                            <form class="text-center">
-                                <h4
-                                    style="text-align: center; background-color: #eaecf4; margin-top: 3px; border-radius: 5px; color: black">
-                                    Detalle</h4>
-                            </form>
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Descripción</th>
-                                        <th>Precio</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Cuaderno Scribe</td>
-                                        <td>1.00</td>
-                                        <td>3.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>Lapiz</td>
-                                        <td>0.25</td>
-                                        <td>2.25</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="col-sm-1">
-
-                        </div>
-
-                    </div>
+                    
+                    
 
                     <div class="row">
                         <br>
