@@ -3,148 +3,155 @@
 @{
 ViewData["Title"] = "Inicio";
 }
+<div class="row">
 
-<form>
-
-    <div class="row">
-        <div class="row form-control-plaintext text-center" style="font-family: Colonna MT; font-size: 40px;">
-            <p>BIENVENIDO</p>
-        </div>
-        <div class="row form-control-plaintext text-center" style="font-family: Colonna MT; font-size: 25px;">
-            <p>Sistema Informático para el control de compra-venta <br>
-                en la libreria de la Universidad Panamericana, San Vicente </P>
-        </div>
-    </div>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="row ">
-                    <div class="row form-control-plaintext px-2 text-center" style="font-family: Colonna MT; font-size: 20px;">
-                        <p>Poductos próximos a agotarse</P>
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary
+                            text-uppercase mb-1">Ventas (Mes)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$5,000</div>
                     </div>
-                    <div class="card-group">
-                        <div class="card">
-                            <div class="card-title mt-3 mx-2">
-                                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-                            </div>
-                            <div class="card-img-top">
-                                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text"></p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="font-weight-bold text-primary h6"></small>
-                                <a href="#" class="font-weight-bold text-success" data-toggle="modal"
-                                    data-target="#modalProducto"></a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title mt-3 mx-2">
-                                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-                            </div>
-                            <div class="card-img-top">
-                                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text"></p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="font-weight-bold text-primary h6"></small>
-                                <a href="#" class="font-weight-bold text-success" data-toggle="modal"
-                                    data-target="#modalProducto"></a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title mt-3 mx-2">
-                                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-                            </div>
-                            <div class="card-img-top">
-                                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text"></p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="font-weight-bold text-primary h6"></small>
-                            </div>
-                        </div>
-                        <!---->
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                    <div class="row">
-                            <div class="row form-control-plaintext px-2 text-center" style="font-family: Colonna MT; font-size: 20px;">
-                                    <p>Totales de ventas</P>
-                                </div>
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-lg-3 col-lg-6 mb-5">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total de Ventas (Mes)
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$5,000</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-lg-3 col-lg-6 mb-5">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Ventas (Año)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <!-- Pie Chart -->
-                            <div class="col-lg-5 col-lg-10">
-                                <div class="card shadow mb-3">
-                                    <!-- Card Header - Dropdown -->
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary">Top de lo vendido</h6>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-pie pt-4 pb-2">
-                                            <canvas id="myPieChart"></canvas>
-                                        </div>
-                                        <div class="mt-4 text-center small">
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-primary"></i> Cuadernos
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-success"></i> Lapices
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-info"></i> Fotocopias
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success
+                            text-uppercase mb-1">Ventas (Anual)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</form>
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning
+                            text-uppercase mb-1">Producto mas Vendido (Semana)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Cuaderno
+                            Scribe</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-sort-amount-up fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <!-- Area Chart -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center
+                justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Estadísticas de
+                    Ventas</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center
+                justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Top de lo Vendido</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> Cuadernos
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> Lapices
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> Fotocopias
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="row form-control-plaintext px-2 text-center" style="font-family:
+        Colonna MT; font-size: 20px;">
+        <p>Poductos próximos a agotarse</P>
+    </div>
+    <div class="card-group offset-3">
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
+            </div>
+            <div class="card-img-top">
+                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
+            </div>
+            <div class="card-body">
+                <p class="card-text"></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
+            </div>
+            <div class="card-img-top">
+                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
+            </div>
+            <div class="card-body">
+                <p class="card-text"></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title mt-3 mx-2">
+                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
+            </div>
+            <div class="card-img-top">
+                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
+            </div>
+            <div class="card-body">
+                <p class="card-text"></p>
+            </div>
+        </div>
+        <!---->
+    </div>
+</div>
 
 @section Scripts{
 <!-- Page level plugins -->
