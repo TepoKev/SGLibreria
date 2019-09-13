@@ -1,0 +1,132 @@
+@page
+@model ListaVentaModel;
+
+<div class="row">
+    <div class="col-lg-9">
+        <table class="table table-sm table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Empleado</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total $</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>17-07-2019 7:30</td>
+                    <td>Juan Perez</td>
+                    <td>15</td>
+                    <td>$5.00</td>
+                    <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i class="fas fa-list"></i> Detalles</a></td>
+                </tr>
+                <tr>
+                    <td>17-07-2019 8:00</td>
+                    <td>Juan Perez</td>
+                    <td>2</td>
+                    <td>$2.00</td>
+                    <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i class="fas fa-list"></i> Detalles</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section modal {
+<div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title">Detalle de Compra</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label">Fecha:</label>
+                        <div class="offset-lg-1 col-lg-3 px-0">
+                            <input type="date" class="form-control form-control-user mb-2" id="cfecha" disabled>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <label for="cproveedor"
+                            class="offset-lg-1 col-lg-1 col-form-label font-weight-bold " >Proveedor:</label>
+                        <div class="offset-lg-1 col-lg-5 px-0">
+                            <input type="text" class="form-control form-control-user mb-2" id="cproveedor" value="Libreria Miriam" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-1">
+
+                        </div>
+                        <div class="col-lg-10">
+                            <form class="text-center">
+                                <h4
+                                    style="text-align: center; background-color: #eaecf4; margin-top: 3px; border-radius: 5px; color: black">
+                                    Detalle</h4>
+                            </form>
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Cuaderno Scribe</td>
+                                        <td>1.00</td>
+                                        <td>3.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Lapiz</td>
+                                        <td>0.25</td>
+                                        <td>2.25</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-sm-1">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <br>
+                        <div class="col-lg-7">
+                            <p class="text-center h5 text-success font-weight-bold">Total</p>
+                        </div>
+                        <div class="col-lg-2">
+                            <p class="text-right h5 text-success font-weight-bold">$</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <p class="text-left h5 text-success font-weight-bold">5.25</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                            class="fas fa-times-circle"> Cerrar</i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

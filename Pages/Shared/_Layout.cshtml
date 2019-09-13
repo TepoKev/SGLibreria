@@ -60,15 +60,15 @@
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProveedores" aria-expanded="true" aria-controls="collapseOne">
-                    <i class="far fa-address-card"></i>
-                    <span>Proveedores</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForVentas" aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Ventas</span>
                 </a>
-                <div id="collapseForProveedores" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                <div id="collapseForVentas" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Proveedores/RegistroProveedor"><i class="fas fa-plus"></i> Registrar</a>
-                        <a class="collapse-item" asp-page="/Proveedores/ListaProveedor"><i class="fas fa-list-alt"></i> Lista</a>
+                        <a class="collapse-item" asp-page="/Ventas/RegistroVentamd"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Ventas/ListaVenta"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
             </li>
@@ -86,18 +86,21 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForVentas" aria-expanded="true" aria-controls="collapseThree">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Ventas</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProveedores" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="far fa-address-card"></i>
+                    <span>Proveedores</span>
                 </a>
-                <div id="collapseForVentas" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div id="collapseForProveedores" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Ventas/RegistroVentamd"><i class="fas fa-plus"></i> Registrar</a>
-                        <a class="collapse-item" asp-page="/Ventas/ListaVenta#"><i class="fas fa-list-alt"></i> Lista</a>
+                        <a class="collapse-item" asp-page="/Proveedores/RegistroProveedor"><i class="fas fa-plus"></i> Registrar</a>
+                        <a class="collapse-item" asp-page="/Proveedores/ListaProveedor"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
             </li>
+            
+            
+            
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForProductos" aria-expanded="true" aria-controls="collapseFor">
                     <i class="fab fa-product-hunt"></i>
@@ -106,7 +109,6 @@
                 <div id="collapseForProductos" class="collapse" aria-labelledby="headingFor" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Lista de Opciones:</h6>
-                        <a class="collapse-item" asp-page="/Productos/RegistroProducto"><i class="fas fa-plus"></i> Registrar</a>
                         <a class="collapse-item" asp-page="/Productos/ListaProducto"><i class="fas fa-list-alt"></i> Lista</a>
                     </div>
                 </div>
