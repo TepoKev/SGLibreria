@@ -20,73 +20,70 @@ ViewData["Title"] = "Lista de Productos";
     transition: max-width .4s;
   }
 
-  #productos-seleccionados:hover {
-
-  }
+  #productos-seleccionados:hover {}
 </style>
 <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
 
   <div class="col-lg-12" id='productos'>
     <div class="mt-2">
-    @{
+      @{
       Producto obj;
       int i,j;
+      }
+      @for ( i = 0; i < Model.Productos.Count; i++) { <div class="card-group">
+        @for( j = 0;j < 6 && i<Model.Productos.Count; j++) { obj=Model.Productos[i+j]; <div class="card">
+          <div class="card-title mt-3 mx-2">
+            <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
+          </div>
+          <div class="card-img-top">
+            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+          </div>
+          <div class="card-body">
+            <p class="card-text"></p>
+          </div>
+          <div class="card-footer">
+            <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+            <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i
+                class="fas fa-pencil-alt"></i></a>
+          </div>
+    </div>
     }
-    @for ( i = 0; i < Model.Productos.Count; i++) {
-        <div class="card-group">
-        @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
-          obj = Model.Productos[i+j];
-          <div class="card">
-            <div class="card-title mt-3 mx-2">             
-              <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-            </div>
-            <div class="card-img-top">
-              <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-            </div>
-            <div class="card-body">
-              <p class="card-text"></p>
-            </div>
-            <div class="card-footer">
-              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-              <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i class="fas fa-pencil-alt"></i></a>
-            </div>
-          </div>
-        }
-          
-        
+
+
+  </div>
+  i = i + j -1;
+  }
+
+
+  @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
+  <div class="card-group">
+    @for( j = 0;j < 6 && i>=0; j++) {
+      obj = Model.Productos[i-j];
+      <div class="card">
+        <div class="card-title mt-3 mx-2">
+          <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
         </div>
-        i = i + j -1;
+        <div class="card-img-top">
+          <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+        </div>
+        <div class="card-body">
+          <p class="card-text"></p>
+        </div>
+        <div class="card-footer">
+          <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+          <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i
+              class="fas fa-pencil-alt"></i></a>
+        </div>
+      </div>
       }
 
 
-          @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
-        <div class="card-group">
-        @for( j = 0;j < 6 && i>=0; j++) {
-          obj = Model.Productos[i-j];
-          <div class="card">
-            <div class="card-title mt-3 mx-2">             
-              <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-            </div>
-            <div class="card-img-top">
-              <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-            </div>
-            <div class="card-body">
-              <p class="card-text"></p>
-            </div>
-            <div class="card-footer">
-              <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-              <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i class="fas fa-pencil-alt"></i></a>
-            </div>
-          </div>
-        }
-          
-        
-        </div>
-        i = i - j +1;
-      }
-    </div><!-- .mt-2-->
-  </div><!-- #productos -->
-  <!--columna de productos-->
+  </div>
+  i = i - j +1;
+  }
+</div><!-- .mt-2-->
+</div><!-- #productos -->
+<!--columna de productos-->
 </div>
 
 <div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
@@ -99,7 +96,7 @@ ViewData["Title"] = "Lista de Productos";
       </div>
     </div>
   </div>
-  <div class="col-lg-8">
+  <div class="col-lg-2">
     <nav aria-label="...">
       <ul class="pagination mb-0">
         <li class="page-item disabled">
@@ -117,8 +114,19 @@ ViewData["Title"] = "Lista de Productos";
         </li>
       </ul>
     </nav>
-
-
+  </div>
+  <div class="col-lg-4">
+      <div class="form-group row">
+          <label for="pdcategoria"
+              class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Estado</label>
+          <div class="col-lg-7">
+              <select class="custom-select form-control" id="pdcategoria">
+                  <option disabled>-- Seleccione estado --</option>
+                  <option value="1">Habilitado</option>
+                  <option value="2">Deshabilitado</option>
+              </select>
+          </div>
+      </div>
   </div>
 
 
@@ -141,110 +149,133 @@ ViewData["Title"] = "Lista de Productos";
 
 <!-- Modal -->
 <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title" id="modalProducto">Modificar Producto</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                    <label>Campos obligatorios *</label>
-                </div>
-
-                <div class="form-group row">
-                    <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
-                            placeholder="Lapicero">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
-                            placeholder="Facela">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdcategoria"
-                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
-                    <div class="col-lg-7">
-                        <select class="custom-select form-control" id="pdcategoria">
-                            <option disabled>-- Seleccione categoría --</option>
-                            <option value="1">Papeleria</option>
-                            <option value="2">Colores</option>
-                            <option value="3">Lapiceros</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pddireccion"
-                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción:</label>
-                    <div class="col-lg-7">
-                        <textarea class="form-control" id="pddireccion" rows="3"
-                            placeholder="Lapicedo color morado con bordes"></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-                        mínima*</label>
-                    <div class="col-lg-7">
-                        <input type="number" class="form-control" id="pdstock" value="10">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de venta*:</label>
-                    <div class="col-lg-7">
-                        <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
-                            value="0.25">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
-                        vencimiento</label>
-                    <div class="col-lg-7">
-                        <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-                        foto</label>
-                    <div class="col-lg-7">
-
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="pdimagen">
-                            <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
-                        </div>
-                    </div>
-                </div>
-                ​
-                <div id="imagePreview">
-                    <br>
-                    <br>
-                    <h5 class="text-lg-center">Vista Previa</h5>
-                    <br>
-                    <br>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                        class="fas fa-save"> Guardar</i></button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                        class="fas fa-times-circle"> Cerrar</i></button>
-            </div>
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h4 class="modal-title" id="modalProducto">Modificar Producto</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+          <label>Campos obligatorios *</label>
         </div>
+        <div class="form-group row">
+          <label for="pdestado" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Estado</label>
+          <div class="col-lg-7">
+            <span class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch" checked>
+              <label class="custom-control-label" for="customSwitch">Habilitado</label>
+            </span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control form-control-user mb-2" id="pdnombre" placeholder="Lapicero">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control form-control-user mb-2" id="pdmarca" placeholder="Facela">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+          <div class="col-lg-7">
+            <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdcategoria" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+          <div class="col-lg-7">
+            <select class="custom-select form-control" id="pdcategoria">
+              <option disabled>-- Seleccione categoría --</option>
+              <option value="1">Papeleria</option>
+              <option value="2">Colores</option>
+              <option value="3">Lapiceros</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pddireccion" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción:</label>
+          <div class="col-lg-7">
+            <textarea class="form-control" id="pddireccion" rows="3"
+              placeholder="Lapicedo color morado con bordes"></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+            mínima*</label>
+          <div class="col-lg-7">
+            <input type="number" class="form-control" id="pdstock" value="10">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
+            venta*:</label>
+          <div class="col-lg-7">
+            <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa" value="0.25">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+            vencimiento</label>
+          <div class="col-lg-7">
+            <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+            foto</label>
+          <div class="col-lg-7">
+
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="pdimagen">
+              <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+            </div>
+          </div>
+        </div>
+        ​
+        <div id="imagePreview">
+          <br>
+          <br>
+          <h5 class="text-lg-center">Vista Previa</h5>
+          <br>
+          <br>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+            class="fas fa-save"> Guardar</i></button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+            class="fas fa-times-circle"> Cerrar</i></button>
+      </div>
     </div>
+  </div>
 </div>
 <!--    Inicia Modal Inventario-->
+}
+@section Scripts {
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script src="~/js/busqueda.js"></script>
+<script>
+    $(function () {
+        $('select').selectric();
+    });
+    $('#dynamic').selectric();
+    $('#bt_add_val').click(function () {
+        // Store the value in a variable
+        var value = $('#add_val').val();
+        // Append to original select
+        $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
+        // Refresh Selectric
+        $('#dynamic').selectric('refresh');
+    });
+</script>
 }
