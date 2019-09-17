@@ -11,6 +11,13 @@
     font-weight: bold;
     font-style: italic;
 }
+.bg-body{
+    background-image: url(/img/Libreria.jpg);
+    background-repeat:no-repeat;
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: cover;
+}
 .bg-login-image {
         background-image: url(/img/logov1.png);
         background-repeat:no-repeat;
@@ -158,7 +165,7 @@
     margin: 0;
     padding: 0;
     border-radius: 5px;
-    background-color:#DDFEE4;
+    background-color:#86AD33;
     font-family: arial
 }
 
@@ -195,7 +202,7 @@
     position: relative;
     padding: 10px 20px;
     background:rgba(255, 255, 255, 0.3);
-    color:#0006;
+    color:white;
     border-radius: 10px;
     line-height: 20px;
     width: 35%
@@ -219,7 +226,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background:#DDFEE4;
+    background:#86AD33;
     border:2px solid #fff;
     position: absolute;
     left:-7.5px
@@ -248,7 +255,7 @@
 .box .time span{
     position: absolute;
     left: -100px;
-    color:#0006;
+    color:white;
     font-size:80%;
     font-weight: bold;
 }
@@ -319,4 +326,31 @@ svg{
     50%{
         top:106%
     }
+}
+
+.btn-bit{
+    background-color: #794482;
+    color:white;
+}
+
+.color-head{
+    background-color: #794482;
+}
+
+/* Estilos del Login */
+
+.card-login {
+    background-color: transparent;
+}
+
+.bg-login-image-custom {
+    background-color: transparent;
+    background-color:rgba(0,0,0,.5);
+}
+.form-control-login {
+background-color: transparent;
+    color:white !important;
+}
+.form-control-login:hover, .form-control-login:focus {
+    background-color: rgba(0,0,0,.5);
 }
