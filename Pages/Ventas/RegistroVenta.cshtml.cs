@@ -8,8 +8,10 @@ namespace SGLibreria.Pages.Ventas
     {
         [BindProperty]
         public Venta Venta { get; set; }
-        public RegistroVentaModel()
+        private readonly AppDbContext _context;
+        public RegistroVentaModel(AppDbContext context)
         {
+            _context = context;
         }
     }
 }

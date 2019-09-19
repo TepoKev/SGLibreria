@@ -5,6 +5,41 @@
   ViewData["title"] = "Kardex";
 }
 
+<div class="row">
+<div class="col-lg-3 form-inline">
+  <div class="form-group">
+    <label for="Desde">Desde</label>
+    <input type="date" id="Desde" name="Desde" class="form-control mx-sm-3"/>
+  </div>
+  <div class="form-group">
+    <label for="Desde">Hasta: </label>
+    <input type="date" id="Hasta" name="Hasta" class="form-control mx-sm-3"/>
+  </div>
+</div>
+<div class="col-lg-4">
+  <label class="d-block" for="Mostrar">Mostrar: </label>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="Entradas" name="Mostrar" class="custom-control-input" value="SoloEntradas">
+  <label class="custom-control-label" for="Entradas">Entradas</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="Salidas" name="Mostrar" class="custom-control-input" value="SoloSalidas">
+  <label class="custom-control-label" for="Salidas">Salidas</label>
+</div>
+<div class="custom-control custom-radio ">
+  <input type="radio" id="Ambos" name="Mostrar" class="custom-control-input" value="Ambos" checked>
+  <label class="custom-control-label" for="Ambos">Ambos</label>
+</div>
+</div>
+<div class="col-lg-3 form-inline">
+  <div class="form-group">
+
+  </div>
+</div>
+<div class="col-lg-3">
+
+</div>
+</div>
 <table class="table table-hover table-sm">
   <thead class="thead-light">
     <tr>
