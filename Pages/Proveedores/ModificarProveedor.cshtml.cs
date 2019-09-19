@@ -17,7 +17,6 @@ namespace SGLibreria.Pages.Proveedores{
         {
             this._context = context;
         }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -33,7 +32,6 @@ namespace SGLibreria.Pages.Proveedores{
             }
             return Page();
         }
-
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

@@ -1,0 +1,210 @@
+@page
+@model ModificarEmpleadoModel;
+
+@{
+    ViewData["title"] = "Modificación de Empleado";
+}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item" aria-current="page" id="lEmpleado"><a href="#" id="hEmpleado">Empleado</a></li>
+            <li class="breadcrumb-item" id="lUsuario"><a href="#" id="hUsuario" hidden >Usuario</a></li>
+        </ol>
+    </nav>
+</div>
+<form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post">
+    <div id="FormEmpleado">
+        <div class="row">
+            <h2 class="offset-4 pb-4">Datos del Empleado</h2>
+        </div>
+        <div class="form-group row ">
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Persona.Nombres" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Persona.Nombres" placeholder="Digite sus nombres">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col">
+                <div class="row">
+                    <label asp-for="Persona.Apellidos" class="col-lg-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Persona.Apellidos" placeholder="Digite sus nombres">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Persona.Genero" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <select class="custom-options">
+                            <option value="">Seleccione...</option>
+                            <option value="0">Femenino</option>
+                            <option value="1">Masculino</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Persona.Telefono" class="col-lg-1 col-form-label font-weight-bold"></label>
+                    <div class="form-group col-lg-9 offset-1 pl-3">
+                        <input class="form-control form-control-user mb-2" asp-for="Persona.Telefono" placeholder="####-####">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row justify-content-center">
+            <label asp-for="Persona.Direccion" class="col-lg-1 col-form-label font-weight-bold"></label>
+            <div class="col-lg-10">
+                <textarea asp-for="Persona.Direccion" class="form-control form-control-user" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Empleado.Dui" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Empleado.Dui" placeholder="########-#">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col">
+                <div class="row">
+                    <label asp-for="Empleado.Salario" class="col-lg-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Empleado.Salario" placeholder="#.#">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <div class="row">
+                    <label asp-for="Empleado.FechaNacimiento" class="col-lg-3 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-7 offset-1">
+                        <input class="form-control mb-2" asp-for="Empleado.FechaNacimiento" placeholder="dd/MM/yyyy">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col">
+                <div class="row">
+                    <label asp-for="Empleado.FechaIngreso" class="col-lg-3 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-7 offset-1">
+                        <input class="form-control mb-2" asp-for="Empleado.FechaIngreso" placeholder="dd/MM/yyyy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="FormUsuario" hidden>
+        <div class="row">
+            <h2 class="offset-4 pb-4">Datos del Usuario</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mt-4">
+                <div class="form-group row">
+                    <label asp-for="Usuario.Nombre" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Correo" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="col-lg-9 offset-1 pl-3">
+                        <select>
+                            <option value="">Seleccione...</option>
+                            <option value="0">Vendedor</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Clave" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
+                    <div class="form-group col-lg-9 offset-1 pl-3">
+                        <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group row offset-3 text-center">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="200px" width="200px">
+                </div>
+                <div class="form-group offset-1">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="pdimagen">
+                        <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-lg-3 offset-5">
+            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        $(function() {
+            $('select').selectric();
+        });
+        var gens = [
+            {elemento: '', texto:'Seleccione'},
+            {elemento: '<i class="fas fa-female"></i>', texto:'Femenino'},
+            {elemento: '<i class="fas fa-male"></i>', texto:'Masculino'}
+        ];
+        $('.custom-options').selectric({
+            optionsItemBuilder: function(itemData, element, index) {
+                return '<span class="h6">'+gens[index].elemento+' '+gens[index].texto+'</span>';
+            }
+        });
+    </script>
+    <script>
+        var BtnProcess = document.getElementById("process");
+        var Contenido = BtnProcess.innerHTML;
+        var FrmEmpleado = document.getElementById("FormEmpleado");
+        var FrmUsuario = document.getElementById("FormUsuario");
+        var HEmpleado = document.getElementById("hEmpleado");
+        var HUsuario = document.getElementById("hUsuario");
+        console.log(Contenido);
+        BtnProcess.addEventListener("click", (e) => {
+            if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
+            {
+                HUsuario.removeAttribute("hidden");
+                BtnProcess.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                FrmEmpleado.setAttribute("hidden","");
+                FrmUsuario.removeAttribute("hidden");
+            }else{
+                if(Contenido == '<i class="fas fa-save"></i> Guardar Cambios')
+                {
+                    //Aqui se va a enviar el Formulario al servidor
+                }
+            }
+        });
+        HEmpleado.addEventListener("click", () => {
+            BtnProcess.innerHTML = '<i class="fas fa-arrow-circle-right"></i> Siguiente';
+            FrmUsuario.setAttribute("hidden","");
+            FrmEmpleado.removeAttribute("hidden");
+        });
+        HUsuario.addEventListener("click", () => {
+            BtnProcess.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+            FrmEmpleado.setAttribute("hidden","");
+            FrmUsuario.removeAttribute("hidden");
+        });
+    </script>
+}

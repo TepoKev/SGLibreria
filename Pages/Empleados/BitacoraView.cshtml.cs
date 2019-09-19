@@ -12,9 +12,9 @@ namespace SGLibreria.Pages.Empleados
         [BindProperty]
         public IList<Bitacora> Bitacoras { get; set; }
         [BindProperty]
-        public DateTime FechaDesde { get; set; }
+        public DateTime Desde { get; set; }
         [BindProperty]
-        public DateTime FechaHasta { get; set; }
+        public DateTime Hasta { get; set; }
         public BitacoraViewModel()
         {
         }

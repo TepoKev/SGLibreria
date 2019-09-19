@@ -2,7 +2,7 @@
 @model Empleados.ListaEmpleadoModel
 
 @{
-ViewData["title"] = "Lista de Empleados";
+    ViewData["title"] = "Lista de Empleados";
 }
 
 <!-- DataTales -->
@@ -32,6 +32,7 @@ ViewData["title"] = "Lista de Empleados";
                         <th>DUI</th>
                         <th>Correo</th>
                         <th>Bitacora</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,32 +41,36 @@ ViewData["title"] = "Lista de Empleados";
                         <td>12345678-9</td>
                         <td>ejemplo@dominio.com</td>
                         <td>
-                            <button type="button" class="btn btn-outline-info"><i class="fas fa-eye"></i> Ver</button>
+                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
                         </td>
+                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
                     <tr>
                         <td>Victor Ernesto Acevedo Cornejo</td>
                         <td>12345678-9</td>
                         <td>ejemplo@dominio.com</td>
                         <td>
-                            <button type="button" class="btn btn-outline-info"><i class="fas fa-eye"></i> Ver</button>
+                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
                         </td>
+                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
                     <tr>
                         <td>Diego Antonio Palacios Menjivar</td>
                         <td>12345678-9</td>
                         <td>ejemplo@dominio.com</td>
                         <td>
-                            <button type="button" class="btn btn-outline-info"><i class="fas fa-eye"></i> Ver</button>
+                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
                         </td>
+                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
                     <tr>
                         <td>Kevin Eduardo Portillo Durán</td>
                         <td>12345678-9</td>
                         <td>ejemplo@dominio.com</td>
                         <td>
-                            <button type="button" class="btn btn-outline-info"><i class="fas fa-eye"></i> Ver</button>
+                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
                         </td>
+                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -96,16 +101,6 @@ ViewData["title"] = "Lista de Empleados";
     </div>
 </div>
 <!-- End Datatables -->
-@section Scripts
-{
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
-<script>
-    $(function () {
-        $('select').selectric();
-    });
-</script>
-}
 @section modal
 {
 <!-- Modal -->
@@ -217,4 +212,14 @@ ViewData["title"] = "Lista de Empleados";
         </div>
     </div>
 </div>
+}
+@section Scripts
+{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        $(function () {
+            $('select').selectric();
+        });
+    </script>
 }

@@ -22,7 +22,7 @@ namespace SGLibreria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<AppDbContext>(x => x.UseMySql(Configuration["Conexion"]));
+            services.AddDbContext<AppDbContext>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
