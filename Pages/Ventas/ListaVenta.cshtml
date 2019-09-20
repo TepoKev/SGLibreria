@@ -11,19 +11,24 @@ ViewData["Title"] = "Ventas";
     }
 </style>
 
-<div class="row">
-    <div class="col-lg-6 form-inline">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+    </div>
+
+    <div class="row">
+    <div class="px-5 col-lg-6 form-inline">
         <div class="form-group">
             <label for="Desde">Desde</label>
-            <input type="date" id="Desde" name="Desde" class="form-control mx-sm-3" />
-            <label for="Hasta">Hasta: </label>
-            <input type="date" id="Hasta" name="Hasta" class="form-control mx-sm-3" />
+            <input type="date" id="Desde" name="Desde" class="form-control form-control-sm mx-sm-3" />
+            <label for="Hasta">Hasta</label>
+            <input type="date" id="Hasta" name="Hasta" class="form-control form-control-sm mx-sm-3" />
 
         </div>
     </div>
-    <div class="col-lg-6 pt-3">
+    <div class="px-4 col-lg-5 pt-3">
         <div class="form-group row">
-            <label for="Empleado" class="col-lg-3 col-form-label">Empleado: </label>
+            <label for="Empleado" class="col-lg-3 col-form-label">Empleado</label>
             <div class="col-lg-9">
                 <select name="Empleado" id="Empleado">
                     <option disabled>-- Seleccione --</option>
@@ -33,39 +38,45 @@ ViewData["Title"] = "Ventas";
             </div>
         </div>
     </div>
+    <div class="col-lg-1 pt-4">
+            <a href='#' class="text-info" title="Sin filtro"><i class="fas fa-redo-alt"></i></a>
+    </div>
+</div>
+<div class="px-4">
+    <table class="table table-sm table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total $</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>17-07-2019 7:30</td>
+                <td>Juan Perez</td>
+                <td>15</td>
+                <td>$5.00</td>
+                <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
+                            class="fas fa-list"></i> Detalles</a></td>
+            </tr>
+            <tr>
+                <td>17-07-2019 8:00</td>
+                <td>Juan Perez</td>
+                <td>2</td>
+                <td>$2.00</td>
+                <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
+                            class="fas fa-list"></i> Detalles</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 </div>
 
 
-
-<table class="table table-sm table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Fecha</th>
-            <th scope="col">Empleado</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Total $</th>
-            <th scope="col">Acción</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>17-07-2019 7:30</td>
-            <td>Juan Perez</td>
-            <td>15</td>
-            <td>$5.00</td>
-            <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
-                        class="fas fa-list"></i> Detalles</a></td>
-        </tr>
-        <tr>
-            <td>17-07-2019 8:00</td>
-            <td>Juan Perez</td>
-            <td>2</td>
-            <td>$2.00</td>
-            <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
-                        class="fas fa-list"></i> Detalles</a></td>
-        </tr>
-    </tbody>
-</table>
 
 @section Scripts {
 <link href="~/selectric/src/selectric.css" rel="stylesheet">

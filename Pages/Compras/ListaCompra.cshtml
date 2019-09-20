@@ -8,24 +8,27 @@ ViewData["Title"] = "Lista de Compras";
 <!-- DataTales -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tabla Compras</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
         <div class="row">
-            <label for="cfechainicio" class="font-weight-bold col-form-label px-3">Fecha Inicio:</label>
+            <label for="cfechainicio" class="font-weight-bold col-form-label px-3">Inicio</label>
             <div class="col-lg-2">
                 <input type="date" class="form-control form-control-sm mb-2 col-form" id="cfechainicio">
             </div>
-            <label for="cfechafin" class="font-weight-bold col-form-label">Fecha Fin:</label>
+            <label for="cfechafin" class="font-weight-bold col-form-label">Fin</label>
             <div class="col-lg-2">
                 <input type="date" class="form-control form-control-sm mb-2" id="cfechafin">
             </div>
-            <label for="cproveedor" class="col-form-label font-weight-bold ">Proveedor:</label>
+            <label for="cproveedor" class="col-form-label font-weight-bold ">Proveedor</label>
             <div class="form-group col-lg-4 " id="cproveedor">
                 <select>
                     <option disabled>-- Seleccione --</option>
                     <option value="">Libreria Miriam</option>
                 </select>
+            </div>
+            <div class="offset-lg-1 pt-2">
+                    <a href='#' class="text-info" title="Sin filtro"><i class="fas fa-redo-alt"></i></a>
             </div>
 
         </div>
