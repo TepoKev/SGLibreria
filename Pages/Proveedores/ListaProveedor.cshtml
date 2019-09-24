@@ -103,4 +103,17 @@
             $('select').selectric();
         });
     </script>
+    <script>
+        var InputCheck = document.getElementsByClassName("custom-control-input");
+        var LabelCheck = document.getElementsByClassName("custom-control-label");
+        for(var i = 0 ; i < InputCheck.length ; i++ )
+        {
+            InputCheck[i].addEventListener("click", procesar);
+        }
+
+        function procesar(e) {
+            var Check = e.currentTarget;
+            var Label = Check.nextSibling;
+        }
+    </script>
 }

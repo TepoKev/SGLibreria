@@ -46,10 +46,9 @@
         <div class="row">
             <div class="col-lg-6 offset-md-4">
                 <div class="btn btn-group">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Registrar</button>
-                        <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</button>
+                        <button type="submit" class="btn btn-outline-primary" id="guardar"><i class="fas fa-save"></i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</button>
                 </div>
-                
             </div>
         </div>
     </form>
@@ -59,6 +58,7 @@
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
+        var Telefonos = [];
         $(function() {
             $('select').selectric();
         });
@@ -67,6 +67,7 @@
             // Store the value in a variable
             var value = $('#add_val').val();
             if(value != ""){
+                Telefonos.push(value);
                 // Append to original select
                 $('#dynamic').append('<option selected>' + value + '</option>');
                 // Refresh Selectric
