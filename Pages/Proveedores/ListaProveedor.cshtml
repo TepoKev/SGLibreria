@@ -45,10 +45,10 @@
                             <td>@Html.DisplayFor(x => item.Telefono)</td>
                             <td>@Html.DisplayFor(x => item.Correo)</td>
                             @if(item.Estado == 1){
-                            <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id=\"customSwitch"+i+"\" checked><label class=\"custom-control-label\" for=\"customSwitch"+i+"\">Activo</label></div>")</td>
+                            <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id="+item.Id+" checked><label class=\"custom-control-label\" for="+item.Id+">Activo</label></div>")</td>
                             }else{
                                 if(item.Estado == 0){
-                                    <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id=\"customSwitch"+i+"\"><label class=\"custom-control-label\" for=\"customSwitch"+i+"\">Inactivo</label></div>")</td>
+                                    <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id="+item.Id+"><label class=\"custom-control-label\" for="+item.Id+">Inactivo</label></div>")</td>
                                 }else{
                                     <td></td>
                                 }
@@ -69,6 +69,10 @@
                 </tbody>
             </table>
         </div>
+        <form method="post">
+            <input type="text" id="Id" hidden>
+            <input type="text" id="Estado" hidden>
+        </form>
         <div class="row">
             <div class="col offset-5">
                 <nav aria-label="Paginacion ">
@@ -113,10 +117,29 @@
             var Check = e.currentTarget;
             var Label = Check.nextSibling;
             if(Check.checked){
-                Label.innerHTML = "Activo";
+                OnActivo(Check.id, Label, 1);
             }else{
-                Label.innerHTML = "Inactivo";
+                OnActivo(Check.id, Label, 0);
             }
+        }
+        function OnActivo(id, label, estado){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this.response);
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("Entro");
+                    if(estado == 1){
+                        label.innerHTML = "Activo";
+                    }else{
+                        label.innerHTML = "Inactivo";
+                    }
+                }
+            };
+            xhttp.open("POST", "ListaProveedor", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send("id="+id+"&estado="+estado);
         }
     </script>
 }

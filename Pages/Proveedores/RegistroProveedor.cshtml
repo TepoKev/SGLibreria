@@ -1,10 +1,10 @@
 @page
 @model Proveedores.RegistroProveedorModel
 @{
-    ViewData["title"] = "Registro de Proveedor";
+ViewData["title"] = "Registro de Proveedor";
 }
-<div class="pt-3">
-    <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post">
+<div class="row pt-3">
+    <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post" id="frmProveedor">
         <div class="form-group row">
             <label asp-for="Proveedor.Nombre" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
@@ -14,7 +14,8 @@
         <div class="form-group row">
             <label asp-for="Proveedor.Correo" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
-                <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
+                <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo"
+                    placeholder="ejemplo@dominio.com">
             </div>
         </div>
         <div class="form-group row">
@@ -28,13 +29,15 @@
         <div class="form-group row">
             <div class="row col-lg-9 offset-2">
                 <input type="text" class="form-control col-lg-5 ml-3" id="add_val" name="add_val">
-                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Agregar</button>
+                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i>
+                    Agregar</button>
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Proveedor.Direccion" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
-                <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
+                <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..."
+                    style="height: 150px;"></textarea>
             </div>
         </div>
         <div class="row">
@@ -46,33 +49,86 @@
         <div class="row">
             <div class="col-lg-6 offset-md-4">
                 <div class="btn btn-group">
-                        <button type="submit" class="btn btn-outline-primary" id="guardar"><i class="fas fa-save"></i> Registrar</button>
-                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</button>
+                    <button type="button" class="btn btn-outline-primary" id="registrar"><i class="fas fa-save"></i>
+                        Registrar</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i>
+                        Cancelar</button>
                 </div>
             </div>
         </div>
     </form>
+    <div class="col-lg-2" id="notific">
+        <div class="toast" id="toastProveedor" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <label class="col-form-label">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <strong class="mr-auto">Registro Proveedor</strong>
+                </label>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Registro Exitoso!
+            </div>
+        </div>
+    </div>
 </div>
 @section Scripts
 {
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script>
-        var Telefonos = [];
-        $(function() {
-            $('select').selectric();
-        });
-        $('#dynamic').selectric();
-        $('#bt_add_val').click(function() {
-            // Store the value in a variable
-            var value = $('#add_val').val();
-            if(value != ""){
-                Telefonos.push(value);
-                // Append to original select
-                $('#dynamic').append('<option selected>' + value + '</option>');
-                // Refresh Selectric
-                $('#dynamic').selectric('refresh');
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script>
+    var Telefonos = [];
+    var Principal;
+    $('#dynamic').selectric();
+    $('#bt_add_val').click(function () {
+        // Store the value in a variable
+        var value = $('#add_val').val();
+        if (value != "") {
+            Telefonos.push(value);
+            // Append to original select
+            $('#dynamic').append('<option selected value = ' + value + '>' + value + '</option>');
+            // Refresh Selectric
+            $('#dynamic').selectric('refresh');
+            Principal = document.getElementById("dynamic").value;
+        }
+    });
+</script>
+<script>
+    var BtnRegistrar = document.getElementById("registrar");
+    BtnRegistrar.addEventListener("click", GuardarForAjax);
+
+    function GuardarForAjax() {
+        var xhttp = new XMLHttpRequest();
+        let formData = new FormData(document.getElementById("frmProveedor"));
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                Rest(this.responseText);
             }
-        });
-    </script>
+        };
+        xhttp.open("POST", "RegistroProveedor", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+    }
+
+    function Rest(id) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("frmProveedor").reset();
+                var toast = document.getElementById("toastProveedor");
+                toast.setAttribute("data-autohide","false");
+                $('.toast').toast('show');
+            }
+        };
+        xhttp.open("POST", "RegistroProveedor?handler=Rest", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("Id=" + id + "&Principal=" + Principal + "&Telefonos=" + Telefonos);
+    }
+</script>
 }

@@ -625,6 +625,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Telefono>(entity =>
             {
+                entity.ToTable("Telefono");
                 entity.HasIndex(e => e.IdProveedor)
                     .HasName("fk_idProveedor");
 
@@ -636,7 +637,7 @@ namespace SGLibreria.Models
                     .IsRequired()
                     .HasColumnType("varchar(10)");
 
-                entity.Property(e => e.Tipo).HasColumnType("int(11)");
+                entity.Property(e => e.Principal).HasColumnType("tinyint(3)");
 
                 entity.HasOne(d => d.IdProveedorNavigation)
                     .WithMany(p => p.Telefono)
