@@ -26,7 +26,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Direccion</th>
-                        <th>Telefono</th>
+                        <th>Telefonos</th>
                         <th>Correo</th>
                         <th>Estado</th>
                         <th>Web</th>
@@ -45,16 +45,30 @@
                             <td>@Html.DisplayFor(x => item.Telefono)</td>
                             <td>@Html.DisplayFor(x => item.Correo)</td>
                             @if(item.Estado == 1){
-                            <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id="+item.Id+" checked><label class=\"custom-control-label\" for="+item.Id+">Activo</label></div>")</td>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="@item.Id" checked>
+                                        <label class="custom-control-label" for="@item.Id">Activo</label>
+                                    </div>
+                                </td>
                             }else{
                                 if(item.Estado == 0){
-                                    <td>@Html.Raw("<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\" id="+item.Id+"><label class=\"custom-control-label\" for="+item.Id+">Inactivo</label></div>")</td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                            <label class="custom-control-label" for="@item.Id">Inactivo</label>
+                                        </div>
+                                    </td>
                                 }else{
                                     <td></td>
                                 }
                             }
                             @if(item.Enlace != "" && item.Enlace != null){
-                            <td>@Html.Raw("<a href=\""+item.Enlace+"\" target=\"_blank\"><button class=\"btn btn-outline-success\">Ir</button></a>")</td>
+                                <td>
+                                    <a href="@item.Enlace" target="_blank">
+                                        <button class="btn btn-outline-success">Ir</button>
+                                    </a>
+                                </td>
                             }else{
                                 <td></td>
                             }
@@ -115,7 +129,9 @@
         }
         function procesar(e) {
             var Check = e.currentTarget;
-            var Label = Check.nextSibling;
+            console.log(Check);
+            var Label = Check.nextSibling.nextSibling;
+            console.log(Label);
             if(Check.checked){
                 OnActivo(Check.id, Label, 1);
             }else{
@@ -125,9 +141,9 @@
         function OnActivo(id, label, estado){
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-                console.log(this.response);
                 if (this.readyState == 4 && this.status == 200) {
                     console.log("Entro");
+                    console.log(label);
                     if(estado == 1){
                         label.innerHTML = "Activo";
                     }else{

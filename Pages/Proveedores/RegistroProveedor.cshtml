@@ -98,7 +98,7 @@ ViewData["title"] = "Registro de Proveedor";
 <script>
     var BtnRegistrar = document.getElementById("registrar");
     BtnRegistrar.addEventListener("click", GuardarForAjax);
-
+    console
     function GuardarForAjax() {
         var xhttp = new XMLHttpRequest();
         let formData = new FormData(document.getElementById("frmProveedor"));
@@ -118,6 +118,13 @@ ViewData["title"] = "Registro de Proveedor";
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
+                var sel = document.getElementById("dynamic");
+                while (sel.firstChild) {
+                    sel.removeChild(sel.firstChild);
+                }
+                $('#dynamic').selectric();
+                $('#dynamic').append('<option selected value ="">Seleccione...</option>');
+                $('#dynamic').selectric('refresh');
                 document.getElementById("frmProveedor").reset();
                 var toast = document.getElementById("toastProveedor");
                 toast.setAttribute("data-autohide","false");
