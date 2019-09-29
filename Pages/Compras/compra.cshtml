@@ -5,23 +5,21 @@
 ViewData["Title"] = "Registro Compras";
 }
 <style>
-  body {
-    color: #555;
-  }
+    body {
+        color: #555;
+    }
 
-  #nav-inferior .btn-dark:hover {
-    background-color: #1597a8 !important;
-  }
+    #nav-inferior .btn-dark:hover {
+        background-color: #1597a8 !important;
+    }
 
-  #productos-seleccionados {
-    right: 0;
-    position: absolute;
-    transition: max-width .4s;
-  }
+    #productos-seleccionados {
+        right: 0;
+        position: absolute;
+        transition: max-width .4s;
+    }
 
-  #productos-seleccionados:hover {
-
-  }
+    #productos-seleccionados:hover {}
 </style>
 
 <form class="container-fluid ">
@@ -35,10 +33,12 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                     <div class="col-lg-6 pt-2" style="align-content: flex-end;">
                         <div class="form-group pt-2">
-                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                                data-target="#modalProveedor">Registrar Proveedor</button>
-                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                                data-target="#modalCategoria">Registrar Categoría</button>
+                            <div class="btn btn-group">
+                                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                    data-target="#modalProveedor">Registrar Proveedor</button>
+                                <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                    data-target="#modalCategoria">Registrar Categoría</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,13 +69,12 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                     <div class="col-lg-9 pt-2">
                         <div class="form-group pt-2">
-
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                data-target="#modalProducto">Registrar Producto</button>
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                data-target="#producto" name="AgregarProducto">Agregar Producto</button>
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                data-target="#modalDocumento">Agregar Comprobante</button>
+                            <div class="btn btn-group">
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                    data-target="#modalProducto">Registrar Producto</button>
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                    data-target="#modalDocumento">Agregar Comprobante</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,45 +87,32 @@ ViewData["Title"] = "Registro Compras";
                                     <th scope="col">Cantidad</th>
                                     <th scope="col">Precio Unitario</th>
                                     <th scope="col">Precio Total</th>
-                                    <th scope="col">Acción</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Cuaderno Scribe</td>
-                                    <td>
-                                        <div class="def-number-input number-input safari_only">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                class="minus"></button>
-                                            <input class="quantity" min="0" name="quantity" value="3" type="number">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                class="plus"></button>
-                                        </div>
-                                    </td>
+                                    <td>30</td>
                                     <td>$ 1.00</td>
                                     <td>$ 3.00</td>
                                     <td><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
-                                                class="fas fa-trash"></i></a></td>
+                                                class="fas fa-trash"></i></a>
+                                        <a href="#" class="text-success font-weight-bold" title="Editar"><i
+                                                class="fas fa-edit"></i></a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Lapiz</td>
-                                    <td>
-                                        <div class="def-number-input number-input safari_only">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                class="minus"></button>
-                                            <input class="quantity" min="0" name="quantity" value="10" type="number">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                class="plus"></button>
-                                        </div>
-                                    </td>
+                                    <td>50</td>
                                     <td>$ 0.25</td>
                                     <td>$ 2.25</td>
-                                    <td><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
-                                                class="fas fa-trash"></i></a></td>
+                                    <td>
+                                        <a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
+                                                class="fas fa-trash"></i></a>
+                                        <a href="#" class="text-success font-weight-bold" title="Editar"><i
+                                                class="fas fa-edit"></i></a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -147,9 +133,12 @@ ViewData["Title"] = "Registro Compras";
         <div class="row">
             <div class=" offset-lg-5 col-lg-6">
                 <div class="form-group pt-2">
-                    <button type="button" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Registrar</button>
-                    <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle">
-                            </i> Cerrar</button>
+                        <div class="btn btn-group">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                                    class="fas fa-save"> </i> Guardar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                                    class="fas fa-times-circle"> </i> Cancelar</button>
+                        </div>
                 </div>
             </div>
         </div>
@@ -233,10 +222,12 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                            class="fas fa-save"> </i> Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                            class="fas fa-times-circle"> </i> Cerrar</button>
+                        <div class="btn btn-group">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                                    class="fas fa-save"> </i> Guardar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                        </div>
                 </div>
 
             </div>
@@ -279,10 +270,12 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                            class="fas fa-save"> </i> Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                            class="fas fa-times-circle"> </i> Cerrar</button>
+                        <div class="btn btn-group">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                                    class="fas fa-save"> </i> Guardar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                        </div>
                 </div>
 
             </div>
@@ -333,10 +326,12 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                            class="fas fa-save"> </i> Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                            class="fas fa-times-circle"> </i> Cerrar</button>
+                        <div class="btn btn-group">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                                    class="fas fa-save"> </i> Guardar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                        </div>
                 </div>
 
             </div>
@@ -358,103 +353,342 @@ ViewData["Title"] = "Registro Compras";
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                    <label>Campos obligatorios *</label>
-                </div>
 
-                <div class="form-group row">
-                    <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
-                            placeholder="Lapicero">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
-                            placeholder="Facela">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdcategoria"
-                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
-                    <div class="col-lg-7">
-                        <select class="custom-select form-control" id="pdcategoria">
-                            <option disabled>-- Seleccione categoría --</option>
-                            <option value="1">Papeleria</option>
-                            <option value="2">Colores</option>
-                            <option value="3">Lapiceros</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pddireccion"
-                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
-                    <div class="col-lg-7">
-                        <textarea class="form-control" id="pddireccion" rows="3"
-                            placeholder="Lapicedo color morado con bordes"></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-                        mínima*</label>
-                    <div class="col-lg-7">
-                        <input type="number" class="form-control" id="pdstock" value="10">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdpreciocompra" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
-                        compra*</label>
-                    <div class="col-lg-7">
-                        <input type="number" class="form-control form-control-user mb-2" id="pdpreciocompra"
-                            value="0.15">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
-                        venta*</label>
-                    <div class="col-lg-7">
-                        <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
-                            value="0.25">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
-                        vencimiento</label>
-                    <div class="col-lg-7">
-                        <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-                        foto</label>
-                    <div class="col-lg-7">
+                <div class="" id='productos'>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Nuevo Producto </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Producto Antiguo</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
+                            aria-labelledby="home-tab">
 
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="pdimagen">
-                            <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                            <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                                <label>Campos obligatorios *</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="pdnombre"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
+                                        placeholder="Lapicero">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdmarca"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
+                                        placeholder="Facela">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdcodigo"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdcategoria"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                                <div class="col-lg-7">
+                                    <select class="custom-select form-control" id="pdcategoria">
+                                        <option disabled>-- Seleccione categoría --</option>
+                                        <option value="1">Papeleria</option>
+                                        <option value="2">Colores</option>
+                                        <option value="3">Lapiceros</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pddireccion"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
+                                <div class="col-lg-7">
+                                    <textarea class="form-control" id="pddireccion" rows="3"
+                                        placeholder="Lapicedo color morado con bordes"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdstock"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+                                    mínima*</label>
+                                <div class="col-lg-7">
+                                    <input type="number" class="form-control" id="pdstock" value="10">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdcantidad"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Cantidad
+                                    comprada*</label>
+                                <div class="col-lg-7">
+                                    <input type="number" class="form-control" id="pdcantidad" value="50">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-lg-1 col-lg-5">
+                                    <div class="row">
+                                        <label for="pdpreciocompra"
+                                            class="col-lg-7 col-form-label font-weight-bold">Total de
+                                            compra*</label>
+                                        <div class="col-lg-5">
+                                            <input type="number" class="form-control form-control-user mb-2"
+                                                id="pdpreciocompra" value="0.15">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="row">
+                                        <label for="pdpreciocompraunitario"
+                                            class="col-lg-7 col-form-label font-weight-bold">Precio unitario</label>
+                                        <div class="col-lg-5">
+                                            <input type="number" class="form-control form-control-user mb-2"
+                                                id="pdpreciocompraunitario" value="0.15" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdprecioventa"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
+                                    venta*</label>
+                                <div class="col-lg-7">
+                                    <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
+                                        value="0.25">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                                    vencimiento</label>
+                                <div class="col-lg-7">
+                                    <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdimagen"
+                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                                    foto</label>
+                                <div class="col-lg-7">
+
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="pdimagen">
+                                        <label class="custom-file-label" name="pdimagen"
+                                            for="pdimagen">Seleccione..</label>
+                                    </div>
+                                </div>
+                            </div>
+                            ​
+                            <div id="imagePreview">
+                                <br>
+                                <br>
+                                <h5 class="text-lg-center">Vista Previa</h5>
+                                <br>
+                                <br>
+                            </div>
+                        </div><!-- Productos-->
+
+                        <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="false"
+                                                aria-controls="collapseOne">
+                                                Selecciona un producto
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="row col-lg-6">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Nombre o código de producto"
+                                                            aria-describedby="button-addon2">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-primary" type="button"><i
+                                                                    class="fas fa-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12" id='productos'>
+                                                    <div class="mt-2">
+                                                        @{
+                                                        Producto obj1;
+                                                        int i,j;
+                                                        }
+                                                        @for ( i = 0; i < Model.Productos.Count-1; i++) { <div
+                                                            class="card-group">
+                                                            @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
+                                                                obj1=Model.Productos[i+j]; <div class="card">
+                                                                <div class="card-title mt-3 mx-2">
+                                                                    <h5 class="m-0 p-0">@obj1.Nombre<span
+                                                                            class="badge badge-primary">50</span></h5>
+                                                                </div>
+                                                                <div class="card-img-top">
+                                                                    <img src="@obj1.IdImagenNavigation.Nombre"
+                                                                        class="img-fluid" alt="...">
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <p class="card-text"></p>
+                                                                </div>
+                                                                <div class="card-footer">
+                                                                    <small
+                                                                        class="font-weight-bold text-primary h6">Precio:
+                                                                        $0.25</small>
+                                                                </div>
+                                                    </div>
+                                                    }
+
+
+                                                </div>
+                                                i = i + j -1;
+                                                }
+
+                                            </div><!-- .mt-2-->
+                                        </div><!-- #productos -->
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                ​
-                <div id="imagePreview">
-                    <br>
-                    <br>
-                    <h5 class="text-lg-center">Vista Previa</h5>
-                    <br>
-                    <br>
-                </div>
 
+                    <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                        <label>Campos obligatorios *</label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="pdnombre1"
+                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control form-control-user mb-2" id="pdnombre1"
+                                value="Lapicero" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdmarca1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control form-control-user mb-2" id="pdmarca1" value="Facela"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdcodigo1"
+                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control" id="pdcodigo1" value="-----" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdcategoria1"
+                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoria</label>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control" id="pdcategoria1" value="Papeleria" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pddireccion1"
+                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
+                        <div class="col-lg-7">
+                            <textarea class="form-control" id="pddireccion1" rows="3"
+                                disabled>Lapicedo color morado con bordes</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdstock1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+                            mínima</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" id="pdstock1" value="10" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdcantidad" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Cantidad
+                            comprada*</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control" id="pdcantidad" value="50">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-lg-1 col-lg-5">
+                            <div class="row">
+                                <label for="pdpreciocompra" class="col-lg-7 col-form-label font-weight-bold">Total de
+                                    compra*</label>
+                                <div class="col-lg-5">
+                                    <input type="number" class="form-control form-control-user mb-2" id="pdpreciocompra"
+                                        value="0.15">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="row">
+                                <label for="pdpreciocompraunitario"
+                                    class="col-lg-7 col-form-label font-weight-bold">Precio unitario</label>
+                                <div class="col-lg-5">
+                                    <input type="number" class="form-control form-control-user mb-2"
+                                        id="pdpreciocompraunitario" value="0.15" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio
+                            de
+                            venta*</label>
+                        <div class="col-lg-7">
+                            <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
+                                value="0.25">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                            vencimiento</label>
+                        <div class="col-lg-7">
+                            <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                            foto</label>
+                        <div class="col-lg-7">
+
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="pdimagen">
+                                <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                            </div>
+                        </div>
+                    </div>
+                    ​
+                    <div id="imagePreview">
+                        <br>
+                        <br>
+                        <h5 class="text-lg-center">Vista Previa</h5>
+                        <br>
+                        <br>
+                    </div>
+
+                </div><!-- Servicios -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+
+
+        </div>
+
+        <div class="modal-footer">
+            <div class="btn btn-group">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
                         class="fas fa-save"> </i> Guardar</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
                         class="fas fa-times-circle"> </i> Cerrar</button>
@@ -462,139 +696,9 @@ ViewData["Title"] = "Registro Compras";
         </div>
     </div>
 </div>
+</div>
 <!--    Inicia Modal Inventario-->
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true" id="producto">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title" id="modalInventario">Productos</h4>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-group">
-
-                    <div class="row">
-                        <div class="search-box">
-                            <input type="text" class="search-txt" placeholder="Buscar..."/>
-                            <a class="search-btn" href="#">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </div>
-                        <div class="offset-lg-10 col-lg-3 form-control-user px-5">
-                            <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>Agregar</button>
-                        </div>
-                    </div>
-
-                    <div class="offset-lg-1 row px-5 py-3 align-content-center">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-dark">Papelería</button>
-                            <button type="button" class="btn btn-dark">Cuadernos</button>
-                            <button type="button" class="btn btn-dark">Novelas</button>
-                            <button type="button" class="btn btn-dark">Utilería</button>
-                            <button type="button" class="btn btn-dark">Geometria</button>
-                            <button type="button" class="btn btn-dark">Colores</button>
-                            <button type="button" class="btn btn-dark">Tijeras</button>
-                            <button type="button" class="btn btn-dark">Correctores</button>
-                            <button type="button" class="btn btn-dark">Tirros</button>
-                        </div>
-                    </div>
-
-                    <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
-
-                            <div class="col-lg-12" id='productos'>
-                              <div class="mt-2">
-                              @{
-                                Producto obj;
-                                int i,j;
-                              }
-                              @for ( i = 0; i < Model.Productos.Count; i++) {
-                                  <div class="card-group">
-                                  @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
-                                    obj = Model.Productos[i+j];
-                                    <div class="card">
-                                      <div class="card-title mt-3 mx-2">             
-                                        <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                      </div>
-                                      <div class="card-img-top">
-                                        <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                      </div>
-                                      <div class="card-body">
-                                        <p class="card-text"></p>
-                                      </div>
-                                      <div class="card-footer">
-                                        <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                      </div>
-                                    </div>
-                                  }
-                                    
-                                  
-                                  </div>
-                                  i = i + j -1;
-                                }
-                          
-                          
-                                    @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
-                                  <div class="card-group">
-                                  @for( j = 0;j < 6 && i>=0; j++) {
-                                    obj = Model.Productos[i-j];
-                                    <div class="card">
-                                      <div class="card-title mt-3 mx-2">             
-                                        <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                      </div>
-                                      <div class="card-img-top">
-                                        <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                      </div>
-                                      <div class="card-body">
-                                        <p class="card-text"></p>
-                                      </div>
-                                      <div class="card-footer">
-                                        <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                      </div>
-                                    </div>
-                                  }
-                                    
-                                  
-                                  </div>
-                                  i = i - j +1;
-                                }
-                              </div><!-- .mt-2-->
-                            </div><!-- #productos -->
-                            <!--columna de productos-->
-                          </div>
-
-                    <div class="row">
-            <div class="col offset-5">
-                <nav aria-label="Paginacion ">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Siguiente</span>
-                        </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 }
 
 @section Scripts {
