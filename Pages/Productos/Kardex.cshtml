@@ -10,14 +10,29 @@ ViewData["title"] = "Kardex";
     <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
   </div>
 
+
+
+  <div class="row">
+    <div class="col-lg-5 input-group">
+      <div class="input-group px-2 pb-2  mt-3 font-weight-bold ">
+          <label for="producto" class="px-4 pt-2">Producto</label>
+        <input id="producto" type="text" class="form-control" placeholder="Nombre o código de producto"
+          aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-lg-11 form-inline px-5 pt-2">
+
       <div class="form-group font-weight-bold">
         <label for="Desde">Desde</label>
         <input type="date" id="Desde" name="Desde" class="form-control mx-sm-3" />
       </div>
       <div class="form-group font-weight-bold">
-        <label for="Desde">Hasta</label>
+        <label for="Hasta">Hasta</label>
         <input type="date" id="Hasta" name="Hasta" class="form-control mx-sm-3" />
       </div>
       <label class="d-block font-weight-bold" for="Mostrar">Mostrar</label>
@@ -35,9 +50,9 @@ ViewData["title"] = "Kardex";
       </div>
     </div>
     <div class="col-lg-1 pt-3">
-        <a href='#' class="text-info" title="Sin filtro"><i class="fas fa-redo-alt"></i></a>
-</div>
-    
+      <a href='#' class="text-info" title="Sin filtro"><i class="fas fa-redo-alt"></i></a>
+    </div>
+
   </div>
   <div class="px-4 pt-3">
     <table class="table table-hover table-sm">
