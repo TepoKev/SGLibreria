@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,16 +10,20 @@ namespace SGLibreria.Pages.Proveedores
         private readonly AppDbContext _context;
         [BindProperty]
         public Proveedor Proveedor { get; set; }
+        [BindProperty]
+        public string[] Telefonos { get; set; }
+        [BindProperty]
+        public string Principal { get; set; }
         public RegistroProveedorModel(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<JsonResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             this.Proveedor.Estado = (sbyte)1;
             if (!ModelState.IsValid)
             {
-                return new JsonResult("");
+                return NotFound();
             }
             if (!Proveedor.Enlace.Contains("http"))
             {
@@ -29,42 +31,33 @@ namespace SGLibreria.Pages.Proveedores
             }
             _context.Proveedores.Add(Proveedor);
             await _context.SaveChangesAsync();
-            return new JsonResult(this.Proveedor.Id);
-        }
-        public async Task<IActionResult> OnPostRest(int Id, string Principal, string Telefonos)
-        {
-            var ListaTelefonos = ConvetArray(Telefonos);
             Telefono telefono;
-            foreach (var item in ListaTelefonos)
+            for(var i = 0 ; i < Telefonos.Length ; i++)
             {
                 telefono = new Telefono();
-                telefono.IdProveedor = Id;
-                telefono.Numero = item;
-                if(item.Equals(Principal)){
-                    telefono.Principal = (sbyte)1;
-                }
-                await this._context.Telefonos.AddAsync(telefono);
-            }
-            await this._context.SaveChangesAsync();
-            return Page();
-        }
-        public List<String> ConvetArray(string array){
-            var result = new List<String>();
-            var CharArray = array.ToCharArray();
-            string Numero = "";
-            int tam = CharArray.Length;
-            for(var i = 0 ; i < tam ; i++){
-                if(CharArray[i].Equals(',')){
-                    result.Add(Numero);
-                    Numero = "";
+                telefono.IdProveedor = this.Proveedor.Id;
+                telefono.Numero = Telefonos[i];
+                if(i > 0){
+                    if(!Telefonos[i].Equals(Telefonos[i-1])){
+                        if(Telefonos[i].Equals(this.Principal)){
+                            telefono.Principal = (sbyte) 1;
+                        }else{
+                            telefono.Principal = (sbyte) 0;
+                        }
+                        await this._context.Telefonos.AddAsync(telefono);
+                    }else{
+                        continue;
+                    }
                 }else{
-                    Numero += CharArray[i];
-                    if(i == (tam -1)){
-                        result.Add(Numero);
+                    if(Telefonos[i].Equals(this.Principal)){
+                        telefono.Principal = (sbyte) 1;
+                    }else{
+                        telefono.Principal = (sbyte) 0;
                     }
                 }
             }
-            return result;
+            await this._context.SaveChangesAsync();
+            return Page();
         }
     }
 }

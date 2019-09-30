@@ -34,19 +34,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{
-                        int i = 0;
-                    }
                     @foreach (var item in Model.Proveedor)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(x => item.Nombre)</td>
-                            <td>@Html.DisplayFor(x => item.Direccion)</td>
-                            <td>@Html.DisplayFor(x => item.Telefono)</td>
-                            <td>@Html.DisplayFor(x => item.Correo)</td>
+                            <td>
+                                <label class="col-form-label">
+                                    @Html.DisplayFor(x => item.Nombre)
+                                </label>
+                            </td>
+                            <td>
+                                <label class="col-form-label">
+                                    @Html.DisplayFor(x => item.Direccion)
+                                </label>
+                            </td>
+                            <td>
+                                @foreach(var tel in item.Telefono){
+                                    if(tel.Principal == 1){
+                                        <label class="row col-form-label">
+                                            @Html.DisplayFor(y => tel.Numero)
+                                            <a href="#" class="pl-1">
+                                                <i class="fas fa-ellipsis-h" data-ide="@tel.IdProveedor"></i>
+                                            </a>
+                                        </label>
+                                    }
+                                }
+                            </td>
+                            <td class="px-3">
+                                <label class="col-form-label">
+                                    @Html.DisplayFor(x => item.Correo)
+                                </label>
+                            </td>
                             @if(item.Estado == 1){
                                 <td>
-                                    <div class="custom-control custom-switch">
+                                    <div class="col-form-label custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="@item.Id" checked>
                                         <label class="custom-control-label" for="@item.Id">Activo</label>
                                     </div>
@@ -54,7 +74,7 @@
                             }else{
                                 if(item.Estado == 0){
                                     <td>
-                                        <div class="custom-control custom-switch">
+                                        <div class="col-form-label custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="@item.Id">
                                             <label class="custom-control-label" for="@item.Id">Inactivo</label>
                                         </div>
@@ -65,20 +85,23 @@
                             }
                             @if(item.Enlace != "" && item.Enlace != null){
                                 <td>
-                                    <a href="@item.Enlace" target="_blank">
-                                        <button class="btn btn-outline-success">Ir</button>
-                                    </a>
+                                    <label class="col-form-label">
+                                        <a href="@item.Enlace" target="_blank">
+                                            <button class="btn btn-outline-success">Ir</button>
+                                        </a>
+                                    </label>
                                 </td>
                             }else{
                                 <td></td>
                             }
                             <td>
-                                <a class="btn btn-outline-success" asp-page="/Proveedores/ModificarProveedor" asp-route-id="@item.Id">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
+                                <label class="col-form-label">
+                                    <a class="btn btn-outline-success" asp-page="/Proveedores/ModificarProveedor" asp-route-id="@item.Id">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </label>
                             </td>
                         </tr>
-                        i++;
                     }
                 </tbody>
             </table>
@@ -113,7 +136,25 @@
     </div>
 </div>
 <!-- End Datatables -->
-@section Scripts{
+@section modal
+{
+<div class="modal fade" id="tefonosModal" tabindex="-1" role="dialog" aria-labelledby="companiaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="companiaModalLabel">Lista Telefonos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalCuerpo">
+            </div>
+        </div>
+    </div>
+</div>
+}
+@section Scripts
+{
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
@@ -123,15 +164,19 @@
     </script>
     <script>
         var InputCheck = document.getElementsByClassName("custom-control-input");
-        for(var i = 0 ; i < InputCheck.length ; i++ )
+        console.log(InputCheck);
+        for( var i = 0 ; i < InputCheck.length ; i++ )
         {
             InputCheck[i].addEventListener("click", procesar);
+        }
+        var iTel = document.getElementsByClassName("fa-ellipsis-h");
+        for( var i = 0 ; i < iTel.length ; i++ ){
+            iTel[i].addEventListener("click", procesarTel);
         }
         function procesar(e) {
             var Check = e.currentTarget;
             console.log(Check);
-            var Label = Check.nextSibling.nextSibling;
-            console.log(Label);
+            var Label = Check.nextElementSibling;
             if(Check.checked){
                 OnActivo(Check.id, Label, 1);
             }else{
@@ -142,8 +187,6 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log("Entro");
-                    console.log(label);
                     if(estado == 1){
                         label.innerHTML = "Activo";
                     }else{
@@ -156,6 +199,36 @@
             var inputToken = document.getElementsByName("__RequestVerificationToken");
             xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
             xhttp.send("id="+id+"&estado="+estado);
+        }
+        function invMod(){
+            var iModTel = document.getElementsByClassName("btn-outline-warning");
+            console.log(iModTel);
+            for(var i = 0 ; i < iModTel.length ; i++){
+                iModTel[i].addEventListener("click", modTel);
+            }
+        }
+        function modTel(e){
+            var iSel = e.currentTarget;
+            console.log(iSel);
+            var inputSel = document.getElementById(iSel.firstElementChild.getAttribute("data-tid"));
+            console.log(inputSel);
+            inputSel.removeAttribute("disabled");
+        }
+        function procesarTel(e){
+            var iItem = e.currentTarget;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("modalCuerpo").innerHTML = this.responseText;
+                    $('#tefonosModal').modal('show');
+                    invMod();
+                }
+            };
+            xhttp.open("POST", "ListaProveedor?handler=Telefono", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send("IdProveedor="+iItem.getAttribute("data-ide"));
         }
     </script>
 }

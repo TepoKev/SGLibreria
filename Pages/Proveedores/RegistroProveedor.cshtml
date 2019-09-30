@@ -1,7 +1,7 @@
 @page
 @model Proveedores.RegistroProveedorModel
 @{
-ViewData["title"] = "Registro de Proveedor";
+    ViewData["title"] = "Registro de Proveedor";
 }
 <div class="row pt-3">
     <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post" id="frmProveedor">
@@ -76,66 +76,55 @@ ViewData["title"] = "Registro de Proveedor";
 </div>
 @section Scripts
 {
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
-<script>
-    var Telefonos = [];
-    var Principal;
-    $('#dynamic').selectric();
-    $('#bt_add_val').click(function () {
-        // Store the value in a variable
-        var value = $('#add_val').val();
-        if (value != "") {
-            Telefonos.push(value);
-            // Append to original select
-            $('#dynamic').append('<option selected value = ' + value + '>' + value + '</option>');
-            // Refresh Selectric
-            $('#dynamic').selectric('refresh');
-            Principal = document.getElementById("dynamic").value;
-        }
-    });
-</script>
-<script>
-    var BtnRegistrar = document.getElementById("registrar");
-    BtnRegistrar.addEventListener("click", GuardarForAjax);
-    console
-    function GuardarForAjax() {
-        var xhttp = new XMLHttpRequest();
-        let formData = new FormData(document.getElementById("frmProveedor"));
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                Rest(this.responseText);
-            }
-        };
-        xhttp.open("POST", "RegistroProveedor", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var inputToken = document.getElementsByName("__RequestVerificationToken");
-        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        xhttp.send(new URLSearchParams(formData));
-    }
-
-    function Rest(id) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var sel = document.getElementById("dynamic");
-                while (sel.firstChild) {
-                    sel.removeChild(sel.firstChild);
-                }
-                $('#dynamic').selectric();
-                $('#dynamic').append('<option selected value ="">Seleccione...</option>');
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script>
+    <script>
+        var Telefonos = [];
+        var Principal;
+        $('#dynamic').selectric();
+        $('#bt_add_val').click(function () {
+            // Store the value in a variable
+            var value = $('#add_val').val();
+            if (value != "") {
+                Telefonos.push(value);
+                // Append to original select
+                $('#dynamic').append('<option selected value = ' + value + '>' + value + '</option>');
+                // Refresh Selectric
                 $('#dynamic').selectric('refresh');
-                document.getElementById("frmProveedor").reset();
-                var toast = document.getElementById("toastProveedor");
-                toast.setAttribute("data-autohide","false");
-                $('.toast').toast('show');
+                Principal = document.getElementById("dynamic").value;
             }
-        };
-        xhttp.open("POST", "RegistroProveedor?handler=Rest", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var inputToken = document.getElementsByName("__RequestVerificationToken");
-        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        xhttp.send("Id=" + id + "&Principal=" + Principal + "&Telefonos=" + Telefonos);
-    }
-</script>
+        });
+    </script>
+    <script>
+        var BtnRegistrar = document.getElementById("registrar");
+        BtnRegistrar.addEventListener("click", GuardarForAjax);
+        function GuardarForAjax() {
+            var xhttp = new XMLHttpRequest();
+            let formData = new FormData(document.getElementById("frmProveedor"));
+            formData.append("Principal",Principal);
+            for(var i = 0; i < Telefonos.length; i++){
+                formData.append("Telefonos[]", encodeURIComponent(Telefonos[i]));
+            }
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var sel = document.getElementById("dynamic");
+                    while (sel.firstChild) {
+                        sel.removeChild(sel.firstChild);
+                    }
+                    $('#dynamic').selectric();
+                    $('#dynamic').append('<option selected value ="">Seleccione...</option>');
+                    $('#dynamic').selectric('refresh');
+                    document.getElementById("frmProveedor").reset();
+                    var toast = document.getElementById("toastProveedor");
+                    toast.setAttribute("data-autohide","false");
+                    $('.toast').toast('show');
+                }
+            };
+            xhttp.open("POST", "RegistroProveedor", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(new URLSearchParams(formData));
+        }
+    </script>
 }

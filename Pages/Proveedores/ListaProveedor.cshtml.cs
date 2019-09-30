@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +16,10 @@ namespace SGLibreria.Pages.Proveedores
             _context = context;
         }
         public IList<Proveedor> Proveedor { get; set; }
+        public List<Telefono> Telefonos { get; set; }
         public async Task OnGetAsync()
         {
-            Proveedor = await _context.Proveedores.ToListAsync();
+            Proveedor = await this._context.Proveedores.Include(x => x.Telefono).ToListAsync();
         }
         public async Task OnPostAsync(int id, int estado){
             if(ProveedorExists(id)){
@@ -35,6 +36,12 @@ namespace SGLibreria.Pages.Proveedores
                     throw;
                 }
             }
+        }
+
+        public async Task<PartialViewResult> OnPostTelefono(int IdProveedor){
+            this.Proveedor = await this._context.Proveedores.Include(x => x.Telefono).ToListAsync();
+            this.Telefonos = await this._context.Telefonos.Where(x => x.IdProveedor == IdProveedor).ToListAsync();
+            return Partial("_TelefonoPartial", this);
         }
         private bool ProveedorExists(int id)
         {

@@ -464,7 +464,7 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.Estado).HasColumnType("tinyint(1)");
+                entity.Property(e => e.Estado).HasColumnType("tinyint(3)");
 
                 entity.Property(e => e.Fecha).HasColumnType("datetime");
 
