@@ -131,13 +131,19 @@
                 <div class="form-group row">
                     <label asp-for="Usuario.Clave" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
                     <div class="form-group col-lg-9 offset-1 pl-3">
-                        <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
+                        <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su clave">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-1 offset-1 col-form-label font-weight-bold">Repetir</label>
+                    <div class="form-group col-lg-9 offset-1 pl-3">
+                        <input class="form-control form-control-user mb-2" type="password" placeholder="Repita su clave">
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group row offset-3 text-center">
-                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="200px" width="200px">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="80%;" width="80%;">
                 </div>
                 <div class="form-group offset-1">
                     <div class="custom-file">
