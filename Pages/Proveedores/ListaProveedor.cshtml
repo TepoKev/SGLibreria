@@ -51,11 +51,14 @@
                                 @foreach(var tel in item.Telefono){
                                     if(tel.Principal == 1){
                                         <label class="row col-form-label">
-                                            @Html.DisplayFor(y => tel.Numero)
+                                            <span data-idp="@tel.IdProveedor">
+                                                @Html.DisplayFor(y => tel.Numero)
+                                            </span>
                                             <a href="#" class="pl-1">
                                                 <i class="fas fa-ellipsis-h" data-ide="@tel.IdProveedor"></i>
                                             </a>
                                         </label>
+                                        break;
                                     }
                                 }
                             </td>
@@ -161,17 +164,16 @@
         $(function() {
             $('select').selectric();
         });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
     <script>
-        var InputCheck = document.getElementsByClassName("custom-control-input");
-        console.log(InputCheck);
+        //Esta parte realiza el cambio del estado del proveedor
+        var InputCheck = document.querySelectorAll("td div.custom-switch > input.custom-control-input");
         for( var i = 0 ; i < InputCheck.length ; i++ )
         {
             InputCheck[i].addEventListener("click", procesar);
-        }
-        var iTel = document.getElementsByClassName("fa-ellipsis-h");
-        for( var i = 0 ; i < iTel.length ; i++ ){
-            iTel[i].addEventListener("click", procesarTel);
         }
         function procesar(e) {
             var Check = e.currentTarget;
@@ -200,19 +202,11 @@
             xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
             xhttp.send("id="+id+"&estado="+estado);
         }
-        function invMod(){
-            var iModTel = document.getElementsByClassName("btn-outline-warning");
-            console.log(iModTel);
-            for(var i = 0 ; i < iModTel.length ; i++){
-                iModTel[i].addEventListener("click", modTel);
-            }
-        }
-        function modTel(e){
-            var iSel = e.currentTarget;
-            console.log(iSel);
-            var inputSel = document.getElementById(iSel.firstElementChild.getAttribute("data-tid"));
-            console.log(inputSel);
-            inputSel.removeAttribute("disabled");
+        //Esta parte genera el modal con todos los numero de telefonos
+        //relacionados con un proveedor seleccionado
+        var iTel = document.getElementsByClassName("fa-ellipsis-h");
+        for( var i = 0 ; i < iTel.length ; i++ ){
+            iTel[i].addEventListener("click", procesarTel);
         }
         function procesarTel(e){
             var iItem = e.currentTarget;
@@ -221,6 +215,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById("modalCuerpo").innerHTML = this.responseText;
                     $('#tefonosModal').modal('show');
+                    modPrincipalTel();
                     invMod();
                 }
             };
@@ -229,6 +224,90 @@
             var inputToken = document.getElementsByName("__RequestVerificationToken");
             xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
             xhttp.send("IdProveedor="+iItem.getAttribute("data-ide"));
+        }
+        //Esta parte elabora el proceso de modificacion del estado principal del telefono
+        function modPrincipalTel(){
+            var ChecksT = document.querySelectorAll("td span div.text-center > input.custom-control-input");
+            for(var i = 0 ; i < ChecksT.length ; i++ ){
+                ChecksT[i].addEventListener("click", ModEstTel);
+            }
+        }
+        function ModEstTel(e){
+            var inputTel = e.target;
+            var id = inputTel.id.substring(2, inputTel.id.length);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("modalCuerpo").innerHTML = this.responseText;
+                    modPrincipalTel();
+                    var spPr = document.querySelectorAll("td label.row.col-form-label > span[data-idp]");
+                    var num = document.querySelector("td span div.custom-control.custom-switch.text-center input[checked]");
+                    for(var i = 0 ; i < spPr.length ; i++){
+                        if(num.getAttribute("data-idprov") == spPr[i].getAttribute("data-idp")){
+                            spPr[i].innerHTML = num.getAttribute("data-number");
+                        }
+                    }
+                    invMod();
+                }
+            };
+            xhttp.open("POST", "ListaProveedor?handler=EstadoTelefono", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send("IdTelefono="+id);
+        }
+        //Esta parte nos permitira modificar un numero de telefono seleccionado
+        function invMod(){
+            var iModTel = document.getElementsByClassName("btn-outline-warning");
+            for(var i = 0 ; i < iModTel.length ; i++){
+                iModTel[i].addEventListener("click", modTel);
+            }
+        }
+        function modTel(e){
+            var iSel = e.currentTarget;
+            var InputCheck = document.querySelectorAll("td span > input.form-control");
+            for(var i = 0 ; i < InputCheck.length ; i++){
+                InputCheck[i].blur();
+                InputCheck[i].setAttribute("disabled","");
+            }
+            var inputSel = document.getElementById(iSel.firstElementChild.getAttribute("data-tid"));
+            inputSel.removeAttribute("disabled");
+            inputSel.focus();
+            inputSel.setAttribute("data-toggle","tooltip");
+            inputSel.setAttribute("data-placement","top");
+            inputSel.setAttribute("title","Enter para efectuar los cambios");
+            inputSel.addEventListener("blur", ()=>{
+                inputSel.blur();
+                inputSel.setAttribute("disabled","");
+                inputSel.value = inputSel.getAttribute("data-n");
+            });
+            inputSel.addEventListener("keydown", actNum);
+        }
+
+        function actNum(e){
+            if("Enter" == e.code){
+                var input = e.target;
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("modalCuerpo").innerHTML = this.responseText;
+                        modPrincipalTel();
+                        var spPr = document.querySelectorAll("td label.row.col-form-label > span[data-idp]");
+                        var num = document.querySelector("td span div.custom-control.custom-switch.text-center input[checked]");
+                        for(var i = 0 ; i < spPr.length ; i++){
+                            if(num.getAttribute("data-idprov") == spPr[i].getAttribute("data-idp")){
+                                spPr[i].innerHTML = num.getAttribute("data-number");
+                            }
+                        }
+                        invMod();
+                    }
+                };
+                xhttp.open("POST", "ListaProveedor?handler=NumTelefono", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                var inputToken = document.getElementsByName("__RequestVerificationToken");
+                xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+                xhttp.send("IdTelefono="+(input.id.substring(2, input.id.length))+"&Numero="+input.value);
+            }
         }
     </script>
 }

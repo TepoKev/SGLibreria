@@ -24,7 +24,7 @@ namespace SGLibreria.Pages.Proveedores{
                 return NotFound();
             }
 
-            Proveedor = await _context.Proveedores.FirstOrDefaultAsync(p => p.Id == id);
+            Proveedor = await _context.Proveedores.Include(x => x.Telefono).FirstOrDefaultAsync(p => p.Id == id);
 
             if (Proveedor == null)
             {

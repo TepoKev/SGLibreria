@@ -85,17 +85,15 @@
         $('#bt_add_val').click(function () {
             // Store the value in a variable
             var value = $('#add_val').val();
-            if (value != "") {
+            if (value != "" && !Telefonos.includes(value)) {
                 Telefonos.push(value);
                 // Append to original select
-                $('#dynamic').append('<option selected value = ' + value + '>' + value + '</option>');
+                $('#dynamic').append('<option selected value = ' + value + '> <i class="fas fa-trash"></i>' + value + '</option>');
                 // Refresh Selectric
                 $('#dynamic').selectric('refresh');
                 Principal = document.getElementById("dynamic").value;
             }
         });
-    </script>
-    <script>
         var BtnRegistrar = document.getElementById("registrar");
         BtnRegistrar.addEventListener("click", GuardarForAjax);
         function GuardarForAjax() {

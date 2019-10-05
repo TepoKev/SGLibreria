@@ -533,7 +533,6 @@ namespace SGLibreria.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Correo)
-                    .IsRequired()
                     .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Direccion)
@@ -541,7 +540,6 @@ namespace SGLibreria.Models
                     .HasColumnType("varchar(300)");
 
                 entity.Property(e => e.Enlace)
-                    .IsRequired()
                     .HasColumnType("varchar(256)");
 
                 entity.Property(e => e.Estado).HasColumnType("tinyint(3)");

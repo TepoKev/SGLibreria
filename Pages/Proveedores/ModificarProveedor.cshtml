@@ -23,20 +23,29 @@
                 <span class="" asp-validation-for="Proveedor.Correo"></span>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <label asp-for="Proveedor.Telefono" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
                 <select id="dynamic">
-                    <option value="">Seleccione...</option>
+                    <option value="" id="0">Seleccione...</option>
+                    @{
+                        int i = 1;
+                    }
+                    @foreach(var item in Model.Proveedor.Telefono){
+                        <option value="@item.Numero" id="@i">
+                            @item.Numero
+                        </option>
+                        i++;
+                    }
                 </select>
             </div>
         </div>
         <div class="row">
             <div class="row form-group col-sm-6 offset-3">
                 <input type="text" class="form-control col-lg-7" id="add_val" name="add_val">
-                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Agregar</button>
+                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i> Modificar</button>
             </div>
-        </div>
+        </div> -->
         <div class="row">
             <label asp-for="Proveedor.Direccion" class="col-sm-1 offset-2 col-form-label font-weight-bold"></label>
             <div class="form-group col-sm-6">
@@ -55,7 +64,7 @@
             <div class="col-sm-6 offset-md-4">
                     <div class="btn btn-group">
                             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar cambios</button>
-                            <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</button>
+                            <a asp-page="/Proveedores/ListaProveedor" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i> Cancelar</a>
                     </div>
             </div>
         </div>
@@ -63,11 +72,34 @@
 </div>
 
 @section Scripts{
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script>
-        $(function() {
-            $('select').selectric();
-        });
-    </script>
+    <!-- <link href="~/selectric/src/selectric.css" rel="stylesheet">
+    <script src="~/selectric/src/jquery.selectric.js"></script> -->
+    <!-- <script>
+        /*$('#dynamic').selectric();
+        var lista = document.querySelectorAll("div.selectric-scroll ul > li");
+        console.log(lista);
+        for(var i = 0 ; i < lista.length ; i++){
+            lista[i].addEventListener('click', (e) => {
+                console.log(e.target);
+                var tel = e.target.innerHTML.trim();
+                var inTel = document.getElementById("add_val");
+                if(tel != "Seleccione..."){
+                    inTel.value = tel;
+                }else{
+                    inTel.value = "";
+                }
+            });
+        }
+        $('#bt_add_val').click(function () {
+            // Store the value in a variable
+            var value = $('#add_val').val();
+            if (value != "") {
+                // Append to original select
+                document.getElementById("bt_add_val");
+                // Refresh Selectric
+                $('#dynamic').selectric('refresh');
+                Principal = document.getElementById("dynamic").value;
+            }
+        });*/
+    </script> -->
 }
