@@ -12,10 +12,10 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
-        public int IdEmpleado { get; set; }
+        public int IdUsuario { get; set; }
         public DateTime Fecha { get; set; }
 
-        public virtual Empleado IdEmpleadoNavigation { get; set; }
+        public virtual Usuario IdUsuarioNavigation { get; set; }
         public virtual ICollection<Detalleservicio> Detalleservicio { get; set; }
         public virtual ICollection<Detalleventa> Detalleventa { get; set; }
     }

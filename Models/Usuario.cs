@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -9,22 +8,24 @@ namespace SGLibreria.Models
         public Usuario()
         {
             Bitacora = new HashSet<Bitacora>();
+            Compra = new HashSet<Compra>();
             Recuperacioncuenta = new HashSet<Recuperacioncuenta>();
+            Venta = new HashSet<Venta>();
         }
 
         public int Id { get; set; }
-        public int IdPersona { get; set; }
-        public int IdImagen { get; set; }
+        public int IdEmpleado { get; set; }
+        public int? IdImagen { get; set; }
         public string Nombre { get; set; }
         public int Privilegio { get; set; }
-        [EmailAddressAttribute]
         public string Correo { get; set; }
         public string Clave { get; set; }
         public sbyte Estado { get; set; }
 
-        public virtual Persona IdPersonaNavigation { get; set; }
-        public virtual Empleado Empleado { get; set; }
+        public virtual Empleado IdEmpleadoNavigation { get; set; }
         public virtual ICollection<Bitacora> Bitacora { get; set; }
+        public virtual ICollection<Compra> Compra { get; set; }
         public virtual ICollection<Recuperacioncuenta> Recuperacioncuenta { get; set; }
+        public virtual ICollection<Venta> Venta { get; set; }
     }
 }
