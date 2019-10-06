@@ -12,7 +12,7 @@
         </ol>
     </nav>
 </div>
-<form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post">
+<form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post" id="formEUP">
     <div id="FormEmpleado">
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Empleado</h2>
@@ -186,6 +186,8 @@
         var HUsuario = document.getElementById("hUsuario");
         console.log(Contenido);
         BtnProcess.addEventListener("click", (e) => {
+            var BtnProcess = e.target;
+            var Contenido = BtnProcess.innerHTML;
             if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
             {
                 HUsuario.removeAttribute("hidden");
@@ -195,6 +197,8 @@
             }else{
                 if(Contenido == '<i class="fas fa-save"></i> Registrar')
                 {
+                    var form = document.getElementById("formEUP");
+                    form.submit();
                     //Aqui se va a enviar el Formulario al servidor
                 }
             }

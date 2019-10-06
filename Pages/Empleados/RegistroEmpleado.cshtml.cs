@@ -8,7 +8,7 @@ namespace SGLibreria.Pages.Empleados
 {
     public class RegistroEmpleadoModel : PageModel
     {
-        private readonly DbContext _context;
+        private readonly AppDbContext _context;
         [BindProperty]
         public Persona Persona { get; set; }
         [BindProperty]
@@ -22,6 +22,10 @@ namespace SGLibreria.Pages.Empleados
 
         public void OnGet()
         {
+        }
+
+        public void OnPost(){
+           
         }
     }
 }
