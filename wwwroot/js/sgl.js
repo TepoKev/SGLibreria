@@ -22,9 +22,9 @@ var sgl = {
     },
     ajax: function (metodo, url, callback, params) {
         if (metodo.toUpperCase() == 'POST') {
-            cargarPorPost(url, callback);
+            this.post(url, callback);
         } else if (metodo.toUpperCase() == 'GET') {
-            cargarPorGet(url, callback);
+            this.get(url, callback);
         }
     },
     
@@ -56,10 +56,11 @@ var sgl = {
         }
     }
 };
-
+/*
 (function () {
     sgl.ajax('get', 'formulario.html', function (data) {
         var elem = document.getElementById('salida');
         elem.innerHTML = data;
     });
 })();
+*/
