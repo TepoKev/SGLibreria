@@ -272,6 +272,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Documento>(entity =>
             {
+                entity.ToTable("Documento");
                 entity.HasIndex(e => e.IdCompra)
                     .HasName("IdCompra");
 
@@ -335,6 +336,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Imagen>(entity =>
             {
+                entity.ToTable("Imagen");
                 entity.HasIndex(e => e.IdRuta)
                     .HasName("IdRuta");
 
@@ -570,6 +572,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Ruta>(entity =>
             {
+                entity.ToTable("Ruta");
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Nombre)
@@ -579,6 +582,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Servicio>(entity =>
             {
+                entity.ToTable("Servicio");
                 entity.HasIndex(e => e.IdCompania)
                     .HasName("fk_IdCompania");
 
@@ -635,6 +639,7 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<TipoServicio>(entity =>
             {
+                entity.ToTable("TipoServicio");
                 entity.HasIndex(e => e.IdServicio)
                     .HasName("IdServicio");
 

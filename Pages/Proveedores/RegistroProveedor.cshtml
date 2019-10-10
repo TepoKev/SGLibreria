@@ -21,7 +21,7 @@
         <div class="form-group row">
             <label asp-for="Proveedor.Telefono" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-6">
-                <select id="dynamic">
+                <select id="dynamic" class="custom-options">
                     <option value="">Seleccione...</option>
                 </select>
             </div>
@@ -79,21 +79,64 @@
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
+        var numSel = {
+            elemento:'',
+            texto:''
+        }
+        var elementos = [numSel];
         var Telefonos = [];
         var Principal;
-        $('#dynamic').selectric();
-        $('#bt_add_val').click(function () {
-            // Store the value in a variable
-            var value = $('#add_val').val();
-            if (value != "" && !Telefonos.includes(value)) {
-                Telefonos.push(value);
-                // Append to original select
-                $('#dynamic').append('<option selected value = ' + value + '> <i class="fas fa-trash"></i>' + value + '</option>');
-                // Refresh Selectric
-                $('#dynamic').selectric('refresh');
-                Principal = document.getElementById("dynamic").value;
+        elementos[elementos.length-1].elemento = '';
+        elementos[elementos.length-1].texto = "Seleccione...";
+        $('.custom-options').selectric({
+            optionsItemBuilder: function (itemData, element, index) {
+                return '<span>' + elementos[index].elemento + ' ' + elementos[index].texto + '</span>';
             }
         });
+        function addlist(){
+            var btnadd = document.getElementById("bt_add_val");
+            btnadd.addEventListener("click", ()=>{
+                var value = document.getElementById("add_val").value;
+                if (value != "" && !Telefonos.includes(value)) {
+                    Telefonos.push(value);
+                    var numSel = {
+                        elemento:'<i class="fas fa-trash text-danger ml-4"></i>',
+                        texto: value
+                    }
+                    elementos.push(numSel)
+                    var option = document.createElement('option');
+                    option.value = value;
+                    option.innerHTML = value;
+                    var selTel = document.getElementById("dynamic").appendChild(option);
+                    $('.custom-options').selectric({
+                        optionsItemBuilder: function (itemData, element, index) {
+                            return '<span>' + elementos[index].texto + elementos[index].elemento + '</span>';
+                        }
+                    });
+                    escucharDel();
+                }
+            });
+        }addlist();
+        function escucharDel(){
+            var idel = document.getElementsByClassName("fas fa-trash");
+            for(var i = 0 ; i < idel.length ; i++){
+                idel[i].addEventListener("click" , eliminar);
+            }
+            addlist();
+        }
+        function eliminar(e){
+                var num = e.target.previousSibling;
+                var numSel = {
+                    elemento:'<i class="fas fa-trash text-danger ml-4"></i>',
+                    texto: num
+                }
+                for(var i = 0 ; i < Telefonos.length ; i++){
+                    if(Telefonos[i] == num){
+                        Telefonos[i].splice(i, 1);
+                        elementos[i].splice(i, 1);
+                    }
+                }
+            }
         var BtnRegistrar = document.getElementById("registrar");
         BtnRegistrar.addEventListener("click", GuardarForAjax);
         function GuardarForAjax() {
