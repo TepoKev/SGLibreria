@@ -7,3 +7,4 @@ wwwroot/Servicios/
 wwwroot/node_modules/
 wwwroot/scss/
 appsettings.json
+appsettings.Development.json
