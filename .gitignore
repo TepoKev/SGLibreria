@@ -1,7 +1,6 @@
 .vscode/
 bin/
 obj/
-Properties/
 wwwroot/Productos/
 wwwroot/Servicios/
 wwwroot/node_modules/

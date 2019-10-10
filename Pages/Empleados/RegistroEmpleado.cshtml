@@ -40,7 +40,7 @@
                 <div class="row">
                     <label asp-for="Persona.Genero" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
                     <div class="col-lg-9 offset-1 pl-3">
-                        <select class="custom-options">
+                        <select asp-for="Persona.Genero" class="custom-options">
                             <option value="">Seleccione...</option>
                             <option value="0">Femenino</option>
                             <option value="1">Masculino</option>
@@ -120,8 +120,8 @@
                 </div>
                 <div class="form-group row">
                     <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <select>
+                    <div  class="col-lg-9 offset-1 pl-3">
+                        <select asp-for="Usuario.Privilegio">
                             <option value="">Seleccione...</option>
                             <option value="0">Vendedor</option>
                             <option value="1">Administrador</option>
@@ -166,6 +166,9 @@
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
+        $(function() {
+            $('select').selectric();
+        });
         var gens = [
             {elemento: '', texto:'Seleccione'},
             {elemento: '<i class="fas fa-female"></i>', texto:'Femenino'},
