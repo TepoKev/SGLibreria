@@ -135,7 +135,7 @@ ViewData["Title"] = "Registro Compras";
                 <div class="form-group pt-2">
                         <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Guardar</button>
+                                    class="fas fa-save"> </i> Registrar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
                                     class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
@@ -224,9 +224,9 @@ ViewData["Title"] = "Registro Compras";
                 <div class="modal-footer">
                         <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Guardar</button>
+                                    class="fas fa-save"> </i> Registrar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                                    class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
                 </div>
 
@@ -272,9 +272,9 @@ ViewData["Title"] = "Registro Compras";
                 <div class="modal-footer">
                         <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Guardar</button>
+                                    class="fas fa-save"> </i> Registrar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                                    class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
                 </div>
 
@@ -328,9 +328,9 @@ ViewData["Title"] = "Registro Compras";
                 <div class="modal-footer">
                         <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Guardar</button>
+                                    class="fas fa-save"> </i> Agregar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cerrar</button>
+                                    class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
                 </div>
 
@@ -425,46 +425,6 @@ ViewData["Title"] = "Registro Compras";
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="pdcantidad"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Cantidad
-                                    comprada*</label>
-                                <div class="col-lg-7">
-                                    <input type="number" class="form-control" id="pdcantidad" value="50">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-lg-1 col-lg-5">
-                                    <div class="row">
-                                        <label for="pdpreciocompra"
-                                            class="col-lg-7 col-form-label font-weight-bold">Total de
-                                            compra*</label>
-                                        <div class="col-lg-5">
-                                            <input type="number" class="form-control form-control-user mb-2"
-                                                id="pdpreciocompra" value="0.15">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="row">
-                                        <label for="pdpreciocompraunitario"
-                                            class="col-lg-7 col-form-label font-weight-bold">Precio unitario</label>
-                                        <div class="col-lg-5">
-                                            <input type="number" class="form-control form-control-user mb-2"
-                                                id="pdpreciocompraunitario" value="0.15" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdprecioventa"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
-                                    venta*</label>
-                                <div class="col-lg-7">
-                                    <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
-                                        value="0.25">
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                                     vencimiento</label>
                                 <div class="col-lg-7">
@@ -532,7 +492,7 @@ ViewData["Title"] = "Registro Compras";
                                                         }
                                                         @for ( i = 0; i < Model.Productos.Count-1; i++) { <div
                                                             class="card-group">
-                                                            @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
+                                                            @for( j = 0;j < 5 && i<Model.Productos.Count; j++) {
                                                                 obj1=Model.Productos[i+j]; <div class="card">
                                                                 <div class="card-title mt-3 mx-2">
                                                                     <h5 class="m-0 p-0">@obj1.Nombre<span
@@ -555,7 +515,7 @@ ViewData["Title"] = "Registro Compras";
 
 
                                                 </div>
-                                                i = i + j -1;
+                                                i = i + j - 1;
                                                 }
 
                                             </div><!-- .mt-2-->
@@ -616,44 +576,6 @@ ViewData["Title"] = "Registro Compras";
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="pdcantidad" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Cantidad
-                            comprada*</label>
-                        <div class="col-lg-7">
-                            <input type="number" class="form-control" id="pdcantidad" value="50">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-lg-1 col-lg-5">
-                            <div class="row">
-                                <label for="pdpreciocompra" class="col-lg-7 col-form-label font-weight-bold">Total de
-                                    compra*</label>
-                                <div class="col-lg-5">
-                                    <input type="number" class="form-control form-control-user mb-2" id="pdpreciocompra"
-                                        value="0.15">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="row">
-                                <label for="pdpreciocompraunitario"
-                                    class="col-lg-7 col-form-label font-weight-bold">Precio unitario</label>
-                                <div class="col-lg-5">
-                                    <input type="number" class="form-control form-control-user mb-2"
-                                        id="pdpreciocompraunitario" value="0.15" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio
-                            de
-                            venta*</label>
-                        <div class="col-lg-7">
-                            <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa"
-                                value="0.25">
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                             vencimiento</label>
                         <div class="col-lg-7">
@@ -689,9 +611,9 @@ ViewData["Title"] = "Registro Compras";
         <div class="modal-footer">
             <div class="btn btn-group">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                        class="fas fa-save"> </i> Guardar</button>
+                        class="fas fa-save"> </i> Agregar</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                        class="fas fa-times-circle"> </i> Cerrar</button>
+                        class="fas fa-times-circle"> </i> Cancelar</button>
             </div>
         </div>
     </div>
