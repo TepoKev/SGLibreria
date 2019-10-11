@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SGLibreria.Models
 {
-    public partial class TipoServicio
+    public partial class Tiposervicio
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

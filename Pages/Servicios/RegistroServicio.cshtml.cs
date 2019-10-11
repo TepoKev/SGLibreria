@@ -11,7 +11,7 @@ namespace SGLibreria.Pages.Servicios
         [BindProperty]
         public Compania Compania { get; set; }
         [BindProperty]
-        public TipoServicio Tipo { get; set; }
+        public Tiposervicio Tipo { get; set; }
         public RegistroServicioModel()
         {
         }

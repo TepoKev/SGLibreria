@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace SGLibreria.Models
 {
@@ -7,13 +7,10 @@ namespace SGLibreria.Models
     {
         public int Id { get; set; }
         public int IdPersona { get; set; }
-        [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime FechaIngreso { get; set; }
+        public DateTime? FechaIngreso { get; set; }
         public string Dui { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime FechaSalida { get; set; }
+        public DateTime? FechaSalida { get; set; }
         public decimal Salario { get; set; }
 
         public virtual Persona IdPersonaNavigation { get; set; }
