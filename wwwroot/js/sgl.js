@@ -35,6 +35,7 @@ var sgl = {
             field_type = elements[i].type.toLowerCase();
             switch (field_type) {
                 case "text":
+                case "file":
                 case "password":
                 case "textarea":
                 case "hidden":
