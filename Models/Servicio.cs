@@ -8,7 +8,7 @@ namespace SGLibreria.Models
         public Servicio()
         {
             Detalleservicio = new HashSet<Detalleservicio>();
-            TipoServicio = new HashSet<TipoServicio>();
+            Tiposervicio = new HashSet<Tiposervicio>();
         }
 
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace SGLibreria.Models
         public virtual Compania IdCompaniaNavigation { get; set; }
         public virtual Imagen IdImagenNavigation { get; set; }
         public virtual ICollection<Detalleservicio> Detalleservicio { get; set; }
-        public virtual ICollection<TipoServicio> TipoServicio { get; set; }
+        public virtual ICollection<Tiposervicio> Tiposervicio { get; set; }
     }
 }

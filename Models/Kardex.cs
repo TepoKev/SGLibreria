@@ -5,11 +5,6 @@ namespace SGLibreria.Models
 {
     public partial class Kardex
     {
-        public Kardex()
-        {
-            Precioventa = new HashSet<Precioventa>();
-        }
-
         public int Id { get; set; }
         public int Existencia { get; set; }
         public int? IdDetalleCompra { get; set; }
@@ -17,6 +12,5 @@ namespace SGLibreria.Models
 
         public virtual Detallecompra IdDetalleCompraNavigation { get; set; }
         public virtual Detalleventa IdDetalleVentaNavigation { get; set; }
-        public virtual ICollection<Precioventa> Precioventa { get; set; }
     }
 }

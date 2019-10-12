@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace SGLibreria.Models
@@ -13,12 +14,13 @@ namespace SGLibreria.Models
         {
             this.Configuration = Configuration;
         }
+
         public virtual DbSet<Accion> Acciones { get; set; }
         public virtual DbSet<Bitacora> Bitacoras { get; set; }
         public virtual DbSet<Categoria> Categorias { get; set; }
         public virtual DbSet<Compania> Companias { get; set; }
         public virtual DbSet<Compra> Compras { get; set; }
-        public virtual DbSet<Configuracion> Configuraciones { get; set; }
+        public virtual DbSet<Configuracion> Configuracion { get; set; }
         public virtual DbSet<Detallecompra> Detallecompra { get; set; }
         public virtual DbSet<Detalleservicio> Detalleservicio { get; set; }
         public virtual DbSet<Detalleventa> Detalleventa { get; set; }
@@ -29,18 +31,19 @@ namespace SGLibreria.Models
         public virtual DbSet<Oferta> Ofertas { get; set; }
         public virtual DbSet<Ofertaproducto> Ofertaproducto { get; set; }
         public virtual DbSet<Persona> Personas { get; set; }
-        public virtual DbSet<Precioventa> Precioventa { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
+        public virtual DbSet<Productoprecioventa> Productoprecioventa { get; set; }
         public virtual DbSet<Proveedor> Proveedores { get; set; }
         public virtual DbSet<Recuperacioncuenta> Recuperacioncuenta { get; set; }
         public virtual DbSet<Ruta> Rutas { get; set; }
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Telefono> Telefonos { get; set; }
-        public virtual DbSet<TipoServicio> TipoServicio { get; set; }
+        public virtual DbSet<Tiposervicio> TipoServicio { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Venta> Ventas { get; set; }
-        public IConfiguration Configuration { get; }
-
+		
+		public IConfiguration Configuration { get; }
+		
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -243,8 +246,8 @@ namespace SGLibreria.Models
             {
                 entity.ToTable("detalleventa");
 
-                entity.HasIndex(e => e.IdProducto)
-                    .HasName("IdProducto");
+                entity.HasIndex(e => e.IdProductoPrecioVenta)
+                    .HasName("IdProductoPrecioVenta");
 
                 entity.HasIndex(e => e.IdVenta)
                     .HasName("IdVenta");
@@ -253,13 +256,13 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Cantidad).HasColumnType("int(11)");
 
-                entity.Property(e => e.IdProducto).HasColumnType("int(11)");
+                entity.Property(e => e.IdProductoPrecioVenta).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdVenta).HasColumnType("int(11)");
 
-                entity.HasOne(d => d.IdProductoNavigation)
+                entity.HasOne(d => d.IdProductoPrecioVentaNavigation)
                     .WithMany(p => p.Detalleventa)
-                    .HasForeignKey(d => d.IdProducto)
+                    .HasForeignKey(d => d.IdProductoPrecioVenta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("detalleventa_ibfk_2");
 
@@ -272,7 +275,8 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Documento>(entity =>
             {
-                entity.ToTable("Documento");
+                entity.ToTable("documento");
+
                 entity.HasIndex(e => e.IdCompra)
                     .HasName("IdCompra");
 
@@ -299,7 +303,7 @@ namespace SGLibreria.Models
                     .WithMany(p => p.Documento)
                     .HasForeignKey(d => d.IdRuta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Documento_ibfk_1");
+                    .HasConstraintName("documento_ibfk_1");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -336,7 +340,8 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Imagen>(entity =>
             {
-                entity.ToTable("Imagen");
+                entity.ToTable("imagen");
+
                 entity.HasIndex(e => e.IdRuta)
                     .HasName("IdRuta");
 
@@ -352,7 +357,7 @@ namespace SGLibreria.Models
                     .WithMany(p => p.Imagen)
                     .HasForeignKey(d => d.IdRuta)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Imagen_ibfk_1");
+                    .HasConstraintName("imagen_ibfk_1");
             });
 
             modelBuilder.Entity<Kardex>(entity =>
@@ -455,28 +460,6 @@ namespace SGLibreria.Models
                     .HasColumnType("varchar(9)");
             });
 
-            modelBuilder.Entity<Precioventa>(entity =>
-            {
-                entity.ToTable("precioventa");
-
-                entity.HasIndex(e => e.IdProductoKardex)
-                    .HasName("IdProducto");
-
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.Fecha).HasColumnType("datetime");
-
-                entity.Property(e => e.IdProductoKardex).HasColumnType("int(11)");
-
-                entity.Property(e => e.Precio).HasColumnType("decimal(10,0)");
-
-                entity.HasOne(d => d.IdProductoKardexNavigation)
-                    .WithMany(p => p.Precioventa)
-                    .HasForeignKey(d => d.IdProductoKardex)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("precioventa_ibfk_1");
-            });
-
             modelBuilder.Entity<Producto>(entity =>
             {
                 entity.ToTable("producto");
@@ -521,6 +504,28 @@ namespace SGLibreria.Models
                     .WithMany(p => p.Producto)
                     .HasForeignKey(d => d.IdImagen)
                     .HasConstraintName("producto_ibfk_2");
+            });
+
+            modelBuilder.Entity<Productoprecioventa>(entity =>
+            {
+                entity.ToTable("productoprecioventa");
+
+                entity.HasIndex(e => e.IdProducto)
+                    .HasName("IdProducto");
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+                entity.Property(e => e.IdProducto).HasColumnType("int(11)");
+
+                entity.Property(e => e.Precio).HasColumnType("decimal(10,0)");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.Productoprecioventa)
+                    .HasForeignKey(d => d.IdProducto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("productoprecioventa_ibfk_1");
             });
 
             modelBuilder.Entity<Proveedor>(entity =>
@@ -572,7 +577,8 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Ruta>(entity =>
             {
-                entity.ToTable("Ruta");
+                entity.ToTable("ruta");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Nombre)
@@ -582,7 +588,8 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Servicio>(entity =>
             {
-                entity.ToTable("Servicio");
+                entity.ToTable("servicio");
+
                 entity.HasIndex(e => e.IdCompania)
                     .HasName("fk_IdCompania");
 
@@ -611,12 +618,13 @@ namespace SGLibreria.Models
                 entity.HasOne(d => d.IdImagenNavigation)
                     .WithMany(p => p.Servicio)
                     .HasForeignKey(d => d.IdImagen)
-                    .HasConstraintName("Servicio_ibfk_1");
+                    .HasConstraintName("servicio_ibfk_1");
             });
 
             modelBuilder.Entity<Telefono>(entity =>
             {
-                entity.ToTable("Telefono");
+                entity.ToTable("telefono");
+
                 entity.HasIndex(e => e.IdProveedor)
                     .HasName("fk_idProveedor");
 
@@ -637,9 +645,10 @@ namespace SGLibreria.Models
                     .HasConstraintName("fk_idProveedor");
             });
 
-            modelBuilder.Entity<TipoServicio>(entity =>
+            modelBuilder.Entity<Tiposervicio>(entity =>
             {
-                entity.ToTable("TipoServicio");
+                entity.ToTable("tiposervicio");
+
                 entity.HasIndex(e => e.IdServicio)
                     .HasName("IdServicio");
 
@@ -654,7 +663,7 @@ namespace SGLibreria.Models
                 entity.Property(e => e.Precio).HasColumnType("decimal(10,0)");
 
                 entity.HasOne(d => d.IdServicioNavigation)
-                    .WithMany(p => p.TipoServicio)
+                    .WithMany(p => p.Tiposervicio)
                     .HasForeignKey(d => d.IdServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TipoServicio_ibfk_1");
