@@ -1,0 +1,38 @@
+@page
+@model ListaProductoAjaxModel
+@using SGLibreria.Models;
+@{
+    ViewData["title"] = "Stock de Productos";
+    Layout = null;
+}
+@{
+Producto obj1;
+int i,j;
+}
+@for ( i = 0; i < Model.Productos.Count; i++) { 
+    <div class="card-group">
+    @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) { 
+        obj1 = Model.Productos[i+j]; 
+        <div class="card">
+        <div class="card-title mt-3 mx-2">
+            <h5 class="m-0 p-0"> @obj1.Nombre 
+                <span class="badge badge-primary">@obj1.StockMinimo</span>
+            </h5>
+        </div>
+        <div class="card-img-top">
+            <img src="@obj1.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+        </div>
+        <div class="card-body">
+            <p class="card-text"></p>
+        </div>
+        <div class="card-footer">
+            <small class="font-weight-bold text-primary h6">Precio:
+                $0.25</small>
+        </div>
+        </div>
+        }
+
+
+        </div>
+        i = i + j -1;
+        }
