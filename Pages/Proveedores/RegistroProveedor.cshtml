@@ -20,17 +20,18 @@
         </div>
         <div class="form-group row">
             <label asp-for="Proveedor.Telefono" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
-            <div class="col-lg-6">
-                <select id="dynamic" class="custom-options">
-                    <option value="">Seleccione...</option>
-                </select>
+            <div class="row col-lg-9 ml-3">
+                <input type="text" class="form-control col-lg-5" id="add_val" name="add_val">
+                <button id="bt_add_val" type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Agregar</button>
+                <button id="bt_act_val" type="button" class="btn btn-outline-warning" hidden=""><i class="fas fa-plus"></i> Modificar</button>
+                <label class="ml-1 col-form-label text-danger" id="exist"></label>
             </div>
         </div>
         <div class="form-group row">
-            <div class="row col-lg-9 offset-2">
-                <input type="text" class="form-control col-lg-5 ml-3" id="add_val" name="add_val">
-                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i class="fas fa-plus"></i>
-                    Agregar</button>
+            <div class="col-lg-4 offset-2">
+                <ul class="list-group list-group-flush" id="lis_tel">
+                    <li class="list-group-item py-1">Sin registros</li>
+                </ul>
             </div>
         </div>
         <div class="form-group row">
@@ -79,82 +80,113 @@
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
-        var numSel = {
-            elemento:'',
-            texto:''
-        }
-        var elementos = [numSel];
-        var Telefonos = [];
-        var Principal;
-        elementos[elementos.length-1].elemento = '';
-        elementos[elementos.length-1].texto = "Seleccione...";
-        $('.custom-options').selectric({
-            optionsItemBuilder: function (itemData, element, index) {
-                return '<span>' + elementos[index].elemento + ' ' + elementos[index].texto + '</span>';
+        var BtnAddTel = document.getElementById("bt_add_val");
+        BtnAddTel.addEventListener("click", ()=>{
+            var input = document.getElementById("add_val");
+            if(ValidarUl(input.value.trim())){
+                document.getElementById("exist").innerHTML = "";
+                var list = document.getElementById("lis_tel");
+                var li = document.createElement("li");
+                li.setAttribute("class", "list-group-item py-1");
+                li.innerHTML = input.value + '<a href="#" class="pl-2"><i class="fas fa-trash text-danger"></i></a><a href="#" class="pl-2"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                list.appendChild(li);
+                escucharBorrarTel();
+                escucharActTel();
+                input.value="";
             }
         });
-        function addlist(){
-            var btnadd = document.getElementById("bt_add_val");
-            btnadd.addEventListener("click", ()=>{
-                var value = document.getElementById("add_val").value;
-                if (value != "" && !Telefonos.includes(value)) {
-                    Telefonos.push(value);
-                    var numSel = {
-                        elemento:'<i class="fas fa-trash text-danger ml-4"></i>',
-                        texto: value
+        function ValidarUl(numero){
+            if(numero != "" ){
+                var arrayli = document.querySelector("#lis_tel").children;
+                if(arrayli.length > 0){
+                    if(arrayli[0].firstChild.nodeValue == "Sin registros"){
+                        document.querySelector("#lis_tel").removeChild(arrayli[0]);
                     }
-                    elementos.push(numSel)
-                    var option = document.createElement('option');
-                    option.value = value;
-                    option.innerHTML = value;
-                    var selTel = document.getElementById("dynamic").appendChild(option);
-                    $('.custom-options').selectric({
-                        optionsItemBuilder: function (itemData, element, index) {
-                            return '<span>' + elementos[index].texto + elementos[index].elemento + '</span>';
+                    for(var i = 0 ; i < arrayli.length ; i++){
+                        if(arrayli[i].firstChild.nodeValue.trim() == numero){
+                            document.getElementById("exist").innerHTML = "Este número ya existe";
+                            return false;
                         }
-                    });
-                    escucharDel();
+                    }
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function escucharBorrarTel(){
+            var ielim = document.getElementsByClassName("fas fa-trash text-danger");
+            for(var i = 0 ; i < ielim.length ; i++){
+                ielim[i].addEventListener("click", acElim);
+            }
+        }
+        function acElim(e){
+            var li = e.target.offsetParent;
+            var ul = document.querySelector("#lis_tel");
+            ul.removeChild(li);
+            if(ul.children.length == 0){
+                ul.innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
+            }
+            escucharActTel();
+        }
+        function escucharActTel(){
+            var iact = document.getElementsByClassName("fas fa-pencil-alt text-warning");
+            for(var i = 0 ; i < iact.length ; i++){
+                iact[i].addEventListener("click", actTel);
+            }
+        }
+        function actTel(e){
+            var lilocal = e.target.offsetParent;
+            var text = lilocal.textContent.trim();
+            var input = document.getElementById("add_val");
+            input.value = text;
+            var btnMod = document.getElementById("bt_act_val");
+            var btnAdd = document.getElementById("bt_add_val")
+            btnMod.removeAttribute("hidden");
+            btnAdd.setAttribute("hidden","");
+            btnMod.addEventListener("click", (e)=>{
+                var input = document.getElementById("add_val");
+                if(input.value != ""){
+                    var boton = e.target;
+                    var arrayli = document.querySelector("#lis_tel").children;
+                    for(var i = 0 ; i < arrayli.length ; i++){
+                        if(lilocal != arrayli[i]){
+                            if(arrayli[i].firstChild.nodeValue == input.value){
+                                document.getElementById("exist").innerHTML = "Este número ya existe";
+                                return ;
+                            }
+                        }
+                    }
+                    lilocal.innerHTML = input.value + '<a href="#" class="pl-2"><i class="fas fa-trash text-danger"></i></a><a href="#" class="pl-2"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                    input.value = '';
+                    document.getElementById("exist").innerHTML = "";
+                    btnAdd.removeAttribute("hidden");
+                    boton.setAttribute("hidden","");
+                    escucharBorrarTel();
+                    escucharActTel();
                 }
             });
-        }addlist();
-        function escucharDel(){
-            var idel = document.getElementsByClassName("fas fa-trash");
-            for(var i = 0 ; i < idel.length ; i++){
-                idel[i].addEventListener("click" , eliminar);
-            }
-            addlist();
         }
-        function eliminar(e){
-                var num = e.target.previousSibling;
-                var numSel = {
-                    elemento:'<i class="fas fa-trash text-danger ml-4"></i>',
-                    texto: num
-                }
-                for(var i = 0 ; i < Telefonos.length ; i++){
-                    if(Telefonos[i] == num){
-                        Telefonos[i].splice(i, 1);
-                        elementos[i].splice(i, 1);
-                    }
-                }
-            }
         var BtnRegistrar = document.getElementById("registrar");
         BtnRegistrar.addEventListener("click", GuardarForAjax);
         function GuardarForAjax() {
+            var Telefonos = [];
+            var arrayli = document.querySelector("#lis_tel").children;
+            tam = arrayli.length;
+            if(tam > 0){
+                for(var i = 0 ; i < tam ; i++){
+                    Telefonos.push(arrayli[i].firstChild.textContent);
+                }
+            }
+            console.log(Telefonos);
             var xhttp = new XMLHttpRequest();
             let formData = new FormData(document.getElementById("frmProveedor"));
-            formData.append("Principal",Principal);
             for(var i = 0; i < Telefonos.length; i++){
                 formData.append("Telefonos[]", encodeURIComponent(Telefonos[i]));
             }
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    var sel = document.getElementById("dynamic");
-                    while (sel.firstChild) {
-                        sel.removeChild(sel.firstChild);
-                    }
-                    $('#dynamic').selectric();
-                    $('#dynamic').append('<option selected value ="">Seleccione...</option>');
-                    $('#dynamic').selectric('refresh');
+                    document.querySelector("#lis_tel").innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
                     var toast = document.getElementById("toastProveedor");
                     toast.setAttribute("data-autohide","false");

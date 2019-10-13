@@ -12,14 +12,13 @@ namespace SGLibreria.Pages.Proveedores
         public Proveedor Proveedor { get; set; }
         [BindProperty]
         public string[] Telefonos { get; set; }
-        [BindProperty]
-        public string Principal { get; set; }
         public RegistroProveedorModel(AppDbContext context)
         {
             _context = context;
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            var tamtel = Telefonos.Length;
             this.Proveedor.Estado = (sbyte)1;
             if (!ModelState.IsValid)
             {
@@ -29,34 +28,25 @@ namespace SGLibreria.Pages.Proveedores
             {
                 Proveedor.Enlace = "http://" + Proveedor.Enlace;
             }
-            _context.Proveedores.Add(Proveedor);
-            await _context.SaveChangesAsync();
-            Telefono telefono;
-            for(var i = 0 ; i < Telefonos.Length ; i++)
-            {
+            this._context.Proveedores.Add(Proveedor);
+            await this._context.SaveChangesAsync();
+            if(tamtel > 0){
+                Telefono telefono;
                 telefono = new Telefono();
                 telefono.IdProveedor = this.Proveedor.Id;
-                telefono.Numero = Telefonos[i];
-                if(i > 0){
-                    if(!Telefonos[i].Equals(Telefonos[i-1])){
-                        if(Telefonos[i].Equals(this.Principal)){
-                            telefono.Principal = (sbyte) 1;
-                        }else{
-                            telefono.Principal = (sbyte) 0;
-                        }
-                        await this._context.Telefonos.AddAsync(telefono);
-                    }else{
-                        continue;
-                    }
-                }else{
-                    if(Telefonos[i].Equals(this.Principal)){
-                        telefono.Principal = (sbyte) 1;
-                    }else{
-                        telefono.Principal = (sbyte) 0;
-                    }
+                telefono.Numero = Telefonos[0];
+                telefono.Principal = (sbyte) 1;
+                await this._context.Telefonos.AddAsync(telefono);
+                for(var i = 1 ; i < Telefonos.Length ; i++)
+                {
+                    telefono = new Telefono();
+                    telefono.IdProveedor = this.Proveedor.Id;
+                    telefono.Numero = Telefonos[i];
+                    telefono.Principal = (sbyte) 0;
+                    await this._context.Telefonos.AddAsync(telefono);
                 }
+                await this._context.SaveChangesAsync();
             }
-            await this._context.SaveChangesAsync();
             return Page();
         }
     }
