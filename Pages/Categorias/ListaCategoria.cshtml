@@ -1,5 +1,6 @@
 @page
 @model Categorias.ListaCategoriaModel;
+@using SGLibreria.Models;
 @{
 ViewData["Title"] = "Registro y Lista de Categorías";
 }
@@ -16,14 +17,16 @@ ViewData["Title"] = "Registro y Lista de Categorías";
 
                 <div class="col-lg-10 offset-1">
 
-                    <form class="mt-4">
+                    <form class="mt-4" method="post">
                         <div class="form-group row">
                             <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span
                                     class="font-weight-bold text-danger">*</span></label>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" id="Nombre" aria-describedby="emailHelp"
+                                <input asp-for="Categoria.Nombre" type="text" class="form-control" id="Nombre" aria-describedby="emailHelp"
                                     placeholder="Libros">
-
+                                <input asp-for="Categoria.Estado" type="hidden" class="form-control" id="Estado" aria-describedby="emailHelp"
+                                    value="1">
+                                <input asp-for="Categoria.Id" type="hidden" class="form-control" id="Id" aria-describedby="emailHelp">
                             </div>
                             <div class="col-lg-3">
 
@@ -72,28 +75,30 @@ ViewData["Title"] = "Registro y Lista de Categorías";
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Libros</td>
-                            <td><a href="#" class='btn btn-sm btn-outline-success'><i class="fas fa-pencil-alt"></i></a>
+                        @{
+                            int i, len=Model.Categorias.Count;
+                            Categoria c;
+                        }
+                        @for(i=0; i<len; i++){
+                            c = Model.Categorias[i];
+                            <tr>
+                            <td>@c.Nombre</td>
+                            <td><a href="/Categorias/ListaCategoria?Id=@c.Id" class='btn btn-sm btn-outline-success'><i class="fas fa-pencil-alt"></i></a>
                             </td>
                             <td>
                                 <span class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" checked>
-                                    <label class="custom-control-label">Habilitada</label>
+                                    @if(c.Estado == 1){
+                                        <input type="checkbox" class="custom-control-input" checked>
+                                        <label class="custom-control-label">Habilitada</label>
+                                    }else{
+                                        <input type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label">Deshabilitada</label>
+                                    }
                                 </span>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Papeleria</td>
-                            <td><a href="#" class='btn btn-sm btn-outline-success'><i class="fas fa-pencil-alt"></i></a>
-                            </td>
-                            <td>
-                                <span class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" checked>
-                                    <label class="custom-control-label">Habilitada</label>
-                                </span>
-                            </td>
-                        </tr>
+                        }
+                       
                     </tbody>
                 </table>
             </div>
