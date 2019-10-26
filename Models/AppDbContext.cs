@@ -168,7 +168,7 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Logo)
                     .IsRequired()
-                    .HasColumnType("text");
+                    .HasColumnType("varchar(256)");
 
                 entity.Property(e => e.NombreInstitucion)
                     .IsRequired()
