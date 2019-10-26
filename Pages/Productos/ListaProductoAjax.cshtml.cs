@@ -20,6 +20,7 @@ namespace SGLibreria.Pages.Productos
         public int Pagina {get;set;}
         public int CantidadPorFila {get;set;}
         public int Maximo {get;set;}
+        public string NombreOCodigo { get; set;}
         public ListaProductoAjaxModel(AppDbContext context) {
             this.Pagina = 0;
             this.CantidadPorFila = 6;
@@ -27,10 +28,10 @@ namespace SGLibreria.Pages.Productos
             _context = context;
         }
 
-        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo) {
+        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo) {
             this.Productos = _context.Productos
             .Include(x=>x.IdImagenNavigation)
-            .Include(y=>y.Productoprecioventa)
+            .ThenInclude(x=>x.IdRutaNavigation)
             .ToList();
             return Page();
         }

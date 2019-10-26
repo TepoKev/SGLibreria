@@ -23,66 +23,9 @@ ViewData["Title"] = "Lista de Productos";
   #productos-seleccionados:hover {}
 </style>
 <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
-
-  <div class="col-lg-12" id='productos'>
-    <div class="mt-2">
-      @{
-      Producto obj;
-      int i,j;
-      }
-      @for ( i = 0; i < Model.Productos.Count; i++) { <div class="card-group">
-        @for( j = 0;j < 6 && i<Model.Productos.Count; j++) { obj=Model.Productos[i+j]; <div class="card">
-          <div class="card-title mt-3 mx-2">
-            <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-          </div>
-          <div class="card-img-top">
-            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-          </div>
-          <div class="card-body">
-            <p class="card-text"></p>
-          </div>
-          <div class="card-footer">
-            <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-            <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i
-                class="fas fa-pencil-alt"></i></a>
-          </div>
-    </div>
-    }
-
-
-  </div>
-  i = i + j -1;
-  }
-
-
-  @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
-  <div class="card-group">
-    @for( j = 0;j < 6 && i>=0; j++) {
-      obj = Model.Productos[i-j];
-      <div class="card">
-        <div class="card-title mt-3 mx-2">
-          <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-        </div>
-        <div class="card-img-top">
-          <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-        </div>
-        <div class="card-body">
-          <p class="card-text"></p>
-        </div>
-        <div class="card-footer">
-          <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-          <a href="#" class="font-weight-bold text-success" data-toggle="modal" data-target="#modalProducto"><i
-              class="fas fa-pencil-alt"></i></a>
-        </div>
-      </div>
-      }
-
-
-  </div>
-  i = i - j +1;
-  }
-</div><!-- .mt-2-->
-</div><!-- #productos -->
+  <div class="col-lg-12 mt-2" id='productos'>
+    
+  </div><!-- #productos -->
 <!--columna de productos-->
 </div>
 
@@ -268,7 +211,7 @@ ViewData["Title"] = "Lista de Productos";
 @section Scripts {
 <link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
-<script src="~/js/busqueda.js"></script>
+<script src="~/js/sgl.js"></script>
 <script>
     $(function () {
         $('select').selectric();
@@ -282,5 +225,11 @@ ViewData["Title"] = "Lista de Productos";
         // Refresh Selectric
         $('#dynamic').selectric('refresh');
     });
+    (function () {
+      sgl.get('ListaProductoAjax', function (data) {
+      var divProductos = document.querySelector('#productos');
+      divProductos.innerHTML = data;
+    });
+    })();
 </script>
 }
