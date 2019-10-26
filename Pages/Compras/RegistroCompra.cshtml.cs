@@ -9,55 +9,14 @@ namespace SGLibreria.Pages.Compras {
         private readonly AppDbContext _context;
         public List<Producto> Productos { get; set; }
         public RegistroCompraModel (AppDbContext context) {
-            _context = context;
-
-            Productos = new List<Producto> {
-                new Producto {
-                Nombre = "Borradores",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/borradores.jpg"
-                }
-
-                },
-                new Producto {
-                Nombre = "Colores",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/colores.jpg"
-                }
-                },
-                new Producto {
-                Nombre = "Cuadernos",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/cuaderno.jpg"
-                }
-                },
-                new Producto {
-                Nombre = "Lapiceros",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/lapiceros.jpg"
-                }
-                },
-                new Producto {
-                Nombre = "Borradores",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/borradores.jpg"
-                }
-
-                },
-                new Producto {
-                Nombre = "Colores",
-                IdImagenNavigation = new Imagen {
-                Nombre = "/Productos/colores.jpg"
-                }
-                }
-            };
+            _context = context;            
         }
 
         [BindProperty]
         public Compra Compra { get; set; }
-
         [BindProperty]
-
+        public Producto Producto { get; set; }
+        [BindProperty]
         public Proveedor Proveedor { get; set; }
 
         public async Task<IActionResult> OnPostAsync () {
@@ -70,6 +29,11 @@ namespace SGLibreria.Pages.Compras {
             _context.Proveedores.Add (Proveedor);
             await _context.SaveChangesAsync ();
             return RedirectToPage ("/Proveedores/RegistroProveedor");
+        }
+        public async Task<JsonResult> OnPostAgregarProducto(Producto Producto){
+            _context.Productos.Add(Producto);
+            await _context.SaveChangesAsync();
+            return new JsonResult(Producto);
         }
 
         public void OnGet () {
