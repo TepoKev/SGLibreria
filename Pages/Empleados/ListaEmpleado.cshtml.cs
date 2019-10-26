@@ -10,7 +10,7 @@ namespace SGLibreria.Pages.Empleados
     public class ListaEmpleadoModel : PageModel
     {
         private readonly AppDbContext _context;
-        public List<Persona> Personas {get;set;}
+        public List<Empleado> Empleados {get;set;}
 
         public ListaEmpleadoModel(AppDbContext context)
         {
@@ -19,7 +19,7 @@ namespace SGLibreria.Pages.Empleados
 
         public async Task OnGet()
         {
-            this.Personas = await this._context.Personas.Include(p => p.Empleado).ThenInclude(e => e.Usuario).ToListAsync();
+            this.Empleados = await this._context.Empleados.Include(e => e.IdPersonaNavigation).Include(e => e.IdUsuarioNavigation).ToListAsync();
         }
     }
 }

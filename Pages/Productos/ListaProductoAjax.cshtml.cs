@@ -30,7 +30,7 @@ namespace SGLibreria.Pages.Productos
         public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo) {
             this.Productos = _context.Productos
             .Include(x=>x.IdImagenNavigation)
-            .Include(y=>y.Productoprecioventa)
+            //.Include(y=>y.Productoprecioventa)
             .ToList();
             return Page();
         }
