@@ -6,21 +6,31 @@
     Layout = null;
 }
 @{
-Producto obj1;
+Producto obj;
 int i,j;
+string imagen, ruta;
 }
 @for ( i = 0; i < Model.Productos.Count; i++) { 
     <div class="card-group">
     @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) { 
-        obj1 = Model.Productos[i+j]; 
+        obj = Model.Productos[i+j]; 
         <div class="card">
         <div class="card-title mt-3 mx-2">
-            <h5 class="m-0 p-0"> @obj1.Nombre 
-                <span class="badge badge-primary">@obj1.StockMinimo</span>
+            <h5 class="m-0 p-0"> @obj.Nombre 
+                <span class="badge badge-primary">@obj.StockMinimo</span>
             </h5>
         </div>
         <div class="card-img-top">
-            <img src="@obj1.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
+        @{
+            if (obj.IdImagenNavigation == null) {
+                ruta = "";
+                imagen = "";
+            } else {
+                ruta = @obj.IdImagenNavigation.IdRutaNavigation.Nombre;
+                imagen = @obj.IdImagenNavigation.Nombre;
+            }
+            <img src = "/@ruta/@imagen" class="img-fluid" alt = "@obj.Nombre">
+        }
         </div>
         <div class="card-body">
             <p class="card-text"></p>
@@ -30,9 +40,9 @@ int i,j;
                 $0.25</small>
         </div>
         </div>
-        }
+    }
 
 
         </div>
-        i = i + j -1;
-        }
+    i = i + j - 1;
+}

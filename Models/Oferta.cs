@@ -14,7 +14,6 @@ namespace SGLibreria.Models
         public double Descuento { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        public sbyte Estado { get; set; }
 
         public virtual ICollection<Ofertaproducto> Ofertaproducto { get; set; }
     }

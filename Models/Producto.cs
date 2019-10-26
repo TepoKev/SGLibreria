@@ -7,9 +7,9 @@ namespace SGLibreria.Models
     {
         public Producto()
         {
-            Detallecompra = new HashSet<Detallecompra>();
             Ofertaproducto = new HashSet<Ofertaproducto>();
-            Productoprecioventa = new HashSet<Productoprecioventa>();
+            Preciocompra = new HashSet<Preciocompra>();
+            Precioventa = new HashSet<Precioventa>();
         }
 
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace SGLibreria.Models
         public int IdCategoria { get; set; }
         public int? IdImagen { get; set; }
         public string Nombre { get; set; }
-        public string Marca { get; set; }
+        public int IdMarca { get; set; }
         public string Descripcion { get; set; }
         public int StockMinimo { get; set; }
         public sbyte Estado { get; set; }
@@ -25,8 +25,9 @@ namespace SGLibreria.Models
 
         public virtual Categoria IdCategoriaNavigation { get; set; }
         public virtual Imagen IdImagenNavigation { get; set; }
-        public virtual ICollection<Detallecompra> Detallecompra { get; set; }
+        public virtual Marca IdMarcaNavigation { get; set; }
         public virtual ICollection<Ofertaproducto> Ofertaproducto { get; set; }
-        public virtual ICollection<Productoprecioventa> Productoprecioventa { get; set; }
+        public virtual ICollection<Preciocompra> Preciocompra { get; set; }
+        public virtual ICollection<Precioventa> Precioventa { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace SGLibreria.Models
         public int Cantidad { get; set; }
         public int IdTipoServicio { get; set; }
 
-        public virtual Servicio IdTipoServicioNavigation { get; set; }
+        public virtual Tiposervicio IdTipoServicioNavigation { get; set; }
         public virtual Venta IdVentaNavigation { get; set; }
     }
 }

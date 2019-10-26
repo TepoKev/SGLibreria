@@ -30,11 +30,11 @@ namespace SGLibreria.Pages.Empleados
             }
             await this._context.Personas.AddAsync(this.Persona);
             await this._context.SaveChangesAsync();
-            this.Empleado.IdPersona = this.Persona.Id;
-            await this._context.Empleados.AddAsync(this.Empleado);
-            await this._context.SaveChangesAsync();
-            this.Usuario.IdEmpleado = this.Empleado.Id;
             await this._context.Usuarios.AddAsync(this.Usuario);
+            await this._context.SaveChangesAsync();
+            this.Empleado.IdPersona = this.Persona.Id;
+            this.Empleado.IdUsuario = this.Usuario.Id;
+            await this._context.Empleados.AddAsync(this.Empleado);
             await this._context.SaveChangesAsync();
             return Page();
         }

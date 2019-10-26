@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SGLibreria.Models
 {
-    public partial class Precioventa
+    public partial class Preciocompra
     {
-        public Precioventa()
+        public Preciocompra()
         {
-            Detalleventa = new HashSet<Detalleventa>();
+            Detallecompra = new HashSet<Detallecompra>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace SGLibreria.Models
         public int IdProducto { get; set; }
 
         public virtual Producto IdProductoNavigation { get; set; }
-        public virtual ICollection<Detalleventa> Detalleventa { get; set; }
+        public virtual ICollection<Detallecompra> Detallecompra { get; set; }
     }
 }

@@ -9,6 +9,5 @@ namespace SGLibreria.Models
         public string NombreInstitucion { get; set; }
         public string Logo { get; set; }
         public int TiempoSesion { get; set; }
-        public string Descripcion { get; set; }
     }
 }

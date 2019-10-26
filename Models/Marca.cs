@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace SGLibreria.Models
 {
-    public partial class Categoria
+    public partial class Marca
     {
-        public Categoria()
+        public Marca()
         {
             Producto = new HashSet<Producto>();
         }
 
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public sbyte Estado { get; set; }
+        public string Marca1 { get; set; }
 
         public virtual ICollection<Producto> Producto { get; set; }
     }
