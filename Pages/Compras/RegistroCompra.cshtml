@@ -22,7 +22,7 @@ ViewData["Title"] = "Registro Compras";
     #productos-seleccionados:hover {}
 </style>
 
-<form class="container-fluid ">
+<form class="container-fluid " id="registroCompra">
 
     <div class="user" method="post">
         <div class="row">
@@ -34,27 +34,29 @@ ViewData["Title"] = "Registro Compras";
                     <div class="col-lg-6 pt-2" style="align-content: flex-end;">
                         <div class="form-group pt-2">
                             <div class="btn btn-group">
-                                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                <button type="button" class="btn btn-outline-success" data-toggle="modal"
                                     data-target="#modalProveedor">Registrar Proveedor</button>
                                 <button type="button" class="btn btn-outline-success" data-toggle="modal"
                                     data-target="#modalCategoria">Registrar Categoría</button>
+                                <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                    data-target="#modalMarca">Registrar Marca</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row m-2 px-4 pt-2 rounded">
+                <div class="form-group row m-2 pt-2 rounded">
                     <label for="cfecha" class="col-lg-1 font-weight-bold col-form-label">Fecha</label>
-                    <div class="col-lg-3 pt-1">
-                        <input type="date" class="form-control form-control-user mb-2" id="cfecha">
+                    <div class="col-lg-4 pt-1">
+                        <input type="datetime-local" class="form-control form-control-user mb-2" id="cfecha">
                     </div>
-                    <label for="cproveedor"
-                        class="offset-lg-1 col-lg-1 col-form-label font-weight-bold ">Proveedor</label>
-                    <div class="offset-lg-1 form-group col-lg-5 ml-5 pt-2" id="cproveedor">
-                        <select>
-                            <option disabled>-- Seleccione --</option>
-                            <option value="">Libreria Miriam</option>
-                        </select>
-                    </div>
+                    <label for="cproveedor" class="col-lg-1 col-form-label font-weight-bold ">Proveedor</label>
+                    <input type="text" list="items" class="offset-lg-1 form-group col-lg-5 ml-5 pt-2 form-control"
+                        id="cproveedor">
+                    <!-- Lista de opciones -->
+                    <datalist id="items">
+                        <option value="-- Seleccione --" disabled>Libreria Miriam</option>
+                        <option>Libreria Miriam</option>
+                    </datalist>
                 </div>
 
 
@@ -70,7 +72,7 @@ ViewData["Title"] = "Registro Compras";
                     <div class="col-lg-9 pt-2">
                         <div class="form-group pt-2">
                             <div class="btn btn-group">
-                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalProducto">Registrar Producto</button>
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalDocumento">Agregar Comprobante</button>
@@ -79,51 +81,29 @@ ViewData["Title"] = "Registro Compras";
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <table class="table table-sm table-hover bg-white" name="TablaVenta">
+                    <div class="col" id="compras">
+                        <table id="tablaCompra" class="table table-sm table-hover bg-white" name="TablaVenta">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Cantidad</th>
-                                    <th scope="col">Precio Unitario</th>
                                     <th scope="col">Precio Total</th>
+                                    <th scope="col">Precio Unitario</th>
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Cuaderno Scribe</td>
-                                    <td>30</td>
-                                    <td>$ 1.00</td>
-                                    <td>$ 3.00</td>
-                                    <td><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
-                                                class="fas fa-trash"></i></a>
-                                        <a href="#" class="text-success font-weight-bold" title="Editar"><i
-                                                class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lapiz</td>
-                                    <td>50</td>
-                                    <td>$ 0.25</td>
-                                    <td>$ 2.25</td>
-                                    <td>
-                                        <a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
-                                                class="fas fa-trash"></i></a>
-                                        <a href="#" class="text-success font-weight-bold" title="Editar"><i
-                                                class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h4 class="font-weight-bold">Total</h4>
-                                    </td>
-                                    <td></td>
-                                    <td class="font-weight-bold">$ 1.25</td>
-                                    <td class="font-weight-bold">$ 5.25</td>
-                                    <td></td>
-                                </tr>
+                            <tbody id="tablaCompraFilas">
+
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>0.00</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -133,12 +113,12 @@ ViewData["Title"] = "Registro Compras";
         <div class="row">
             <div class=" offset-lg-5 col-lg-6">
                 <div class="form-group pt-2">
-                        <div class="btn btn-group">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Registrar</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cancelar</button>
-                        </div>
+                    <div class="btn btn-group">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnRegistrarCompra"><i class="fas fa-save"> </i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                            id="btnCancelarCompra"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,69 +145,74 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                        <label>Campos obligatorios *</label>
-                    </div>
+                    <form id="registroProveedor">
 
-                    <div class="form-group row">
-                        <label for="pnombre"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="pnombre"
-                                placeholder="Libreria Miriam">
+                        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                            <label>Campos obligatorios *</label>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdireccion"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Direccion*</label>
-                        <div class="col-lg-7">
-                            <textarea class="form-control" id="pdireccion" rows="3"
-                                placeholder="Final Av. Crescencio Miranda"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="ptelefono"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*</label>
-                        <div class="col-lg-7">
-                            <select id="dynamic">
-                                <option disabled>-- Seleccione --</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-lg-4 col-lg-4">
-                            <input type="text" class="form-control" id="add_val" name="add_val">
-                        </div>
-                        <div class="col-lg-3">
-                            <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i
-                                    class="fas fa-plus"></i> Agregar</button>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pcorreo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Correo
-                            electronico</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="pcorreo" placeholder="example@gmail.com">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="penlace" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Enlace a red
-                            social</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="penlace" placeholder="www.ejemplo.com">
-                        </div>
-                    </div>
 
+                        <div class="form-group row">
+                            <label for="pnombre"
+                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control form-control-user mb-2" id="pnombre"
+                                    placeholder="Libreria Miriam">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="pdireccion"
+                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Direccion*</label>
+                            <div class="col-lg-7">
+                                <textarea class="form-control" id="pdireccion" rows="3"
+                                    placeholder="Final Av. Crescencio Miranda"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ptelefono"
+                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*</label>
+                            <div class="col-lg-7">
+                                <select id="dynamic">
+                                    <option disabled>-- Seleccione --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-lg-4 col-lg-4">
+                                <input type="text" class="form-control" id="add_val" name="add_val">
+                            </div>
+                            <div class="col-lg-3">
+                                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i
+                                        class="fas fa-plus"></i> Agregar</button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="pcorreo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Correo
+                                electronico</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" id="pcorreo" placeholder="example@gmail.com">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="penlace" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Enlace a
+                                red
+                                social</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" id="penlace" placeholder="www.ejemplo.com">
+                            </div>
+                        </div>
+
+
+                    </form>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                        <div class="btn btn-group">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Registrar</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cancelar</button>
-                        </div>
+                    <div class="btn btn-group">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnRegistrarProveedor"><i class="fas fa-save"> </i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                            id="btnCancelarProveedor"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                    </div>
                 </div>
 
             </div>
@@ -253,29 +238,80 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                        <label>Campos obligatorios *</label>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="ctnombre"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="pnombre"
-                                placeholder="Libros">
+                    <form id="registroCategoria">
+                        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                            <label>Campos obligatorios *</label>
                         </div>
-                    </div>
+
+                        <div class="form-group row">
+                            <label for="ctnombre"
+                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control form-control-user mb-2" id="pnombre"
+                                    placeholder="Libros">
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                        <div class="btn btn-group">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Registrar</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cancelar</button>
+                    <div class="btn btn-group">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnRegistrarCategoria"><i class="fas fa-save"> </i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                            id="btnCancelarCategoria"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="user" method="post">
+
+    <div class="modal fade" id="modalMarca" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title">Registro de Marca</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="registroMarca">
+                        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                            <label>Campos obligatorios *</label>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="mnombre"
+                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control form-control-user mb-2" id="mnombre"
+                                    placeholder="Facela">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <div class="btn btn-group">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnRegistrarMarca"><i class="fas fa-save"> </i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                            id="btnCancelarMarca"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                    </div>
                 </div>
 
             </div>
@@ -301,37 +337,40 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <br>
-                    <div class="form-group row">
-                        <label for="docimagen" class="px-4 col-lg-4 col-form-label font-weight-bold">Seleccione
-                            Documento</label>
-                        <div class="col-lg-7">
+                    <form id="documentoImagen">
+                        <br>
+                        <div class="form-group row">
+                            <label for="docimagen" class="px-4 col-lg-4 col-form-label font-weight-bold">Seleccione
+                                Documento</label>
+                            <div class="col-lg-7">
 
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="docimagen">
-                                <label class="custom-file-label" name="docimagen" for="docimagen">Seleccione..</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="docimagen">
+                                    <label class="custom-file-label" name="docimagen"
+                                        for="docimagen">Seleccione..</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    ​
-                    <div id="imagePreviewDocument">
-                        <br>
-                        <br>
-                        <h5 class="text-lg-center">Vista Previa</h5>
-                        <br>
-                        <br>
-                    </div>
+                        ​
+                        <div id="imagePreviewDocument">
+                            <br>
+                            <br>
+                            <h5 class="text-lg-center">Vista Previa</h5>
+                            <br>
+                            <br>
+                        </div>
+                    </form>
 
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                        <div class="btn btn-group">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-                                    class="fas fa-save"> </i> Agregar</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                                    class="fas fa-times-circle"> </i> Cancelar</button>
-                        </div>
+                    <div class="btn btn-group">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnAgregarDocumento"><i class="fas fa-save"> </i> Agregar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                            id="btnCancelarDocumento"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                    </div>
                 </div>
 
             </div>
@@ -354,255 +393,245 @@ ViewData["Title"] = "Registro Compras";
             </div>
             <div class="modal-body">
 
-                <div class="" id='productos'>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                aria-controls="home" aria-selected="true">Nuevo Producto </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                aria-controls="profile" aria-selected="false">Producto Antiguo</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
+                <form method="post" id="registroProductos">
+                    <div class="" id='productos'>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true">Nuevo Producto </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">Producto Antiguo</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
+                                aria-labelledby="home-tab">
 
-                            <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                                <label>Campos obligatorios *</label>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="pdnombre"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                                <div class="col-lg-7">
-                                    <input type="text" class="form-control form-control-user mb-2" id="pdnombre"
-                                        placeholder="Lapicero">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdmarca"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
-                                <div class="col-lg-7">
-                                    <input type="text" class="form-control form-control-user mb-2" id="pdmarca"
-                                        placeholder="Facela">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdcodigo"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
-                                <div class="col-lg-7">
-                                    <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdcategoria"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
-                                <div class="col-lg-7">
-                                    <select class="custom-select form-control" id="pdcategoria">
-                                        <option disabled>-- Seleccione categoría --</option>
-                                        <option value="1">Papeleria</option>
-                                        <option value="2">Colores</option>
-                                        <option value="3">Lapiceros</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pddireccion"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
-                                <div class="col-lg-7">
-                                    <textarea class="form-control" id="pddireccion" rows="3"
-                                        placeholder="Lapicedo color morado con bordes"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdstock"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-                                    mínima*</label>
-                                <div class="col-lg-7">
-                                    <input type="number" class="form-control" id="pdstock" value="10">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
-                                    vencimiento</label>
-                                <div class="col-lg-7">
-                                    <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pdimagen"
-                                    class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-                                    foto</label>
-                                <div class="col-lg-7">
-
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="pdimagen">
-                                        <label class="custom-file-label" name="pdimagen"
-                                            for="pdimagen">Seleccione..</label>
-                                    </div>
-                                </div>
-                            </div>
-                            ​
-                            <div id="imagePreview">
-                                <br>
-                                <br>
-                                <h5 class="text-lg-center">Vista Previa</h5>
-                                <br>
-                                <br>
-                            </div>
-                        </div><!-- Productos-->
-
-                        <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                data-target="#collapseOne" aria-expanded="false"
-                                                aria-controls="collapseOne">
-                                                Selecciona un producto
-                                            </button>
-                                        </h2>
+                                <form id="formProductoNuevo">
+                                    <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                                        <label>Campos obligatorios *</label>
                                     </div>
 
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="row col-lg-6">
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Nombre o código de producto"
-                                                            aria-describedby="button-addon2">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-primary" type="button"><i
-                                                                    class="fas fa-search"></i></button>
+                                    <div class="form-group row">
+                                        <label for="pdnombre"
+                                        asp-for="Producto.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                        <div class="col-lg-7">
+                                            <input asp-for="Producto.Nombre" type="text"
+                                                class="form-control form-control-user mb-2" id="pdnombre"
+                                                placeholder="Lapicero">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdmarca"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                                        <div class="col-lg-7">
+                                            <select asp-for="Producto.IdCategoria" class="custom-select form-control"
+                                                id="pdmarca">
+                                                <option disabled>-- Seleccione marca --</option>
+                                                <option value="1">Facela</option>
+                                                <option value="2">Norma</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdcodigo"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                                        <div class="col-lg-7">
+                                            <input asp-for="Producto.Codigo" type="text" class="form-control"
+                                                id="pdcodigo" placeholder="LF0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdcategoria"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                                        <div class="col-lg-7">
+                                            <select asp-for="Producto.IdCategoria" class="custom-select form-control"
+                                                id="pdcategoria">
+                                                <option disabled>-- Seleccione categoría --</option>
+                                                <option value="1">Papeleria</option>
+                                                <option value="2">Colores</option>
+                                                <option value="3">Lapiceros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pddireccion"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
+                                        <div class="col-lg-7">
+                                            <textarea asp-for="Producto.Descripcion" class="form-control"
+                                                id="pddireccion" rows="3"
+                                                placeholder="Lapicedo color morado con bordes"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdstock"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+                                            mínima*</label>
+                                        <div class="col-lg-7">
+                                            <input asp-for="Producto.StockMinimo" type="number" class="form-control"
+                                                id="pdstock" placeholder="10">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdfecha"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                                            vencimiento</label>
+                                        <div class="col-lg-7">
+                                            <input asp-for="Producto.FechaVencimiento" type="date" class="form-control"
+                                                id="pdfecha" placeholder="LF0001">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pdimagenNuevo"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                                            foto</label>
+                                        <div class="col-lg-7">
+
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="pdimagenNuevo">
+                                                <label class="custom-file-label" name="pdimagenNuevo"
+                                                    for="pdimagenNuevo">Seleccione..</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    ​
+                                    <div id="imagePreviewNuevo">
+                                        <br>
+                                        <br>
+                                        <h5 class="text-lg-center">Vista Previa</h5>
+                                        <br>
+                                        <br>
+                                    </div>
+                                </form>
+                            </div><!-- Productos-->
+
+                            <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel"
+                                aria-labelledby="profile-tab">
+
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                    data-target="#collapseOne" aria-expanded="false"
+                                                    aria-controls="collapseOne">
+                                                    Selecciona un producto
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="row col-lg-6">
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Nombre o código de producto"
+                                                                aria-describedby="button-addon2">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-primary" type="button"><i
+                                                                        class="fas fa-search"></i></button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-lg-12" id='productos'>
-                                                    <div class="mt-2">
-                                                        @{
-                                                        Producto obj1;
-                                                        int i,j;
-                                                        }
-                                                        @for ( i = 0; i < Model.Productos.Count-1; i++) { <div
-                                                            class="card-group">
-                                                            @for( j = 0;j < 5 && i<Model.Productos.Count; j++) {
-                                                                obj1=Model.Productos[i+j]; <div class="card">
-                                                                <div class="card-title mt-3 mx-2">
-                                                                    <h5 class="m-0 p-0">@obj1.Nombre<span
-                                                                            class="badge badge-primary">50</span></h5>
-                                                                </div>
-                                                                <div class="card-img-top">
-                                                                    <img src="@obj1.IdImagenNavigation.Nombre"
-                                                                        class="img-fluid" alt="...">
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    <p class="card-text"></p>
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <small
-                                                                        class="font-weight-bold text-primary h6">Precio:
-                                                                        $0.25</small>
-                                                                </div>
-                                                    </div>
-                                                    }
+                                                    <div class="col-lg-12">
+                                                        <form id='productosAjax'>
+                                                            <br>
+                                                            <!-- Aqui iran los productos -->
 
+                                                        </form>
+
+                                                    </div><!-- #productos -->
 
                                                 </div>
-                                                i = i + j - 1;
-                                                }
-
-                                            </div><!-- .mt-2-->
-                                        </div><!-- #productos -->
-
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                        <label>Campos obligatorios *</label>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="pdnombre1"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="pdnombre1"
-                                value="Lapicero" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdmarca1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="pdmarca1" value="Facela"
-                                disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdcodigo1"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="pdcodigo1" value="-----" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdcategoria1"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoria</label>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="pdcategoria1" value="Papeleria" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pddireccion1"
-                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
-                        <div class="col-lg-7">
-                            <textarea class="form-control" id="pddireccion1" rows="3"
-                                disabled>Lapicedo color morado con bordes</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdstock1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-                            mínima</label>
-                        <div class="col-lg-7">
-                            <input type="number" class="form-control" id="pdstock1" value="10" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
-                            vencimiento</label>
-                        <div class="col-lg-7">
-                            <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-                            foto</label>
-                        <div class="col-lg-7">
 
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="pdimagen">
-                                <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
-                            </div>
-                        </div>
-                    </div>
-                    ​
-                    <div id="imagePreview">
-                        <br>
-                        <br>
-                        <h5 class="text-lg-center">Vista Previa</h5>
-                        <br>
-                        <br>
-                    </div>
+                                <div class="form-group row pt-3">
+                                    <label for="pdnombre1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre</label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control form-control-user mb-2" id="pdnombre1"
+                                            value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdmarca1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca</label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control form-control-user mb-2" id="pdmarca1"
+                                            value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdcodigo1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control" id="pdcodigo1" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdcategoria1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoria</label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control" id="pdcategoria1" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pddescripcion1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
+                                    <div class="col-lg-7">
+                                        <textarea class="form-control" id="pddescripcion1" rows="3" disabled></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdstock1"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
+                                        mínima</label>
+                                    <div class="col-lg-7">
+                                        <input type="number" class="form-control" id="pdstock1" value="" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdfecha"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                                        vencimiento</label>
+                                    <div class="col-lg-7">
+                                        <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdimagenAntiguo"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                                        foto</label>
+                                    <div class="col-lg-7">
 
-                </div><!-- Servicios -->
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="pdimagenAntiguo">
+                                            <label class="custom-file-label" name="pdimagenAntiguo"
+                                                for="pdimagenAntiguo">Seleccione..</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                ​
+                                <div id="imagePreviewAntiguo">
+                                    <br>
+                                    <br>
+                                    <h5 class="text-lg-center">Vista Previa</h5>
+                                    <br>
+                                    <br>
+                                </div>
+
+                            </div><!-- Servicios -->
+                </form>
             </div>
 
 
@@ -610,9 +639,9 @@ ViewData["Title"] = "Registro Compras";
 
         <div class="modal-footer">
             <div class="btn btn-group">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnAgregarProducto"><i
                         class="fas fa-save"> </i> Agregar</button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarProducto"><i
                         class="fas fa-times-circle"> </i> Cancelar</button>
             </div>
         </div>
@@ -627,6 +656,127 @@ ViewData["Title"] = "Registro Compras";
 <link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/busqueda.js"></script>
+<script src="~/js/sgl.js"></script>
+
+<script>
+    //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
+    //var btnCancelar = document.querySelector('#btnCancelarProducto');
+    var btnCancelarProducto = document.getElementById('btnCancelarProducto');
+    var limpiarProducto = function (e) {
+        sgl.clearForm(document.querySelector('#registroProductos'));
+        var btnLimpiar = document.getElementById('imagePreviewNuevo');
+        btnLimpiar.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+        var btnLimpiar1 = document.getElementById('imagePreviewAntiguo');
+        btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+    }
+    btnCancelarProducto.addEventListener('click', limpiarProducto);
+
+    var btnCancelarProveedor = document.getElementById('btnCancelarProveedor');
+    var limpiarProveedor = function (e) {
+        sgl.clearForm(document.querySelector('#registroProveedor'));
+    }
+    btnCancelarProveedor.addEventListener('click', limpiarProveedor);
+
+    var btnCancelarCategoria = document.getElementById('btnCancelarCategoria');
+    var limpiarCategoria = function (e) {
+        sgl.clearForm(document.querySelector('#registroCategoria'));
+    }
+    btnCancelarCategoria.addEventListener('click', limpiarCategoria);
+
+    var btnCancelarCompra = document.getElementById('btnCancelarCompra');
+    var limpiarCompra = function (e) {
+        var btnLimpiar = document.getElementById('tablaCompraFilas');
+        btnLimpiar.innerHTML = "";
+        sgl.clearForm(document.querySelector('#registroCompra'));
+        sgl.clearForm(document.querySelector('#registroProductos'));
+        sgl.clearForm(document.querySelector('#registroCategoria'));
+        sgl.clearForm(document.querySelector('#registroProveedor'));
+        sgl.clearForm(document.querySelector('#documentoImagen'));
+
+        var btnLimpiar1 = document.getElementById('imagePreviewDocument');
+        btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+        var btnLimpiar2 = document.getElementById('imagePreviewNuevo');
+        btnLimpiar2.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+        var btnLimpiar3 = document.getElementById('imagePreviewAntiguo');
+        btnLimpiar3.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+    }
+    btnCancelarCompra.addEventListener('click', limpiarCompra);
+
+    var btnCancelarDocumento = document.getElementById('btnCancelarDocumento');
+    var limpiarDocumento = function (e) {
+        sgl.clearForm(document.querySelector('#documentoImagen'));
+        var btnLimpiar = document.getElementById('imagePreviewDocument');
+        btnLimpiar.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+    }
+    btnCancelarDocumento.addEventListener('click', limpiarDocumento);
+
+    ////funcion Ajax para recuperar productos miante un Form
+
+    $('#modalProducto').on('show.bs.modal', function (e) {
+        var productosAjax = new FormData(document.getElementById("productosAjax"));
+
+        sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
+            var elem = document.getElementById('productosAjax');
+            elem.innerHTML = data;
+        });
+    })
+
+    //funcion para agregar el producto a la tabla
+    var btnAgregarProducto = document.getElementById('btnAgregarProducto');
+
+    var AgregarProducto = function (e) {
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var td3 = document.createElement('td');
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+
+        var pdnombre = document.getElementById('pdnombre');
+        var pdmarca = document.getElementById('pdmarca');
+        var pdcodigo = document.getElementById('pdcodigo');
+        var pdcategoria = document.getElementById('pdcategoria');
+        var pddireccion = document.getElementById('pddireccion');
+        var pdstock = document.getElementById('pdstock');
+        var pdfecha = document.getElementById('pdfecha');
+        var pdimagenNuevo = document.getElementById('pdimagenNuevo');
+
+        var prod = {
+            nombre: pdnombre.value,
+            marca: pdmarca.value,
+            codigo: pdcodigo.value,
+            categoria: pdcategoria.value,
+            direccion: pddireccion.value,
+            stock: pdstock.value,
+            fecha: pdfecha.value,
+            imagen: pdimagenNuevo.value
+        }
+        td1.innerHTML = prod.nombre;
+        td2.innerHTML =
+            '<input type="number" placeholder="30" class="form form-control col-lg-5">';
+        td3.innerHTML =
+            '<input type="text" placeholder="30" class="form form-control col-lg-7">';
+        td4.innerHTML =
+            '<input type="text" placeholder="30" class="form form-control col-lg-7 " disabled>';
+        td5.innerHTML =
+            '<a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash" ></i></a>' +
+            '<a href="#" class="text-success font-weight-bold ml-2" title="Editar"><i class="fas fa-edit" ></i></a>';
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+
+        var tablaCompraFilas = document.getElementById('tablaCompraFilas');
+        tablaCompraFilas.appendChild(tr);
+        limpiarProducto();
+
+        
+        sgl.ajax('POST', 'RegistroCompra?handler=AgregarProducto', AgregarProducto, document.querySelector('#registroProductos'));
+    }
+    btnAgregarProducto.addEventListener('click', AgregarProducto);
+</script>
+
 <script>
     $(function () {
         $('select').selectric();
@@ -649,19 +799,33 @@ ViewData["Title"] = "Registro Compras";
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#imagePreview').html("<img src='" + e.target.result +
+                    $('#imagePreviewNuevo').html("<img src='" + e.target.result +
                         "' class='rounded mx-auto d-block img-fluid' style='width:250px' />");
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
-        $('#pdimagen').change(function () {
+        $('#pdimagenNuevo').change(function () {
             filePreview(this);
         });
     })();
-</script>
 
-<script type="text/javascript">
+    (function () {
+        function filePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreviewAntiguo').html("<img src='" + e.target.result +
+                        "' class='rounded mx-auto d-block img-fluid' style='width:250px' />");
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $('#pdimagenAntiguo').change(function () {
+            filePreview(this);
+        });
+    })();
+
     (function () {
         function filePreviewDocument(input) {
             if (input.files && input.files[0]) {
@@ -678,4 +842,5 @@ ViewData["Title"] = "Registro Compras";
         });
     })();
 </script>
+
 }
