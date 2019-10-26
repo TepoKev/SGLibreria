@@ -6,7 +6,7 @@ var sgl = {
                 callback(this.responseText);
             }
         };
-        xhttp.open("GET", url + params == undefined ? "" : params, true);
+        xhttp.open("GET", url + params == undefined ? "" : "?"+params, true);
         xhttp.send();
 
     },
@@ -18,7 +18,15 @@ var sgl = {
             }
         };
         xhttp.open("POST", url , true);
-        xhttp.send(params == undefined ? null : params);
+        if(params == undefined) {
+            xhttp.send();
+        } else {
+            var formData = new FormData(params);
+            var nombreToken = "_RequestVerificationToken";
+            var token = params.elements.namedItem(nombreToken);
+            xhttp.setRequestHeader(nombreToken, token);
+            xhttp.send(formData);
+        }
     },
     ajax: function (metodo, url, callback, params) {
         if (metodo.toUpperCase() == 'POST') {
