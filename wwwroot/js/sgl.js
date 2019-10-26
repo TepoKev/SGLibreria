@@ -6,7 +6,7 @@ var sgl = {
                 callback(this.responseText);
             }
         };
-        xhttp.open("GET", url, true);
+        xhttp.open("GET", url + params == undefined ? "" : params, true);
         xhttp.send();
 
     },
@@ -17,14 +17,14 @@ var sgl = {
                 callback(this.responseText);
             }
         };
-        xhttp.open("POST", url, true);
-        xhttp.send();
+        xhttp.open("POST", url , true);
+        xhttp.send(params == undefined ? null : params);
     },
     ajax: function (metodo, url, callback, params) {
         if (metodo.toUpperCase() == 'POST') {
-            this.post(url, callback);
+            this.post(url, callback, params);
         } else if (metodo.toUpperCase() == 'GET') {
-            this.get(url, callback);
+            this.get(url, callback, params);
         }
     },
     
@@ -57,6 +57,7 @@ var sgl = {
         }
     }
 };
+
 /*
 (function () {
     sgl.ajax('get', 'formulario.html', function (data) {
