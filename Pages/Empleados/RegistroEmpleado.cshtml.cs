@@ -24,8 +24,19 @@ namespace SGLibreria.Pages.Empleados
         {
         }
 
-        public void OnPost(){
-           
+        public async Task<IActionResult> OnPost(){
+            if(!ModelState.IsValid){
+                return NotFound();
+            }
+            await this._context.Personas.AddAsync(this.Persona);
+            await this._context.SaveChangesAsync();
+            this.Empleado.IdPersona = this.Persona.Id;
+            await this._context.Empleados.AddAsync(this.Empleado);
+            await this._context.SaveChangesAsync();
+            this.Usuario.IdEmpleado = this.Empleado.Id;
+            await this._context.Usuarios.AddAsync(this.Usuario);
+            await this._context.SaveChangesAsync();
+            return Page();
         }
     }
 }

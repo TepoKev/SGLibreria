@@ -52,16 +52,16 @@
                 <div class="btn btn-group">
                     <button type="button" class="btn btn-outline-primary" id="registrar"><i class="fas fa-save"></i>
                         Registrar</button>
-                    <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle"></i>
-                        Cancelar</button>
+                    <a type="button" class="btn btn-outline-secondary" asp-page="/Index"><i class="fas fa-times-circle"></i>
+                        Cancelar</a>
                 </div>
             </div>
         </div>
     </form>
     <div class="col-lg-2" id="notific">
-        <div class="toast" id="toastProveedor" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <label class="col-form-label">
+        <div class="toast" id="toastProveedor" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success">
+                <label class="col-form-label text-white">
                     <i class="fas fa-check-circle text-success"></i>
                     <strong class="mr-auto">Registro Proveedor</strong>
                 </label>
@@ -75,9 +75,12 @@
         </div>
     </div>
 </div>
-@section Scripts
+@section Styles
 {
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
+}
+@section Scripts
+{
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
         var BtnAddTel = document.getElementById("bt_add_val");
@@ -88,7 +91,7 @@
                 var list = document.getElementById("lis_tel");
                 var li = document.createElement("li");
                 li.setAttribute("class", "list-group-item py-1");
-                li.innerHTML = input.value + '<a href="#" class="pl-2"><i class="fas fa-trash text-danger"></i></a><a href="#" class="pl-2"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                li.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
                 list.appendChild(li);
                 escucharBorrarTel();
                 escucharActTel();
@@ -120,6 +123,7 @@
                 ielim[i].addEventListener("click", acElim);
             }
         }
+        //acElim elimina telefono
         function acElim(e){
             var li = e.target.offsetParent;
             var ul = document.querySelector("#lis_tel");
@@ -135,9 +139,10 @@
                 iact[i].addEventListener("click", actTel);
             }
         }
+        //actTel actualizar telefono
         function actTel(e){
             var lilocal = e.target.offsetParent;
-            var text = lilocal.textContent.trim();
+            var text = lilocal.firstChild.nodeValue;
             var input = document.getElementById("add_val");
             input.value = text;
             var btnMod = document.getElementById("bt_act_val");
@@ -157,13 +162,13 @@
                             }
                         }
                     }
-                    lilocal.innerHTML = input.value + '<a href="#" class="pl-2"><i class="fas fa-trash text-danger"></i></a><a href="#" class="pl-2"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                    lilocal.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
                     input.value = '';
                     document.getElementById("exist").innerHTML = "";
                     btnAdd.removeAttribute("hidden");
                     boton.setAttribute("hidden","");
-                    escucharBorrarTel();
                     escucharActTel();
+                    escucharBorrarTel();
                 }
             });
         }
@@ -189,7 +194,6 @@
                     document.querySelector("#lis_tel").innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
                     var toast = document.getElementById("toastProveedor");
-                    toast.setAttribute("data-autohide","false");
                     $('.toast').toast('show');
                 }
             };
