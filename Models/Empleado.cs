@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -7,6 +8,7 @@ namespace SGLibreria.Models
     {
         public int Id { get; set; }
         public int IdPersona { get; set; }
+        [Display(Name="Fecha de Nacimiento")]
         public DateTime FechaNacimiento { get; set; }
         public DateTime? FechaIngreso { get; set; }
         public string Dui { get; set; }
