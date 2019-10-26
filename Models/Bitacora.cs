@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -12,7 +13,9 @@ namespace SGLibreria.Models
 
         public int Id { get; set; }
         public int IdUsuario { get; set; }
+        [Display(Name="InicioSesión")]
         public DateTime InicioSesion { get; set; }
+        [Display(Name="CierreSesión")]
         public DateTime CierreSesion { get; set; }
 
         public virtual Usuario IdUsuarioNavigation { get; set; }
