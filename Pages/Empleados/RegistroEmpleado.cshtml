@@ -1,16 +1,32 @@
 @page
 @model Empleados.RegistroEmpleadoModel
-
 @{
     ViewData["title"] = "Registro de Empleado";
 }
 <div class="row">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
+    <nav aria-label="breadcrumb" class="col-lg-3">
+        <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item" aria-current="page" id="lEmpleado"><a href="#" id="hEmpleado">Empleado</a></li>
             <li class="breadcrumb-item" id="lUsuario"><a href="#" id="hUsuario" hidden >Usuario</a></li>
         </ol>
     </nav>
+    <div class="col-lg-9">
+        <div class="offset-9">
+            <div class="toast" style="position: absolute; z-index: 1" id="toastProveedor" data-delay="5000" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="" id="notific">
+                    <label class="col-form-label text-white">
+                        <i class="fas fa-check-circle"></i>
+                        <strong class="mr-auto">Registro Empleado</strong>
+                    </label>
+                    <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body" id="mensaje">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post" id="formEUP">
     <div id="FormEmpleado">
@@ -131,7 +147,7 @@
                 <div class="form-group row">
                     <label asp-for="Usuario.Clave" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
                     <div class="form-group col-lg-9 offset-1 pl-3">
-                        <input class="form-control form-control-user mb-2" type="password" asp-for="Usuario.Clave" placeholder="Digite su clave">
+                        <input class="form-control form-control-user" type="password" asp-for="Usuario.Clave" placeholder="Digite su clave">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -155,12 +171,15 @@
         </div>
     </div>
     <div class="row pt-3">
-        <div class="col-lg-3 offset-5">
-            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+        <div class="offset-5 col-lg-3" id="divsig">
+            <button type="button" class="btn btn-outline-primary" id="next"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+        </div>
+        <div class="offset-4 btn-group col-lg-4" hidden="" id="divbp">
+            <button type="button" class="btn btn-outline-secondary" id="back"><i class="fas fa-arrow-circle-left"></i> Regresar</button>
+            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-save"></i> Registrar</button>
         </div>
     </div>
 </form>
-
 @section Scripts
 {
     <link href="~/selectric/src/selectric.css" rel="stylesheet">
@@ -181,40 +200,67 @@
         });
     </script>
     <script>
+        var BtnNext = document.getElementById("next");
+        var BtnBack = document.getElementById("back");
         var BtnProcess = document.getElementById("process");
-        var Contenido = BtnProcess.innerHTML;
         var FrmEmpleado = document.getElementById("FormEmpleado");
         var FrmUsuario = document.getElementById("FormUsuario");
         var HEmpleado = document.getElementById("hEmpleado");
         var HUsuario = document.getElementById("hUsuario");
-        console.log(Contenido);
-        BtnProcess.addEventListener("click", (e) => {
-            var BtnProcess = e.target;
-            var Contenido = BtnProcess.innerHTML;
-            if(Contenido == '<i class="fas fa-arrow-circle-right"></i> Siguiente')
-            {
-                HUsuario.removeAttribute("hidden");
-                BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar';
-                FrmEmpleado.setAttribute("hidden","");
-                FrmUsuario.removeAttribute("hidden");
-            }else{
-                if(Contenido == '<i class="fas fa-save"></i> Registrar')
-                {
-                    var form = document.getElementById("formEUP");
-                    form.submit();
-                    //Aqui se va a enviar el Formulario al servidor
-                }
-            }
+        var divsig = document.getElementById("divsig");
+        var divbp = document.getElementById("divbp");
+        BtnNext.addEventListener("click", ()=>{
+            HUsuario.removeAttribute("hidden");
+            FrmEmpleado.setAttribute("hidden","");
+            FrmUsuario.removeAttribute("hidden");
+            divsig.setAttribute("hidden","");
+            divbp.removeAttribute("hidden");
         });
+        BtnBack.addEventListener("click", ()=>{
+            init();
+        });
+        function init(){
+            FrmUsuario.setAttribute("hidden","");
+            FrmEmpleado.removeAttribute("hidden");
+            divbp.setAttribute("hidden","");
+            divsig.removeAttribute("hidden");
+        }
         HEmpleado.addEventListener("click", () => {
-            BtnProcess.innerHTML = '<i class="fas fa-arrow-circle-right"></i> Siguiente';
+            divbp.setAttribute("hidden","");
+            divsig.removeAttribute("hidden");
             FrmUsuario.setAttribute("hidden","");
             FrmEmpleado.removeAttribute("hidden");
         });
         HUsuario.addEventListener("click", () => {
-            BtnProcess.innerHTML = '<i class="fas fa-save"></i> Registrar';
+            divsig.setAttribute("hidden","");
+            divbp.removeAttribute("hidden");
             FrmEmpleado.setAttribute("hidden","");
             FrmUsuario.removeAttribute("hidden");
+        });
+        BtnProcess.addEventListener("click", () => {
+            //Aqui se va a enviar el Formulario al servidor via ajax
+            let form =  new FormData(document.getElementById("formEUP"));
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    init();
+                    document.getElementById("formEUP").reset();
+                    document.getElementById("notific").className = "toast-header bg-success";
+                    document.getElementById("mensaje").innerHTML = "Registro exitoso !";
+                    $('.toast').toast('show');
+                }
+                if (this.readyState == 4 && this.status == 404) {
+                    init();
+                    document.getElementById("notific").className = "toast-header bg-danger";
+                    document.getElementById("mensaje").innerHTML = "Error al registrar !";
+                    $('.toast').toast('show');
+                }
+            };
+            xhttp.open("POST", "RegistroEmpleado", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(new URLSearchParams(form));
         });
     </script>
 }

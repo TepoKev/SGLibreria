@@ -36,42 +36,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var persona in Model.Personas){
                     <tr>
-                        <td>Melissa Esmeralda Durán Cordova</td>
-                        <td>12345678-9</td>
-                        <td>ejemplo@dominio.com</td>
+                        <td>
+                            @persona.Nombres
+                            @persona.Apellidos
+                        </td>
+                        <td>
+                            @if(@persona.Empleado != null){
+                                @persona.Empleado.Dui
+                            }
+                        </td>
+                        <td>@if(@persona.Empleado != null){
+                                @if(@persona.Empleado.Usuario != null){
+                                    @persona.Empleado.Usuario.Correo
+                                }
+                            }
+                        </td>
                         <td>
                             <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
                         </td>
                         <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
                     </tr>
-                    <tr>
-                        <td>Victor Ernesto Acevedo Cornejo</td>
-                        <td>12345678-9</td>
-                        <td>ejemplo@dominio.com</td>
-                        <td>
-                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
-                        </td>
-                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>Diego Antonio Palacios Menjivar</td>
-                        <td>12345678-9</td>
-                        <td>ejemplo@dominio.com</td>
-                        <td>
-                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
-                        </td>
-                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>Kevin Eduardo Portillo Durán</td>
-                        <td>12345678-9</td>
-                        <td>ejemplo@dominio.com</td>
-                        <td>
-                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i> Ver</a>
-                        </td>
-                        <td><a asp-page="/Empleados/ModificarEmpleado" class="btn btn-outline-info"><i class="fas fa-pencil-alt"></i></a></td>
-                    </tr>
+                    }
                 </tbody>
             </table>
         </div>
