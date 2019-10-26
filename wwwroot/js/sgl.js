@@ -10,7 +10,7 @@ var sgl = {
         xhttp.send();
 
     },
-    post: function (url, callback, params) {
+    post: function (url, callback, params, token) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -23,7 +23,7 @@ var sgl = {
         } else {
             var formData = new FormData(params);
             var nombreToken = "_RequestVerificationToken";
-            var token = params.elements.namedItem(nombreToken);
+//            var token = params.elements.namedItem(nombreToken);
             xhttp.setRequestHeader(nombreToken, token);
             xhttp.send(formData);
         }
