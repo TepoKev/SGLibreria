@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -12,9 +13,13 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage="El {0} es obligatorio"), StringLength(40, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Nombre { get; set; }
+        [Display(Name = "Dirección"), StringLength(300, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Direccion { get; set; }
+        [Display(Name = "Correo Electrónico"), StringLength(50, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Correo { get; set; }
+        [Display(Name = "Dirección Web"), StringLength(256, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Enlace { get; set; }
         public sbyte Estado { get; set; }
 

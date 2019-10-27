@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -13,6 +14,7 @@ namespace SGLibreria.Models
 
         public int Id { get; set; }
         public int IdUsuario { get; set; }
+        [Required(ErrorMessage="La {0} es obligatoria")]
         public DateTime Fecha { get; set; }
 
         public virtual Usuario IdUsuarioNavigation { get; set; }

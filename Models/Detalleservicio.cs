@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SGLibreria.Models
+﻿namespace SGLibreria.Models
 {
     public partial class Detalleservicio
     {

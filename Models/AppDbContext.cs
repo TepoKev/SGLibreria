@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace SGLibreria.Models
@@ -403,9 +401,9 @@ namespace SGLibreria.Models
                 entity.ToTable("Marca");
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.Marca1)
+                entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasColumnName("Marca")
+                    .HasColumnName("Nombre")
                     .HasColumnType("varchar(25)");
             });
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -13,14 +14,18 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
+        [Display(Name="Código"), StringLength(25, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Codigo { get; set; }
         public int IdCategoria { get; set; }
         public int? IdImagen { get; set; }
+        [Required(ErrorMessage="El {0} es obligatorio"), StringLength(30, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Nombre { get; set; }
         public int IdMarca { get; set; }
+        [Display(Name="Descripción"), StringLength(100, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Descripcion { get; set; }
         public int StockMinimo { get; set; }
         public sbyte Estado { get; set; }
+        [Display(Name="Fecha de Vencimiento")]
         public DateTime? FechaVencimiento { get; set; }
 
         public virtual Categoria IdCategoriaNavigation { get; set; }

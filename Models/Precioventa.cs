@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -11,7 +12,9 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage="La {0} es oblogatoria")]
         public DateTime Fecha { get; set; }
+        [Required(ErrorMessage="El {0} es oblogatorio")]
         public decimal Valor { get; set; }
         public int IdProducto { get; set; }
 
