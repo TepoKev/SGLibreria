@@ -30,7 +30,8 @@ namespace SGLibreria.Pages.Compras {
             await _context.SaveChangesAsync ();
             return RedirectToPage ("/Proveedores/RegistroProveedor");
         }
-        public async Task<JsonResult> OnPostAgregarProducto(Producto Producto){
+        public async Task<JsonResult> OnPostAgregarProducto(string nombre){
+            Producto ProductoProducto Producto = new Producto();
             _context.Productos.Add(Producto);
             await _context.SaveChangesAsync();
             return new JsonResult(Producto);

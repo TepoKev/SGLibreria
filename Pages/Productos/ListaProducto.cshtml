@@ -32,7 +32,7 @@ ViewData["Title"] = "Lista de Productos";
 <div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
   <div class="col-lg-4">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Nombre o código de producto"
+      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código de producto"
         aria-describedby="button-addon2">
       <div class="input-group-append">
         <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
@@ -78,15 +78,9 @@ ViewData["Title"] = "Lista de Productos";
 
 
   <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-dark">Papelería</button>
-    <button type="button" class="btn btn-dark">Cuadernos</button>
-    <button type="button" class="btn btn-dark">Novelas</button>
-    <button type="button" class="btn btn-dark">Utilería</button>
-    <button type="button" class="btn btn-dark">Geometria</button>
-    <button type="button" class="btn btn-dark">Colores</button>
-    <button type="button" class="btn btn-dark">Tijeras</button>
-    <button type="button" class="btn btn-dark">Correctores</button>
-    <button type="button" class="btn btn-dark">Tirros</button>
+    @foreach (var Cat in Model.Categorias) {
+          <button type="button" data-idCategoria="@Cat.Id" class="btn btn-dark">@Cat.Nombre</button>
+    }
     <button type="button" class="btn btn-dark"> <i class="fas fa-plus"></i> </button>
   </div>
 </div>
@@ -227,9 +221,17 @@ ViewData["Title"] = "Lista de Productos";
     });
     (function () {
       sgl.get('ListaProductoAjax', function (data) {
-      var divProductos = document.querySelector('#productos');
-      divProductos.innerHTML = data;
-    });
+          var divProductos = document.querySelector('#productos');
+          divProductos.innerHTML = data;
+      });
+
+      var NombreOCodigo = document.querySelector('#NombreOCodigo');
+      NombreOCodigo.oninput = function (e) {
+        sgl.get('/Productos/ListaProductoAjax', function (data) {
+          var divProductos = document.querySelector('#productos');
+          divProductos.innerHTML = data;
+      });
+      }
     })();
 </script>
 }
