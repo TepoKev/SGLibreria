@@ -6,7 +6,8 @@ var sgl = {
                 callback(this.responseText);
             }
         };
-        xhttp.open("GET", url + params == undefined ? "" : "?"+params, true);
+        url = url + (params == undefined ? "" : "?"+params);
+        xhttp.open("GET", url, true);
         xhttp.send();
 
     },
@@ -22,20 +23,57 @@ var sgl = {
             xhttp.send();
         } else {
             var formData = new FormData(params);
-            var nombreToken = "_RequestVerificationToken";
+            var nombreToken = "__RequestVerificationToken";
 //            var token = params.elements.namedItem(nombreToken);
             xhttp.setRequestHeader(nombreToken, token);
             xhttp.send(formData);
         }
     },
+    query: function (selector) {
+        return document.querySelectorAll(selector);
+    },
     ajax: function (metodo, url, callback, params) {
+        
         if (metodo.toUpperCase() == 'POST') {
             this.post(url, callback, params);
         } else if (metodo.toUpperCase() == 'GET') {
             this.get(url, callback, params);
         }
     },
-    
+    ajax2: function (config) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if(this.readyState == 4) {
+                switch (this.status) {
+                    //okay
+                    case 200:
+                        config.done(this.responseText);
+                        break;
+                    //fallo
+                    default:
+                        if(config.fail) {
+                            config.fail.call(this);
+                        }
+                        break;
+                }
+            }
+        };
+        xhttp.open(config.method, config.url , true);
+        if(config.headers != undefined) {
+            for(var header in config.headers) {
+                if (config.headers.hasOwnProperty(header)) {
+                    xhttp.setRequestHeader(header, config.headers[header]);
+                }
+            }
+        }
+        if(config.data == undefined) {
+            xhttp.send();
+        } else {
+            console.log(config.data);
+            xhttp.send(new FormData(config.data));
+        }
+    },
+
     clearForm: function (myFormElement) {
         var elements = myFormElement.elements;
         myFormElement.reset();
@@ -65,7 +103,6 @@ var sgl = {
         }
     }
 };
-
 /*
 (function () {
     sgl.ajax('get', 'formulario.html', function (data) {

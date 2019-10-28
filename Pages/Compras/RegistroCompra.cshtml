@@ -21,10 +21,10 @@ ViewData["Title"] = "Registro Compras";
 
     #productos-seleccionados:hover {}
 </style>
-
+<form method="post" style="display:none;" id="formToken"></form>
 <form class="container-fluid " id="registroCompra">
 
-    <div class="user" method="post">
+    <div class="user">
         <div class="row">
             <div class="col-lg-10 offset-lg-1 border border-secondary-100 rounded ">
                 <div class="row ">
@@ -82,7 +82,7 @@ ViewData["Title"] = "Registro Compras";
                 </div>
                 <div class="row">
                     <div class="col" id="compras">
-                        <table id="tablaCompra" class="table table-sm table-hover bg-white" name="TablaVenta">
+                        <table id="tablaCompra" class="table table-sm table-hover bg-white">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Nombre</th>
@@ -130,7 +130,7 @@ ViewData["Title"] = "Registro Compras";
 
 @section modal {
 <!-- The Modal -->
-<div class="user" method="post">
+<div class="user">
 
     <div class="modal fade" id="modalProveedor" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -223,7 +223,7 @@ ViewData["Title"] = "Registro Compras";
 <!-- The Modal -->
 
 <!-- The Modal -->
-<div class="user" method="post">
+<div class="user">
 
     <div class="modal fade" id="modalCategoria" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -272,7 +272,7 @@ ViewData["Title"] = "Registro Compras";
 </div>
 <!-- The Modal -->
 <!-- The Modal -->
-<div class="user" method="post">
+<div class="user">
 
     <div class="modal fade" id="modalMarca" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
@@ -322,7 +322,7 @@ ViewData["Title"] = "Registro Compras";
 <!-- The Modal -->
 
 <!-- The Modal -->
-<div class="user" method="post">
+<div class="user">
 
     <div class="modal fade" id="modalDocumento" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -346,7 +346,7 @@ ViewData["Title"] = "Registro Compras";
 
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="docimagen">
-                                    <label class="custom-file-label" name="docimagen"
+                                    <label class="custom-file-label"
                                         for="docimagen">Seleccione..</label>
                                 </div>
                             </div>
@@ -386,7 +386,7 @@ ViewData["Title"] = "Registro Compras";
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title" id="modalProducto">Registro de Producto</h4>
+                <h4 class="modal-title">Registro de Producto</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -394,6 +394,7 @@ ViewData["Title"] = "Registro Compras";
             <div class="modal-body">
 
                 <form method="post" id="registroProductos">
+                    <!--id='productos-->
                     <div class="" id='productos'>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
@@ -405,16 +406,21 @@ ViewData["Title"] = "Registro Compras";
                                     aria-controls="profile" aria-selected="false">Producto Antiguo</a>
                             </li>
                         </ul>
+                        <!--id="myTabContent"-->
                         <div class="tab-content" id="myTabContent">
+                            
                             <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
                                 aria-labelledby="home-tab">
-
-                                <form id="formProductoNuevo">
+                                <!--PRODUCTO NUEVO-->
+                                <div id="formProductoNuevo">
                                     <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                                         <label>Campos obligatorios *</label>
                                     </div>
 
                                     <div class="form-group row">
+                                        <input name="nombre" type="text"
+                                                class="form-control form-control-user mb-2" id="nombre"
+                                                placeholder="Lapicero">
                                         <label for="pdnombre"
                                         asp-for="Producto.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
@@ -491,7 +497,7 @@ ViewData["Title"] = "Registro Compras";
 
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="pdimagenNuevo">
-                                                <label class="custom-file-label" name="pdimagenNuevo"
+                                                <label class="custom-file-label"
                                                     for="pdimagenNuevo">Seleccione..</label>
                                             </div>
                                         </div>
@@ -504,7 +510,8 @@ ViewData["Title"] = "Registro Compras";
                                         <br>
                                         <br>
                                     </div>
-                                </form>
+                                </div>
+                                <!--PRODUCTO NUEVO-->
                             </div><!-- Productos-->
 
                             <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel"
@@ -539,11 +546,11 @@ ViewData["Title"] = "Registro Compras";
                                                     </div>
 
                                                     <div class="col-lg-12">
-                                                        <form id='productosAjax'>
+                                                        <div id='productosAjax'>
                                                             <br>
                                                             <!-- Aqui iran los productos -->
 
-                                                        </form>
+                                                        </div>
 
                                                     </div><!-- #productos -->
 
@@ -616,7 +623,7 @@ ViewData["Title"] = "Registro Compras";
 
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="pdimagenAntiguo">
-                                            <label class="custom-file-label" name="pdimagenAntiguo"
+                                            <label class="custom-file-label" 
                                                 for="pdimagenAntiguo">Seleccione..</label>
                                         </div>
                                     </div>
@@ -631,11 +638,15 @@ ViewData["Title"] = "Registro Compras";
                                 </div>
 
                             </div><!-- Servicios -->
+                
+                
+
+                        </div>
+                        <!--id="myTabContent"-->
+                
+                </div><!--id='productos-->
                 </form>
             </div>
-
-
-        </div>
 
         <div class="modal-footer">
             <div class="btn btn-group">
@@ -645,9 +656,11 @@ ViewData["Title"] = "Registro Compras";
                         class="fas fa-times-circle"> </i> Cancelar</button>
             </div>
         </div>
+
+        </div>
     </div>
 </div>
-</div>
+
 <!--    Inicia Modal Inventario-->
 
 }
@@ -713,7 +726,10 @@ ViewData["Title"] = "Registro Compras";
     ////funcion Ajax para recuperar productos miante un Form
 
     $('#modalProducto').on('show.bs.modal', function (e) {
-        var productosAjax = new FormData(document.getElementById("productosAjax"));
+        var prodAjax = document.getElementById("productosAjax");
+        var formProdAjax = document.createElement('form');
+        formProdAjax.innerHTML = prodAjax.outerHTML;
+        var productosAjax = new FormData(formProdAjax);
 
         sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
             var elem = document.getElementById('productosAjax');
@@ -770,9 +786,40 @@ ViewData["Title"] = "Registro Compras";
         var tablaCompraFilas = document.getElementById('tablaCompraFilas');
         tablaCompraFilas.appendChild(tr);
         limpiarProducto();
-
+        /*
+        sgl.ajax('POST', 'RegistroCompra?handler=AgregarProducto', function (data) {
+            
+        }, document.querySelector('#registroProductos'));
+        */
+        //primer elemento
+        var formToken = sgl.query('#formToken')[0];
+        var token = formToken.querySelector('input[name=__RequestVerificationToken]');
         
-        sgl.ajax('POST', 'RegistroCompra?handler=AgregarProducto', AgregarProducto, document.querySelector('#registroProductos'));
+        var registroProductos = document.querySelector('#formProductoNuevo');
+        var formRegistroProductos = document.createElement('form');
+        formRegistroProductos.innerHTML = registroProductos.outerHTML;
+        console.log(registroProductos);
+        sgl.ajax2(
+            {
+                url: 'RegistroCompra?handler=AgregarProducto', 
+                method: 'post', 
+                data: formRegistroProductos,
+                done: function (data) {
+                    console.log('datos del servidor');
+                    console.log(data);
+                    /*cuando se halla completado la solicitud*/
+                },
+//                "Content-type", "application/x-www-form-urlencoded" 
+                fail: function () {
+                    //manejar el error
+                    console.log(this);
+                },
+                headers: {
+                    "RequestVerificationToken": token.value, 
+//                    "Content-type": "application/x-www-form-urlencoded"
+                    }
+            }
+        );
     }
     btnAgregarProducto.addEventListener('click', AgregarProducto);
 </script>
@@ -800,7 +847,7 @@ ViewData["Title"] = "Registro Compras";
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#imagePreviewNuevo').html("<img src='" + e.target.result +
-                        "' class='rounded mx-auto d-block img-fluid' style='width:250px' />");
+                        "' class='rounded mx-auto d-block img-fluid' style='width:250' />");
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -816,7 +863,7 @@ ViewData["Title"] = "Registro Compras";
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#imagePreviewAntiguo').html("<img src='" + e.target.result +
-                        "' class='rounded mx-auto d-block img-fluid' style='width:250px' />");
+                        "' class='rounded mx-auto d-block img-fluid' style='width:250' />");
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -832,7 +879,7 @@ ViewData["Title"] = "Registro Compras";
                 var reade = new FileReader();
                 reade.onload = function (e) {
                     $('#imagePreviewDocument').html("<img src='" + e.target.result +
-                        "' class='rounded mx-auto d-block img-fluid' style='width:550px' />");
+                        "' class='rounded mx-auto d-block img-fluid' style='width:550' />");
                 }
                 reade.readAsDataURL(input.files[0]);
             }
