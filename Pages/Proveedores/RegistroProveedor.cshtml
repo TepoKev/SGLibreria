@@ -5,17 +5,19 @@
 }
 <div class="row pt-3">
     <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post" id="frmProveedor">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <label asp-for="Proveedor.Nombre" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
                 <input type="text" class="form-control mb-2" asp-for="Proveedor.Nombre" placeholder="Ingrese un nombre">
+                <span asp-validation-for="Proveedor.Nombre" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Proveedor.Correo" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
-                <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo"
-                    placeholder="ejemplo@dominio.com">
+                <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
+                <span asp-validation-for="Proveedor.Correo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
@@ -37,14 +39,15 @@
         <div class="form-group row">
             <label asp-for="Proveedor.Direccion" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
             <div class="col-lg-9">
-                <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..."
-                    style="height: 150px;"></textarea>
+                <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
+                <span asp-validation-for="Proveedor.Direccion" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
             <label asp-for="Proveedor.Enlace" class="col-lg-1 ml-5 col-form-label  mr-4 font-weight-bold"></label>
             <div class="form-group col-lg-9">
                 <input class="form-control mb-2" asp-for="Proveedor.Enlace" placeholder="www.ejemplo.com">
+                <span asp-validation-for="Proveedor.Enlace" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
@@ -52,25 +55,24 @@
                 <div class="btn btn-group">
                     <button type="button" class="btn btn-outline-primary" id="registrar"><i class="fas fa-save"></i>
                         Registrar</button>
-                    <a type="button" class="btn btn-outline-secondary" asp-page="/Index"><i class="fas fa-times-circle"></i>
-                        Cancelar</a>
+                    <button type="button" class="btn btn-outline-secondary" asp-page="/Index"><i class="fas fa-times-circle"></i>
+                        Cancelar</button>
                 </div>
             </div>
         </div>
     </form>
     <div class="col-lg-2" id="notific">
         <div class="toast" id="toastProveedor" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header bg-success">
+            <div class="toast-header bg-success" id="thead">
                 <label class="col-form-label text-white">
-                    <i class="fas fa-check-circle text-success"></i>
+                    <i class="" id="inoti"></i>
                     <strong class="mr-auto">Registro Proveedor</strong>
                 </label>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="toast-body">
-                Registro Exitoso!
+            <div class="toast-body" id="tcuerpo">
             </div>
         </div>
     </div>
@@ -81,23 +83,56 @@
 }
 @section Scripts
 {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/selectric/src/jquery.selectric.js"></script>
     <script>
+        //Declaracion y obtencion de variables
+        var list = document.querySelector("#lis_tel");
+        var BtnRegistrar = document.getElementById("registrar");
         var BtnAddTel = document.getElementById("bt_add_val");
+        var btnMod = document.querySelector("#bt_act_val");
+        //Oyentes de eventos
+        btnMod.addEventListener("click", (e)=>{
+            var input = document.querySelector("#add_val");
+            var li = document.querySelector("li[data-mod=true]");
+            if(input.value != ""){
+                var boton = e.currentTarget;
+                if(ValidarUl(input.value.trim())){
+                    li.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
+                    input.value = '';
+                    document.getElementById("exist").innerHTML = "";
+                    document.querySelector("#bt_add_val").removeAttribute("hidden");
+                    boton.setAttribute("hidden","");
+                    li.setAttribute("data-mod","false");
+                }
+            }
+        });
+        list.addEventListener("click",(e)=>{
+            element = e.target;
+            if(element.classList.contains("fa-trash")){
+                acElim(element);
+            }else{
+                if(element.classList.contains("fa-pencil-alt")){
+                    actTel(element);
+                }
+            }
+        });
         BtnAddTel.addEventListener("click", ()=>{
             var input = document.getElementById("add_val");
             if(ValidarUl(input.value.trim())){
                 document.getElementById("exist").innerHTML = "";
-                var list = document.getElementById("lis_tel");
                 var li = document.createElement("li");
+                let list = document.querySelector("#lis_tel");
+                li.setAttribute("data-mod","false");
+                li.setAttribute("id","li"+"");
                 li.setAttribute("class", "list-group-item py-1");
                 li.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
                 list.appendChild(li);
-                escucharBorrarTel();
-                escucharActTel();
                 input.value="";
             }
         });
+        BtnRegistrar.addEventListener("click", GuardarForAjax);
+        //La siguiente funcion verifica que el numero ingreso no este vacio y ademas no exista en la lista devuelve un booleano
         function ValidarUl(numero){
             if(numero != "" ){
                 var arrayli = document.querySelector("#lis_tel").children;
@@ -117,63 +152,26 @@
                 return false;
             }
         }
-        function escucharBorrarTel(){
-            var ielim = document.getElementsByClassName("fas fa-trash text-danger");
-            for(var i = 0 ; i < ielim.length ; i++){
-                ielim[i].addEventListener("click", acElim);
-            }
-        }
-        //acElim elimina telefono
+        //acElim elimina telefono de la lista
         function acElim(e){
-            var li = e.target.offsetParent;
+            let li = e.parentElement.parentElement;
             var ul = document.querySelector("#lis_tel");
             ul.removeChild(li);
             if(ul.children.length == 0){
                 ul.innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
             }
-            escucharActTel();
         }
-        function escucharActTel(){
-            var iact = document.getElementsByClassName("fas fa-pencil-alt text-warning");
-            for(var i = 0 ; i < iact.length ; i++){
-                iact[i].addEventListener("click", actTel);
-            }
-        }
-        //actTel actualizar telefono
+        //actTel actualizar telefono de la lista
         function actTel(e){
-            var lilocal = e.target.offsetParent;
-            var text = lilocal.firstChild.nodeValue;
-            var input = document.getElementById("add_val");
-            input.value = text;
-            var btnMod = document.getElementById("bt_act_val");
-            var btnAdd = document.getElementById("bt_add_val")
-            btnMod.removeAttribute("hidden");
+            var li = e.parentElement.parentElement;
+            li.setAttribute("data-mod","true");
+            document.querySelector("#add_val").value = li.firstChild.nodeValue;
+            var btnAdd = document.querySelector("#bt_add_val");
+            var btnMod = document.querySelector("#bt_act_val");
             btnAdd.setAttribute("hidden","");
-            btnMod.addEventListener("click", (e)=>{
-                var input = document.getElementById("add_val");
-                if(input.value != ""){
-                    var boton = e.target;
-                    var arrayli = document.querySelector("#lis_tel").children;
-                    for(var i = 0 ; i < arrayli.length ; i++){
-                        if(lilocal != arrayli[i]){
-                            if(arrayli[i].firstChild.nodeValue == input.value){
-                                document.getElementById("exist").innerHTML = "Este número ya existe";
-                                return ;
-                            }
-                        }
-                    }
-                    lilocal.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
-                    input.value = '';
-                    document.getElementById("exist").innerHTML = "";
-                    btnAdd.removeAttribute("hidden");
-                    boton.setAttribute("hidden","");
-                    escucharActTel();
-                    escucharBorrarTel();
-                }
-            });
+            btnMod.removeAttribute("hidden");
         }
-        var BtnRegistrar = document.getElementById("registrar");
-        BtnRegistrar.addEventListener("click", GuardarForAjax);
+        //En la siguente funcion de hace el envio de los datos al servidor via AJAX
         function GuardarForAjax() {
             var Telefonos = [];
             var arrayli = document.querySelector("#lis_tel").children;
@@ -183,7 +181,6 @@
                     Telefonos.push(arrayli[i].firstChild.textContent);
                 }
             }
-            console.log(Telefonos);
             var xhttp = new XMLHttpRequest();
             let formData = new FormData(document.getElementById("frmProveedor"));
             for(var i = 0; i < Telefonos.length; i++){
@@ -193,6 +190,21 @@
                 if (this.readyState == 4 && this.status == 200) {
                     document.querySelector("#lis_tel").innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-success";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-check-circle text-success";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Registro Exitoso!"
+                    var toast = document.getElementById("toastProveedor");
+                    $('.toast').toast('show');
+                }else{
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-danger";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-times-circle text-white";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Fallo en el Registro!!"
                     var toast = document.getElementById("toastProveedor");
                     $('.toast').toast('show');
                 }
