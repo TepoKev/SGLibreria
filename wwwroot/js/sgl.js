@@ -59,6 +59,7 @@ var sgl = {
             }
         };
         xhttp.open(config.method, config.url , true);
+        
         if(config.headers != undefined) {
             for(var header in config.headers) {
                 if (config.headers.hasOwnProperty(header)) {
@@ -66,11 +67,18 @@ var sgl = {
                 }
             }
         }
+        
         if(config.data == undefined) {
             xhttp.send();
         } else {
-            console.log(config.data);
-            xhttp.send(new FormData(config.data));
+//            console.log(config.data.elements);
+//            console.log(config.headers);
+//            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//            xhttp.setRequestHeader('RequestVerificationToken', config.headers['RequestVerificationToken']);
+            var formData = new FormData(config.data);
+            var params = new URLSearchParams(formData);
+            xhttp.send(params);
+//            xhttp.send(new FormData(config.data));
         }
     },
 
