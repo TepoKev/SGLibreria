@@ -145,7 +145,7 @@ ViewData["Title"] = "Registro Compras";
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form id="registroProveedor">
+                    <form method="post" id="registroProveedor">
 
                         <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                             <label>Campos obligatorios *</label>
@@ -418,9 +418,7 @@ ViewData["Title"] = "Registro Compras";
                                     </div>
 
                                     <div class="form-group row">
-                                        <input name="nombre" type="text"
-                                                class="form-control form-control-user mb-2" id="nombre"
-                                                placeholder="Lapicero">
+                                        
                                         <label for="pdnombre"
                                         asp-for="Producto.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
@@ -454,11 +452,8 @@ ViewData["Title"] = "Registro Compras";
                                             class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
                                         <div class="col-lg-7">
                                             <select asp-for="Producto.IdCategoria" class="custom-select form-control"
-                                                id="pdcategoria">
-                                                <option disabled>-- Seleccione categoría --</option>
-                                                <option value="1">Papeleria</option>
-                                                <option value="2">Colores</option>
-                                                <option value="3">Lapiceros</option>
+                                                id="comboCategorias">
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -740,87 +735,58 @@ ViewData["Title"] = "Registro Compras";
     //funcion para agregar el producto a la tabla
     var btnAgregarProducto = document.getElementById('btnAgregarProducto');
 
+    sgl.ajax2({
+            method: 'get', 
+            url: 'RegistroCompra?handler=ListaCategorias', 
+            done: function (texto) {
+                var lista = JSON.parse(texto);
+                var comboCategorias = document.querySelector('#comboCategorias');
+                lista.forEach(function (dato) {
+                    var elem = document.createElement('option');
+                    elem.innerHTML = dato.nombre;
+                    elem.value = dato.id;
+                    comboCategorias.appendChild(elem);
+                });
+                console.log(lista);
+                $('#comboCategorias').selectric.refresh();
+            }, 
+            fail: function () {
+
+            }
+        });
+
+
     var AgregarProducto = function (e) {
-        var tr = document.createElement('tr');
-        var td1 = document.createElement('td');
-        var td2 = document.createElement('td');
-        var td3 = document.createElement('td');
-        var td4 = document.createElement('td');
-        var td5 = document.createElement('td');
-
-        var pdnombre = document.getElementById('pdnombre');
-        var pdmarca = document.getElementById('pdmarca');
-        var pdcodigo = document.getElementById('pdcodigo');
-        var pdcategoria = document.getElementById('pdcategoria');
-        var pddireccion = document.getElementById('pddireccion');
-        var pdstock = document.getElementById('pdstock');
-        var pdfecha = document.getElementById('pdfecha');
-        var pdimagenNuevo = document.getElementById('pdimagenNuevo');
-
-        var prod = {
-            nombre: pdnombre.value,
-            marca: pdmarca.value,
-            codigo: pdcodigo.value,
-            categoria: pdcategoria.value,
-            direccion: pddireccion.value,
-            stock: pdstock.value,
-            fecha: pdfecha.value,
-            imagen: pdimagenNuevo.value
-        }
-        td1.innerHTML = prod.nombre;
-        td2.innerHTML =
-            '<input type="number" placeholder="30" class="form form-control col-lg-5">';
-        td3.innerHTML =
-            '<input type="text" placeholder="30" class="form form-control col-lg-7">';
-        td4.innerHTML =
-            '<input type="text" placeholder="30" class="form form-control col-lg-7 " disabled>';
-        td5.innerHTML =
-            '<a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash" ></i></a>' +
-            '<a href="#" class="text-success font-weight-bold ml-2" title="Editar"><i class="fas fa-edit" ></i></a>';
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        tr.appendChild(td4);
-        tr.appendChild(td5);
-
-        var tablaCompraFilas = document.getElementById('tablaCompraFilas');
-        tablaCompraFilas.appendChild(tr);
-        limpiarProducto();
-        /*
-        sgl.ajax('POST', 'RegistroCompra?handler=AgregarProducto', function (data) {
-            
-        }, document.querySelector('#registroProductos'));
-        */
-        //primer elemento
+        var form = document.querySelector("#registroProductos");
         var formToken = sgl.query('#formToken')[0];
         var token = formToken.querySelector('input[name=__RequestVerificationToken]');
+    
+        var formData = new FormData(form);
+
         
-        var registroProductos = document.querySelector('#formProductoNuevo');
-        var formRegistroProductos = document.createElement('form');
-        formRegistroProductos.method='post';
-        formRegistroProductos.innerHTML = registroProductos.outerHTML;
-        console.log(registroProductos);
         sgl.ajax2(
             {
-                url: 'RegistroCompra?handler=AgregarProducto', 
                 method: 'post', 
-                data: formRegistroProductos,
-                done: function (data) {
-                    console.log('datos del servidor');
-                    console.log(data);
-                    /*cuando se halla completado la solicitud*/
-                },
-//                "Content-type", "application/x-www-form-urlencoded" 
+                data: form,
+                url: "RegistroCompra?handler=AgregarProducto", 
+                done: function (texto) {
+                    var elem = document.createElement('tr');
+                    
+                    var tbody = document.querySelector('#tablaCompraFilas');
+                    tbody.appendChild(elem);
+                    elem.outerHTML = texto;
+                }, 
                 fail: function () {
-                    //manejar el error
+                    console.log("error");
                     console.log(this);
-                },
+                }, 
                 headers: {
                     "RequestVerificationToken": token.value, 
-//                    "Content-type": "application/x-www-form-urlencoded"
-                    }
+                    "Content-type": "application/x-www-form-urlencoded"
+                }
             }
         );
+       
     }
     btnAgregarProducto.addEventListener('click', AgregarProducto);
 </script>
