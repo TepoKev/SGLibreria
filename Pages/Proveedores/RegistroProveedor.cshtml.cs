@@ -24,9 +24,11 @@ namespace SGLibreria.Pages.Proveedores
             {
                 return NotFound();
             }
-            if (!Proveedor.Enlace.Contains("http"))
-            {
-                Proveedor.Enlace = "http://" + Proveedor.Enlace;
+            if(Proveedor.Enlace != null){
+                if (!Proveedor.Enlace.Contains("http"))
+                {
+                    Proveedor.Enlace = "http://" + Proveedor.Enlace;
+                }
             }
             this._context.Proveedores.Add(Proveedor);
             await this._context.SaveChangesAsync();

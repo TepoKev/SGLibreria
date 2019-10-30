@@ -1,62 +1,52 @@
 @page
 @model Proveedores.RegistroProveedorModel
 @{
-    ViewData["title"] = "Registro de Proveedor";
+ViewData["title"] = "Registro de Proveedor";
 }
 <div class="row pt-3">
     <form class="col-lg-8 offset-lg-2 rounded pt-4 pb-3 border border-secondary-100" method="post" id="frmProveedor">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <label asp-for="Proveedor.Nombre" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
-            <div class="col-lg-9">
-                <input type="text" class="form-control mb-2" asp-for="Proveedor.Nombre" placeholder="Ingrese un nombre">
+        <div class="offset-1">
+            <div class="form-group row">
+                <label asp-for="Proveedor.Nombre" class="col-sm-2 col-form-label font-weight-bold"></label>
+                <input type="text" class="col-sm-8 form-control" asp-for="Proveedor.Nombre" placeholder="Ingrese un nombre">
                 <span asp-validation-for="Proveedor.Nombre" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Proveedor.Correo" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
-            <div class="col-lg-9">
-                <input type="email" class="form-control mb-2" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
+            <div class="form-group row">
+                <label asp-for="Proveedor.Correo" class="col-sm-2 col-form-label font-weight-bold"></label>
+                <input type="email" class="col-sm-8 form-control" asp-for="Proveedor.Correo" placeholder="ejemplo@dominio.com">
                 <span asp-validation-for="Proveedor.Correo" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Proveedor.Telefono" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
-            <div class="row col-lg-9 ml-3">
-                <input type="text" class="form-control col-lg-5" id="add_val" name="add_val">
+            <div class="form-group row">
+                <label asp-for="Proveedor.Telefono" class="col-sm-2 col-form-label font-weight-bold"></label>
+                <input type="text" class="form-control col-sm-5" id="add_val" name="add_val">
                 <button id="bt_add_val" type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Agregar</button>
                 <button id="bt_act_val" type="button" class="btn btn-outline-warning" hidden=""><i class="fas fa-plus"></i> Modificar</button>
                 <label class="ml-1 col-form-label text-danger" id="exist"></label>
             </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-4 offset-2">
-                <ul class="list-group list-group-flush" id="lis_tel">
-                    <li class="list-group-item py-1">Sin registros</li>
-                </ul>
+            <div class="form-group row">
+                <div class="col-lg-4 offset-2">
+                    <ul class="list-group list-group-flush" id="lis_tel">
+                        <li class="list-group-item py-1">Sin registros</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Proveedor.Direccion" class="col-lg-1 ml-5 col-form-label mr-4 font-weight-bold"></label>
-            <div class="col-lg-9">
-                <textarea class="form-control mb-2" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
+            <div class="form-group row">
+                <label asp-for="Proveedor.Direccion" class="col-sm-2 col-form-label font-weight-bold"></label>
+                <textarea class="col-sm-8 form-control" asp-for="Proveedor.Direccion" placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
                 <span asp-validation-for="Proveedor.Direccion" class="text-danger"></span>
             </div>
-        </div>
-        <div class="row">
-            <label asp-for="Proveedor.Enlace" class="col-lg-1 ml-5 col-form-label  mr-4 font-weight-bold"></label>
-            <div class="form-group col-lg-9">
-                <input class="form-control mb-2" asp-for="Proveedor.Enlace" placeholder="www.ejemplo.com">
+            <div class="form-group row">
+                <label asp-for="Proveedor.Enlace" class="col-sm-2 col-form-label font-weight-bold"></label>
+                <input class="col-sm-8 form-control" asp-for="Proveedor.Enlace" placeholder="www.ejemplo.com">
                 <span asp-validation-for="Proveedor.Enlace" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 offset-md-4">
                 <div class="btn btn-group">
-                    <button type="button" class="btn btn-outline-primary" id="registrar"><i class="fas fa-save"></i>
-                        Registrar</button>
-                    <button type="button" class="btn btn-outline-secondary" asp-page="/Index"><i class="fas fa-times-circle"></i>
-                        Cancelar</button>
+                    <button type="submit" class="btn btn-outline-primary" id="registrar"><i class="fas fa-save"></i> Registrar</button>
+                    <button type="button" class="btn btn-outline-secondary" asp-page="/Index"><i class="fas fa-times-circle"></i> Cancelar</button>
                 </div>
             </div>
         </div>
@@ -79,116 +69,123 @@
 </div>
 @section Styles
 {
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+<link href="~/selectric/src/selectric.css" rel="stylesheet">
 }
 @section Scripts
 {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script>
-        //Declaracion y obtencion de variables
-        var list = document.querySelector("#lis_tel");
-        var BtnRegistrar = document.getElementById("registrar");
-        var BtnAddTel = document.getElementById("bt_add_val");
-        var btnMod = document.querySelector("#bt_act_val");
-        //Oyentes de eventos
-        btnMod.addEventListener("click", (e)=>{
-            var input = document.querySelector("#add_val");
-            var li = document.querySelector("li[data-mod=true]");
-            if(input.value != ""){
-                var boton = e.currentTarget;
-                if(ValidarUl(input.value.trim())){
-                    li.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
-                    input.value = '';
-                    document.getElementById("exist").innerHTML = "";
-                    document.querySelector("#bt_add_val").removeAttribute("hidden");
-                    boton.setAttribute("hidden","");
-                    li.setAttribute("data-mod","false");
-                }
-            }
-        });
-        list.addEventListener("click",(e)=>{
-            element = e.target;
-            if(element.classList.contains("fa-trash")){
-                acElim(element);
-            }else{
-                if(element.classList.contains("fa-pencil-alt")){
-                    actTel(element);
-                }
-            }
-        });
-        BtnAddTel.addEventListener("click", ()=>{
-            var input = document.getElementById("add_val");
-            if(ValidarUl(input.value.trim())){
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="~/selectric/src/jquery.selectric.js"></script>
+<script>
+    //Declaracion y obtencion de variables
+    var list = document.querySelector("#lis_tel");
+    var BtnRegistrar = document.querySelector("#frmProveedor");
+    var BtnAddTel = document.querySelector("#bt_add_val");
+    var btnMod = document.querySelector("#bt_act_val");
+    //Oyentes de eventos
+    btnMod.addEventListener("click", (e) => {
+        var input = document.querySelector("#add_val");
+        var li = document.querySelector("li[data-mod=true]");
+        if (input.value != "") {
+            var boton = e.currentTarget;
+            if (ValidarUl(input.value.trim())) {
+                li.innerHTML = input.value +
+                    '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
+                input.value = '';
                 document.getElementById("exist").innerHTML = "";
-                var li = document.createElement("li");
-                let list = document.querySelector("#lis_tel");
-                li.setAttribute("data-mod","false");
-                li.setAttribute("id","li"+"");
-                li.setAttribute("class", "list-group-item py-1");
-                li.innerHTML = input.value + '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
-                list.appendChild(li);
-                input.value="";
-            }
-        });
-        BtnRegistrar.addEventListener("click", GuardarForAjax);
-        //La siguiente funcion verifica que el numero ingreso no este vacio y ademas no exista en la lista devuelve un booleano
-        function ValidarUl(numero){
-            if(numero != "" ){
-                var arrayli = document.querySelector("#lis_tel").children;
-                if(arrayli.length > 0){
-                    if(arrayli[0].firstChild.nodeValue == "Sin registros"){
-                        document.querySelector("#lis_tel").removeChild(arrayli[0]);
-                    }
-                    for(var i = 0 ; i < arrayli.length ; i++){
-                        if(arrayli[i].firstChild.nodeValue.trim() == numero){
-                            document.getElementById("exist").innerHTML = "Este número ya existe";
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }else{
-                return false;
+                document.querySelector("#bt_add_val").removeAttribute("hidden");
+                boton.setAttribute("hidden", "");
+                li.setAttribute("data-mod", "false");
             }
         }
-        //acElim elimina telefono de la lista
-        function acElim(e){
-            let li = e.parentElement.parentElement;
-            var ul = document.querySelector("#lis_tel");
-            ul.removeChild(li);
-            if(ul.children.length == 0){
-                ul.innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
+    });
+    list.addEventListener("click", (e) => {
+        element = e.target;
+        if (element.classList.contains("fa-trash")) {
+            acElim(element);
+        } else {
+            if (element.classList.contains("fa-pencil-alt")) {
+                actTel(element);
             }
         }
-        //actTel actualizar telefono de la lista
-        function actTel(e){
-            var li = e.parentElement.parentElement;
-            li.setAttribute("data-mod","true");
-            document.querySelector("#add_val").value = li.firstChild.nodeValue;
-            var btnAdd = document.querySelector("#bt_add_val");
-            var btnMod = document.querySelector("#bt_act_val");
-            btnAdd.setAttribute("hidden","");
-            btnMod.removeAttribute("hidden");
+    });
+    BtnAddTel.addEventListener("click", () => {
+        var input = document.getElementById("add_val");
+        if (ValidarUl(input.value.trim())) {
+            document.getElementById("exist").innerHTML = "";
+            var li = document.createElement("li");
+            let list = document.querySelector("#lis_tel");
+            li.setAttribute("data-mod", "false");
+            li.setAttribute("id", "li" + "");
+            li.setAttribute("class", "list-group-item py-1");
+            li.innerHTML = input.value +
+                '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
+            list.appendChild(li);
+            input.value = "";
         }
-        //En la siguente funcion de hace el envio de los datos al servidor via AJAX
-        function GuardarForAjax() {
-            var Telefonos = [];
+    });
+    BtnRegistrar.addEventListener("submit", GuardarForAjax);
+    //La siguiente funcion verifica que el numero ingreso no este vacio y ademas no exista en la lista devuelve un booleano
+    function ValidarUl(numero) {
+        if (numero != "") {
             var arrayli = document.querySelector("#lis_tel").children;
-            tam = arrayli.length;
-            if(tam > 0){
-                for(var i = 0 ; i < tam ; i++){
-                    Telefonos.push(arrayli[i].firstChild.textContent);
+            if (arrayli.length > 0) {
+                if (arrayli[0].firstChild.nodeValue == "Sin registros") {
+                    document.querySelector("#lis_tel").removeChild(arrayli[0]);
+                }
+                for (var i = 0; i < arrayli.length; i++) {
+                    if (arrayli[i].firstChild.nodeValue.trim() == numero) {
+                        document.getElementById("exist").innerHTML = "Este número ya existe";
+                        return false;
+                    }
                 }
             }
-            var xhttp = new XMLHttpRequest();
-            let formData = new FormData(document.getElementById("frmProveedor"));
-            for(var i = 0; i < Telefonos.length; i++){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //acElim elimina telefono de la lista
+    function acElim(e) {
+        let li = e.parentElement.parentElement;
+        var ul = document.querySelector("#lis_tel");
+        ul.removeChild(li);
+        if (ul.children.length == 0) {
+            ul.innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
+        }
+    }
+    //actTel actualizar telefono de la lista
+    function actTel(e) {
+        var li = e.parentElement.parentElement;
+        li.setAttribute("data-mod", "true");
+        document.querySelector("#add_val").value = li.firstChild.nodeValue;
+        var btnAdd = document.querySelector("#bt_add_val");
+        var btnMod = document.querySelector("#bt_act_val");
+        btnAdd.setAttribute("hidden", "");
+        btnMod.removeAttribute("hidden");
+    }
+    //En la siguente funcion de hace el envio de los datos al servidor via AJAX
+    function GuardarForAjax(e) {
+        e.preventDefault();
+        var Telefonos = [];
+        var arrayli = document.querySelector("#lis_tel").children;
+        tam = arrayli.length;
+        if (tam > 0) {
+            for (var i = 0; i < tam; i++) {
+                Telefonos.push(arrayli[i].firstChild.textContent);
+            }
+        }
+        var xhttp = new XMLHttpRequest();
+        let formData = new FormData(document.querySelector("#frmProveedor"));
+        for (var i = 0; i < Telefonos.length; i++) {
+            if (Telefonos[i] != "Sin registros") {
                 formData.append("Telefonos[]", encodeURIComponent(Telefonos[i]));
             }
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.querySelector("#lis_tel").innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
+        }
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    document.querySelector("#lis_tel").innerHTML =
+                        '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
                     var h = document.querySelector("#thead");
                     h.className = "toast-header bg-success";
@@ -198,7 +195,7 @@
                     t.innerHTML = "Registro Exitoso!"
                     var toast = document.getElementById("toastProveedor");
                     $('.toast').toast('show');
-                }else{
+                } else {
                     var h = document.querySelector("#thead");
                     h.className = "toast-header bg-danger";
                     var i = document.querySelector("#inoti");
@@ -208,12 +205,13 @@
                     var toast = document.getElementById("toastProveedor");
                     $('.toast').toast('show');
                 }
-            };
-            xhttp.open("POST", "RegistroProveedor", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            var inputToken = document.getElementsByName("__RequestVerificationToken");
-            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-            xhttp.send(new URLSearchParams(formData));
-        }
-    </script>
+            }
+        };
+        xhttp.open("POST", "RegistroProveedor", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+    }
+</script>
 }

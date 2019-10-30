@@ -59,7 +59,7 @@ var sgl = {
             }
         };
         xhttp.open(config.method, config.url , true);
-        if(config.headers != undefined) {
+        /*if(config.headers != undefined) {
             for(var header in config.headers) {
                 if (config.headers.hasOwnProperty(header)) {
                     xhttp.setRequestHeader(header, config.headers[header]);
@@ -70,8 +70,10 @@ var sgl = {
             xhttp.send();
         } else {
             console.log(config.data);
-            xhttp.send(new FormData(config.data));
+            xhttp.send("nombre=as");
+//            xhttp.send(new FormData(config.data));
         }
+        */
     },
 
     clearForm: function (myFormElement) {

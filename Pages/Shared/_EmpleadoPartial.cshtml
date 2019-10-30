@@ -1,0 +1,99 @@
+@model Empleados.ListaEmpleadoModel
+<form class="col-lg-12 rounded py-4 pr-5 border border-secondary-100" method="post" id="formEUP">
+    <div id="FormEmpleado" class="ml-4">
+        <div class="form-group row ">
+            <div class="col">
+                <label asp-for="Empleado.IdPersonaNavigation.Nombres" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.IdPersonaNavigation.Nombres" placeholder="Digite sus nombres">
+            </div>
+            <div class="col">
+                <label asp-for="Empleado.IdPersonaNavigation.Apellidos" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.IdPersonaNavigation.Apellidos" placeholder="Digite sus nombres">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="Empleado.IdPersonaNavigation.Genero" class="font-weight-bold"></label>
+                <select asp-for="Empleado.IdPersonaNavigation.Genero" class="custom-options">
+                    <option value="">Seleccione...</option>
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </select>
+            </div>
+            <div class="col">
+                <label asp-for="Empleado.IdPersonaNavigation.Telefono" class="font-weight-bold"></label>
+                <input class="form-control form-control-user mb-2" asp-for="Empleado.IdPersonaNavigation.Telefono" placeholder="####-####">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-9">
+                <label asp-for="Empleado.IdPersonaNavigation.Direccion" class="font-weight-bold"></label>
+                <textarea asp-for="Empleado.IdPersonaNavigation.Direccion" class="form-control" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+            </div>
+            <div class="col-lg-3">
+                <label asp-for="Empleado.Dui" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.Dui" placeholder="########-#">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="Empleado.FechaNacimiento" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.FechaNacimiento" placeholder="dd/MM/yyyy">
+            </div>
+            <div class="col">
+                <label asp-for="Empleado.FechaIngreso" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.FechaIngreso" placeholder="dd/MM/yyyy">
+            </div>
+        </div>
+    </div>
+    <div id="FormUsuario" hidden>
+        <div class="row offset-1">
+            <div class="col-lg-6 mt-4">
+                <div class="form-group row">
+                    <label asp-for="Empleado.IdUsuarioNavigation.Nombre" class="font-weight-bold"></label>
+                    <input class="form-control" asp-for="Empleado.IdUsuarioNavigation.Nombre" placeholder="Digite su nombre de usuario">
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Empleado.IdUsuarioNavigation.Correo" class="font-weight-bold"></label>
+                    <input class="form-control mb-2" asp-for="Empleado.IdUsuarioNavigation.Correo" placeholder="ejemplo@dominio.com">
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Empleado.IdUsuarioNavigation.Privilegio" class="font-weight-bold mr-3"></label>
+                    <select asp-for="Empleado.IdUsuarioNavigation.Privilegio">
+                        <option value="">Seleccione...</option>
+                        <option value="0">Vendedor</option>
+                        <option value="1">Administrador</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Empleado.IdUsuarioNavigation.Clave" class="font-weight-bold"></label>
+                    <input class="form-control" type="password" asp-for="Empleado.IdUsuarioNavigation.Clave" placeholder="Digite su contraseña">
+                </div>
+                <div class="form-group row">
+                    <label class="font-weight-bold">Repetir</label>
+                    <input class="form-control" type="password" placeholder="Repita su contraseña">
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5">
+                <div class="form-group row offset-3 text-center">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="80%;" width="80%;">
+                </div>
+                <div class="form-group offset-1">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="pdimagen">
+                        <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="offset-5 col-lg-3" id="divsig">
+            <button type="button" class="btn btn-outline-primary" id="next"><i class="fas fa-arrow-circle-right"></i> Siguiente</button>
+        </div>
+        <div class="offset-4 btn-group col-lg-4" hidden="" id="divbp">
+            <button type="button" class="btn btn-outline-secondary" id="back"><i class="fas fa-arrow-circle-left"></i> Regresar</button>
+            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-save"></i> Registrar</button>
+        </div>
+    </div>
+</form>
