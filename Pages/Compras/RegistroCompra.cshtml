@@ -672,7 +672,8 @@ ViewData["Title"] = "Registro Compras";
                 "RequestVerificationToken": FrmMarca.querySelector('input[name=__RequestVerificationToken]').value,
                 "Content-type": "application/x-www-form-urlencoded"
             },
-            done: sgl.ajax2({
+            done: function(){
+                sgl.ajax2({
                 method: 'get',
                 url: 'RegistroCompra?handler=ListaMarcas',
                 done: function (texto) {
@@ -687,9 +688,9 @@ ViewData["Title"] = "Registro Compras";
                     });
                     console.log(lista);
                 },
-                data: FrmMarca,
-                fail: function () {}
+                data: document.querySelector("#registroMarca")
                 })
+            }
         });
     });
     var btnCancelarProducto = document.getElementById('btnCancelarProducto');
@@ -900,5 +901,6 @@ ViewData["Title"] = "Registro Compras";
         });
     })();
 </script>
+
 
 }

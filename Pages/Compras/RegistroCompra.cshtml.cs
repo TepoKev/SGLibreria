@@ -20,23 +20,15 @@ namespace SGLibreria.Pages.Compras {
         [BindProperty]
         public Proveedor Proveedor { get; set; }
         [BindProperty]
+        public string[] Telefonos { get; set; }
+        [BindProperty]
         public Categoria Categoria { get; set; }
         [BindProperty]
         public Marca Marca { get; set; }
         public IList<Categoria> Categorias {get;set;}
         public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
-        public async Task<IActionResult> OnPostAsync () {
-            if (!ModelState.IsValid) {
-                return Page ();
-            }
-            if (!Proveedor.Enlace.Contains ("http")) {
-                Proveedor.Enlace = "http://" + Proveedor.Enlace;
-            }
-            _context.Proveedores.Add (Proveedor);
-            await _context.SaveChangesAsync ();
-            return RedirectToPage ("/Proveedores/RegistroProveedor");
-        }
+
         public async Task<PartialViewResult> OnPostAgregarProducto(Producto Producto){
             if(!ModelState.IsValid) {
                 return Partial("_ProductoPartial",null);
@@ -71,6 +63,42 @@ namespace SGLibreria.Pages.Compras {
         public JsonResult OnGetListaProveedores(){
             this.Proveedores = _context.Proveedores.ToList();
             return new JsonResult(this.Proveedores);
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var tamtel = Telefonos.Length;
+            this.Proveedor.Estado = (sbyte)1;
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            if(Proveedor.Enlace != null){
+                if (!Proveedor.Enlace.Contains("http"))
+                {
+                    Proveedor.Enlace = "http://" + Proveedor.Enlace;
+                }
+            }
+            this._context.Proveedores.Add(Proveedor);
+            await this._context.SaveChangesAsync();
+            if(tamtel > 0){
+                Telefono telefono;
+                telefono = new Telefono();
+                telefono.IdProveedor = this.Proveedor.Id;
+                telefono.Numero = Telefonos[0];
+                telefono.Principal = (sbyte) 1;
+                await this._context.Telefonos.AddAsync(telefono);
+                for(var i = 1 ; i < Telefonos.Length ; i++)
+                {
+                    telefono = new Telefono();
+                    telefono.IdProveedor = this.Proveedor.Id;
+                    telefono.Numero = Telefonos[i];
+                    telefono.Principal = (sbyte) 0;
+                    await this._context.Telefonos.AddAsync(telefono);
+                }
+                await this._context.SaveChangesAsync();
+            }
+            return Page();
         }
     }
 }
