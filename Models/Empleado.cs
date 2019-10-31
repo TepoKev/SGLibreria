@@ -7,7 +7,7 @@ namespace SGLibreria.Models
     {
         public int Id { get; set; }
         public int IdPersona { get; set; }
-        [Required(ErrorMessage="La {0} es oblogatoria"), Display(Name="Fecha de Nacimiento"), DataType(DataType.Date)]
+        [Required(ErrorMessage="La {0} es obligatoria"), Display(Name="Fecha de Nacimiento"), DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
         [Display(Name="Fecha de Ingreso"), DataType(DataType.Date)]
         public DateTime? FechaIngreso { get; set; }

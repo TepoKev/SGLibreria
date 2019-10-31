@@ -28,18 +28,34 @@ ViewData["title"] = "Lista de Empleados";
                         <th>Nombre</th>
                         <th>Teléfono</th>
                         <th>Privilegio</th>
+                        <th>Estado</th>
                         <th>Bitacora</th>
                         <th>Ver más</th>
                     </tr>
                 </thead>
                 <tbody id="bodyempleados">
                     @foreach(var Empleado in Model.Empleados){
-                    <tr>
+                    <tr data-idtre="tr-@Empleado.Id">
                         <td>@Empleado.IdPersonaNavigation.Nombres
                             @Empleado.IdPersonaNavigation.Apellidos
                         </td>
                         <td>@Empleado.IdPersonaNavigation.Telefono</td>
                         <td>@if(@Empleado.IdUsuarioNavigation.Privilegio == 1){<span>Administrador</span>}else{<span>Vendedor</span>}</td>
+                        <td>
+                            @if(@Empleado.IdUsuarioNavigation.Estado == 1){
+                                <div class="col-form-label custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="@Empleado.Id" checked>
+                                    <label class="custom-control-label" for="@Empleado.Id">Activo</label>
+                                </div>
+                            }else{
+                                if(@Empleado.IdUsuarioNavigation.Estado == 0){
+                                    <div class="col-form-label custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="@Empleado.Id">
+                                        <label class="custom-control-label" for="@Empleado.Id">Inactivo</label>
+                                    </div>
+                                }
+                            }
+                        </td>
                         <td>
                             <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i>Ver</a>
                         </td>
@@ -87,7 +103,8 @@ ViewData["title"] = "Lista de Empleados";
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="modalCuerpo"></div>
+            <div class="modal-body" id="modalcuerpo">
+            </div>
         </div>
     </div>
 </div>
@@ -101,39 +118,88 @@ ViewData["title"] = "Lista de Empleados";
         $('select').selectric();
     });
     var btnVermas = document.querySelector("#bodyempleados");
-    var modalCuerpo = document.querySelector("#modalCuerpo");
+    var modalCuerpo = document.querySelector("#modalcuerpo");
+    var tract;
     btnVermas.addEventListener("click", (e)=>{
         var element = e.target;
         if(element.classList.contains("fa-bars")){
             ObtenerEmpleado(element.id);
+            tract = "tr-"+element.id;
+        }else{
+            if(element.classList.contains("custom-control-input")){
+                ChangeState(element);
+            }
         }
     });
     modalCuerpo.addEventListener("click", (e)=>{
         var element = e.target;
-        if(element.id == "next"){
-            Change();
+        if(element.classList.contains("fa-save") || element.classList.contains("btn-outline-primary")){
+            //Aqui se va a ir el cambio por ajax
+            document.querySelector("#btnsave").setAttribute("hidden","");
+            document.querySelector("#btnmod").removeAttribute("hidden");
+            PonerRead();
+            Actualizar();
         }else{
-            if(element.classList.contains("fa-arrow-circle-right")){
-                Change()
-            }else{
-                if(element.id == "back"){
-                    RevertChange();
-                }else{
-                    if(element.classList.contains("fa-arrow-circle-left")){
-                        RevertChange();
-                    }else{
-                        if(element.id == "back"){
-                            //Aqui se va a ir el cambio por ajax
-                        }else{
-                            if(element.classList.contains("fa-save")){
-                                //Aqui se va a ir el cambio por ajax
-                            }
-                        }
-                    }
-                }
+            if(element.classList.contains("fa-pencil-alt") || element.classList.contains("btn-outline-warning")){
+                document.querySelector("#btnsave").removeAttribute("hidden");
+                document.querySelector("#btnmod").setAttribute("hidden","");
+                QuitarRead();
             }
         }
     });
+    function Actualizar(){
+        //Aqui se va a enviar el Formulario al servidor via ajax
+        let form = new FormData(document.querySelector("#formEUP"));
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if(this.readyState == 4 && this.status == 200){
+                var Empleado = JSON.parse(this.responseText);
+                var lbgen = document.querySelector("#lbgen");
+                if(Empleado.genero == 1){
+                    lbgen.innerHTML = '<span class="text-primary"><i class="fas fa-male"></i> Masculino</span>';
+                }else{
+                    lbgen.innerHTML = '<span style="color: pink"><i class="fas fa-female"></i> Femenino</span>';
+                }
+                var tr = document.querySelector("tr[data-idtre="+tract+"]");
+                tr.children[0].innerHTML = Empleado.nombre;
+                tr.children[1].innerHTML = Empleado.telefono;
+                if(Empleado.privilegio == 1){
+                    tr.children[2].innerHTML = "Administrador";
+                }else{
+                    tr.children[2].innerHTML = "Vendedor";
+                }
+            }
+        };
+        xhttp.open("POST", "ListaEmpleado?handler=EditEmpleado", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(form));
+    }
+    //Cambia el estado de un Usuario
+    function ChangeState(inputCheck){
+        var Estado = 0;
+        var IdUsuario = inputCheck.id;
+        if(inputCheck.checked){
+            Estado = 1;
+        }
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(inputCheck.checked){
+                    inputCheck.nextElementSibling.innerHTML="Activo";
+                }else{
+                    inputCheck.nextElementSibling.innerHTML="Inactivo";
+                }
+            }
+        };
+        xhttp.open("POST", "ListaEmpleado?handler=Estado", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("IdUsuario="+IdUsuario+"&Estado="+Estado);
+    }
+    //Cambia de div dentro del modal (oculta)
     function Change(){
         var FrmEmpleado = document.querySelector("#FormEmpleado");
         var FrmUsuario = document.querySelector("#FormUsuario");
@@ -154,6 +220,7 @@ ViewData["title"] = "Lista de Empleados";
         divbp.setAttribute("hidden","");
         divsig.removeAttribute("hidden");
     }
+    //Obtiene un empleado de la base de datos mediante un id
     function ObtenerEmpleado(id){
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -172,11 +239,39 @@ ViewData["title"] = "Lista de Empleados";
                 $('#empleadomodal').modal('show');
             }
         };
-        xhttp.open("POST", "ListaEmpleado?handler=EmpleadoEdit", true);
+        xhttp.open("POST", "ListaEmpleado?handler=EmpleadoView", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var inputToken = document.getElementsByName("__RequestVerificationToken");
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
         xhttp.send("IdEmpleado="+id);
+    }
+    function PonerRead(){
+        document.querySelector("#Empleado_IdPersonaNavigation_Nombres").setAttribute("readonly","");
+        document.querySelector("#Empleado_IdPersonaNavigation_Apellidos").setAttribute("readonly","");
+        document.querySelector("#dgen").setAttribute("hidden","");
+        document.querySelector("#lbgen").removeAttribute("hidden");
+        document.querySelector("#Empleado_IdPersonaNavigation_Telefono").setAttribute("readonly","");
+        document.querySelector("#Empleado_IdPersonaNavigation_Direccion").setAttribute("readonly","");
+        document.querySelector("#Empleado_Dui").setAttribute("readonly","");
+        document.querySelector("#Empleado_FechaNacimiento").setAttribute("readonly","");
+        document.querySelector("#Empleado_FechaIngreso").setAttribute("readonly","");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Nombre").setAttribute("readonly","");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Correo").setAttribute("readonly","");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Clave").setAttribute("readonly","");
+    }
+    function QuitarRead(){
+        document.querySelector("#Empleado_IdPersonaNavigation_Nombres").removeAttribute("readonly");
+        document.querySelector("#Empleado_IdPersonaNavigation_Apellidos").removeAttribute("readonly");
+        document.querySelector("#dgen").removeAttribute("hidden");
+        document.querySelector("#lbgen").setAttribute("hidden","");
+        document.querySelector("#Empleado_IdPersonaNavigation_Telefono").removeAttribute("readonly");
+        document.querySelector("#Empleado_IdPersonaNavigation_Direccion").removeAttribute("readonly");
+        document.querySelector("#Empleado_Dui").removeAttribute("readonly");
+        document.querySelector("#Empleado_FechaNacimiento").removeAttribute("readonly");
+        document.querySelector("#Empleado_FechaIngreso").removeAttribute("readonly");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Nombre").removeAttribute("readonly");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Correo").removeAttribute("readonly");
+        document.querySelector("#Empleado_IdUsuarioNavigation_Clave").removeAttribute("readonly");
     }
 </script>
 }

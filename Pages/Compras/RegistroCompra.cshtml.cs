@@ -37,8 +37,8 @@ namespace SGLibreria.Pages.Compras {
             if(!ModelState.IsValid) {
                 return Partial("_ProductoPartial",null);
             }
-            //_context.Productos.Add(Producto);
-            //await _context.SaveChangesAsync();
+            _context.Productos.Add(Producto);
+            await _context.SaveChangesAsync();
             return Partial("_ProductoPartial",null);
         }
 

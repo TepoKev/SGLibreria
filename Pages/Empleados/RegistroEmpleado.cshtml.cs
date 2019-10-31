@@ -30,6 +30,7 @@ namespace SGLibreria.Pages.Empleados
             }
             await this._context.Personas.AddAsync(this.Persona);
             await this._context.SaveChangesAsync();
+            this.Usuario.Estado = (sbyte) 1;
             await this._context.Usuarios.AddAsync(this.Usuario);
             await this._context.SaveChangesAsync();
             this.Empleado.IdPersona = this.Persona.Id;
