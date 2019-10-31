@@ -19,8 +19,12 @@ namespace SGLibreria.Pages.Compras {
         public Producto Producto { get; set; }
         [BindProperty]
         public Proveedor Proveedor { get; set; }
+        [BindProperty]
+        public Categoria Categoria { get; set; }
+        [BindProperty]
+        public Marca Marca { get; set; }
         public IList<Categoria> Categorias {get;set;}
-        public IList<Marca> Marca {get;set;}
+        public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
         public async Task<IActionResult> OnPostAsync () {
             if (!ModelState.IsValid) {
@@ -37,15 +41,15 @@ namespace SGLibreria.Pages.Compras {
             if(!ModelState.IsValid) {
                 return Partial("_ProductoPartial",null);
             }
-            //_context.Productos.Add(Producto);
-            //await _context.SaveChangesAsync();
+            _context.Productos.Add(Producto);
+            await _context.SaveChangesAsync();
             return Partial("_ProductoPartial",null);
         }
 
         public void OnGet () {
-            this.Categorias = _context.Categorias.ToList();
-            this.Categorias = _context.Categorias.ToList();
-            this.Proveedores = _context.Proveedores.ToList();
+            //this.Categorias = _context.Categorias.ToList();
+            //this.Categorias = _context.Categorias.ToList();
+            //this.Proveedores = _context.Proveedores.ToList();
         }
         public JsonResult OnGetListaCategorias() {
             this.Categorias = _context.Categorias.ToList();
@@ -54,6 +58,19 @@ namespace SGLibreria.Pages.Compras {
             this.Proveedores = _context.Proveedores.ToList();
 */
             return new JsonResult(this.Categorias);
+        }
+        public JsonResult OnGetListaMarcas(){
+            this.Marcas = _context.Marcas.ToList();
+            return new JsonResult(this.Marcas);
+        }
+        public async Task<IActionResult> OnPostAgregarMarca(){
+            _context.Marcas.Add(Marca);
+            await _context.SaveChangesAsync();
+            return Page();
+        }
+        public JsonResult OnGetListaProveedores(){
+            this.Proveedores = _context.Proveedores.ToList();
+            return new JsonResult(this.Proveedores);
         }
     }
 }
