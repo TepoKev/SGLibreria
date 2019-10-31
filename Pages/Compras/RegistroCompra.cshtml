@@ -19,7 +19,7 @@ ViewData["Title"] = "Registro Compras";
         transition: max-width .4s;
     }
 
-    #productos-seleccionados:hover {}
+    /*#productos-seleccionados:hover {}*/
 </style>
 <form method="post" style="display:none;" id="formToken"></form>
 <form class="container-fluid " id="registroCompra">
@@ -28,10 +28,10 @@ ViewData["Title"] = "Registro Compras";
         <div class="row">
             <div class="col-lg-10 offset-lg-1 border border-secondary-100 rounded ">
                 <div class="row ">
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <h5 class="text-lg-left p-2">Datos</h5>
                     </div>
-                    <div class="col-lg-6 pt-2" style="align-content: flex-end;">
+                    <div class="col-lg-7 pt-2" style="align-content: flex-end;">
                         <div class="form-group pt-2">
                             <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-success" data-toggle="modal"
@@ -46,19 +46,21 @@ ViewData["Title"] = "Registro Compras";
                 </div>
                 <div class="form-group row m-2 pt-2 rounded">
                     <label for="cfecha" class="col-lg-1 font-weight-bold col-form-label">Fecha</label>
-                    <div class="col-lg-4 pt-1">
-                        <input type="datetime-local" class="form-control form-control-user mb-2" id="cfecha">
+                    <div class="col-lg-3 pt-1">
+                        <input type="Date" class="form-control form-control-user mb-2" id="cfecha">
                     </div>
                     <label for="cproveedor" class="col-lg-1 col-form-label font-weight-bold ">Proveedor</label>
-                    <input type="text" list="items" class="offset-lg-1 form-group col-lg-5 ml-5 pt-2 form-control"
+                    <div class="pl-5 col-lg-6">
+                        <select class="custom-select form-control" id="comboProveedores">
+                        </select>
+                    </div>
+                    <!--<input type="text" list="comboProveedores" class="offset-lg-1 form-group col-lg-5 ml-5 pt-2 form-control"
                         id="cproveedor">
-                    <!-- Lista de opciones -->
-                    <datalist id="items">
-                        <option value="-- Seleccione --" disabled>Libreria Miriam</option>
-                        <option>Libreria Miriam</option>
-                    </datalist>
+                    -->
+                    <!-- Lista de opciones 
+                    <select id="comboProveedores">
+                    </select>-->
                 </div>
-
 
             </div>
         </div>
@@ -244,11 +246,11 @@ ViewData["Title"] = "Registro Compras";
                         </div>
 
                         <div class="form-group row">
-                            <label for="ctnombre"
-                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                            <label asp-for="Categoria.Nombre" for="ctnombre"
+                                class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control form-control-user mb-2" id="pnombre"
-                                    placeholder="Libros">
+                                <input type="text" class="form-control form-control-user mb-2" id="ctnombre"
+                                    placeholder="Libros" required>
                             </div>
                         </div>
                     </form>
@@ -258,8 +260,9 @@ ViewData["Title"] = "Registro Compras";
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <div class="btn btn-group">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                            id="btnRegistrarCategoria"><i class="fas fa-save"> </i> Registrar</button>
+                        <button type="submit" class="btn btn-outline-primary" data-dismiss="modal"
+                            id="btnRegistrarCategoria" asp-page-handler="AgregarCategoria"><i class="fas fa-save"> </i>
+                            Registrar</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
                             id="btnCancelarCategoria"><i class="fas fa-times-circle"> </i> Cancelar</button>
                     </div>
@@ -284,36 +287,30 @@ ViewData["Title"] = "Registro Compras";
                     <h4 class="modal-title">Registro de Marca</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="registroMarca">
+                <form method="post" id="registroMarca">
+                    <!-- Modal body -->
+                    <div class="modal-body">
                         <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                             <label>Campos obligatorios *</label>
                         </div>
-
                         <div class="form-group row">
-                            <label for="mnombre"
-                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
+                            <label asp-for="Marca.Nombre"
+                                class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control form-control-user mb-2" id="mnombre"
-                                    placeholder="Facela">
+                                <input asp-for="Marca.Nombre" class="form-control form-control-user mb-2" placeholder="Facela">
                             </div>
                         </div>
-                    </form>
-
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <div class="btn btn-group">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                            id="btnRegistrarMarca"><i class="fas fa-save"> </i> Registrar</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-                            id="btnCancelarMarca"><i class="fas fa-times-circle"> </i> Cancelar</button>
                     </div>
-                </div>
-
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="btn btn-group">
+                            <button type="submit" class="btn btn-outline-primary"
+                                id="btnRegistrarMarca"><i class="fas fa-save"> </i> Registrar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                                id="btnCancelarMarca"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -346,8 +343,7 @@ ViewData["Title"] = "Registro Compras";
 
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="docimagen">
-                                    <label class="custom-file-label"
-                                        for="docimagen">Seleccione..</label>
+                                    <label class="custom-file-label" for="docimagen">Seleccione..</label>
                                 </div>
                             </div>
                         </div>
@@ -408,7 +404,7 @@ ViewData["Title"] = "Registro Compras";
                         </ul>
                         <!--id="myTabContent"-->
                         <div class="tab-content" id="myTabContent">
-                            
+
                             <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
                                 aria-labelledby="home-tab">
                                 <!--PRODUCTO NUEVO-->
@@ -418,48 +414,46 @@ ViewData["Title"] = "Registro Compras";
                                     </div>
 
                                     <div class="form-group row">
-                                        
-                                        <label for="pdnombre"
-                                        asp-for="Producto.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+
+                                        <label for="pdnombre" asp-for="Producto.Nombre"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
                                             <input asp-for="Producto.Nombre" type="text"
                                                 class="form-control form-control-user mb-2" id="pdnombre"
-                                                placeholder="Lapicero">
+                                                placeholder="Lapicero" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="pdmarca"
-                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                                        <label for="pdmarca" asp-for="Producto.IdMarca"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
-                                            <select asp-for="Producto.IdCategoria" class="custom-select form-control"
-                                                id="pdmarca">
-                                                <option disabled>-- Seleccione marca --</option>
-                                                <option value="1">Facela</option>
-                                                <option value="2">Norma</option>
+                                            <select asp-for="Producto.IdMarca" class="custom-select form-control"
+                                                id="comboMarcas">
+
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="pdcodigo"
-                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                                        <label for="pdcodigo" asp-for="Producto.Codigo"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
                                             <input asp-for="Producto.Codigo" type="text" class="form-control"
                                                 id="pdcodigo" placeholder="LF0001">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="pdcategoria"
-                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
+                                        <label for="pdcategoria" asp-for="Producto.IdCategoria"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
                                             <select asp-for="Producto.IdCategoria" class="custom-select form-control"
-                                                id="comboCategorias">
-                                                
+                                                id="comboCategorias" required>
+
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="pddireccion"
-                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción</label>
+                                        <label for="pddireccion" asp-for="Producto.Descripcion"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
                                             <textarea asp-for="Producto.Descripcion" class="form-control"
                                                 id="pddireccion" rows="3"
@@ -467,12 +461,11 @@ ViewData["Title"] = "Registro Compras";
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="pdstock"
-                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-                                            mínima*</label>
+                                        <label for="pdstock" asp-for="Producto.StockMinimo"
+                                            class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                                         <div class="col-lg-7">
                                             <input asp-for="Producto.StockMinimo" type="number" class="form-control"
-                                                id="pdstock" placeholder="10">
+                                                id="pdstock" placeholder="10" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -575,14 +568,14 @@ ViewData["Title"] = "Registro Compras";
                                 </div>
                                 <div class="form-group row">
                                     <label for="pdcodigo1"
-                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Código</label>
                                     <div class="col-lg-7">
                                         <input type="text" class="form-control" id="pdcodigo1" value="" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="pdcategoria1"
-                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoria</label>
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría</label>
                                     <div class="col-lg-7">
                                         <input type="text" class="form-control" id="pdcategoria1" value="" disabled>
                                     </div>
@@ -618,8 +611,7 @@ ViewData["Title"] = "Registro Compras";
 
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="pdimagenAntiguo">
-                                            <label class="custom-file-label" 
-                                                for="pdimagenAntiguo">Seleccione..</label>
+                                            <label class="custom-file-label" for="pdimagenAntiguo">Seleccione..</label>
                                         </div>
                                     </div>
                                 </div>
@@ -633,24 +625,25 @@ ViewData["Title"] = "Registro Compras";
                                 </div>
 
                             </div><!-- Servicios -->
-                
-                
+
+
 
                         </div>
                         <!--id="myTabContent"-->
-                
-                </div><!--id='productos-->
+
+                    </div>
+                    <!--id='productos-->
                 </form>
             </div>
 
-        <div class="modal-footer">
-            <div class="btn btn-group">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnAgregarProducto"><i
-                        class="fas fa-save"> </i> Agregar</button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarProducto"><i
-                        class="fas fa-times-circle"> </i> Cancelar</button>
+            <div class="modal-footer">
+                <div class="btn btn-group">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                        id="btnAgregarProducto"><i class="fas fa-save"> </i> Agregar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                        id="btnCancelarProducto"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                </div>
             </div>
-        </div>
 
         </div>
     </div>
@@ -661,14 +654,44 @@ ViewData["Title"] = "Registro Compras";
 }
 
 @section Scripts {
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/busqueda.js"></script>
 <script src="~/js/sgl.js"></script>
 
 <script>
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
     //var btnCancelar = document.querySelector('#btnCancelarProducto');
+    var FrmMarca = document.querySelector("#registroMarca");
+    FrmMarca.addEventListener("submit", function(e){
+        //Evita la accion por defecto que en nuestro caso seria enviar el formulario
+        console.log(FrmMarca);
+        e.preventDefault();
+        sgl.ajax2({
+            method: "post",
+            url: "RegistroCompra?handler=AgregarMarca",
+            headers: {
+                "RequestVerificationToken": FrmMarca.querySelector('input[name=__RequestVerificationToken]').value,
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            done: sgl.ajax2({
+                method: 'get',
+                url: 'RegistroCompra?handler=ListaMarcas',
+                done: function (texto) {
+                    var lista = JSON.parse(texto);
+                    var comboMarcas = document.querySelector('#comboMarcas');
+                    comboMarcas.innerHTML = "";
+                    lista.forEach(function (dato) {
+                        var elem = document.createElement('option');
+                        elem.innerHTML = dato.nombre;
+                        elem.value = dato.id;
+                        comboMarcas.appendChild(elem);
+                    });
+                    console.log(lista);
+                },
+                data: FrmMarca,
+                fail: function () {}
+                })
+        });
+    });
     var btnCancelarProducto = document.getElementById('btnCancelarProducto');
     var limpiarProducto = function (e) {
         sgl.clearForm(document.querySelector('#registroProductos'));
@@ -734,75 +757,96 @@ ViewData["Title"] = "Registro Compras";
 
     //funcion para agregar el producto a la tabla
     var btnAgregarProducto = document.getElementById('btnAgregarProducto');
-
-    sgl.ajax2({
-            method: 'get', 
-            url: 'RegistroCompra?handler=ListaCategorias', 
-            done: function (texto) {
-                var lista = JSON.parse(texto);
-                var comboCategorias = document.querySelector('#comboCategorias');
-                lista.forEach(function (dato) {
-                    var elem = document.createElement('option');
-                    elem.innerHTML = dato.nombre;
-                    elem.value = dato.id;
-                    comboCategorias.appendChild(elem);
-                });
-                console.log(lista);
-                $('#comboCategorias').selectric.refresh();
-            }, 
-            fail: function () {
-
-            }
-        });
-
-
     var AgregarProducto = function (e) {
         var form = document.querySelector("#registroProductos");
         var formToken = sgl.query('#formToken')[0];
         var token = formToken.querySelector('input[name=__RequestVerificationToken]');
-    
+
         var formData = new FormData(form);
 
-        
-        sgl.ajax2(
-            {
-                method: 'post', 
-                data: form,
-                url: "RegistroCompra?handler=AgregarProducto", 
-                done: function (texto) {
-                    var elem = document.createElement('tr');
-                    
-                    var tbody = document.querySelector('#tablaCompraFilas');
-                    tbody.appendChild(elem);
-                    elem.outerHTML = texto;
-                }, 
-                fail: function () {
-                    console.log("error");
-                    console.log(this);
-                }, 
-                headers: {
-                    "RequestVerificationToken": token.value, 
-                    "Content-type": "application/x-www-form-urlencoded"
-                }
+
+        sgl.ajax2({
+            method: 'post',
+            data: form,
+            url: "RegistroCompra?handler=AgregarProducto",
+            done: function (texto) {
+                var elem = document.createElement('tr');
+
+                var tbody = document.querySelector('#tablaCompraFilas');
+                tbody.appendChild(elem);
+                elem.outerHTML = texto;
+            },
+            fail: function () {
+                console.log("error");
+                console.log(this);
+            },
+            headers: {
+                "RequestVerificationToken": token.value,
+                "Content-type": "application/x-www-form-urlencoded"
             }
-        );
-       
+        });
+
     }
     btnAgregarProducto.addEventListener('click', AgregarProducto);
 </script>
 
 <script>
-    $(function () {
-        $('select').selectric();
+    //Funcion para reuperar las categorias al combo selectric
+    sgl.ajax2({
+        method: 'get',
+        url: 'RegistroCompra?handler=ListaCategorias',
+        done: function (texto) {
+            var lista = JSON.parse(texto);
+            var comboCategorias = document.querySelector('#comboCategorias');
+            lista.forEach(function (dato) {
+                var elem = document.createElement('option');
+                elem.innerHTML = dato.nombre;
+                elem.value = dato.id;
+                comboCategorias.appendChild(elem);
+            });
+            console.log(lista);
+
+        },
+        fail: function () {
+
+        }
     });
-    $('#dynamic').selectric();
-    $('#bt_add_val').click(function () {
-        // Store the value in a variable
-        var value = $('#add_val').val();
-        // Append to original select
-        $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
-        // Refresh Selectric
-        $('#dynamic').selectric('refresh');
+    //Funcion para llenar combo proveedores
+    sgl.ajax2({
+        method: 'get',
+        url: 'RegistroCompra?handler=ListaProveedores',
+        done: function (texto) {
+            console.log(texto);
+            var lista = JSON.parse(texto);
+            var comboProveedores = document.querySelector('#comboProveedores');
+            lista.forEach(function (dato) {
+                var elem = document.createElement('option');
+                elem.innerHTML = dato.nombre;
+                elem.value = dato.id;
+                comboProveedores.appendChild(elem);
+            });
+            console.log(lista);
+        },
+        fail: function () {
+
+        }
+    });
+
+    sgl.ajax2({
+        method: 'get',
+        url: 'RegistroCompra?handler=ListaMarcas',
+        done: function (texto) {
+            var lista = JSON.parse(texto);
+            var comboMarcas = document.querySelector('#comboMarcas');
+            lista.forEach(function (dato) {
+                var elem = document.createElement('option');
+                elem.innerHTML = dato.nombre;
+                elem.value = dato.id;
+                comboMarcas.appendChild(elem);
+            });
+            console.log(lista);
+        },
+        fail: function () {}
     });
 </script>
 
