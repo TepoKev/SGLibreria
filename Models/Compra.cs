@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGLibreria.Models
 {
@@ -13,6 +14,7 @@ namespace SGLibreria.Models
 
         public int Id { get; set; }
         public int IdUsuario { get; set; }
+        [Display(Name = "Proveedor")]
         public int IdProveedor { get; set; }
         public DateTime Fecha { get; set; }
 
