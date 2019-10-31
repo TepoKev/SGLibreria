@@ -29,6 +29,7 @@ namespace SGLibreria.Pages.Productos
 
         public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo) {
             this.Productos = _context.Productos
+            .Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"))
             .Include(x=>x.IdImagenNavigation)
             .ThenInclude(x=>x.IdRutaNavigation)
             .ToList();
