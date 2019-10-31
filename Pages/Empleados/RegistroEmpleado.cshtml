@@ -28,83 +28,62 @@
         </div>
     </div>
 </div>
-<form class="col-lg-10 offset-lg-1 rounded py-4 pr-5 border border-secondary-100" method="post" id="formEUP">
-    <div id="FormEmpleado">
+<form class="col-lg-10 offset-1 rounded py-4 pr-5 border border-secondary-100" method="post" id="formEUP">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div id="FormEmpleado" class="ml-4">
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Empleado</h2>
         </div>
         <div class="form-group row ">
             <div class="col">
-                <div class="row">
-                    <label asp-for="Persona.Nombres" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <input class="form-control mb-2" asp-for="Persona.Nombres" placeholder="Digite sus nombres">
-                    </div>
-                </div>
+                <label asp-for="Persona.Nombres" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Persona.Nombres" placeholder="Digite sus nombres">
+                <span asp-validation-for="Persona.Nombres" class="text-danger"></span>
             </div>
-            <div class="form-group col">
-                <div class="row">
-                    <label asp-for="Persona.Apellidos" class="col-lg-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <input class="form-control mb-2" asp-for="Persona.Apellidos" placeholder="Digite sus nombres">
-                    </div>
-                </div>
+            <div class="col">
+                <label asp-for="Persona.Apellidos" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Persona.Apellidos" placeholder="Digite sus nombres">
+                <span asp-validation-for="Persona.Apellidos" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
             <div class="col">
-                <div class="row">
-                    <label asp-for="Persona.Genero" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <select asp-for="Persona.Genero" class="custom-options">
-                            <option value="">Seleccione...</option>
-                            <option value="0">Femenino</option>
-                            <option value="1">Masculino</option>
-                        </select>
-                    </div>
-                </div>
+                <label asp-for="Persona.Genero" class="font-weight-bold"></label>
+                <select asp-for="Persona.Genero" class="custom-options">
+                    <option value="">Seleccione...</option>
+                    <option value="0">Femenino</option>
+                    <option value="1">Masculino</option>
+                </select>
+                <span asp-validation-for="Persona.Genero" class="text-danger"></span>
             </div>
             <div class="col">
-                <div class="row">
-                    <label asp-for="Persona.Telefono" class="col-lg-1 col-form-label font-weight-bold"></label>
-                    <div class="form-group col-lg-9 offset-1 pl-3">
-                        <input class="form-control form-control-user mb-2" asp-for="Persona.Telefono" placeholder="####-####">
-                    </div>
-                </div>
+                <label asp-for="Persona.Telefono" class="font-weight-bold"></label>
+                <input class="form-control form-control-user mb-2" asp-for="Persona.Telefono" placeholder="####-####">
+                <span asp-validation-for="Persona.Telefono" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group row justify-content-center">
-            <label asp-for="Persona.Direccion" class="col-lg-1 col-form-label font-weight-bold"></label>
-            <div class="col-lg-10">
-                <textarea asp-for="Persona.Direccion" class="form-control form-control-user" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+        <div class="form-group row">
+            <div class="col-lg-9">
+                <label asp-for="Persona.Direccion" class="font-weight-bold"></label>
+                <textarea asp-for="Persona.Direccion" class="form-control" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+                <span asp-validation-for="Persona.Direccion" class="text-danger"></span>
+            </div>
+            <div class="col-lg-3">
+                <label asp-for="Empleado.Dui" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.Dui" placeholder="########-#">
+                <span asp-validation-for="Empleado.Dui" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group row">
             <div class="col">
-                <div class="row">
-                    <label asp-for="Empleado.Dui" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <input class="form-control mb-2" asp-for="Empleado.Dui" placeholder="########-#">
-                    </div>
-                </div>
+                <label asp-for="Empleado.FechaNacimiento" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.FechaNacimiento" placeholder="dd/MM/yyyy">
+                <span asp-validation-for="Empleado.FechaNacimiento" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group row">
             <div class="col">
-                <div class="row">
-                    <label asp-for="Empleado.FechaNacimiento" class="col-lg-3 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-7 offset-1">
-                        <input class="form-control mb-2" asp-for="Empleado.FechaNacimiento" placeholder="dd/MM/yyyy">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col">
-                <div class="row">
-                    <label asp-for="Empleado.FechaIngreso" class="col-lg-3 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-7 offset-1">
-                        <input class="form-control mb-2" asp-for="Empleado.FechaIngreso" placeholder="dd/MM/yyyy">
-                    </div>
-                </div>
+                <label asp-for="Empleado.FechaIngreso" class="font-weight-bold"></label>
+                <input class="form-control mb-2" asp-for="Empleado.FechaIngreso" placeholder="dd/MM/yyyy">
+                <span asp-validation-for="Empleado.FechaIngreso" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -112,44 +91,38 @@
         <div class="row">
             <h2 class="offset-4 pb-4">Datos del Usuario</h2>
         </div>
-        <div class="row">
+        <div class="row offset-1">
             <div class="col-lg-6 mt-4">
                 <div class="form-group row">
-                    <label asp-for="Usuario.Nombre" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
-                    </div>
+                    <label asp-for="Usuario.Nombre" class="font-weight-bold"></label>
+                    <input class="form-control" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
+                    <span asp-validation-for="Usuario.Nombre" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Usuario.Correo" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="col-lg-9 offset-1 pl-3">
-                        <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
-                    </div>
+                    <label asp-for="Usuario.Correo" class="font-weight-bold"></label>
+                    <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
+                    <span asp-validation-for="Usuario.Correo" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Usuario.Privilegio" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div  class="col-lg-9 offset-1 pl-3">
-                        <select asp-for="Usuario.Privilegio">
-                            <option value="">Seleccione...</option>
-                            <option value="0">Vendedor</option>
-                            <option value="1">Administrador</option>
-                        </select>
-                    </div>
+                    <label asp-for="Usuario.Privilegio" class="font-weight-bold mr-3"></label>
+                    <select asp-for="Usuario.Privilegio">
+                        <option value="">Seleccione...</option>
+                        <option value="0">Vendedor</option>
+                        <option value="1">Administrador</option>
+                    </select>
+                    <span asp-validation-for="Usuario.Privilegio" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Usuario.Clave" class="col-lg-1 offset-1 col-form-label font-weight-bold"></label>
-                    <div class="form-group col-lg-9 offset-1 pl-3">
-                        <input class="form-control form-control-user" type="password" asp-for="Usuario.Clave" placeholder="Digite su clave">
-                    </div>
+                    <label asp-for="Usuario.Clave" class="font-weight-bold"></label>
+                    <input class="form-control" type="password" asp-for="Usuario.Clave" placeholder="Digite su contraseña">
+                    <span asp-validation-for="Usuario.Clave" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-1 offset-1 col-form-label font-weight-bold">Repetir</label>
-                    <div class="form-group col-lg-9 offset-1 pl-3">
-                        <input class="form-control form-control-user mb-2" type="password" placeholder="Repita su clave">
-                    </div>
+                    <label class="font-weight-bold">Repetir</label>
+                    <input class="form-control" type="password" placeholder="Repita su contraseña">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 pt-5">
                 <div class="form-group row offset-3 text-center">
                     <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="80%;" width="80%;">
                 </div>
@@ -168,7 +141,7 @@
         </div>
         <div class="offset-4 btn-group col-lg-4" hidden="" id="divbp">
             <button type="button" class="btn btn-outline-secondary" id="back"><i class="fas fa-arrow-circle-left"></i> Regresar</button>
-            <button type="button" class="btn btn-outline-primary" id="process"><i class="fas fa-save"></i> Registrar</button>
+            <button type="submit" class="btn btn-outline-primary" id="process"><i class="fas fa-save"></i> Registrar</button>
         </div>
     </div>
 </form>
@@ -190,17 +163,15 @@
                 return '<span class="h6">'+gens[index].elemento+' '+gens[index].texto+'</span>';
             }
         });
-    </script>
-    <script>
-        var BtnNext = document.getElementById("next");
-        var BtnBack = document.getElementById("back");
-        var BtnProcess = document.getElementById("process");
-        var FrmEmpleado = document.getElementById("FormEmpleado");
-        var FrmUsuario = document.getElementById("FormUsuario");
-        var HEmpleado = document.getElementById("hEmpleado");
-        var HUsuario = document.getElementById("hUsuario");
-        var divsig = document.getElementById("divsig");
-        var divbp = document.getElementById("divbp");
+        var BtnNext = document.querySelector("#next");
+        var BtnBack = document.querySelector("#back");
+        var frmEUP = document.querySelector("#formEUP");
+        var FrmEmpleado = document.querySelector("#FormEmpleado");
+        var FrmUsuario = document.querySelector("#FormUsuario");
+        var HEmpleado = document.querySelector("#hEmpleado");
+        var HUsuario = document.querySelector("#hUsuario");
+        var divsig = document.querySelector("#divsig");
+        var divbp = document.querySelector("#divbp");
         BtnNext.addEventListener("click", ()=>{
             HUsuario.removeAttribute("hidden");
             FrmEmpleado.setAttribute("hidden","");
@@ -229,22 +200,23 @@
             FrmEmpleado.setAttribute("hidden","");
             FrmUsuario.removeAttribute("hidden");
         });
-        BtnProcess.addEventListener("click", () => {
+        frmEUP.addEventListener("submit", (e) => {
+            e.preventDefault();
             //Aqui se va a enviar el Formulario al servidor via ajax
-            let form =  new FormData(document.getElementById("formEUP"));
+            let form =  new FormData(document.querySelector("#formEUP"));
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     init();
-                    document.getElementById("formEUP").reset();
-                    document.getElementById("notific").className = "toast-header bg-success";
-                    document.getElementById("mensaje").innerHTML = "Registro exitoso !";
+                    document.querySelector("#formEUP").reset();
+                    document.querySelector("#notific").className = "toast-header bg-success";
+                    document.querySelector("#mensaje").innerHTML = "Registro exitoso !";
                     $('.toast').toast('show');
                 }
                 if (this.readyState == 4 && this.status == 404) {
                     init();
-                    document.getElementById("notific").className = "toast-header bg-danger";
-                    document.getElementById("mensaje").innerHTML = "Error al registrar !";
+                    document.querySelector("#notific").className = "toast-header bg-danger";
+                    document.querySelector("#mensaje").innerHTML = "Error al registrar !";
                     $('.toast').toast('show');
                 }
             };
