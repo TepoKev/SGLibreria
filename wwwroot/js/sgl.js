@@ -80,7 +80,7 @@ var sgl = {
             xhttp.send(params);
 //            xhttp.send(new FormData(config.data));
         }
-        */
+        
     },
     setDataSet: function (elem, attr) {
         if(attr != undefined) {
