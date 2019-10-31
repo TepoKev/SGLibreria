@@ -80,7 +80,7 @@ var sgl = {
             xhttp.send(params);
 //            xhttp.send(new FormData(config.data));
         }
-        */
+        
     },
 
     clearForm: function (myFormElement) {
