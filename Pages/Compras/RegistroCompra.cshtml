@@ -661,6 +661,7 @@ ViewData["Title"] = "Registro Compras";
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
     //var btnCancelar = document.querySelector('#btnCancelarProducto');
     var FrmMarca = document.querySelector("#registroMarca");
+    var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
     FrmMarca.addEventListener("submit", function(e){
         //Evita la accion por defecto que en nuestro caso seria enviar el formulario
         console.log(FrmMarca);
@@ -669,9 +670,10 @@ ViewData["Title"] = "Registro Compras";
             method: "post",
             url: "RegistroCompra?handler=AgregarMarca",
             headers: {
-                "RequestVerificationToken": FrmMarca.querySelector('input[name=__RequestVerificationToken]').value,
+                "RequestVerificationToken": token.value,
                 "Content-type": "application/x-www-form-urlencoded"
             },
+            data: FrmMarca,
             done: function(){
                 sgl.ajax2({
                 method: 'get',
@@ -689,7 +691,9 @@ ViewData["Title"] = "Registro Compras";
                     console.log(lista);
                 },
                 data: document.querySelector("#registroMarca")
-                })
+                });
+                $('#modalMarca').modal('hide');
+                sgl.clearForm(FrmMarca);
             }
         });
     });
