@@ -220,14 +220,16 @@ ViewData["Title"] = "Lista de Productos";
         $('#dynamic').selectric('refresh');
     });
     (function () {
+      
       sgl.get('ListaProductoAjax', function (data) {
           var divProductos = document.querySelector('#productos');
           divProductos.innerHTML = data;
       });
-
+      
       var NombreOCodigo = document.querySelector('#NombreOCodigo');
+      NombreOCodigo.focus();
       NombreOCodigo.oninput = function (e) {
-        sgl.get('/Productos/ListaProductoAjax', function (data) {
+        sgl.get('ListaProductoAjax?NombreOCodigo='+NombreOCodigo.value, function (data) {
           var divProductos = document.querySelector('#productos');
           divProductos.innerHTML = data;
       });

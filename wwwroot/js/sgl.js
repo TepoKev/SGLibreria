@@ -8,8 +8,9 @@ var sgl = {
         };
         url = url + (params == undefined ? "" : "?"+params);
         xhttp.open("GET", url, true);
+//        console.log(url);
+//        console.log(params);
         xhttp.send();
-
     },
     post: function (url, callback, params, token) {
         var xhttp = new XMLHttpRequest();
@@ -33,7 +34,6 @@ var sgl = {
         return document.querySelectorAll(selector);
     },
     ajax: function (metodo, url, callback, params) {
-        
         if (metodo.toUpperCase() == 'POST') {
             this.post(url, callback, params);
         } else if (metodo.toUpperCase() == 'GET') {
@@ -80,9 +80,29 @@ var sgl = {
             xhttp.send(params);
 //            xhttp.send(new FormData(config.data));
         }
-        */
+        
     },
-
+    setDataSet: function (elem, attr) {
+        if(attr != undefined) {
+            for(var clave in attr) {
+                if (attr.hasOwnProperty(clave)) {
+                    elem.setAttribute('data-'+clave, attr[clave]);
+                }
+            }
+        }
+    },
+    getDataSet: function (elem) {
+        var obj = {};
+        var listAttr = elem.attributes;
+        var attr;
+        for(var i = 0; i < listAttr.length; i++) {
+            attr = listAttr[i];
+            if(attr.nodeName.startsWith("data-")) {
+                obj[attr.nodeName.substring(5)] = attr.nodeValue;
+            }
+        }
+        return obj;
+    },
     clearForm: function (myFormElement) {
         var elements = myFormElement.elements;
         myFormElement.reset();
@@ -118,5 +138,18 @@ var sgl = {
         var elem = document.getElementById('salida');
         elem.innerHTML = data;
     });
+})();
+*/
+/*
+(function (){
+    var elem = document.createElement('a');
+    datos = {
+        'nombres': "Diego",
+        'apellidos': 'Palacios'
+    };
+    console.log(datos);
+    sgl.setDataSet(elem, datos);
+    console.log(elem);
+    console.log(sgl.getDataSet(elem));
 })();
 */
