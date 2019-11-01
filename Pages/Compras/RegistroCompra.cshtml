@@ -205,8 +205,8 @@ ViewData["Title"] = "Registro Compras";
                         <div class="btn btn-group">
                             <button type="submit" class="btn btn-outline-primary" id="registrar"><i
                                     class="fas fa-save"></i> Registrar</button>
-                            <button type="button" id="btnCancelarProveedor " class="btn btn-outline-secondary" data-dismiss="modal"><i
-                                    class="fas fa-times-circle"></i> Cancelar</button>
+                            <button type="button" id="btnCancelarProveedor" class="btn btn-outline-secondary"
+                                data-dismiss="modal"><i class="fas fa-times-circle"></i> Cancelar</button>
                         </div>
                     </div>
                 </form>
@@ -297,9 +297,11 @@ ViewData["Title"] = "Registro Compras";
                             <label>Campos obligatorios *</label>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="Marca.Nombre" class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
+                            <label asp-for="Marca.Nombre"
+                                class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input asp-for="Marca.Nombre" class="form-control form-control-user mb-2" placeholder="Facela">
+                                <input asp-for="Marca.Nombre" class="form-control form-control-user mb-2"
+                                    placeholder="Facela">
                             </div>
                         </div>
                     </div>
@@ -307,7 +309,7 @@ ViewData["Title"] = "Registro Compras";
                     <div class="modal-footer">
                         <div class="btn btn-group">
                             <button type="submit" class="btn btn-outline-primary" id="btnRegistrarMarca"><i
-                                    class="fas fa-save" > </i> Registrar</button>
+                                    class="fas fa-save"> </i> Registrar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
                                 id="btnCancelarMarca"><i class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
@@ -391,25 +393,25 @@ ViewData["Title"] = "Registro Compras";
             </div>
             <div class="modal-body">
 
-                <form method="post" id="registroProductos">
-                    <!--id='productos-->
-                    <div class="" id='productos'>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home" aria-selected="true">Nuevo Producto </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile" aria-selected="false">Producto Antiguo</a>
-                            </li>
-                        </ul>
-                        <!--id="myTabContent"-->
-                        <div class="tab-content" id="myTabContent">
+                <!--id='productos-->
+                <div class="" id='productos'>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Nuevo Producto </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Producto Antiguo</a>
+                        </li>
+                    </ul>
+                    <!--id="myTabContent"-->
+                    <div class="tab-content" id="myTabContent">
 
-                            <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
-                                aria-labelledby="home-tab">
-                                <!--PRODUCTO NUEVO-->
+                        <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
+                            aria-labelledby="home-tab">
+                            <!--PRODUCTO NUEVO-->
+                            <form id="registrarProductoNuevo">
                                 <div id="formProductoNuevo">
                                     <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                                         <label>Campos obligatorios *</label>
@@ -501,12 +503,11 @@ ViewData["Title"] = "Registro Compras";
                                         <br>
                                     </div>
                                 </div>
-                                <!--PRODUCTO NUEVO-->
-                            </div><!-- Productos-->
-
-                            <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel"
-                                aria-labelledby="profile-tab">
-
+                            </form>
+                            <!--PRODUCTO NUEVO-->
+                        </div><!-- Productos-->
+                        <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form id="registrarProductoAntiguo">
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-header" id="headingOne">
@@ -615,12 +616,12 @@ ViewData["Title"] = "Registro Compras";
                                     <br>
                                     <br>
                                 </div>
-                            </div><!-- Servicios -->
-                        </div>
-                        <!--id="myTabContent"-->
+                            </form>
+                        </div><!-- Servicios -->
                     </div>
-                    <!--id='productos-->
-                </form>
+                    <!--id="myTabContent"-->
+                </div>
+                <!--id='productos-->
             </div>
             <div class="modal-footer">
                 <div class="btn btn-group">
@@ -664,7 +665,7 @@ ViewData["Title"] = "Registro Compras";
                     done: function (texto) {
                         var lista = JSON.parse(texto);
                         var comboCategorias = document.querySelector(
-                        '#comboCategorias');
+                            '#comboCategorias');
                         comboCategorias.innerHTML = "";
                         lista.forEach(function (dato) {
                             var elem = document.createElement('option');
@@ -1082,5 +1083,4 @@ ViewData["Title"] = "Registro Compras";
         sgl.clearForm(FrmProveedor);
     }
 </script>
-
 }
