@@ -33,15 +33,6 @@ namespace SGLibreria.Pages.Compras {
             await _context.SaveChangesAsync ();
             return RedirectToPage ("/Proveedores/RegistroProveedor");
         }
-        public async Task<PartialViewResult> OnPostAgregarProducto(Producto Producto){
-            if(!ModelState.IsValid) {
-                return Partial("_ProductoPartial",null);
-            }
-            //_context.Productos.Add(Producto);
-            //await _context.SaveChangesAsync();
-            return Partial("_ProductoPartial",null);
-        }
-
         public void OnGet () {
             this.Categorias = _context.Categorias.ToList();
             this.Categorias = _context.Categorias.ToList();
