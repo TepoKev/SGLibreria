@@ -60,19 +60,22 @@ namespace SGLibreria.Pages.Compras {
             await _context.SaveChangesAsync();
             return Page();
         }
+        public async Task<IActionResult> OnPostAgregarCategoria(){
+            this.Categoria.Estado = (sbyte)1;
+            _context.Categorias.Add(Categoria);
+            await _context.SaveChangesAsync();
+            return Page();
+        }
         public JsonResult OnGetListaProveedores(){
             this.Proveedores = _context.Proveedores.ToList();
             return new JsonResult(this.Proveedores);
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostRegistrarProveedor()
         {
             var tamtel = Telefonos.Length;
             this.Proveedor.Estado = (sbyte)1;
-            if (!ModelState.IsValid)
-            {
-                return NotFound();
-            }
+            
             if(Proveedor.Enlace != null){
                 if (!Proveedor.Enlace.Contains("http"))
                 {

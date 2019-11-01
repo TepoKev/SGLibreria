@@ -4,48 +4,46 @@
 @{
 ViewData["Title"] = "Registro y Lista de Categorías";
 }
-
-
-<div class="row">
-    <div class="col-lg-8 offset-lg-2 rounded ">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-10 offset-1">
-
-                    <form class="mt-4" method="post">
-                        <div class="form-group row">
-                            <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span
-                                    class="font-weight-bold text-danger">*</span></label>
-                            <div class="col-lg-4">
-                                <input asp-for="Categoria.Nombre" type="text" class="form-control" id="Nombre" aria-describedby="emailHelp"
-                                    placeholder="Libros">
-                                <input asp-for="Categoria.Estado" type="hidden" class="form-control" id="Estado" aria-describedby="emailHelp"
-                                    value="1">
-                                <input asp-for="Categoria.Id" type="hidden" class="form-control" id="Id" aria-describedby="emailHelp">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2 rounded ">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 offset-1">
+                        <form class="mt-4" method="post" id="formcategoria">
+                            <div class="form-group row">
+                                <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span class="font-weight-bold text-danger">*</span></label>
+                                <div class="col-lg-4">
+                                    <input asp-for="Categoria.Nombre" type="text" class="form-control" id="Nombre" aria-describedby="emailHelp" placeholder="Libros">
+                                    <span asp-validation-for="Categoria.Nombre" class="text-danger"></span>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Guardar</button>
+                                </div>
                             </div>
-                            <div class="col-lg-3">
-
-                                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i>
-                                    Guardar</button>
-
-                            </div>
-                        </div>
-
-
-                    </form>
-
+                        </form>
+                    </div>
                 </div>
             </div>
-
         </div>
-
+        <div class="col-lg-2" id="notific">
+            <div class="toast" id="toastProveedor" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success" id="thead">
+                    <label class="col-form-label text-white">
+                        <i class="" id="inoti"></i>
+                        <strong class="mr-auto">Registro Categoria</strong>
+                    </label>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body" id="tcuerpo">
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 <div class="row">
     <div class="col-lg-8 offset-lg-2 rounded ">
@@ -74,7 +72,7 @@ ViewData["Title"] = "Registro y Lista de Categorías";
 
                     </thead>
 
-                    <tbody>
+                    <tbody id="tbcategoria">
                         @{
                             int i, len=Model.Categorias.Count;
                             Categoria c;
@@ -102,7 +100,6 @@ ViewData["Title"] = "Registro y Lista de Categorías";
                     </tbody>
                 </table>
             </div>
-
             <div class="row">
                 <div class="col offset-5">
                     <nav aria-label="Paginacion ">
@@ -130,3 +127,76 @@ ViewData["Title"] = "Registro y Lista de Categorías";
 
     </div>
 </div>
+@section Scripts{
+    <script>
+        var FrmCategoria = document.querySelector("#formcategoria");
+        FrmCategoria.addEventListener("submit", GuardarAjax);
+        function GuardarAjax(e) {
+            e.preventDefault();
+            var form = document.querySelector("#formcategoria");
+            var formData = new FormData(form);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        //Mensaje toast de exito
+                        document.querySelector("#formcategoria").reset();
+                        var h = document.querySelector("#thead");
+                        h.className = "toast-header bg-success";
+                        var i = document.querySelector("#inoti");
+                        i.className = "fas fa-check-circle text-success";
+                        var t = document.querySelector("#tcuerpo");
+                        t.innerHTML = "Registro Exitoso!"
+                        var toast = document.getElementById("toastProveedor");
+                        $('.toast').toast('show');
+
+                        //Actualizacion de la tabla
+                        var Categorias = JSON.parse(this.responseText);
+                        var tbCategorias = document.querySelector("#tbcategoria");
+                        tbCategorias.innerHTML = "";
+                        Categorias.forEach(function (elemento) {
+                            var tr = document.createElement("tr");
+                            var tdNombre = document.createElement("td");
+                            tdNombre.innerHTML = elemento.nombre;
+                            tr.appendChild(tdNombre);
+                            var tdEditar = document.createElement("td");
+                            tdEditar.innerHTML = '<a href="/Categorias/ListaCategoria?Id=' + elemento.id + '" class="btn btn-sm btn-outline-success"><i class="fas fa-pencil-alt"></i></a>';
+                            tr.appendChild(tdEditar);
+                            var tdEstado = document.createElement("td");
+                            var span = document.createElement("span");
+                            span.className = "custom-control custom-switch";
+
+                            if (elemento.estado == true) {
+
+                                span.innerHTML = '<input type="checkbox" class="custom-control-input" checked> <label class="custom-control-label">Habilitada</label>';
+                            } else {
+                                span.innerHTML = '<input type="checkbox" class="custom-control-input"><label class="custom-control-label">Deshabilitada</label>';
+                            }
+                            tdEstado.appendChild(span);
+                            tr.appendChild(tdEstado);
+                            tbCategorias.appendChild(tr);
+                        });
+
+                    } else {
+                        //Mensaje toast de fracaso
+                        var h = document.querySelector("#thead");
+                        h.className = "toast-header bg-danger";
+                        var i = document.querySelector("#inoti");
+                        i.className = "fas fa-times-circle text-white";
+                        var t = document.querySelector("#tcuerpo");
+                        t.innerHTML = "Fallo en el Registro!!"
+                        var toast = document.getElementById("toastProveedor");
+                        $('.toast').toast('show');
+                    }
+                }
+            };
+            xhttp.open("post", "ListaCategoria", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(new URLSearchParams(formData));
+        }
+
+
+    </script>
+}
