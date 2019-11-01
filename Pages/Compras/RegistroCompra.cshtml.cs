@@ -28,6 +28,19 @@ namespace SGLibreria.Pages.Compras {
         public IList<Categoria> Categorias {get;set;}
         public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
+<<<<<<< HEAD
+        public async Task<IActionResult> OnPostAsync () {
+            if (!ModelState.IsValid) {
+                return Page ();
+            }
+            if (!Proveedor.Enlace.Contains ("http")) {
+                Proveedor.Enlace = "http://" + Proveedor.Enlace;
+            }
+            _context.Proveedores.Add (Proveedor);
+            await _context.SaveChangesAsync ();
+            return RedirectToPage ("/Proveedores/RegistroProveedor");
+        }
+=======
 
         public async Task<PartialViewResult> OnPostAgregarProducto(Producto Producto){
             if(!ModelState.IsValid) {
@@ -38,6 +51,7 @@ namespace SGLibreria.Pages.Compras {
             return Partial("_ProductoPartial",null);
         }
 
+>>>>>>> 01b76a74c056eee7b9d32f32d026aef7031d9b9e
         public void OnGet () {
             //this.Categorias = _context.Categorias.ToList();
             //this.Categorias = _context.Categorias.ToList();
