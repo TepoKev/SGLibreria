@@ -2,7 +2,7 @@
 @model Ofertas.RegistroOfertaModel;
 @using SGLibreria.Models;
 @{
-    ViewData["Title"] = "Registro Ofertas";
+ViewData["Title"] = "Registro Ofertas";
 }
 <form class="container-fluid ">
     <div class="user" method="post">
@@ -17,7 +17,7 @@
                     <div class=" row  m-2 pt-2 rounded">
                         <label for="odescuento" class=" col-lg-2 font-weight-bold col-form-label">% Descuento</label>
                         <div class="col-lg-3">
-                            <input type="number" value="15" class="form-control form-control-user mb-2" id="odescuento" >
+                            <input type="number" value="15" class="form-control form-control-user mb-2" id="odescuento">
                         </div>
                     </div>
                     <div class=" row  m-2 rounded">
@@ -43,8 +43,8 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group pt-2">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                data-target="#producto" name="AgregarProducto">Añadir Producto</button>
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                data-target="#producto">Añadir Producto</button>
                         </div>
                     </div>
                 </div>
@@ -66,14 +66,16 @@
                                     <td>Cuadernos</td>
                                     <td>$ 1.00</td>
                                     <td>$ 0.85</td>
-                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
+                                    <td><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
+                                                class="fas fa-trash"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>Cartulina</td>
                                     <td>Papeleria</td>
                                     <td>$ 1.00</td>
                                     <td>$ 0.85</td>
-                                    <td ><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a></td>
+                                    <td><a href="#" class="text-danger font-weight-bold" title="Eliminar"><i
+                                                class="fas fa-trash"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -84,9 +86,10 @@
         <div class="row">
             <div class=" offset-lg-5 col-lg-6">
                 <div class="form-group pt-2 btn btn-group">
-                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Registrar</button>
+                    <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"> </i>
+                        Registrar</button>
                     <button type="button" class="btn btn-outline-secondary"><i class="fas fa-times-circle">
-                            </i> Cancelar</button>
+                        </i> Cancelar</button>
                 </div>
             </div>
         </div>
@@ -112,7 +115,8 @@
                                 </a>
                             </div>
                             <div class="offset-lg-10 col-lg-3 form-control-user px-5">
-                                <button type="button" class="btn btn-outline-success"><i class="fas fa-cart-plus"></i>Agregar</button>
+                                <button type="button" class="btn btn-outline-success"><i
+                                        class="fas fa-cart-plus"></i>Agregar</button>
                             </div>
                         </div>
                         <div class="offset-lg-1 row px-5 py-3 align-content-center">
@@ -130,58 +134,13 @@
                         </div>
                         <div class="row" style='margin-top:-15px;margin-bottom:100px;'>
                             <div class="col-lg-12" id='productos'>
-                                <div class="mt-2">
-                                @{
-                                    Producto obj;
-                                    int i,j;
-                                }
-                                @for ( i = 0; i < Model.Productos.Count; i++) {
-                                    <div class="card-group">
-                                    @for( j = 0;j < 6 && i<Model.Productos.Count; j++) {
-                                        obj = Model.Productos[i+j];
-                                    <div class="card">
-                                        <div class="card-title mt-3 mx-2">
-                                            <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                        </div>
-                                        <div class="card-img-top">
-                                            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text"></p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                        </div>
-                                    </div>
-                                    }
-                                    </div>
-                                    i = i + j -1;
-                                }
-                                    @for ( i = Model.Productos.Count-1; i >=0 ; i--) {
-                                    <div class="card-group">
-                                        @for( j = 0;j < 6 && i>=0; j++) {
-                                        obj = Model.Productos[i-j];
-                                        <div class="card">
-                                            <div class="card-title mt-3 mx-2">
-                                                <h5 class="m-0 p-0">@obj.Nombre<span class="badge badge-primary">50</span></h5>
-                                            </div>
-                                        <div class="card-img-top">
-                                            <img src="@obj.IdImagenNavigation.Nombre" class="img-fluid" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text"></p>
-                                        </div>
-                                            <div class="card-footer">
-                                                <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
-                                            </div>
-                                        </div>
-                                    }
-                                    </div>
-                                    i = i - j +1;
-                                }
-                                </div><!-- .mt-2-->
+                                <div id='productosAjax'>
+                                    <br>
+                                    <br>
+                                    <!-- Aqui iran los productos -->
+                                </div>
                             </div><!-- #productos -->
-                                <!--columna de productos-->
+                            <!--columna de productos-->
                         </div>
                         <div class="row">
                             <div class="col offset-5">
@@ -197,10 +156,10 @@
                                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                                         <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Siguiente</span>
-                                        </a>
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Siguiente</span>
+                                            </a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -216,13 +175,19 @@
 @section Scripts {
 @{
 
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <link href="~/selectric/src/selectric.css" rel="stylesheet">
-    <script src="~/selectric/src/jquery.selectric.js"></script>
-    <script src="~/js/busqueda.js"></script>
-    <script>
-        $(function() {
-            $('select').selectric();
+await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="~/js/busqueda.js"></script>
+<script src="~/js/sgl.js"></script>
+<script>
+    $('#producto').on('show.bs.modal', function (e) {
+        var prodAjax = document.getElementById("productosAjax");
+        var formProdAjax = document.createElement('form');
+        formProdAjax.innerHTML = prodAjax.outerHTML;
+        var productosAjax = new FormData(formProdAjax);
+        sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
+            var elem = document.getElementById('productosAjax');
+            elem.innerHTML = data;
         });
-    </script>
+    });
+</script>
 }
