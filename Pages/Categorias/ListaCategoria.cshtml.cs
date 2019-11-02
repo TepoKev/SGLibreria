@@ -36,6 +36,18 @@ namespace SGLibreria.Pages.Categorias
             this.Categorias=  _context.Categorias.ToList();
             return new JsonResult(this.Categorias);
         }
+        public async Task<JsonResult> OnPostEditar(int IdCategoria, string Nombre){
+            this.Categoria = await this._context.Categorias.FirstOrDefaultAsync(w => w.Id == IdCategoria);
+            this.Categoria.Nombre = Nombre; 
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult("");
+            }
+             _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
+            await _context.SaveChangesAsync();
+            this.Categorias= await _context.Categorias.ToListAsync();
+            return new JsonResult(this.Categorias);
+        }
 
 
         private bool CategoriaExists(int id)
