@@ -91,6 +91,7 @@ ViewData["Title"] = "Registro Compras";
                                     <th scope="col">Cantidad</th>
                                     <th scope="col">Precio Total</th>
                                     <th scope="col">Precio Unitario</th>
+                                    <th scope="col">Precio Venta</th>
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
@@ -101,6 +102,7 @@ ViewData["Title"] = "Registro Compras";
                                 <tr>
                                     <th></th>
                                     <th>Total</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th>0.00</th>
@@ -138,92 +140,98 @@ ViewData["Title"] = "Registro Compras";
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header bg-primary text-white">
-                    <h4 class="modal-title">Registro de Proveedor</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form method="post" id="registroProveedor">
-
-                        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-                            <label>Campos obligatorios *</label>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="pnombre"
-                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-                            <div class="col-lg-7">
-                                <input type="text" class="form-control form-control-user mb-2" id="pnombre"
-                                    placeholder="Libreria Miriam">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="pdireccion"
-                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Direccion*</label>
-                            <div class="col-lg-7">
-                                <textarea class="form-control" id="pdireccion" rows="3"
-                                    placeholder="Final Av. Crescencio Miranda"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ptelefono"
-                                class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Telefono*</label>
-                            <div class="col-lg-7">
-                                <select id="dynamic">
-                                    <option disabled>-- Seleccione --</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="offset-lg-4 col-lg-4">
-                                <input type="text" class="form-control" id="add_val" name="add_val">
-                            </div>
-                            <div class="col-lg-3">
-                                <button id="bt_add_val" type="button" class="btn btn-outline-success ml-2"><i
-                                        class="fas fa-plus"></i> Agregar</button>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="pcorreo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Correo
-                                electronico</label>
-                            <div class="col-lg-7">
-                                <input type="text" class="form-control" id="pcorreo" placeholder="example@gmail.com">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="penlace" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Enlace a
-                                red
-                                social</label>
-                            <div class="col-lg-7">
-                                <input type="text" class="form-control" id="penlace" placeholder="www.ejemplo.com">
-                            </div>
-                        </div>
-
-
-                    </form>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <div class="btn btn-group">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
-                            id="btnRegistrarProveedor"><i class="fas fa-save"> </i> Registrar</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-                            id="btnCancelarProveedor"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                <form method="post" id="frmProveedor">
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title">Registro de Proveedor</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                </div>
 
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="offset-1">
+                            <div class="form-group row">
+                                <label asp-for="Proveedor.Nombre"
+                                    class="col-sm-2 col-form-label font-weight-bold"></label>
+                                <input type="text" class="col-sm-8 form-control" asp-for="Proveedor.Nombre"
+                                    placeholder="Ingrese un nombre">
+                                <span asp-validation-for="Proveedor.Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proveedor.Correo"
+                                    class="col-sm-2 col-form-label font-weight-bold"></label>
+                                <input type="email" class="col-sm-8 form-control" asp-for="Proveedor.Correo"
+                                    placeholder="ejemplo@dominio.com">
+                                <span asp-validation-for="Proveedor.Correo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proveedor.Telefono"
+                                    class="col-sm-2 col-form-label font-weight-bold"></label>
+                                <input type="text" class="form-control col-sm-5" id="add_val" name="add_val">
+                                <button id="bt_add_val" type="button" class="btn btn-outline-success"><i
+                                        class="fas fa-plus"></i> Agregar</button>
+                                <button id="bt_act_val" type="button" class="btn btn-outline-warning" hidden=""><i
+                                        class="fas fa-plus"></i> Modificar</button>
+                                <label class="ml-1 col-form-label text-danger" id="exist"></label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-4 offset-2">
+                                    <ul class="list-group list-group-flush" id="lis_tel">
+                                        <li class="list-group-item py-1">Sin registros</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proveedor.Direccion"
+                                    class="col-sm-2 col-form-label font-weight-bold"></label>
+                                <textarea class="col-sm-8 form-control" asp-for="Proveedor.Direccion"
+                                    placeholder="4ta, avenida norte..." style="height: 150px;"></textarea>
+                                <span asp-validation-for="Proveedor.Direccion" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proveedor.Enlace"
+                                    class="col-sm-2 col-form-label font-weight-bold"></label>
+                                <input class="col-sm-8 form-control" asp-for="Proveedor.Enlace"
+                                    placeholder="www.ejemplo.com">
+                                <span asp-validation-for="Proveedor.Enlace" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="btn btn-group">
+                            <button type="submit" class="btn btn-outline-primary" id="registrar"><i
+                                    class="fas fa-save"></i> Registrar</button>
+                            <button type="button" id="btnCancelarProveedor" class="btn btn-outline-secondary"
+                                data-dismiss="modal"><i class="fas fa-times-circle"></i> Cancelar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
 </div>
 <!-- The Modal -->
-
+<!--Espacio para notificaciones-->
+<div class="col-lg-2" id="notific">
+    <div class="toast" id="toastProveedor" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success" id="thead">
+            <label class="col-form-label text-white">
+                <i class="" id="inoti"></i>
+                <strong class="mr-auto">Registro Proveedor</strong>
+            </label>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="tcuerpo">
+        </div>
+    </div>
+</div>
 <!-- The Modal -->
 <div class="user">
 
@@ -231,16 +239,14 @@ ViewData["Title"] = "Registro Compras";
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header bg-primary text-white">
-                    <h4 class="modal-title">Registro de Categoría</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form id="registroCategoria">
+                <form method="post" id="registrarCategoria">
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title">Registro de Categoría</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
                         <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                             <label>Campos obligatorios *</label>
                         </div>
@@ -249,25 +255,22 @@ ViewData["Title"] = "Registro Compras";
                             <label asp-for="Categoria.Nombre" for="ctnombre"
                                 class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control form-control-user mb-2" id="ctnombre"
-                                    placeholder="Libros" required>
+                                <input asp-for="Categoria.Nombre" class="form-control form-control-user mb-2"
+                                    id="ctnombre" placeholder="Libros">
                             </div>
                         </div>
-                    </form>
-
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <div class="btn btn-group">
-                        <button type="submit" class="btn btn-outline-primary" data-dismiss="modal"
-                            id="btnRegistrarCategoria" asp-page-handler="AgregarCategoria"><i class="fas fa-save"> </i>
-                            Registrar</button>
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-                            id="btnCancelarCategoria"><i class="fas fa-times-circle"> </i> Cancelar</button>
                     </div>
-                </div>
-
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="btn btn-group">
+                            <button type="submit" class="btn btn-outline-primary" id="btnRegistrarCategoria"
+                                asp-page-handler="AgregarCategoria"><i class="fas fa-save"> </i>
+                                Registrar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                                id="btnCancelarCategoria"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -297,15 +300,16 @@ ViewData["Title"] = "Registro Compras";
                             <label asp-for="Marca.Nombre"
                                 class="offset-lg-1 col-lg-2 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input asp-for="Marca.Nombre" class="form-control form-control-user mb-2" placeholder="Facela">
+                                <input asp-for="Marca.Nombre" class="form-control form-control-user mb-2"
+                                    placeholder="Facela">
                             </div>
                         </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <div class="btn btn-group">
-                            <button type="submit" class="btn btn-outline-primary"
-                                id="btnRegistrarMarca"><i class="fas fa-save"> </i> Registrar</button>
+                            <button type="submit" class="btn btn-outline-primary" id="btnRegistrarMarca"><i
+                                    class="fas fa-save"> </i> Registrar</button>
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
                                 id="btnCancelarMarca"><i class="fas fa-times-circle"> </i> Cancelar</button>
                         </div>
@@ -389,25 +393,25 @@ ViewData["Title"] = "Registro Compras";
             </div>
             <div class="modal-body">
 
-                <form method="post" id="registroProductos">
-                    <!--id='productos-->
-                    <div class="" id='productos'>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home" aria-selected="true">Nuevo Producto </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile" aria-selected="false">Producto Antiguo</a>
-                            </li>
-                        </ul>
-                        <!--id="myTabContent"-->
-                        <div class="tab-content" id="myTabContent">
+                <!--id='productos-->
+                <div class="" id='productos'>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Nuevo Producto </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Producto Antiguo</a>
+                        </li>
+                    </ul>
+                    <!--id="myTabContent"-->
+                    <div class="tab-content" id="myTabContent">
 
-                            <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
-                                aria-labelledby="home-tab">
-                                <!--PRODUCTO NUEVO-->
+                        <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
+                            aria-labelledby="home-tab">
+                            <!--PRODUCTO NUEVO-->
+                            <form id="registrarProductoNuevo">
                                 <div id="formProductoNuevo">
                                     <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
                                         <label>Campos obligatorios *</label>
@@ -499,12 +503,11 @@ ViewData["Title"] = "Registro Compras";
                                         <br>
                                     </div>
                                 </div>
-                                <!--PRODUCTO NUEVO-->
-                            </div><!-- Productos-->
-
-                            <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel"
-                                aria-labelledby="profile-tab">
-
+                            </form>
+                            <!--PRODUCTO NUEVO-->
+                        </div><!-- Productos-->
+                        <div class="tab-pane  fade  mt-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form id="registrarProductoAntiguo">
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
                                         <div class="card-header" id="headingOne">
@@ -516,7 +519,6 @@ ViewData["Title"] = "Registro Compras";
                                                 </button>
                                             </h2>
                                         </div>
-
                                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                                             data-parent="#accordionExample">
                                             <div class="card-body">
@@ -532,24 +534,17 @@ ViewData["Title"] = "Registro Compras";
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-12">
                                                         <div id='productosAjax'>
                                                             <br>
                                                             <!-- Aqui iran los productos -->
-
                                                         </div>
-
                                                     </div><!-- #productos -->
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-
                                 <div class="form-group row pt-3">
                                     <label for="pdnombre1"
                                         class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre</label>
@@ -608,14 +603,12 @@ ViewData["Title"] = "Registro Compras";
                                         class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
                                         foto</label>
                                     <div class="col-lg-7">
-
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="pdimagenAntiguo">
                                             <label class="custom-file-label" for="pdimagenAntiguo">Seleccione..</label>
                                         </div>
                                     </div>
-                                </div>
-                                ​
+                                </div> ​
                                 <div id="imagePreviewAntiguo">
                                     <br>
                                     <br>
@@ -623,19 +616,13 @@ ViewData["Title"] = "Registro Compras";
                                     <br>
                                     <br>
                                 </div>
-
-                            </div><!-- Servicios -->
-
-
-
-                        </div>
-                        <!--id="myTabContent"-->
-
+                            </form>
+                        </div><!-- Servicios -->
                     </div>
-                    <!--id='productos-->
-                </form>
+                    <!--id="myTabContent"-->
+                </div>
+                <!--id='productos-->
             </div>
-
             <div class="modal-footer">
                 <div class="btn btn-group">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
@@ -660,37 +647,78 @@ ViewData["Title"] = "Registro Compras";
 <script>
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
     //var btnCancelar = document.querySelector('#btnCancelarProducto');
+    var FrmCategoria = document.querySelector("#registrarCategoria");
+    var token = document.querySelector("#formToken input[name=__RequestVerificationToken]");
+    FrmCategoria.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sgl.ajax2({
+            url: "RegistroCompra?handler=AgregarCategoria",
+            method: "post",
+            headers: {
+                "RequestVerificationToken": token.value,
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            done: function () {
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroCompra?handler=ListaCategorias',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboCategorias = document.querySelector(
+                            '#comboCategorias');
+                        comboCategorias.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboCategorias.appendChild(elem);
+                        });
+                    },
+                    fail: function () {
+
+                    }
+                });
+            },
+            data: FrmCategoria
+        });
+        $('#modalCategoria').modal('hide');
+        sgl.clearForm(FrmCategoria);
+    });
+
     var FrmMarca = document.querySelector("#registroMarca");
-    FrmMarca.addEventListener("submit", function(e){
+    var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
+    FrmMarca.addEventListener("submit", function (e) {
         //Evita la accion por defecto que en nuestro caso seria enviar el formulario
-        console.log(FrmMarca);
         e.preventDefault();
         sgl.ajax2({
             method: "post",
             url: "RegistroCompra?handler=AgregarMarca",
             headers: {
-                "RequestVerificationToken": FrmMarca.querySelector('input[name=__RequestVerificationToken]').value,
+                "RequestVerificationToken": token.value,
                 "Content-type": "application/x-www-form-urlencoded"
             },
-            done: sgl.ajax2({
-                method: 'get',
-                url: 'RegistroCompra?handler=ListaMarcas',
-                done: function (texto) {
-                    var lista = JSON.parse(texto);
-                    var comboMarcas = document.querySelector('#comboMarcas');
-                    comboMarcas.innerHTML = "";
-                    lista.forEach(function (dato) {
-                        var elem = document.createElement('option');
-                        elem.innerHTML = dato.nombre;
-                        elem.value = dato.id;
-                        comboMarcas.appendChild(elem);
-                    });
-                    console.log(lista);
-                },
-                data: FrmMarca,
-                fail: function () {}
-                })
+            done: function () {
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroCompra?handler=ListaMarcas',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboMarcas = document.querySelector('#comboMarcas');
+                        comboMarcas.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboMarcas.appendChild(elem);
+                        });
+                    },
+                    data: FrmMarca
+                });
+            },
+            data: FrmMarca
         });
+        $('#modalMarca').modal('hide');
+        sgl.clearForm(FrmMarca);
     });
     var btnCancelarProducto = document.getElementById('btnCancelarProducto');
     var limpiarProducto = function (e) {
@@ -723,7 +751,6 @@ ViewData["Title"] = "Registro Compras";
         sgl.clearForm(document.querySelector('#registroCategoria'));
         sgl.clearForm(document.querySelector('#registroProveedor'));
         sgl.clearForm(document.querySelector('#documentoImagen'));
-
         var btnLimpiar1 = document.getElementById('imagePreviewDocument');
         btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
         var btnLimpiar2 = document.getElementById('imagePreviewNuevo');
@@ -732,7 +759,6 @@ ViewData["Title"] = "Registro Compras";
         btnLimpiar3.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
     }
     btnCancelarCompra.addEventListener('click', limpiarCompra);
-
     var btnCancelarDocumento = document.getElementById('btnCancelarDocumento');
     var limpiarDocumento = function (e) {
         sgl.clearForm(document.querySelector('#documentoImagen'));
@@ -740,38 +766,28 @@ ViewData["Title"] = "Registro Compras";
         btnLimpiar.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
     }
     btnCancelarDocumento.addEventListener('click', limpiarDocumento);
-
     ////funcion Ajax para recuperar productos miante un Form
-
     $('#modalProducto').on('show.bs.modal', function (e) {
         var prodAjax = document.getElementById("productosAjax");
         var formProdAjax = document.createElement('form');
         formProdAjax.innerHTML = prodAjax.outerHTML;
         var productosAjax = new FormData(formProdAjax);
-
         sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
             var elem = document.getElementById('productosAjax');
             elem.innerHTML = data;
         });
     })
-
     //funcion para agregar el producto a la tabla
     var btnAgregarProducto = document.getElementById('btnAgregarProducto');
     var AgregarProducto = function (e) {
-        var form = document.querySelector("#registroProductos");
-        var formToken = sgl.query('#formToken')[0];
-        var token = formToken.querySelector('input[name=__RequestVerificationToken]');
-
-        var formData = new FormData(form);
-
-
+        var FrmProducto = document.querySelector("#registroProductos");
+        var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
         sgl.ajax2({
             method: 'post',
             data: form,
             url: "RegistroCompra?handler=AgregarProducto",
             done: function (texto) {
                 var elem = document.createElement('tr');
-
                 var tbody = document.querySelector('#tablaCompraFilas');
                 tbody.appendChild(elem);
                 elem.outerHTML = texto;
@@ -804,8 +820,6 @@ ViewData["Title"] = "Registro Compras";
                 elem.value = dato.id;
                 comboCategorias.appendChild(elem);
             });
-            console.log(lista);
-
         },
         fail: function () {
 
@@ -816,7 +830,6 @@ ViewData["Title"] = "Registro Compras";
         method: 'get',
         url: 'RegistroCompra?handler=ListaProveedores',
         done: function (texto) {
-            console.log(texto);
             var lista = JSON.parse(texto);
             var comboProveedores = document.querySelector('#comboProveedores');
             lista.forEach(function (dato) {
@@ -825,7 +838,6 @@ ViewData["Title"] = "Registro Compras";
                 elem.value = dato.id;
                 comboProveedores.appendChild(elem);
             });
-            console.log(lista);
         },
         fail: function () {
 
@@ -844,7 +856,6 @@ ViewData["Title"] = "Registro Compras";
                 elem.value = dato.id;
                 comboMarcas.appendChild(elem);
             });
-            console.log(lista);
         },
         fail: function () {}
     });
@@ -900,5 +911,176 @@ ViewData["Title"] = "Registro Compras";
         });
     })();
 </script>
-
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    //Declaracion y obtencion de variables
+    var list = document.querySelector("#lis_tel");
+    var BtnRegistrar = document.querySelector("#frmProveedor");
+    var token = document.querySelector("#formToken input[name=__RequestVerificationToken]");
+    var FrmProveedor = document.querySelector("#frmProveedor");
+    var BtnAddTel = document.querySelector("#bt_add_val");
+    var btnMod = document.querySelector("#bt_act_val");
+    //Oyentes de eventos
+    btnMod.addEventListener("click", (e) => {
+        var input = document.querySelector("#add_val");
+        var li = document.querySelector("li[data-mod=true]");
+        if (input.value != "") {
+            var boton = e.currentTarget;
+            if (ValidarUl(input.value.trim())) {
+                li.innerHTML = input.value +
+                    '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
+                input.value = '';
+                document.getElementById("exist").innerHTML = "";
+                document.querySelector("#bt_add_val").removeAttribute("hidden");
+                boton.setAttribute("hidden", "");
+                li.setAttribute("data-mod", "false");
+            }
+        }
+    });
+    list.addEventListener("click", (e) => {
+        element = e.target;
+        if (element.classList.contains("fa-trash")) {
+            acElim(element);
+        } else {
+            if (element.classList.contains("fa-pencil-alt")) {
+                actTel(element);
+            }
+        }
+    });
+    BtnAddTel.addEventListener("click", () => {
+        var input = document.getElementById("add_val");
+        if (ValidarUl(input.value.trim())) {
+            document.getElementById("exist").innerHTML = "";
+            var li = document.createElement("li");
+            let list = document.querySelector("#lis_tel");
+            li.setAttribute("data-mod", "false");
+            li.setAttribute("id", "li" + "");
+            li.setAttribute("class", "list-group-item py-1");
+            li.innerHTML = input.value +
+                '<span class="pl-2"><i class="mano fas fa-trash text-danger"></i></span><span class="pl-2"><i class="mano fas fa-pencil-alt text-warning"></i></span>';
+            list.appendChild(li);
+            input.value = "";
+        }
+    });
+    BtnRegistrar.addEventListener("submit", GuardarForAjax);
+    console.log(BtnRegistrar);
+    //La siguiente funcion verifica que el numero ingreso no este vacio y ademas no exista en la lista devuelve un booleano
+    function ValidarUl(numero) {
+        if (numero != "") {
+            var arrayli = document.querySelector("#lis_tel").children;
+            if (arrayli.length > 0) {
+                if (arrayli[0].firstChild.nodeValue == "Sin registros") {
+                    document.querySelector("#lis_tel").removeChild(arrayli[0]);
+                }
+                for (var i = 0; i < arrayli.length; i++) {
+                    if (arrayli[i].firstChild.nodeValue.trim() == numero) {
+                        document.getElementById("exist").innerHTML = "Este número ya existe";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //acElim elimina telefono de la lista
+    function acElim(e) {
+        let li = e.parentElement.parentElement;
+        var ul = document.querySelector("#lis_tel");
+        ul.removeChild(li);
+        if (ul.children.length == 0) {
+            ul.innerHTML = '<li class="list-group-item py-1">Sin registros</li>';
+        }
+    }
+    //actTel actualizar telefono de la lista
+    function actTel(e) {
+        var li = e.parentElement.parentElement;
+        li.setAttribute("data-mod", "true");
+        document.querySelector("#add_val").value = li.firstChild.nodeValue;
+        var btnAdd = document.querySelector("#bt_add_val");
+        var btnMod = document.querySelector("#bt_act_val");
+        btnAdd.setAttribute("hidden", "");
+        btnMod.removeAttribute("hidden");
+    }
+    //En la siguente funcion de hace el envio de los datos al servidor via AJAX
+    function GuardarForAjax(e) {
+        e.preventDefault();
+        var Telefonos = [];
+        var arrayli = document.querySelector("#lis_tel").children;
+        tam = arrayli.length;
+        if (tam > 0) {
+            for (var i = 0; i < tam; i++) {
+                Telefonos.push(arrayli[i].firstChild.textContent);
+            }
+        }
+        var xhttp = new XMLHttpRequest();
+        let formData = new FormData(document.querySelector("#frmProveedor"));
+        for (var i = 0; i < Telefonos.length; i++) {
+            if (Telefonos[i] != "Sin registros") {
+                formData.append("Telefonos[]", encodeURIComponent(Telefonos[i]));
+            }
+        }
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    document.querySelector("#lis_tel").innerHTML =
+                        '<li class="list-group-item py-1">Sin registros</li>';
+                    document.getElementById("frmProveedor").reset();
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-success";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-check-circle text-success";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Registro Exitoso!"
+                    var toast = document.getElementById("toastProveedor");
+                    $('.toast').toast('show');
+                } else {
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-danger";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-times-circle text-white";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Fallo en el Registro!!"
+                    var toast = document.getElementById("toastProveedor");
+                    $('.toast').toast('show');
+                }
+            }
+        };
+        // xhttp.open("POST", "RegistroProveedor", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // var inputToken = document.getElementsByName("__RequestVerificationToken");
+        // xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        // xhttp.send(new URLSearchParams(formData));
+        e.preventDefault();
+        sgl.ajax2({
+            url: "RegistroCompra?handler=RegistrarProveedor",
+            method: "post",
+            headers: {
+                "RequestVerificationToken": token.value,
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            done: function () {
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroCompra?handler=ListaProveedores',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboProveedores = document.querySelector('#comboProveedores');
+                        comboProveedores.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboProveedores.appendChild(elem);
+                        });
+                    }
+                });
+            },
+            data: FrmProveedor
+        });
+        $('#modalProveedor').modal('hide');
+        sgl.clearForm(FrmProveedor);
+    }
+</script>
 }

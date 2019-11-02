@@ -11,43 +11,47 @@ int i,j;
 string imagen, ruta;
 float porcentaje = 100 / Model.CantidadPorFila;
 }
-@for ( i = 0; i < Model.Productos.Count; i++) { 
+@for ( i = 0; i < Model.Productos.Count; i++) {
+    <!--div row -->
     <div class="row">
     @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) { 
         obj = Model.Productos[i+j]; 
-        <div class="d-flex px-0" style="width:@porcentaje%;">
-            <div class="card h-100">
+        <!--div style porcentaje-->
+        <div class="px-0 d-flex" style="width:@porcentaje%;">
+            <div class="card">
                 <div class="card-title mt-3 mx-2">
-                    <h5 class="m-0 p-0"> @obj.Nombre 
+                    <h5 class="m-0 p-0">@obj.Nombre
                         <span class="badge badge-primary">@obj.StockMinimo</span>
                     </h5>
+                    <p style="font-size:.9rem;" class="text-muted font-italic m-0 p-0">@obj.IdMarcaNavigation.Nombre / @obj.IdCategoriaNavigation.Nombre</p>
                 </div>
-            <div class="card-img-top">
+                <!--
+                <div class="card-img-top">
+                </div>
+                -->
                 @{
-                    if (obj.IdImagenNavigation == null) {
-                        ruta = "";
-                        imagen = "";
-                    } else {
-                        ruta = @obj.IdImagenNavigation.IdRutaNavigation.Nombre;
-                        imagen = @obj.IdImagenNavigation.Nombre;
-                    }
-                    <img src = "/@ruta/@imagen" class="img-fluid " alt = "@obj.Nombre">
+                if (obj.IdImagenNavigation == null) {
+                    ruta = "";
+                    imagen = "";
+                } else {
+                    ruta = @obj.IdImagenNavigation.IdRutaNavigation.Nombre;
+                    imagen = @obj.IdImagenNavigation.Nombre;
                 }
-            </div>
-            
-            <div class="card-body">
-                <p class="card-text">algo</p>
-            </div>
-            
-            <div class="card-footer">
-                <small class="font-weight-bold text-primary h6">Precio:
-                    $0.25</small>
-            </div>
+                <img src = "/@ruta/@imagen" class="card-img-top " alt = "@obj.Nombre">
+                }
+                <div class="card-body p-0 m-0 d-flex align-items-end">
+                    <p class="card-text"></p>
+                </div>
+                
+                <div class="card-footer p-y m-0">
+                    <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+                </div>
             </div>
         </div>
+        <!--div style porcentaje-->
     }
 
 
-        </div>
+        </div><!--div row -->
     i = i + j - 1;
 }

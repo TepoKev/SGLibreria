@@ -27,12 +27,20 @@ namespace SGLibreria.Pages.Productos
             _context = context;
         }
 
-        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo) {
-            this.Productos = _context.Productos
-            .Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"))
+        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria) {
+            
+            IQueryable<Producto> Consulta = _context.Productos
+            .Include(p => p.IdCategoriaNavigation)
+            .Include(p => p.IdMarcaNavigation)
             .Include(x=>x.IdImagenNavigation)
-            .ThenInclude(x=>x.IdRutaNavigation)
-            .ToList();
+            .ThenInclude(x=>x.IdRutaNavigation);
+            if(IdCategoria!=null) {
+                Consulta = Consulta.Where(p => p.IdCategoria == IdCategoria && EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
+            } else {
+                Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
+            }
+            
+            this.Productos = Consulta.ToList();
             return Page();
         }
     }
