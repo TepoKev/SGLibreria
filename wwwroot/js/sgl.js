@@ -3,7 +3,7 @@ var sgl = {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                callback(this.responseText);
+                callback.call(this, this.responseText);
             }
         };
         url = url + (params == undefined ? "" : "?"+params);
@@ -16,7 +16,7 @@ var sgl = {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                callback(this.responseText);
+                callback.call(this, this.responseText);
             }
         };
         xhttp.open("POST", url , true);
@@ -33,6 +33,15 @@ var sgl = {
     query: function (selector) {
         return document.querySelectorAll(selector);
     },
+    q: function (selector) {
+        return document.querySelector(selector);
+    },
+    qAll: function (selector) {
+        return document.querySelectorAll(selector);
+    },
+    //nombre del token usado por net core
+    inputToken:  'input[name=__RequestVerificationToken]',
+    headerToken: 'RequestVerificationToken', 
     ajax: function (metodo, url, callback, params) {
         if (metodo.toUpperCase() == 'POST') {
             this.post(url, callback, params);
@@ -40,6 +49,27 @@ var sgl = {
             this.get(url, callback, params);
         }
     },
+    //tempplate es el elemento html que debe contener los elementos <option>
+    //destino es el elemento select
+    //lista de objetos a agregar
+    //cada item de la lista debe tener las propiedades name y value ya que se usaran para acceder
+    //elem[name], elem[value]
+    llenarCombo: function (template, destino, lista, name, value) {
+        elems = template.content.querySelectorAll("option");
+        //elems[0] es <option>
+        elems[0].textContent = "... Seleccione ...";
+        elems[0].value = "";
+        var clon = document.importNode(template.content, true);
+        destino.appendChild(clon);
+  
+        lista.forEach(function (item) {
+          //se accedera al primer elemento ya que solo hay un elemento <option>
+          elems[0].textContent = item[name];
+          elems[0].value = item[value];
+          var clon = document.importNode(template.content, true);
+          destino.appendChild(clon);
+        });
+      },
     ajax2: function (config) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -47,7 +77,7 @@ var sgl = {
                 switch (this.status) {
                     //okay
                     case 200:
-                        config.done(this.responseText);
+                        config.done.call(this, this.responseText);
                         break;
                     //fallo
                     default:
@@ -59,7 +89,6 @@ var sgl = {
             }
         };
         xhttp.open(config.method, config.url , true);
-        
         if(config.headers != undefined) {
             for(var header in config.headers) {
                 if (config.headers.hasOwnProperty(header)) {
@@ -67,7 +96,6 @@ var sgl = {
                 }
             }
         }
-        
         if(config.data == undefined) {
             xhttp.send();
         } else {
@@ -75,12 +103,26 @@ var sgl = {
 //            console.log(config.headers);
 //            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 //            xhttp.setRequestHeader('RequestVerificationToken', config.headers['RequestVerificationToken']);
-            var formData = new FormData(config.data);
-            var params = new URLSearchParams(formData);
-            xhttp.send(params);
-//            xhttp.send(new FormData(config.data));
+            var formData, params;
+            if(config.data.nodeName == 'FORM') {
+                formData = new FormData(config.data);
+                params = new URLSearchParams(formData);
+                xhttp.send(params);
+            } else if(config.data instanceof FormData) {
+                params = new URLSearchParams(config.data);
+                xhttp.send(params);
+            } else {
+                //if is a literal object
+                formData = new FormData();
+                for(var property in config.data) {
+                    if (config.data.hasOwnProperty(property)) {
+                        formData.append(property, config.data[property]);
+                    }
+                }
+                params = new URLSearchParams(formData);
+                xhttp.send(params);
+            }
         }
-        
     },
     setDataSet: function (elem, attr) {
         if(attr != undefined) {
