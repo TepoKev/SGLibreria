@@ -32,6 +32,7 @@ namespace SGLibreria.Pages.Productos
             IQueryable<Producto> Consulta = _context.Productos
             .Include(p => p.IdCategoriaNavigation)
             .Include(p => p.IdMarcaNavigation)
+            .Include(x=>x.Precioventa)
             .Include(x=>x.IdImagenNavigation)
             .ThenInclude(x=>x.IdRutaNavigation);
             if(IdCategoria!=null) {

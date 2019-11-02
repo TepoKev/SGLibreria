@@ -23,6 +23,7 @@ ViewData["Title"] = "Lista de Productos";
   #productos-seleccionados:hover {}
 </style>
 
+<form id='formToken' method='post'></form>
 <div id='productos' style='margin-top:15px;margin-bottom:100px;'>
 
 </div><!-- #productos -->
@@ -69,206 +70,341 @@ ViewData["Title"] = "Lista de Productos";
           </div>
       </div>
   </div>
-  <div class="offset-lg-1 pt-2">
-      <a href='#' class="text-info" title="Sin filtro"><i class="fas fa-redo-alt"></i></a>
-</div>
 
 
-
-  <div class="btn-group" id="categorias" role="group" aria-label="Basic example">
+<div class="btn-group" id="categorias" role="group" aria-label="Basic example">
     @foreach (var Cat in Model.Categorias) {
           <button type="button" data-IdCategoria="@Cat.Id" class="btn btn-dark">@Cat.Nombre</button>
     }
-    <button type="button" class="btn btn-dark"> <i class="fas fa-plus"></i> </button>
+    <button type="button" class="btn btn-dark"> <i class="fas fa-redo-alt"></i> </button>
   </div>
 </div>
+
+<template id='plantilla-option'>
+  <option value=''></option>
+</template>
 
 @section Modal {
-
-<!-- Modal -->
+  <!-- Modal -->
 <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h4 class="modal-title" id="modalProducto">Modificar Producto</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
-          <label>Campos obligatorios *</label>
+        <div class="modal-header bg-primary text-white">
+            <h4 class="modal-title">Registro de Producto</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div class="form-group row">
-          <label for="pdestado" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Estado</label>
-          <div class="col-lg-7">
-            <span class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch" checked>
-              <label class="custom-control-label" for="customSwitch">Habilitado</label>
-            </span>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdnombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Nombre*</label>
-          <div class="col-lg-7">
-            <input type="text" class="form-control form-control-user mb-2" id="pdnombre" placeholder="Lapicero">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdmarca" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca*</label>
-          <div class="col-lg-7">
-            <input type="text" class="form-control form-control-user mb-2" id="pdmarca" placeholder="Facela">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdcodigo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Codigo</label>
-          <div class="col-lg-7">
-            <input type="text" class="form-control" id="pdcodigo" placeholder="LF0001">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdcategoria" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría*</label>
-          <div class="col-lg-7">
-            <select class="custom-select form-control" id="pdcategoria">
-              <option disabled>-- Seleccione categoría --</option>
-              <option value="1">Papeleria</option>
-              <option value="2">Colores</option>
-              <option value="3">Lapiceros</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pddireccion" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Descripción:</label>
-          <div class="col-lg-7">
-            <textarea class="form-control" id="pddireccion" rows="3"
-              placeholder="Lapicedo color morado con bordes"></textarea>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdstock" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Existencia
-            mínima*</label>
-          <div class="col-lg-7">
-            <input type="number" class="form-control" id="pdstock" value="10">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdprecioventa" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Precio de
-            venta*:</label>
-          <div class="col-lg-7">
-            <input type="number" class="form-control form-control-user mb-2" id="pdprecioventa" value="0.25">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
-            vencimiento</label>
-          <div class="col-lg-7">
-            <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="pdimagen" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-            foto</label>
-          <div class="col-lg-7">
+        <div class="modal-body">
 
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="pdimagen">
-              <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+            <!--id='productos-->
+            <div>
+                
+                <!--id="myTabContent"-->
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane  fade show mt-2 active" id="home" role="tabpanel"
+                        aria-labelledby="home-tab">
+                        <!--PRODUCTO NUEVO-->
+                        <form id="registrarProductoNuevo">
+                            <div>
+                                <div class="form-group " style="text-align: end; color: rgb(212, 20, 20)">
+                                    <label>Campos obligatorios *</label>
+                                </div>
+
+                                <div class="form-group row">
+                                  <input id='pdid' name="Producto.Id" type="hidden"/>
+                                    <label for="pdnombre" asp-for="Producto.Nombre"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <input asp-for="Producto.Nombre" type="text"
+                                            class="form-control form-control-user mb-2" id="pdnombre"
+                                            placeholder="Lapicero" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdmarca" asp-for="Producto.IdMarca"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <select asp-for="Producto.IdMarca" class="custom-select form-control"
+                                            id="comboMarcas">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdcodigo" asp-for="Producto.Codigo"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <input asp-for="Producto.Codigo" type="text" class="form-control"
+                                            id="pdcodigo" placeholder="LF0001">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdcategoria" asp-for="Producto.IdCategoria"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <select asp-for="Producto.IdCategoria" class="custom-select form-control"
+                                            id="comboCategorias" required>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pddireccion" asp-for="Producto.Descripcion"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <textarea asp-for="Producto.Descripcion" class="form-control"
+                                            id="pddireccion" rows="3"
+                                            placeholder="Lapicedo color morado con bordes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdstock" asp-for="Producto.StockMinimo"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                                    <div class="col-lg-7">
+                                        <input asp-for="Producto.StockMinimo" type="number" class="form-control"
+                                            id="pdstock" placeholder="10" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdfecha"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                                        vencimiento</label>
+                                    <div class="col-lg-7">
+                                        <input asp-for="Producto.FechaVencimiento" type="date" class="form-control"
+                                            id="pdfecha" placeholder="LF0001">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pdimagenNuevo"
+                                        class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+                                        foto</label>
+                                    <div class="col-lg-7">
+
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="pdimagenNuevo">
+                                            <label class="custom-file-label"
+                                                for="pdimagenNuevo">Seleccione..</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                ​
+                                <div id="imagePreviewNuevo">
+                                    <br>
+                                    <br>
+                                    <h5 class="text-lg-center">Vista Previa</h5>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </form>
+                        <!--PRODUCTO NUEVO-->
+                    </div><!-- Productos-->
+                </div>
+                <!--id="myTabContent"-->
             </div>
-          </div>
+            <!--id='productos-->
         </div>
-        ​
-        <div id="imagePreview">
-          <br>
-          <br>
-          <h5 class="text-lg-center">Vista Previa</h5>
-          <br>
-          <br>
+        <div class="modal-footer">
+            <div class="btn btn-group">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                    id="btnAgregarProducto"><i class="fas fa-save"> </i> Agregar</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                    id="btnCancelarProducto"><i class="fas fa-times-circle"> </i> Cancelar</button>
+            </div>
         </div>
 
-      </div>
-      <div class="modal-footer">
-        <div class="btn btn-group">
-            <button type="button" class="btn btn-outline-primary" data-dismiss="modal" id="btnGuardar"><i
-              class="fas fa-save"></i> Guardar</button>
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-              class="fas fa-times-circle"></i> Cerrar</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-<!--    Inicia Modal Inventario-->
+</div>
 }
 @section Scripts {
 <link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
-    $(function () {
-        $('select').selectric();
-    });
-    $('#dynamic').selectric();
-    $('#bt_add_val').click(function () {
-        // Store the value in a variable
-        var value = $('#add_val').val();
-        // Append to original select
-        $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
-        // Refresh Selectric
-        $('#dynamic').selectric('refresh');
-    });
-    (function () {
-      
-      sgl.get('ListaProductoAjax', function (data) {
-          var divProductos = document.querySelector('#productos');
-          divProductos.innerHTML = data;
-      });
-      
-      var NombreOCodigo = document.querySelector('#NombreOCodigo');
-      NombreOCodigo.focus();
-      NombreOCodigo.oninput = function (e) {
-        buscarProducto(NombreOCodigo.value);
-      };
-      function buscarProducto(NombreCodigo, IdCategoria) {
-        params = "";
-        if(NombreCodigo) {
-          params += "NombreOCodigo="+NombreCodigo;
-        }
-        if(IdCategoria) {
-          params += "&IdCategoria="+IdCategoria;
-        }
-        sgl.get('ListaProductoAjax', function (data) {
-          var divProductos = document.querySelector('#productos');
-          divProductos.innerHTML = data;
-        }, params);
-      }
-      var divProductos = sgl.query('#productos')[0];
-      var divCategorias = sgl.query('#categorias')[0];
+  $('#bt_add_val').click(function () {
+    // Store the value in a variable
+    var value = $('#add_val').val();
+    // Append to original select
+    $('#dynamic').append('<option selected>' + (value ? value : 'Empty') + '</option>');
+    // Refresh Selectric
+    $('#dynamic').selectric('refresh');
+  });
 
-      divProductos.onclick = function (evento) {
-        var target = evento.target;
-        if(target.tagName == 'H5') {
-          if(target.getAttribute('data-seleccionado') == 'true') {
-            evento.target.classList.remove('bg-primary');
-            evento.target.classList.remove('text-white');
-            target.setAttribute('data-seleccionado', false);
-          } else {
-            evento.target.classList.add('bg-primary');
-            evento.target.classList.add('text-white');
-            target.setAttribute('data-seleccionado', true);
-          }
-        }
-      };
-      divCategorias.onclick = function(evento) {
-        var target = evento.target;
-        console.log(target);
-        var IdCategoria = target.getAttribute('data-idcategoria');
-        if(IdCategoria!=null) {
-          buscarProducto(NombreOCodigo.value, IdCategoria);
-        } else {
-          buscarProducto(NombreOCodigo.value);
-        }
+  sgl.get('ListaProductoAjax', function (data) {
+    var divProductos = document.querySelector('#productos');
+    divProductos.innerHTML = data;
+  });
+
+  var NombreOCodigo = document.querySelector('#NombreOCodigo');
+  NombreOCodigo.focus();
+  NombreOCodigo.oninput = function (e) {
+    buscarProducto(NombreOCodigo.value);
+  };
+
+  function buscarProducto(NombreCodigo, IdCategoria) {
+    params = "";
+    if (NombreCodigo) {
+      params += "NombreOCodigo=" + NombreCodigo;
+    }
+    if (IdCategoria) {
+      params += "&IdCategoria=" + IdCategoria;
+    }
+    sgl.get('ListaProductoAjax', function (data) {
+      var divProductos = document.querySelector('#productos');
+      divProductos.innerHTML = data;
+    }, params);
+  }
+
+
+  var divProductos = sgl.query('#productos')[0];
+  var divCategorias = sgl.query('#categorias')[0];
+
+  //clic la imagen del card activa un elemento
+  divProductos.addEventListener('click', function (evento) {
+    var currentTarget = evento.currentTarget;
+    var target = evento.target;
+    var card;
+    var cardFooter;
+    if (target.matches('img')) {
+      card = target.parentNode;
+      cardFooter = card.querySelector('.card-footer')
+      if (card.getAttribute('data-seleccionado') == 'true') {
+        cardFooter.classList.remove('bg-primary');
+        cardFooter.classList.remove('text-white');
+        cardFooter.classList.add('text-primary');
+        card.setAttribute('data-seleccionado', false);
+      } else {
+        cardFooter.classList.add('bg-primary');
+        cardFooter.classList.add('text-white');
+        cardFooter.classList.remove('text-primary');
+        card.setAttribute('data-seleccionado', true);
       }
-    })();
+    }
+  });
+
+  //clic en un boton levanta un modal y lo llena
+  divProductos.addEventListener('click', function (evento) {
+    var currentTarget = evento.currentTarget;
+    var target = evento.target;
+    var idproducto;
+
+    var inputToken = sgl.q('#formToken '+sgl.inputToken);
+//    console.log(sgl.headerToken, inputToken.value);
+    var headers = { [sgl.headerToken]: inputToken.value };
+
+    if (target.matches('button[type=button')) {
+      idproducto = target.getAttribute('data-idproducto');
+      sgl.ajax2({
+        method: 'post',
+        url: 'ListaProducto?handler=Producto',
+        headers: headers,
+        data: { 'idproducto': idproducto },
+        done: function (data) {
+          var producto = JSON.parse(data);
+          sgl.ajax2({
+            method: 'post',
+            url: 'ListaProducto?handler=CategoriasMarcas',
+            headers: headers,
+            done: function (data) {
+              var obj = JSON.parse(data);
+              console.log(producto['idMarca'], producto['idCategoria'], producto);
+              //console.log(obj);
+              $('#modalProducto').modal('show');
+              //llenarCategorias(obj.categorias);
+              //llenarMarcas(obj.marcas);
+              
+              sgl.llenarCombo(
+                sgl.q('#plantilla-option'), 
+                sgl.q('#comboCategorias'), 
+                obj.categorias, 
+                'nombre', 'id'
+              );
+              
+              sgl.llenarCombo(
+                sgl.q('#plantilla-option'), 
+                sgl.q('#comboMarcas'), 
+                obj.marcas, 
+                'nombre', 'id'
+              );
+
+              llenarFormProducto(producto);
+              function llenarFormProducto(producto) {
+                sgl.q('#pdid').value = producto.id;
+                sgl.q('#pdnombre').value = producto.nombre;
+                sgl.q('#comboMarcas').value = producto.idMarca;
+                sgl.q('#comboCategorias').value = producto.idCategoria;
+                sgl.q('#pdcodigo').value = producto.codigo;
+                sgl.q('#pddireccion').value = producto.descripcion;
+                sgl.q('#pdstock').value = producto.stockMinimo;
+                sgl.q('#pdfecha').value = producto.fechaVencimiento;
+                //
+                // codigo para la imagen aquí
+                //
+
+              }
+
+              
+              function llenarCategorias(lista) {
+                //encontrar la plantilla
+                var t = document.querySelector('#plantilla-option');
+                //encontrar el elemento de destino
+                var destino = document.querySelector("#comboCategorias");
+                elems = t.content.querySelectorAll("option");
+                elems[0].textContent = "... Seleccione ...";
+                elems[0].value = "";
+                var clon = document.importNode(t.content, true);
+                destino.appendChild(clon);
+
+                lista.forEach(function (dato) {
+                  //se accedera al primer elemento ya que solo hay un elemento option
+                  elems[0].textContent = dato.nombre;
+                  elems[0].value = dato.id;
+                  var clon = document.importNode(t.content, true);
+                  destino.appendChild(clon);
+                });
+              }
+              function llenarMarcas(lista) {
+                //encontrar la plantilla
+                var t = document.querySelector('#plantilla-option');
+                //encontrar el elemento de destino
+                var destino = document.querySelector("#comboMarcas");
+                elems = t.content.querySelectorAll("option");
+                elems[0].textContent = "... Seleccione ...";
+                elems[0].value = "";
+                var clon = document.importNode(t.content, true);
+                destino.appendChild(clon);
+                lista.forEach(function (dato) {
+                  //se accedera al primer elemento ya que solo hay un elemento option
+                  elems[0].textContent = dato.nombre;
+                  elems[0].value = dato.id;
+                  var clon = document.importNode(t.content, true);
+                  destino.appendChild(clon);
+                });
+              }
+              
+            },
+            fail: function () {console.log(this);}
+          });
+        },
+        fail: function () {console.log(this)}
+      });
+
+    }
+  });
+
+  divCategorias.onclick = function (evento) {
+    var target = evento.target;
+    console.log(target);
+    var IdCategoria = target.getAttribute('data-idcategoria');
+    if (IdCategoria != null) {
+      buscarProducto(NombreOCodigo.value, IdCategoria);
+    } else {
+      buscarProducto(NombreOCodigo.value);
+    }
+  }
 </script>
 }

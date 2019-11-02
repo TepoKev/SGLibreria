@@ -11,6 +11,12 @@ int i,j;
 string imagen, ruta;
 float porcentaje = 100 / Model.CantidadPorFila;
 }
+@if(Model.Productos.Count == 0) {
+    <div class="alert alert-danger">
+        No hay ningún producto que mostrar
+    </div>
+    return;
+}
 @for ( i = 0; i < Model.Productos.Count; i++) {
     <!--div row -->
     <div class="row">
@@ -43,15 +49,23 @@ float porcentaje = 100 / Model.CantidadPorFila;
                     <p class="card-text"></p>
                 </div>
                 
-                <div class="card-footer p-y m-0">
-                    <small class="font-weight-bold text-primary h6">Precio: $0.25</small>
+                <div class="card-footer text-primary p-y m-0">
+                    @if(obj.Precioventa.Count>0) {
+                        <small class="font-weight-bold h6">
+                            Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor 
+                            <button data-idproducto='@obj.Id' type='button'
+                                     class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                        </small>
+                    } else {
+                        <small class="font-weight-bold h6"> $ no asignado </small>
+                    }
                 </div>
             </div>
         </div>
         <!--div style porcentaje-->
     }
-
-
-        </div><!--div row -->
+    </div><!--div row -->
     i = i + j - 1;
 }
