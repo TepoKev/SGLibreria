@@ -10,7 +10,7 @@ namespace SGLibreria.Pages.Compras {
         private readonly AppDbContext _context;
         public List<Producto> Productos { get; set; }
         public RegistroCompraModel (AppDbContext context) {
-            _context = context;            
+            _context = context;
         }
 
         [BindProperty]
@@ -29,13 +29,11 @@ namespace SGLibreria.Pages.Compras {
         public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
 
-        public async Task<PartialViewResult> OnPostAgregarProducto(Producto Producto){
-            if(!ModelState.IsValid) {
-                return Partial("_ProductoPartial",null);
-            }
+        public async Task<PartialViewResult> OnPostAgregarProducto(){
+            this.Producto.Estado = (sbyte)1;
             _context.Productos.Add(Producto);
             await _context.SaveChangesAsync();
-            return Partial("_ProductoPartial",null);
+            return Partial("_ProductoPartial",this);
         }
 
         public void OnGet () {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,25 @@ namespace SGLibreria.Pages.Categorias
                 this.Categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
             }
         }
+        public async Task<IActionResult> OnPostEstado(int IdCategoria, int Estado)
+        {
+            if(!CategoriaExists(IdCategoria)){
+                return NotFound();
+            }
+            var cat = await this._context.Categorias.FirstOrDefaultAsync(x => x.Id == IdCategoria);
+            cat.Estado = (sbyte) Estado;
+            this._context.Attach(cat).State = EntityState.Modified;
+            try
+            {
+                await this._context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                Console.WriteLine("Mensaje ="+e.Message);
+                throw;
+            }
+            return Page();
+        }
         public async Task<JsonResult> OnPost(){
             this.Categoria.Estado = (sbyte) 1;
             if (!ModelState.IsValid)
@@ -38,18 +58,16 @@ namespace SGLibreria.Pages.Categorias
         }
         public async Task<JsonResult> OnPostEditar(int IdCategoria, string Nombre){
             this.Categoria = await this._context.Categorias.FirstOrDefaultAsync(w => w.Id == IdCategoria);
-            this.Categoria.Nombre = Nombre; 
+            this.Categoria.Nombre = Nombre;
             if (!ModelState.IsValid)
             {
                 return new JsonResult("");
             }
-             _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
+            _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
             await _context.SaveChangesAsync();
             this.Categorias= await _context.Categorias.ToListAsync();
             return new JsonResult(this.Categorias);
         }
-
-
         private bool CategoriaExists(int id)
         {
             return _context.Categorias.Any(e => e.Id == id);

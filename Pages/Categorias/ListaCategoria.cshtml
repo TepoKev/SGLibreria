@@ -1,6 +1,6 @@
 @page
-@model Categorias.ListaCategoriaModel; 
-@using SGLibreria.Models; 
+@model Categorias.ListaCategoriaModel;
+@using SGLibreria.Models;
 @{ ViewData["Title"] = "Registro y Lista de Categorías"; }
 <div class="row">
     <div class="col-lg-8 offset-lg-2 rounded ">
@@ -10,7 +10,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-10 offset-1">
-                    <form class="mt-4" method="post" id="formcategoria">
+                    <form class="mt-4" method="POST" id="formcategoriaadd">
                         <div class="form-group row">
                             <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span class="font-weight-bold text-danger">*</span></label>
                             <div class="col-lg-4">
@@ -19,8 +19,19 @@
                             </div>
                             <div class="col-lg-6" id="btn">
                                 <button type="submit" class="btn btn-outline-primary" id="btnadd"><i class="fas fa-save"></i> Guardar</button>
-                                <div class="btn-group" id="btngroup" hidden>
-                                    <button type="submit" class="btn btn-outline-warning"><i class="fas fa-pencil-alt"></i> Modificar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="mt-4" method="POST" id="formcategoriamod" hidden >
+                        <div class="form-group row">
+                            <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span class="font-weight-bold text-danger">*</span></label>
+                            <div class="col-lg-4">
+                                <input id="nombremod" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Libros">
+                                <span asp-validation-for="Categoria.Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6" id="btn">
+                                <div class="btn-group" id="btngroup">
+                                    <button type="submit" class="btn btn-outline-warning" id="btnmod"><i class="fas fa-pencil-alt"></i> Modificar</button>
                                     <button type="button" class="btn btn-outline-danger"><i class="fas fa-times-circle"></i> Cancelar</button>
                                 </div>
                             </div>
@@ -51,11 +62,11 @@
     <div class="col-lg-8 offset-lg-2 rounded ">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Categorías</h6>
             </div>
 
             <div class="row px-4 pt-3">
-                <label class="px-2">Mostrar</label>
+                <label class="px-2 col-form-label">Mostrar</label>
                 <select class="form-control col-lg-2">
                     <option>5</option>
                     <option>10</option>
@@ -75,11 +86,11 @@
                     </thead>
 
                     <tbody id="tbcategoria">
-                        @{ 
-                            int i; 
+                        @{
+                            int i;
                             int len = Model.Categorias.Count;
                             Categoria c;
-                        } 
+                        }
                         @for(i=0; i < len; i++){
                             c=Model.Categorias[i];
                             <tr>
@@ -87,15 +98,15 @@
                             <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
                             </td>
                             <td>
-                                <span class="custom-control custom-switch">
+                                <div class="col-form-label custom-control custom-switch">
                                     @if(c.Estado == 1){
-                                        <input type="checkbox" class="custom-control-input" checked>
-                                        <label class="custom-control-label">Habilitada</label>
+                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
+                                        <label class="custom-control-label" for="@c.Id">Habilitada</label>
                                     }else{
-                                        <input type="checkbox" class="custom-control-input">
-                                        <label class="custom-control-label">Deshabilitada</label>
+                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
+                                        <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
                                     }
-                                </span>
+                                </div>
                             </td>
                             </tr>
                             }
@@ -133,178 +144,177 @@
 @section Scripts{
     <script src="~/js/sgl.js"></script>
 <script>
-    var FrmCategoria = document.querySelector("#formcategoria");
+    var FrmCategoriaAdd = document.querySelector("#formcategoriaadd");
+    var FrmCategoriaMod = document.querySelector("#formcategoriamod");
     var tbody = document.querySelector("#tbcategoria");
     var divopc = document.querySelector("#btngroup");
     var btnadd = document.querySelector("#btnadd");
     divopc.addEventListener("click", function(e){
         var element = e.target;
         if(element.classList.contains("btn-outline-danger")){
-            btnadd.removeAttribute("hidden");
-            divopc.setAttribute("hidden","");
+            FrmCategoriaAdd.removeAttribute("hidden");
+            FrmCategoriaMod.setAttribute("hidden","");
             document.querySelector("#Categoria_Nombre").value = "";
         }
     });
     tbody.addEventListener("click", function(e) {
         var element = e.target;
         if (element.classList.contains("btn-outline-success")) {
-            divopc.removeAttribute("hidden");
+            FrmCategoriaMod.removeAttribute("hidden");
             divopc.firstElementChild.setAttribute("data-id",element.getAttribute("data-idcat"));
-            btnadd.setAttribute("hidden","");
-            document.querySelector("#Categoria_Nombre").value = element.parentNode.previousElementSibling.textContent;
+            FrmCategoriaAdd.setAttribute("hidden","");
+            document.querySelector("#nombremod").focus();
+            document.querySelector("#nombremod").value = element.parentNode.previousElementSibling.textContent;
         } else {
             if (element.classList.contains("fa-pencil-alt")) {
-                divopc.removeAttribute("hidden");
+                element.focus();
+                FrmCategoriaMod.removeAttribute("hidden");
                 divopc.firstElementChild.setAttribute("data-id",element.parentNode.getAttribute("data-idcat"));
-                btnadd.setAttribute("hidden","");
-                document.querySelector("#Categoria_Nombre").value = element.parentNode.parentNode.previousElementSibling.textContent;
-            }
-        }
-    });
-    FrmCategoria.addEventListener("submit", function(e){
-        var element = e.explicitOriginalTarget;
-        e.preventDefault();
-        if(element.classList.contains("btn-outline-primary") || element.classList.contains("fa-save")){
-            GuardarAjax();
-        }else{
-            if(element.classList.contains("btn-outline-warning") || element.classList.contains("fa-pencil-alt")){
-                if(element.type == "submit"){
-                    ModificarAjax(element.getAttribute("data-id"), document.querySelector("#Categoria_Nombre").value);
-                }else{
-                    ModificarAjax(element.parentNode.getAttribute("data-id"), document.querySelector("#Categoria_Nombre").value);
+                FrmCategoriaAdd.setAttribute("hidden","");
+                document.querySelector("#nombremod").focus();
+                document.querySelector("#nombremod").value = element.parentNode.parentNode.previousElementSibling.textContent;
+            }else{
+                if(element.classList.contains("custom-control-input")){
+                    if(element.checked){
+                        ModEstado(element, 1);
+                    }else{
+                        ModEstado(element, 0);
+                    }
                 }
             }
         }
     });
+    FrmCategoriaAdd.addEventListener("submit", function(e){
+        var element = e.target;
+        e.preventDefault();
+        GuardarAjax();
+    });
+    FrmCategoriaMod.addEventListener("submit", function(e){
+        e.preventDefault();
+        var element = document.querySelector("#btnmod");
+        ModificarAjax(element.getAttribute("data-id"), document.querySelector("#nombremod").value);
+    });
+    function ModEstado(input, estado){
+        var id = input.getAttribute("data-idc");
+        var label = input.nextElementSibling;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(input.checked){
+                    label.innerHTML="Habilitada";
+                }else{
+                    label.innerHTML="Deshabilitada";
+                }
+            }
+        };
+        xhttp.open("POST", "ListaCategoria?handler=Estado", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("IdCategoria="+id+"&Estado="+estado);
+    }
     function ModificarAjax(id, nombre){
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    btnadd.removeAttribute("hidden");
-                    divopc.setAttribute("hidden","");
-                    document.querySelector("#Categoria_Nombre").value = "";
-                    //Mensaje toast de exito
-                    document.querySelector("#formcategoria").reset();
-                    var h = document.querySelector("#thead");
-                    h.className = "toast-header bg-success";
-                    var i = document.querySelector("#inoti");
-                    i.className = "fas fa-check-circle text-success";
-                    var t = document.querySelector("#tcuerpo");
-                    t.innerHTML = "Modificacón Exitosa!"
-                    var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
-
-                    //Actualizacion de la tabla
                     var Categorias = JSON.parse(this.responseText);
-                    var tbCategorias = document.querySelector("#tbcategoria");
-                    tbCategorias.innerHTML = "";
-                    Categorias.forEach(function(elemento) {
-                        var tr = document.createElement("tr");
-                        var tdNombre = document.createElement("td");
-                        tdNombre.innerHTML = elemento.nombre;
-                        tr.appendChild(tdNombre);
-                        var tdEditar = document.createElement("td");
-                        tdEditar.innerHTML = '<span class="btn btn-sm btn-outline-success mano"><i class="fas fa-pencil-alt"></i></span>';
-                        tr.appendChild(tdEditar);
-                        var tdEstado = document.createElement("td");
-                        var span = document.createElement("span");
-                        span.className = "custom-control custom-switch";
-
-                        if (elemento.estado == true) {
-
-                            span.innerHTML = '<input type="checkbox" class="custom-control-input" checked> <label class="custom-control-label">Habilitada</label>';
-                        } else {
-                            span.innerHTML = '<input type="checkbox" class="custom-control-input"><label class="custom-control-label">Deshabilitada</label>';
-                        }
-                        tdEstado.appendChild(span);
-                        tr.appendChild(tdEstado);
-                        tbCategorias.appendChild(tr);
-                    });
-
+                    if(Categorias != ""){
+                        FrmCategoriaAdd.removeAttribute("hidden");
+                        FrmCategoriaMod.setAttribute("hidden","");
+                        document.querySelector("#nombremod").value = "";
+                        document.querySelector("#formcategoriaadd").reset();
+                        ToastSuccess("Modificacón Exitosa!");
+                        //Actualizacion de la tabla
+                        LlenarTabla(Categorias);
+                    }else{
+                        ToastFail("Fallo en el Registro!!");
+                    }
                 } else {
-                    //Mensaje toast de fracaso
-                    var h = document.querySelector("#thead");
-                    h.className = "toast-header bg-danger";
-                    var i = document.querySelector("#inoti");
-                    i.className = "fas fa-times-circle text-white";
-                    var t = document.querySelector("#tcuerpo");
-                    t.innerHTML = "Fallo la Modificación!!"
-                    var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
+                    ToastFail("Fallo la Modificación!!");
                 }
             }
         };
-        xhttp.open("post", "ListaCategoria?handler=Editar", true);
+        xhttp.open("POST", "ListaCategoria?handler=Editar", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var inputToken = document.getElementsByName("__RequestVerificationToken");
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
         xhttp.send("IdCategoria="+id+"&Nombre="+nombre);
     }
     function GuardarAjax() {
-        var form = document.querySelector("#formcategoria");
+        var form = document.querySelector("#formcategoriaadd");
         var formData = new FormData(form);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    document.querySelector("#Categoria_Nombre").value = "";
-                    //Mensaje toast de exito
-                    document.querySelector("#formcategoria").reset();
-                    var h = document.querySelector("#thead");
-                    h.className = "toast-header bg-success";
-                    var i = document.querySelector("#inoti");
-                    i.className = "fas fa-check-circle text-success";
-                    var t = document.querySelector("#tcuerpo");
-                    t.innerHTML = "Registro Exitoso!"
-                    var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
-
-                    //Actualizacion de la tabla
                     var Categorias = JSON.parse(this.responseText);
-                    var tbCategorias = document.querySelector("#tbcategoria");
-                    tbCategorias.innerHTML = "";
-                    Categorias.forEach(function(elemento) {
-                        var tr = document.createElement("tr");
-                        var tdNombre = document.createElement("td");
-                        tdNombre.innerHTML = elemento.nombre;
-                        tr.appendChild(tdNombre);
-                        var tdEditar = document.createElement("td");
-                        tdEditar.innerHTML = '<span class="btn btn-sm btn-outline-success mano"><i class="fas fa-pencil-alt"></i></span>';
-                        tr.appendChild(tdEditar);
-                        var tdEstado = document.createElement("td");
-                        var span = document.createElement("span");
-                        span.className = "custom-control custom-switch";
-
-                        if (elemento.estado == true) {
-
-                            span.innerHTML = '<input type="checkbox" class="custom-control-input" checked> <label class="custom-control-label">Habilitada</label>';
-                        } else {
-                            span.innerHTML = '<input type="checkbox" class="custom-control-input"><label class="custom-control-label">Deshabilitada</label>';
-                        }
-                        tdEstado.appendChild(span);
-                        tr.appendChild(tdEstado);
-                        tbCategorias.appendChild(tr);
-                    });
-
+                    if(Categorias != ""){
+                        document.querySelector("#Categoria_Nombre").value = "";
+                        document.querySelector("#formcategoriaadd").reset();
+                        ToastSuccess("Registro Exitoso!");
+                        //Actualizacion de la tabla
+                        LlenarTabla(Categorias);
+                    }else{
+                        ToastFail("Fallo en el Registro!!");
+                    }
                 } else {
-                    //Mensaje toast de fracaso
-                    var h = document.querySelector("#thead");
-                    h.className = "toast-header bg-danger";
-                    var i = document.querySelector("#inoti");
-                    i.className = "fas fa-times-circle text-white";
-                    var t = document.querySelector("#tcuerpo");
-                    t.innerHTML = "Fallo en el Registro!!"
-                    var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
+                    ToastFail("Fallo en el Registro!!");
                 }
             }
         };
-        xhttp.open("post", "ListaCategoria", true);
+        xhttp.open("POST", "ListaCategoria", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var inputToken = document.getElementsByName("__RequestVerificationToken");
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
         xhttp.send(new URLSearchParams(formData));
+    }
+
+    function LlenarTabla(Categorias){
+        var tbCategorias = document.querySelector("#tbcategoria");
+        tbCategorias.innerHTML = "";
+        Categorias.forEach(function(elemento) {
+        var tr = document.createElement("tr");
+        var tdNombre = document.createElement("td");
+        tdNombre.innerHTML = elemento.nombre;
+        tr.appendChild(tdNombre);
+        var tdEditar = document.createElement("td");
+        tdEditar.innerHTML = '<span class="btn btn-sm btn-outline-success mano" data-idcat="'+elemento.id+'"><i class="fas fa-pencil-alt"></i></span>';
+        tr.appendChild(tdEditar);
+        var tdEstado = document.createElement("td");
+        var span = document.createElement("span");
+        span.className = "custom-control custom-switch";
+        if (elemento.estado == true) {
+            span.innerHTML = '<input type="checkbox" class="custom-control-input" data-idc="'+elemento.id+'" id="'+elemento.id+'" checked> <label for="'+elemento.id+'" class="custom-control-label">Habilitada</label>';
+        } else {
+            span.innerHTML = '<input type="checkbox" class="custom-control-input" data-idc="'+elemento.id+'" id="'+elemento.id+'"><label for="'+elemento.id+'" class="custom-control-label">Deshabilitada</label>';
+        }
+        tdEstado.appendChild(span);
+        tr.appendChild(tdEstado);
+        tbCategorias.appendChild(tr);
+        });
+    }
+    //Mensaje toast de exito
+    function ToastSuccess(message){
+        var h = document.querySelector("#thead");
+        h.className = "toast-header bg-success";
+        var i = document.querySelector("#inoti");
+        i.className = "fas fa-check-circle text-success";
+        var t = document.querySelector("#tcuerpo");
+        t.innerHTML = message;
+        var toast = document.getElementById("toastProveedor");
+        $('.toast').toast('show');
+    }
+    //Mensaje toast de fracaso
+    function ToastFail(message){
+        var h = document.querySelector("#thead");
+        h.className = "toast-header bg-danger";
+        var i = document.querySelector("#inoti");
+        i.className = "fas fa-times-circle text-white";
+        var t = document.querySelector("#tcuerpo");
+        t.innerHTML = message;
+        var toast = document.getElementById("toastProveedor");
+        $('.toast').toast('show');
     }
 </script>
 }

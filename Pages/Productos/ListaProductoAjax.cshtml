@@ -37,8 +37,8 @@ float porcentaje = 100 / Model.CantidadPorFila;
                 -->
                 @{
                 if (obj.IdImagenNavigation == null) {
-                    ruta = "";
-                    imagen = "";
+                    ruta = "img";
+                    imagen = "blank-producto.png";
                 } else {
                     ruta = @obj.IdImagenNavigation.IdRutaNavigation.Nombre;
                     imagen = @obj.IdImagenNavigation.Nombre;

@@ -22,9 +22,9 @@ namespace SGLibreria.Pages.Proveedores
         }
         public async Task OnPostAsync(int id, int estado){
             if(ProveedorExists(id)){
-                Proveedor proveedor = await _context.Proveedores.FirstOrDefaultAsync(p => p.Id == id);
+                Proveedor proveedor = await this._context.Proveedores.FirstOrDefaultAsync(p => p.Id == id);
                 proveedor.Estado = (sbyte) estado;
-                _context.Attach(proveedor).State = EntityState.Modified;
+                this._context.Attach(proveedor).State = EntityState.Modified;
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -36,8 +36,44 @@ namespace SGLibreria.Pages.Proveedores
                 }
             }
         }
+        public async Task<JsonResult> OnPostRegistroTel(int IdProveedor, string Telefono){
+            if(!ProveedorExists(IdProveedor) || Telefono.Equals("")){
+                return new JsonResult("Error");
+            }
+            var Tel = new Telefono();
+            int tam = this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).Count();
+            if(tam == 0){
+                Tel.Principal = (sbyte) 1;
+            }else{
+                Tel.Principal = (sbyte) 0;
+            }
+            Tel.IdProveedor = IdProveedor;
+            Tel.Numero = Telefono;
+            await this._context.Telefonos.AddAsync(Tel);
+            await this._context.SaveChangesAsync();
+            return new JsonResult(Tel);
+        }
         public async Task<PartialViewResult> OnPostTelefono(int IdProveedor){
             this.Proveedor = await this._context.Proveedores.Include(x => x.Telefono).ToListAsync();
+            this.Telefonos = await this._context.Telefonos.Where(x => x.IdProveedor == IdProveedor).ToListAsync();
+            return Partial("_TelefonoPartial", this);
+        }
+        public async Task<PartialViewResult> OnPostDelTelefono(int IdTelefono){
+            int IdProveedor = -1;
+            int Principal = 0;
+            if(TelefonoExists(IdTelefono)){
+                var Telefono = await this._context.Telefonos.FirstOrDefaultAsync(t => t.Id == IdTelefono);
+                Principal = Telefono.Principal;
+                IdProveedor = Telefono.IdProveedor;
+                this._context.Telefonos.Remove(Telefono);
+                await this._context.SaveChangesAsync();
+                if(Principal == 1){
+                    Telefono = await this._context.Telefonos.FirstAsync();
+                    Telefono.Principal = (sbyte) 1;
+                    this._context.Attach(Telefono).State = EntityState.Modified;
+                    await this._context.SaveChangesAsync();
+                }
+            }
             this.Telefonos = await this._context.Telefonos.Where(x => x.IdProveedor == IdProveedor).ToListAsync();
             return Partial("_TelefonoPartial", this);
         }
@@ -75,6 +111,10 @@ namespace SGLibreria.Pages.Proveedores
         private bool ProveedorExists(int id)
         {
             return _context.Proveedores.Any(p => p.Id == id);
+        }
+        private bool TelefonoExists(int id)
+        {
+            return _context.Telefonos.Any(t => t.Id == id);
         }
     }
 }

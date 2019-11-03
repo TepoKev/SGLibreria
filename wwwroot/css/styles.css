@@ -24,9 +24,9 @@
         background-position: left top;
         background-attachment: local;
         background-size: 50% auto;
-} 
+}
+/*Estilo box de busqueda*/
 .search-box {
-    position: absolute;
     left: 10px;
     top:10px;
     background: #ecf0f1;
