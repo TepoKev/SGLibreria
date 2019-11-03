@@ -12,14 +12,21 @@ ViewData["title"] = "Lista de Empleados";
     </div>
     <div class="card-body">
         <div class="row">
-            <label class="col-lg-1 col-form-label">Mostrar </label>
-            <select>
+            <label class="col-lg-1" for="selmost">Mostrar</label>
+            <select class="form-control col-sm-1" id="selmost">
+                <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
                 <option value="20">20</option>
                 <option value="25">25</option>
             </select>
-            <label class="col-lg-2 col-form-label">Registros</label>
+            <label class="mx-3">Registros</label>
+            <div class="search-box">
+                <input type="text" class="search-txt" placeholder="Buscar..." />
+                <a class="search-btn" href="#">
+                    <i class="fas fa-search"></i>
+                </a>
+            </div>
         </div>
         <div class="table-responsive pt-3">
             <table class="table table-sm table-hover bg-white" cellspacing="0">
@@ -111,12 +118,8 @@ ViewData["title"] = "Lista de Empleados";
 }
 @section Scripts
 {
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
+<script src="~/js/busqueda.js"></script>
 <script>
-    $(function() {
-        $('select').selectric();
-    });
     var btnVermas = document.querySelector("#bodyempleados");
     var modalCuerpo = document.querySelector("#modalcuerpo");
     var tract;

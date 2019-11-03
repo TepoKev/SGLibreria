@@ -184,6 +184,7 @@ ViewData["title"] = "Registro de Proveedor";
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
+                    window.scrollTo(0,0);
                     document.querySelector("#lis_tel").innerHTML =
                         '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();

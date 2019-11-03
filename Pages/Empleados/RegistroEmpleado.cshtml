@@ -99,7 +99,8 @@ ViewData["title"] = "Registro de Empleado";
                     </div>
                     <div class="form-group row">
                         <label class="font-weight-bold">Repetir</label>
-                        <input class="form-control" type="password" placeholder="Repita su contraseña">
+                        <input class="form-control" type="password" id="claverepeat" placeholder="Repita su contraseña">
+                        <span id="valcontra" class="text-danger" hidden>Las contraseñas no coinciden</span>
                     </div>
                 </div>
                 <div class="col-lg-7 pt-5">
@@ -164,31 +165,52 @@ ViewData["title"] = "Registro de Empleado";
         }
     });
     var frmEUP = document.querySelector("#formEUP");
+    var inputRC = document.querySelector("#claverepeat");
+    inputRC.addEventListener("input", ()=>{
+        document.querySelector("#valcontra").setAttribute("hidden","");
+    });
+    inputRC.addEventListener("blur", ()=>{
+        if(!ClaveCoincide()){
+            document.querySelector("#valcontra").removeAttribute("hidden");
+        }
+    });
     frmEUP.addEventListener("submit", (e) => {
         e.preventDefault();
         //Aqui se va a enviar el Formulario al servidor via ajax
-        let form = new FormData(document.querySelector("#formEUP"));
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                init();
-                document.querySelector("#formEUP").reset();
-                document.querySelector("#notific").className = "toast-header bg-success";
-                document.querySelector("#mensaje").innerHTML = "Registro exitoso !";
-                $('.toast').toast('show');
-            }
-            if (this.readyState == 4 && this.status == 404) {
-                init();
-                document.querySelector("#notific").className = "toast-header bg-danger";
-                document.querySelector("#mensaje").innerHTML = "Error al registrar !";
-                $('.toast').toast('show');
-            }
-        };
-        xhttp.open("POST", "RegistroEmpleado", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var inputToken = document.getElementsByName("__RequestVerificationToken");
-        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        xhttp.send(new URLSearchParams(form));
+        if(ClaveCoincide()){
+            let form = new FormData(document.querySelector("#formEUP"));
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.querySelector("#formEUP").reset();
+                    window.scrollTo(0,0);
+                    document.querySelector("#notific").className = "toast-header bg-success";
+                    document.querySelector("#mensaje").innerHTML = "Registro exitoso !";
+                    $('.toast').toast('show');
+                }
+                if (this.readyState == 4 && this.status == 404) {
+                    document.querySelector("#notific").className = "toast-header bg-danger";
+                    document.querySelector("#mensaje").innerHTML = "Error al registrar !";
+                    $('.toast').toast('show');
+                }
+            };
+            xhttp.open("POST", "RegistroEmpleado", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(new URLSearchParams(form));
+        }else{
+            document.querySelector("#valcontra").removeAttribute("hidden");
+        }
     });
+    function ClaveCoincide(){
+        var input1 =  document.querySelector("#Usuario_Clave").value;
+        var input2 =  document.querySelector("#claverepeat").value;
+        if(input1 === input2){
+            return true
+        }else{
+            return false;
+        }
+    }
 </script>
 }

@@ -41,9 +41,14 @@ namespace SGLibreria.Pages.Proveedores
                 return new JsonResult("Error");
             }
             var Tel = new Telefono();
+            int tam = this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).Count();
+            if(tam == 0){
+                Tel.Principal = (sbyte) 1;
+            }else{
+                Tel.Principal = (sbyte) 0;
+            }
             Tel.IdProveedor = IdProveedor;
             Tel.Numero = Telefono;
-            Tel.Principal = 0;
             await this._context.Telefonos.AddAsync(Tel);
             await this._context.SaveChangesAsync();
             return new JsonResult(Tel);

@@ -10,7 +10,7 @@ namespace SGLibreria.Pages.Compras {
         private readonly AppDbContext _context;
         public List<Producto> Productos { get; set; }
         public RegistroCompraModel (AppDbContext context) {
-            _context = context;            
+            _context = context;
         }
 
         [BindProperty]

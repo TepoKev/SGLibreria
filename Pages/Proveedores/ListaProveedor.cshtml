@@ -269,6 +269,7 @@ ViewData["Title"] = "Lista de Proveedores";
                     if (this.readyState == 4 && this.status == 200) {
                         $('#divelim').tooltip('hide');
                         document.querySelector("#tbltelefonos").innerHTML = this.responseText;
+                        ActPpal();
                         $('#tefonosModal').modal('show');
                     }
                 };
@@ -294,10 +295,17 @@ ViewData["Title"] = "Lista de Proveedores";
                         var tbt = document.querySelector("#tbltelefonos");
                         var tr = tbt.children[tbt.children.length - 1];
                         tr.children[0].innerHTML = '<input type="text" class="form-control" value="'+telefono.numero+'" data-n="'+telefono.numero+'" id="t '+telefono.id+'" disabled>';
-                        tr.children[1].innerHTML = '<div class="custom-control custom-switch text-center">'
-                            +'<input type="checkbox" class="custom-control-input" id="i '+telefono.id+'" data-number="'+telefono.numero+'" data-idprov="'+telefono.idProveedor+'">'
-                            +'<label class="custom-control-label" for="i '+telefono.id+'"></label>'
-                        +'</div>';
+                        if(telefono.estado == 1){
+                            tr.children[1].innerHTML = '<div class="custom-control custom-switch text-center">'
+                                +'<input type="checkbox" class="custom-control-input" id="i '+telefono.id+'" data-number="'+telefono.numero+'" data-idprov="'+telefono.idProveedor+'" checked>'
+                                +'<label class="custom-control-label" for="i '+telefono.id+'"></label>'
+                            +'</div>';
+                        }else{
+                            tr.children[1].innerHTML = '<div class="custom-control custom-switch text-center">'
+                                +'<input type="checkbox" class="custom-control-input" id="i '+telefono.id+'" data-number="'+telefono.numero+'" data-idprov="'+telefono.idProveedor+'">'
+                                +'<label class="custom-control-label" for="i '+telefono.id+'"></label>'
+                            +'</div>';
+                        }
                         tr.children[2].innerHTML = '<div class="btn-group">'
                             +'<button type="button" class="btn btn-outline-warning">'
                                 +'<i class="fas fa-pencil-alt" data-tid="t '+telefono.id+'"></i>'
@@ -306,6 +314,7 @@ ViewData["Title"] = "Lista de Proveedores";
                                 +'<i class="fas fa-trash" data-elim="'+telefono.id+'"></i>'
                             +'</button>'
                         +'</div>';
+                        ActPpal();
                     }
                 }
             };
@@ -315,6 +324,11 @@ ViewData["Title"] = "Lista de Proveedores";
             xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
             xhttp.send("IdProveedor=" + IdProvActual + "&Telefono="+inputTel.value);
         }
+    }
+    function ActPpal(){
+        var num = document.querySelector("td div.custom-control.custom-switch.text-center input[checked]");
+        var tel = document.querySelector('span[data-idp="'+num.getAttribute("data-idprov")+'"]');
+        tel.innerHTML = num.getAttribute("data-number");
     }
     function NuevoCompTel(){
         var tr = document.createElement("tr");
@@ -403,11 +417,7 @@ ViewData["Title"] = "Lista de Proveedores";
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.querySelector("#tbltelefonos").innerHTML = this.responseText;
-                var num = document.querySelector("td div.custom-control.custom-switch.text-center input[checked]");
-                console.log(num);
-                var tel = document.querySelector('span[data-idp="'+num.getAttribute("data-idprov")+'"]');
-                tel.innerHTML = num.getAttribute("data-number");
-                console.log();
+                ActPpal();
             }
         };
         xhttp.open("POST", "ListaProveedor?handler=EstadoTelefono", true);
@@ -445,9 +455,7 @@ ViewData["Title"] = "Lista de Proveedores";
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     document.querySelector("#tbltelefonos").innerHTML = this.responseText;
-                    var num = document.querySelector("td div.custom-control.custom-switch.text-center input[checked]");
-                    var tel = document.querySelector('span[data-idp="'+num.getAttribute("data-idprov")+'"]');
-                    tel.innerHTML = num.getAttribute("data-number");
+                    ActPpal();
                 }
             };
             xhttp.open("POST", "ListaProveedor?handler=NumTelefono", true);
