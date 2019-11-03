@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace SGLibreria.Models
 {
@@ -18,6 +20,9 @@ namespace SGLibreria.Models
         public string Codigo { get; set; }
         [Display(Name = "Categoría")]
         public int IdCategoria { get; set; }
+
+        [NotMapped]
+        public IFormFile Archivo {get;set;}
         public int? IdImagen { get; set; }
         [Required(ErrorMessage="El {0} es obligatorio"), StringLength(30, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Nombre { get; set; }

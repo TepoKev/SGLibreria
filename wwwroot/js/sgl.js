@@ -88,7 +88,7 @@ var sgl = {
                 }
             }
         };
-        xhttp.open(config.method, config.url , true);
+        xhttp.open(config.method.toUpperCase(), config.url , true);
         if(config.headers != undefined) {
             for(var header in config.headers) {
                 if (config.headers.hasOwnProperty(header)) {
