@@ -174,12 +174,14 @@ ViewData["Title"] = "Lista de Productos";
                 </div>
               </div>
               ​
-              <div id="imagePreviewNuevo">
+              <div class="row">
+                <div class='col-lg-6 offset-lg-3'  id="imagePreviewNuevo">
                 <br>
                 <br>
                 <h5 class="text-lg-center">Vista Previa</h5>
                 <br>
                 <br>
+              </div>
               </div>
         </div>
         <div class="modal-footer">
@@ -201,10 +203,10 @@ ViewData["Title"] = "Lista de Productos";
 <script src="~/js/sgl.js"></script>
 <script>
   sgl.get('ListaProductoAjax', function (data) {
-    var divProductos = document.querySelector('#productos');
+    var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
   });
-  var NombreOCodigo = document.querySelector('#NombreOCodigo');
+  var NombreOCodigo = sgl.q('#NombreOCodigo');
   NombreOCodigo.focus();
   NombreOCodigo.oninput = function (e) {
     buscarProducto(NombreOCodigo.value);
@@ -219,14 +221,14 @@ ViewData["Title"] = "Lista de Productos";
       params += "&IdCategoria=" + IdCategoria;
     }
     sgl.get('ListaProductoAjax', function (data) {
-      var divProductos = document.querySelector('#productos');
+      var divProductos = sgl.q('#productos');
       divProductos.innerHTML = data;
     }, params);
   }
 
 
-  var divProductos = sgl.query('#productos')[0];
-  var divCategorias = sgl.query('#categorias')[0];
+  var divProductos = sgl.q('#productos');
+  var divCategorias = sgl.q('#categorias');
 
   //clic la imagen del card activa un elemento
   divProductos.addEventListener('click', function (evento) {
@@ -260,11 +262,13 @@ ViewData["Title"] = "Lista de Productos";
     var inputToken = sgl.q('#formToken '+sgl.inputToken);
 //    console.log(sgl.headerToken, inputToken.value);
     var headers = { [sgl.headerToken]: inputToken.value };
-
+    var card;
     if (target.matches('button[type=button') || target.matches('i')) {
       if(target.nodeName == 'I') {
+        card = target.parentNode.parentNode.parentNode.parentNode;
         idproducto = target.parentNode.getAttribute('data-idproducto');
       } else {
+        card = target.parentNode.parentNode.parentNode;
         idproducto = target.getAttribute('data-idproducto');
       }
       
@@ -281,6 +285,9 @@ ViewData["Title"] = "Lista de Productos";
             headers: headers,
             done: function (data) {
               var obj = JSON.parse(data);
+              sgl.setDataSet(card, producto);
+              var datos = sgl.getDataSet(card);
+              console.log(datos);
               //console.log(producto['idMarca'], producto['idCategoria'], producto);
               //console.log(obj);
               $('#modalProducto').modal('show');
@@ -303,6 +310,7 @@ ViewData["Title"] = "Lista de Productos";
 
               llenarFormProducto(producto);
               function llenarFormProducto(producto) {
+                
                 sgl.q('#pdid').value = producto.id;
                 sgl.q('#pdnombre').value = producto.nombre;
                 sgl.q('#comboMarcas').value = producto.idMarca;
@@ -317,6 +325,8 @@ ViewData["Title"] = "Lista de Productos";
                   path += '/'+producto.idImagenNavigation.nombre;
                   var imagen = document.createElement('img');
                   imagen.src = path;
+                  imagen.className = 'img-fluid';
+                  imagen.id = 'img-producto';
                   sgl.q('#imagePreviewNuevo').innerHTML = imagen.outerHTML;
                 }
                 console.log(producto);
@@ -325,47 +335,6 @@ ViewData["Title"] = "Lista de Productos";
                 //
 
               }
-
-              /*
-              function llenarCategorias(lista) {
-                //encontrar la plantilla
-                var t = document.querySelector('#plantilla-option');
-                //encontrar el elemento de destino
-                var destino = document.querySelector("#comboCategorias");
-                elems = t.content.querySelectorAll("option");
-                elems[0].textContent = "... Seleccione ...";
-                elems[0].value = "";
-                var clon = document.importNode(t.content, true);
-                destino.appendChild(clon);
-
-                lista.forEach(function (dato) {
-                  //se accedera al primer elemento ya que solo hay un elemento option
-                  elems[0].textContent = dato.nombre;
-                  elems[0].value = dato.id;
-                  var clon = document.importNode(t.content, true);
-                  destino.appendChild(clon);
-                });
-              }
-              function llenarMarcas(lista) {
-                //encontrar la plantilla
-                var t = document.querySelector('#plantilla-option');
-                //encontrar el elemento de destino
-                var destino = document.querySelector("#comboMarcas");
-                elems = t.content.querySelectorAll("option");
-                elems[0].textContent = "... Seleccione ...";
-                elems[0].value = "";
-                var clon = document.importNode(t.content, true);
-                destino.appendChild(clon);
-                lista.forEach(function (dato) {
-                  //se accedera al primer elemento ya que solo hay un elemento option
-                  elems[0].textContent = dato.nombre;
-                  elems[0].value = dato.id;
-                  var clon = document.importNode(t.content, true);
-                  destino.appendChild(clon);
-                });
-              }
-              */
-              
             },
             fail: function () {console.log(this);}
           });
@@ -378,11 +347,26 @@ ViewData["Title"] = "Lista de Productos";
 
   var formModificar = sgl.q('#formModificarProducto');
   var botonModificar = sgl.q('#btnAgregarProducto');
-  
+  var pdimagenNuevo = sgl.q('#pdimagenNuevo');
+  pdimagenNuevo.onchange = function () {
+    readURL(this);
+    function readURL(input) {
+
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('#img-producto').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+      }
+    }
+  };
+
+
   formModificar.onsubmit = function (evento) {
-    console.log('evento submit llamado');
+ //   console.log('evento submit llamado');
     evento.preventDefault();
-    if(true) return false;
+ //   if(true) return false;
     var inputToken = sgl.q('#formToken '+sgl.inputToken);
     var headers = { [sgl.headerToken]: inputToken.value };
     sgl.ajax2({
@@ -391,6 +375,7 @@ ViewData["Title"] = "Lista de Productos";
       data: formModificar, 
       headers: headers, 
       done: function(data) {
+        var obj = JSON.parse(data);
         console.log(data);
       },
       fail: function() {
