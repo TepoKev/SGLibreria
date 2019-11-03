@@ -75,8 +75,8 @@ ViewData["Title"] = "Registro Compras";
                             <div class="btn btn-group">
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalProductoNuevo">Registrar Producto</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#modalProductoAntiguo">Añadir Producto</button>
+                                <button type="button" id="anadirProducto" class="btn btn-outline-primary"
+                                    data-toggle="modal" data-target="#modalProductoAntiguo">Añadir Producto</button>
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalDocumento">Agregar Comprobante</button>
                             </div>
@@ -92,8 +92,8 @@ ViewData["Title"] = "Registro Compras";
                                     <th scope="col">Cantidad</th>
                                     <th scope="col">Precio Total</th>
                                     <th scope="col">Precio Unitario</th>
-                                    <th scope="col">Precio Venta</th>
-                                    <th scope="col">Acciones</th>
+                                    <th scope="col">PrecioVenta</th>
+                                    <th scope="col">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaCompraFilas">
@@ -522,8 +522,8 @@ ViewData["Title"] = "Registro Compras";
                                     <div class="row">
                                         <div class="row col-lg-6">
                                             <div class="input-group mb-3">
-                                                <input type="text" id="nombreProductoFocus" class="form-control"
-                                                    autofocus placeholder="Nombre o código de producto"
+                                                <input type="text" id="NombreOCodigo" class="form-control"
+                                                    placeholder="Nombre o código de producto"
                                                     aria-describedby="button-addon2">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-primary" type="button"><i
@@ -614,7 +614,7 @@ ViewData["Title"] = "Registro Compras";
                 <div class="modal-footer">
                     <div class="btn btn-group" id="groupAntiguo">
                         <button type="submit" class="btn btn-outline-primary" id="btnAgregarProductoAntiguo"><i
-                                class="fas fa-save"> </i> Modificar</button>
+                                class="fas fa-save"> </i> Agregar</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
                             id="btnCancelarProductoAntiguo"><i class="fas fa-times-circle"> </i> Cancelar</button>
                     </div>
@@ -634,35 +634,65 @@ ViewData["Title"] = "Registro Compras";
 <script src="~/js/busqueda.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
+    //Funcion para seleccionar el producto
+    var divProductos = document.querySelector("#productosAjax");
+    divProductos.addEventListener("click", function (e) {
+        var target = e.target;
+        var card;
+        var cardFooter;
+        if (target.matches('img')) {
+            card = target.parentNode;
+            cardFooter = card.querySelector('.card-footer')
+            if (card.getAttribute('data-seleccionado') == 'true') {
+                cardFooter.classList.remove('bg-primary');
+                cardFooter.classList.remove('text-white');
+                cardFooter.classList.add('text-primary');
+                card.setAttribute('data-seleccionado', false);
+            } else {
+                console.log(card);
+                cardFooter.classList.add('bg-primary');
+                cardFooter.classList.add('text-white');
+                cardFooter.classList.remove('text-primary');
+                card.setAttribute('data-seleccionado', true);
+            }
+        }
+    });
+    //Funcion para eliminar producto de la tabla y hacer los calculos
+    var tbody = document.querySelector("#tablaCompraFilas");
+    tbody.addEventListener("click", function (e) {
+        var element = e.target;
+        e.preventDefault();
+        if (element.classList.contains("fa-trash")) {
+            element.parentElement.offsetParent.parentElement.outerHTML = "";
+        }
+
+    });
+
     //funcion para agregar el producto a la tabla
     var FrmProductoNuevo = document.querySelector("#formProductoNuevo");
     var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
     FrmProductoNuevo.addEventListener("submit", function (e) {
-        console.log(FrmProductoNuevo);
         e.preventDefault();
-        console.log(FrmProductoNuevo);
+        //console.log(FrmProductoNuevo);
         sgl.ajax2({
             method: 'post',
             data: FrmProductoNuevo,
             url: "RegistroCompra?handler=AgregarProducto",
             done: function (texto) {
-                console.log(texto);
                 var elem = document.createElement("tr");
                 var tbody = document.querySelector('#tablaCompraFilas');
                 tbody.appendChild(elem);
                 elem.outerHTML = texto;
+                limpiarProducto1();
             },
-            fail: function () {
-                console.log("error");
-                console.log(this);
-            },
+            fail: console.log(this),
             headers: {
-                "RequestVerificationToken": token.value,
-                "Content-type": "application/x-www-form-urlencoded"
+                //"RequestVerificationToken": token.value,
+                //"Content-type": "application/x-www-form-urlencoded"
             }
         });
         //$('#modalProductoNuevo').modal('hide');
-        //sgl.clearForm(FrmProductoNuevo);
+        
     });
 
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
@@ -961,7 +991,6 @@ ViewData["Title"] = "Registro Compras";
         }
     });
     BtnRegistrar.addEventListener("submit", GuardarForAjax);
-    console.log(BtnRegistrar);
     //La siguiente funcion verifica que el numero ingreso no este vacio y ademas no exista en la lista devuelve un booleano
     function ValidarUl(numero) {
         if (numero != "") {
