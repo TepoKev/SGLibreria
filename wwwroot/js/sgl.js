@@ -106,8 +106,8 @@ var sgl = {
             var formData, params;
             if(config.data.nodeName == 'FORM') {
                 formData = new FormData(config.data);
-                params = new URLSearchParams(formData);
-                xhttp.send(params);
+                //params = new URLSearchParams(formData);
+                xhttp.send(formData);
             } else if(config.data instanceof FormData) {
                 //params = new URLSearchParams(config.data);
                 xhttp.send(config.data);
@@ -194,4 +194,19 @@ var sgl = {
     console.log(elem);
     console.log(sgl.getDataSet(elem));
 })();
+*/
+/*
+        let formData = new FormData(FrmProductoNuevo);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(FrmProductoNuevo) {
+            if (this.readyState === 4 && this.status === 200) {
+                alert('Posted using XMLHttpRequest');
+            }
+        };
+        xhr.open('POST', 'RegistroCompra?handler=UnaPrueba', true);
+        
+        xhr.setRequestHeader("RequestVerificationToken", token.value);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+        xhr.send(formData);
 */

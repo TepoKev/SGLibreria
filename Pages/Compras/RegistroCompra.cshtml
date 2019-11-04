@@ -614,9 +614,9 @@ ViewData["Title"] = "Registro Compras";
     FrmProductoNuevo.addEventListener("submit", function (e) {
         e.preventDefault();
         console.log(FrmProductoNuevo);
-
         sgl.ajax2({
             method: "post",
+            data: new FormData(FrmProductoNuevo), 
             url: "RegistroCompra?handler=AgregarProducto",
             done: function (texto) {
                 var elem = document.createElement("tr");
@@ -625,21 +625,39 @@ ViewData["Title"] = "Registro Compras";
                 elem.outerHTML = texto;
                 limpiarProducto1();
             },
-<<<<<<< HEAD
+
             fail: function () {
                 console.log("error");
                 console.log(this);
             },
-            /*
             headers: {
                 "RequestVerificationToken": token.value,
                 "Content-type": "application/x-www-form-urlencoded"
             }
-            */
-=======
-            data: FrmProductoNuevo
->>>>>>> fb6fe1e27e2f31ff732df7609dbd163ab0b52880
+            
         });
+
+        /*
+        let formData = new FormData(FrmProductoNuevo);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(FrmProductoNuevo) {
+            if (this.readyState === 4 && this.status === 200) {
+                alert('Posted using XMLHttpRequest');
+            }
+        };
+        xhr.open('POST', 'RegistroCompra?handler=UnaPrueba', true);
+        
+        xhr.setRequestHeader("RequestVerificationToken", token.value);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(formData);
+        */
+        //xhr.send("Nombre=1234");
+        //xhr.send(new URLSearchParams(formData));
+        
+        //return false;
+/*
+        
+*/
         //$('#modalProductoNuevo').modal('hide'); 
     });
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
@@ -885,10 +903,7 @@ ViewData["Title"] = "Registro Compras";
         });
     })();
 </script>
-<<<<<<< HEAD
 
-=======
->>>>>>> fb6fe1e27e2f31ff732df7609dbd163ab0b52880
 <script>
     //Declaracion y obtencion de variables
     var list = document.querySelector("#lis_tel");
