@@ -28,13 +28,21 @@ namespace SGLibreria.Pages.Compras {
         public IList<Categoria> Categorias {get;set;}
         public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
-
-        public async Task<PartialViewResult> OnPostAgregarProducto(){
+/*
+        public async Task<PartialViewResult> OnPost(){
             this.Producto.Estado = (sbyte)1;
             _context.Productos.Add(Producto);
             await _context.SaveChangesAsync();
             return Partial("_ProductoPartial",Producto);
         }
+*/
+public IActionResult OnPost(){
+            //this.Producto.Estado = (sbyte)1;
+            //_context.Productos.Add(Producto);
+            //await _context.SaveChangesAsync();
+            //return Partial("_ProductoPartial",Producto);
+            return Page();
+}
 
         public void OnGet () {
         }
