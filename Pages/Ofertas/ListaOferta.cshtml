@@ -1,6 +1,5 @@
 @page
 @model Ofertas.ListaOfertaModel
-
 @{
     ViewData["Title"] = "Lista de Ofertas";
 }
@@ -18,45 +17,28 @@
                     <th>Producto</th>
                     <th>Descuento</th>
                     <th>Precio Normal</th>
-                    <th>Descuento</th>
-                    <th>Estado</th>
+                    <th>Precio Oferta</th>
                 </tr>
             </thead>
             <!--fin Encabezado de tabla-->
             <!--filas de tabla-->
             <tbody>
-                <tr>
-                    <td>03/09/2019</td>
-                    <td>10/09/2019</td>
-                    <td>Cuaderno</td>
-                    <td>15%</td>
-                    <td>$ 1.00</td>
-                    <td>$ 0.85</td>
-                    <td>
-                        <span class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch">
-                            <label class="custom-control-label" for="customSwitch">Deshabilitada</label>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-            <!--fin de fila de tabla-->
-            <!--filas de tabla-->
-            <tbody>
-                <tr>
-                    <td>03/09/2019</td>
-                    <td>10/09/2019</td>
-                    <td>Cartulina</td>
-                    <td>15%</td>
-                    <td>$ 1.00</td>
-                    <td>$ 0.85</td>
-                    <td>
-                        <span class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch" checked>
-                            <label class="custom-control-label" for="customSwitch">Habilitada</label>
-                        </span>
-                    </td>
-                </tr>
+                @foreach(var Detalle in Model.OfertaProducto){
+                    <tr>
+                        <td>@Detalle.IdOfertaNavigation.FechaInicio</td>
+                        <td>@Detalle.IdOfertaNavigation.FechaFin</td>
+                        <td>@Detalle.IdProductoNavigation.Nombre</td>
+                        <td>@Detalle.IdOfertaNavigation.Descuento %</td>
+                        <td>$ @Detalle.IdProductoNavigation.Precioventa[@Detalle.IdProductoNavigation.Precioventa.Count-1].Valor</td>
+                        <td>$ @{
+                                var pv = Detalle.IdProductoNavigation.Precioventa[Detalle.IdProductoNavigation.Precioventa.Count-1].Valor;
+                                var desc = @Detalle.IdOfertaNavigation.Descuento;
+                                var po = (pv - (pv*((decimal)desc*(decimal) (0.01))));
+                                po = Math.Round(po, 2, MidpointRounding.ToEven);
+                            }
+                            @po</td>
+                    </tr>
+                }
             </tbody>
             <!--fin de fila de tabla-->
         </table>

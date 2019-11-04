@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Registro Ofertas";
 }
-<form class="container-fluid ">
+<form class="container-fluid" method="POST" id="frmoferta">
     <div class="user" method="post">
         <div class="row">
-            <div class="col-lg-10 offset-lg-1 border border-secondary-100 rounded">
+            <div class="col-lg-8 offset-lg-2 border border-secondary-100 rounded">
                 <div class="row">
                     <div class="col-lg-7">
                         <h5 class="text-lg-left p-2">Datos</h5>
@@ -18,6 +18,7 @@
                         <div class="col-lg-3">
                             <input asp-for="Oferta.Descuento" class="form-control">
                         </div>
+                        <span asp-validation-for="Oferta.Descuento" class="text-danger"></span>
                     </div>
                     <div class="row offset-1 mt-4">
                         <label asp-for="Oferta.FechaInicio" class="font-weight-bold col-form-label"></label>
@@ -31,11 +32,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-2" id="notific">
+                <div class="toast" id="toastOferta" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-success" id="thead">
+                        <label class="col-form-label text-white">
+                            <i class="" id="inoti"></i>
+                            <strong class="mr-auto">Registro Oferta</strong>
+                        </label>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body" id="tcuerpo">
+                    </div>
+                </div>
+            </div>
         </div>
         <!---->
         <br>
         <div class="row">
-            <div class="col-lg-10 offset-lg-1 border border-secondary-100 rounded">
+            <div class="col-lg-8 offset-lg-2 border border-secondary-100 rounded">
                 <div class="row">
                     <div class="col-lg-9">
                         <h5 class="text-lg-left p-2">Detalles</h5>
@@ -65,8 +81,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class=" offset-lg-5 col-lg-6">
                 <div class="form-group pt-2 btn btn-group">
                     <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Registrar</button>
@@ -97,7 +111,7 @@
                                 </a>
                             </div>
                             <div class="offset-lg-10 mt-3" style="position: absolute">
-                                <button type="button" class="btn btn-outline-success"><i
+                                <button type="button" class="btn btn-outline-success" id="btnadd" data-dismiss="modal"><i
                                         class="fas fa-cart-plus"></i>Agregar</button>
                             </div>
                         </div>
@@ -161,6 +175,34 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
     var Productos = [];
     var divProductos = document.getElementById('productosAjax');
+    var BtnAdd = document.querySelector("#btnadd");
+    var input = document.querySelector("#Oferta_Descuento");
+    var tbprod = document.querySelector("#tbproductosel");
+    var IdProductos = [];
+    var form = document.querySelector("#frmoferta");
+    form.addEventListener("submit", GuardarForAjax);
+    tbprod.addEventListener("click", (e)=>{
+        var element = e.target;
+        if(element.classList.contains("fa-trash")){
+            var i = Coincide(element.parentNode.parentNode.getAttribute("data-idproducto"));
+            if(i > -1){
+                IdProductos.splice(i, i);
+            }
+            document.querySelector("#tbproductosel").removeChild(element.parentNode.parentNode);
+
+        }
+    });
+    function Coincide(valor){
+        for(var i = 0 ; i < IdProductos.length ; i++){
+            if(IdProductos[i] == valor){
+                return i;
+            }
+        }
+        return -1;
+    }
+    input.addEventListener("input", function (){
+        RecogerLlenar();
+    });
     $('#producto').on('show.bs.modal', function (e) {
         var prodAjax = document.getElementById("productosAjax");
         var formProdAjax = document.createElement('form');
@@ -168,8 +210,63 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         var productosAjax = new FormData(formProdAjax);
         sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
             divProductos.innerHTML = data;
+            var cards = divProductos.querySelectorAll("div.card");
+            for(var i =0 ; i< cards.length ; i++){
+                if(Coincide(cards[i].getAttribute("data-idprod")) > -1){
+                    let cardFooter = cards[i].querySelector('.card-footer');
+                    cardFooter.classList.add('bg-primary');
+                    cardFooter.classList.add('text-white');
+                    cardFooter.classList.remove('text-primary');
+                    cards[i].setAttribute('data-seleccionado', true);
+                }
+            }
         });
     });
+    BtnAdd.addEventListener("click", RecogerLlenar);
+    function RecogerLlenar(){
+        var carprodsel = document.querySelectorAll("div[data-seleccionado=true]");
+        var tr, tdn, tdc, tdpn, tdpo, tdd;
+        var value = document.querySelector("#Oferta_Descuento").value;
+        var descuento;
+        if(value == ""){
+            descuento = parseFloat(0);
+        } else {
+            descuento = parseFloat(value);
+        }
+        if(isNaN(descuento)){
+            descuento = parseFloat(0);
+        }
+        var tbprod = document.querySelector("#tbproductosel");
+        tbprod.innerHTML = "";
+        for(var i = 0 ; i < carprodsel.length ; i++){
+            tr = document.createElement("tr");
+            if(!IdProductos.includes(carprodsel[i].getAttribute("data-idprod"))){
+                IdProductos.push(carprodsel[i].getAttribute("data-idprod"));
+            }
+            tr.setAttribute("data-idproducto", carprodsel[i].getAttribute("data-idprod"));
+            tdn = document.createElement("td");
+            tdn.innerHTML = carprodsel[i].getAttribute("data-nombre");
+            tr.appendChild(tdn);
+            tdc = document.createElement("td");
+            tdc.innerHTML = carprodsel[i].getAttribute("data-categoria");
+            tr.appendChild(tdc);
+            tdpn = document.createElement("td");
+            let preciov = carprodsel[i].getAttribute("data-precio");
+            tdpn.innerHTML = preciov;
+            tr.appendChild(tdpn);
+            tdpo = document.createElement("td");
+            if(descuento == 0){
+                tdpo.innerHTML = preciov;
+            }else{
+                tdpo.innerHTML = preciov - (preciov*(descuento*0.01));
+            }
+            tr.appendChild(tdpo);
+            tdd = document.createElement("td");
+            tdd.innerHTML = '<i class="mano fas fa-trash text-danger"></i>';
+            tr.appendChild(tdd);
+            tbprod.appendChild(tr);
+        }
+    }
     //clic la imagen del card activa un elemento
     divProductos.addEventListener('click', function (evento) {
         var currentTarget = evento.currentTarget;
@@ -178,7 +275,7 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         var cardFooter;
         if (target.matches('img')) {
             card = target.parentNode;
-            cardFooter = card.querySelector('.card-footer')
+            cardFooter = card.querySelector('.card-footer');
             if (card.getAttribute('data-seleccionado') == 'true') {
                 cardFooter.classList.remove('bg-primary');
                 cardFooter.classList.remove('text-white');
@@ -192,5 +289,47 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
             }
         }
     });
+    function GuardarForAjax(e) {
+        e.preventDefault();
+        var xhttp = new XMLHttpRequest();
+        let formData = new FormData(document.querySelector("#frmoferta"));
+        for (var i = 0; i < IdProductos.length; i++) {
+            console.log(IdProductos[i]);
+            formData.append("IdProductos[]", encodeURIComponent(IdProductos[i]));
+        }
+        console.log(formData);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    window.scrollTo(0,0);
+                    document.querySelector("#frmoferta").reset();
+                    tbprod = document.querySelector("#tbproductosel").innerHTML = "";
+                    IdProductos = [];
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-success";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-check-circle text-success";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Registro Exitoso!"
+                    var toast = document.getElementById("toastOferta");
+                    $('.toast').toast('show');
+                } else {
+                    var h = document.querySelector("#thead");
+                    h.className = "toast-header bg-danger";
+                    var i = document.querySelector("#inoti");
+                    i.className = "fas fa-times-circle text-white";
+                    var t = document.querySelector("#tcuerpo");
+                    t.innerHTML = "Fallo en el Registro!!"
+                    var toast = document.getElementById("toastOferta");
+                    $('.toast').toast('show');
+                }
+            }
+        };
+        xhttp.open("POST", "RegistroOferta", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+    }
 </script>
 }
