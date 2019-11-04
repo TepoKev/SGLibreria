@@ -1,0 +1,73 @@
+@model Compras.ListaCompraModel
+@using SGLibreria.Models;
+
+<div class="row">
+    <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label"> Fecha </label>
+    <div class="offset-lg-1 col-lg-3 px-0">
+        <input asp-for="Compra.Fecha" class="form-control form-control-user mb-2" id="cfecha" disabled>
+    </div>
+</div>
+<div class="row">
+    <label for="cproveedor" class="offset-lg-1 col-lg-1 col-form-label font-weight-bold ">Proveedor:</label>
+    <div class="offset-lg-1 col-lg-5 px-0">
+        <input asp-for="Compra.IdProveedorNavigation.Nombre" class="form-control form-control-user mb-2" id="cproveedor" disabled>
+    </div>
+</div>
+
+<div class="row">
+    <br>
+    <div class="col-sm-1">
+
+    </div>
+    <div class="col-lg-10">
+        <div class="text-center">
+            <h4
+                style="text-align: center; background-color: #eaecf4; margin-top: 3px; border-radius: 5px; color: black">
+                Detalle</h4>
+        </div>
+        @{
+            decimal valor, total = 0;
+        }
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            @foreach(var item in Model.Detalles){
+                valor = item.Cantidad * item.IdPrecioCompraNavigation.Valor;
+                total += valor;
+                <tr>
+                    <td>@item.Cantidad</td>
+                    <td>@item.IdPrecioCompraNavigation.IdProductoNavigation.Nombre</td>
+                    <td>@item.IdPrecioCompraNavigation.Valor</td>
+                    <td>@valor</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-sm-1">
+
+    </div>
+
+</div>
+
+<div class="row">
+    <br>
+    <div class="col-lg-7">
+        <h2 style="text-align: center">Total</h2>
+    </div>
+    <div class="col-lg-2 text-success font-weight-bold">
+        <h2 style="text-align: right">$</h2>
+    </div>
+    <div class="col-lg-3 text-success font-weight-bold">
+        <h2 style="text-align: left">@total</h2>
+    </div>
+</div>

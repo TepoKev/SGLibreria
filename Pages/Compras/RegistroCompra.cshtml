@@ -136,7 +136,7 @@ ViewData["Title"] = "Registro Compras";
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form method="POST" id="frmProveedor">
+                <form method="post" id="frmProveedor">
                     <!-- Modal Header -->
                     <div class="modal-header bg-primary text-white">
                         <h4 class="modal-title">Registro de Proveedor</h4>
@@ -355,7 +355,7 @@ ViewData["Title"] = "Registro Compras";
 <!-- Modal -->
 <div class="modal fade" id="modalProductoNuevo" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <form method="POST" enctype="multipart/form-data" id="formProductoNuevo">
+    <form method='post' enctype="multipart/form-data" id="formProductoNuevo">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
@@ -373,7 +373,8 @@ ViewData["Title"] = "Registro Compras";
                             <label for="pdnombre" asp-for="Producto.Nombre"
                                 class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
                             <div class="col-lg-7">
-                                <input asp-for="Producto.Nombre" type="text" class="form-control form-control-user mb-2" placeholder="Lapicero" required>
+                                <input asp-for="Producto.Nombre" type="text" class="form-control form-control-user mb-2"
+                                    id="pdnombre" placeholder="Lapicero" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -602,22 +603,84 @@ ViewData["Title"] = "Registro Compras";
     //Funcion para agregar productos
     var FrmProductoNuevo = document.querySelector("#formProductoNuevo");
     var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
-    FrmProductoNuevo.addEventListener("click", ()=>{
-        var xhttp = new XMLHttpRequest();
-        let formData = new FormData(document.querySelector("#formProductoNuevo"));
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                } else {
+    FrmProductoNuevo.onsubmit = function (e) {
+        e.preventDefault();
+        console.log(this);
+/*
+        sgl.ajax2(
+            {
+      url: "RegistroCompra", 
+      headers: {"RequestVerificationToken": token.value}, 
+      method: "POST", 
+      data: new FormData(FrmProductoNuevo), 
+      done: function(data) {
+        vardoet obj = JSON.parse(data);
+        var alerta = sgl.q('#alerta');
+        $('#modalProducto').modal('hide');
+        alerta.style.display= 'block';
+        if(obj.error) {
+          alerta.className = 'alert alert-danger';
+          alerta.innerHTML = obj.error;
+        } else if(obj.mensaje) {
+          alerta.className = 'alert alert-primary';
+          alerta.innerHTML = obj.mensaje;
+        }
+        console.log(data);
+      },
+      fail: function() {
+        console.log('error: ');
+        console.log(this);
+      }
+      });
+      */
+/*
+        sgl.ajax2({
+            url: "RegistroCompra",
+            headers: {
+                "RequestVerificationToken": token.value
+            },
+            method: "POST",
+            data: new FormData(FrmProductoNuevo),
+            done: function (data) {
+                var obj = JSON.parse(data);
+                var alerta = sgl.q('#alerta');
+                $('#modalProducto').modal('hide');
+                alerta.style.display = 'block';
+                if (obj.error) {
+                    alerta.className = 'alert alert-danger';
+                    alerta.innerHTML = obj.error;
+                } else if (obj.mensaje) {
+                    alerta.className = 'alert alert-primary';
+                    alerta.innerHTML = obj.mensaje;
                 }
+                console.log(data);
+            },
+            fail: function () {
+                console.log('error: ');
+                console.log(this);
+            }
+        });
+*/
+        
+        let formData = new FormData(FrmProductoNuevo);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(FrmProductoNuevo) {
+            if (this.readyState === 4 && this.status === 200) {
+                alert('Posted using XMLHttpRequest');
             }
         };
-        xhttp.open("POST", "../Proveedores/RegistroProveedor", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var inputToken = document.getElementsByName("__RequestVerificationToken");
-        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        xhttp.send(new URLSearchParams(formData));
-    });
+        xhr.open('POST', 'RegistroCompra', true);
+        
+//        xhr.setRequestHeader("RequestVerificationToken", token.value);
+        //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(formData);
+        
+        //xhr.send("Nombre=1234");
+        //xhr.send(new URLSearchParams(formData));
+        
+        //return false;
+        //$('#modalProductoNuevo').modal('hide'); 
+    }; //form submit event
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
     //var btnCancelar = document.querySelector('#btnCancelarProducto');
     var FrmCategoria = document.querySelector("#registrarCategoria");
@@ -693,7 +756,7 @@ ViewData["Title"] = "Registro Compras";
         $('#modalMarca').modal('hide');
         sgl.clearForm(FrmMarca);
     });
-    /*var btnCancelarProductoNuevo = document.querySelector('#btnCancelarProductoNuevo');
+    var btnCancelarProductoNuevo = document.querySelector('#btnCancelarProductoNuevo');
     var limpiarProductoNuevo = function (e) {
         sgl.clearForm(document.querySelector('#formProductoNuevo'));
         var btnLimpiar1 = document.getElementById('imagePreviewNuevo');
@@ -706,7 +769,7 @@ ViewData["Title"] = "Registro Compras";
         var btnLimpiar1 = document.getElementById('imagePreviewAntiguo');
         btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
     }
-    btnCancelarProductoAntiguo.addEventListener('click', limpiarProductoAntiguo);*/
+    btnCancelarProductoAntiguo.addEventListener('click', limpiarProductoAntiguo);
 
     var btnCancelarProveedor = document.getElementById('btnCancelarProveedor');
     var limpiarProveedor = function (e) {
@@ -976,6 +1039,8 @@ ViewData["Title"] = "Registro Compras";
                     document.querySelector("#lis_tel").innerHTML =
                         '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
+                    $('#modalProveedor').modal('hide');
+                    sgl.clearForm(FrmProveedor);
                     sgl.ajax2({
                         method: 'get',
                         url: 'RegistroCompra?handler=ListaProveedores',
@@ -989,9 +1054,11 @@ ViewData["Title"] = "Registro Compras";
                                 elem.value = dato.id;
                                 comboProveedores.appendChild(elem);
                             });
+                        },
+                        fail: function () {
+
                         }
                     });
-                    $('#modalProveedor').modal('hide');
                     /*var h = document.querySelector("#thead");
                     h.className = "toast-header bg-success";
                     var i = document.querySelector("#inoti");
@@ -1017,7 +1084,8 @@ ViewData["Title"] = "Registro Compras";
         var inputToken = document.getElementsByName("__RequestVerificationToken");
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
         xhttp.send(new URLSearchParams(formData));
-        /*sgl.ajax2({
+        /*e.preventDefault();
+        sgl.ajax2({
             url: "RegistroCompra?handler=RegistrarProveedor",
             method: "post",
             headers: {
@@ -1025,7 +1093,21 @@ ViewData["Title"] = "Registro Compras";
                 "Content-type": "application/x-www-form-urlencoded"
             },
             done: function () {
-                
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroCompra?handler=ListaProveedores',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboProveedores = document.querySelector('#comboProveedores');
+                        comboProveedores.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboProveedores.appendChild(elem);
+                        });
+                    }
+                });
             },
             data: FrmProveedor
         });*/

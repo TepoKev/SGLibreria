@@ -73,7 +73,6 @@ namespace SGLibreria.Pages.Compras {
         {
             var tamtel = Telefonos.Length;
             this.Proveedor.Estado = (sbyte)1;
-            
             if(Proveedor.Enlace != null){
                 if (!Proveedor.Enlace.Contains("http"))
                 {
