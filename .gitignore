@@ -2,6 +2,7 @@
 bin/
 obj/
 wwwroot/Productos/
+wwwroot/Empleados/
 wwwroot/Servicios/
 wwwroot/node_modules/
 wwwroot/scss/
