@@ -29,26 +29,17 @@ namespace SGLibreria.Pages.Compras {
         public IList<Marca> Marcas {get;set;}
         public IList<Proveedor> Proveedores {get;set;}
 
-        public async Task<PartialViewResult> OnPostAgregarProducto(Producto Producto){
-            if(!ModelState.IsValid) {
-                return Partial("_ProductoPartial",null);
-            }
+        public async Task<PartialViewResult> OnPostAgregarProducto(){
+            this.Producto.Estado = (sbyte)1;
             _context.Productos.Add(Producto);
             await _context.SaveChangesAsync();
-            return Partial("_ProductoPartial",null);
+            return Partial("_ProductoPartial",Producto);
         }
 
         public void OnGet () {
-            //this.Categorias = _context.Categorias.ToList();
-            //this.Categorias = _context.Categorias.ToList();
-            //this.Proveedores = _context.Proveedores.ToList();
         }
         public JsonResult OnGetListaCategorias() {
             this.Categorias = _context.Categorias.ToList();
-/*
-            this.Categorias = _context.Categorias.ToList();
-            this.Proveedores = _context.Proveedores.ToList();
-*/
             return new JsonResult(this.Categorias);
         }
         public JsonResult OnGetListaMarcas(){
