@@ -36,12 +36,16 @@ namespace SGLibreria.Pages.Compras {
             return Partial("_ProductoPartial",Producto);
         }
 */
-public IActionResult OnPost(){
+public async Task<JsonResult> OnPost(){
             //this.Producto.Estado = (sbyte)1;
             //_context.Productos.Add(Producto);
             //await _context.SaveChangesAsync();
             //return Partial("_ProductoPartial",Producto);
-            return Page();
+    return new JsonResult(
+        new {
+            Okay = "Okay fin"
+        }
+    );
 }
 
         public void OnGet () {
