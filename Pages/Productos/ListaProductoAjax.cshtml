@@ -24,7 +24,7 @@ float porcentaje = 100 / Model.CantidadPorFila;
         obj = Model.Productos[i+j];
         <!--div style porcentaje-->
         <div class="px-0 d-flex" style="width:@porcentaje%;">
-            <div class="card">
+            <div class="card" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@obj.Precioventa[obj.Precioventa.Count-1].Valor">
                 <div class="card-title mt-3 mx-2">
                     <h5 class="m-0 p-0">@obj.Nombre
                         <span class="badge badge-primary">@obj.StockMinimo</span>

@@ -12,6 +12,7 @@ namespace SGLibreria.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage="El {0} es obligatorio")]
         public double Descuento { get; set; }
         [Display(Name="Fecha de Inicio"), DataType(DataType.Date)]
         public DateTime FechaInicio { get; set; }
