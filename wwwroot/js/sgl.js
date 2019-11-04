@@ -109,8 +109,8 @@ var sgl = {
                 params = new URLSearchParams(formData);
                 xhttp.send(params);
             } else if(config.data instanceof FormData) {
-                params = new URLSearchParams(config.data);
-                xhttp.send(params);
+                //params = new URLSearchParams(config.data);
+                xhttp.send(config.data);
             } else {
                 //if is a literal object
                 formData = new FormData();

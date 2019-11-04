@@ -69,7 +69,7 @@ namespace SGLibreria.Pages.Productos
                 return new JsonResult(
                   new
                   {
-                      Error = "El modelo no es valido"
+                      Error = "Ha proporcionado datos incorrectos"
                   }
                 );
             }
@@ -115,6 +115,7 @@ namespace SGLibreria.Pages.Productos
                     Producto.IdImagen = Imagen.Id;
                     _context.Entry(Producto).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
+                    Mensaje = "Se agrego correctamente";
                     //
                     //
                     //

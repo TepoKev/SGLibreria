@@ -33,20 +33,13 @@ namespace SGLibreria.Pages.Compras {
             this.Producto.Estado = (sbyte)1;
             _context.Productos.Add(Producto);
             await _context.SaveChangesAsync();
-            return Partial("_ProductoPartial",this);
+            return Partial("_ProductoPartial",Producto);
         }
 
         public void OnGet () {
-            //this.Categorias = _context.Categorias.ToList();
-            //this.Categorias = _context.Categorias.ToList();
-            //this.Proveedores = _context.Proveedores.ToList();
         }
         public JsonResult OnGetListaCategorias() {
             this.Categorias = _context.Categorias.ToList();
-/*
-            this.Categorias = _context.Categorias.ToList();
-            this.Proveedores = _context.Proveedores.ToList();
-*/
             return new JsonResult(this.Categorias);
         }
         public JsonResult OnGetListaMarcas(){
