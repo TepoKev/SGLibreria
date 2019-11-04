@@ -198,6 +198,7 @@ ViewData["Title"] = "Lista de Productos";
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
+
   sgl.get('ListaProductoAjax', refrescar);
   function refrescar(data) {
     var divProductos = sgl.q('#productos');
@@ -396,6 +397,7 @@ ViewData["Title"] = "Lista de Productos";
           alerta.className = 'alert alert-primary';
           alerta.innerHTML = obj.mensaje;
         }
+        sgl.get('ListaProductoAjax', refrescar);
         console.log(data);
       },
       fail: function() {

@@ -361,7 +361,7 @@ ViewData["Title"] = "Registro Compras";
 <!-- Modal -->
 <div class="modal fade" id="modalProductoNuevo" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <form method='post' id="formProductoNuevo">
+    <form method='post' enctype="multipart/form-data" id="formProductoNuevo">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
@@ -444,7 +444,7 @@ ViewData["Title"] = "Registro Compras";
                             <div class="col-lg-7">
 
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="pdimagenNuevo">
+                                    <input type="file" asp-for="Producto.Archivo" class="custom-file-input" id="pdimagenNuevo">
                                     <label class="custom-file-label" for="pdimagenNuevo">Seleccione..</label>
                                 </div>
                             </div>
@@ -565,10 +565,10 @@ ViewData["Title"] = "Registro Compras";
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                        <label for="pdfechaA" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                             vencimiento</label>
                         <div class="col-lg-7">
-                            <input type="date" class="form-control" id="pdfecha" placeholder="LF0001">
+                            <input type="date" class="form-control" id="pdfechaA" placeholder="LF0001">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -577,7 +577,7 @@ ViewData["Title"] = "Registro Compras";
                             foto</label>
                         <div class="col-lg-7">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="pdimagenAntiguo">
+                                <input asp-for="Producto.Archivo" class="custom-file-input" id="pdimagenAntiguo">
                                 <label class="custom-file-label" for="pdimagenAntiguo">Seleccione..</label>
                             </div>
                         </div>
@@ -611,9 +611,35 @@ ViewData["Title"] = "Registro Compras";
     //Funcion para agregar productos
     var FrmProductoNuevo = document.querySelector("#formProductoNuevo");
     var token = document.querySelector('#formToken input[name=__RequestVerificationToken]');
-    FrmProductoNuevo.addEventListener("submit", function (e) {
+    FrmProductoNuevo.onsubmit = function (e) {
         e.preventDefault();
-        console.log(FrmProductoNuevo);
+        console.log(this);
+        sgl.ajax2(
+            {
+      url: "RegistroCompra", 
+      headers: {"RequestVerificationToken": token.value}, 
+      method: "POST", 
+      data: new FormData(FrmProductoNuevo), 
+      done: function(data) {
+        var obj = JSON.parse(data);
+        var alerta = sgl.q('#alerta');
+        $('#modalProducto').modal('hide');
+        alerta.style.display= 'block';
+        if(obj.error) {
+          alerta.className = 'alert alert-danger';
+          alerta.innerHTML = obj.error;
+        } else if(obj.mensaje) {
+          alerta.className = 'alert alert-primary';
+          alerta.innerHTML = obj.mensaje;
+        }
+        console.log(data);
+      },
+      fail: function() {
+        console.log('error: ');
+        console.log(this);
+      }
+      });
+/*
         sgl.ajax2({
             method: "post",
             data: new FormData(FrmProductoNuevo), 
@@ -623,7 +649,7 @@ ViewData["Title"] = "Registro Compras";
                 var tbody = document.querySelector('#tablaCompraFilas');
                 tbody.appendChild(elem);
                 elem.outerHTML = texto;
-                limpiarProducto1();
+                //limpiarProducto1();
             },
 
             fail: function () {
@@ -636,8 +662,8 @@ ViewData["Title"] = "Registro Compras";
             }
             
         });
-
-        /*
+*/
+/*        
         let formData = new FormData(FrmProductoNuevo);
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(FrmProductoNuevo) {
@@ -645,21 +671,21 @@ ViewData["Title"] = "Registro Compras";
                 alert('Posted using XMLHttpRequest');
             }
         };
-        xhr.open('POST', 'RegistroCompra?handler=UnaPrueba', true);
+        xhr.open('POST', 'RegistroCompra?handler=AgregarProducto', true);
         
-        xhr.setRequestHeader("RequestVerificationToken", token.value);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //xhr.setRequestHeader("RequestVerificationToken", token.value);
+        //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(formData);
-        */
+        
         //xhr.send("Nombre=1234");
         //xhr.send(new URLSearchParams(formData));
         
         //return false;
-/*
-        
 */
+        
+
         //$('#modalProductoNuevo').modal('hide'); 
-    });
+    };//form submit event
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
     //var btnCancelar = document.querySelector('#btnCancelarProducto');
     var FrmCategoria = document.querySelector("#registrarCategoria");
