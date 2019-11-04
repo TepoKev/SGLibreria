@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace SGLibreria.Models
 {
     public partial class Empleado

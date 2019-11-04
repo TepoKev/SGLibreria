@@ -4,7 +4,7 @@
 ViewData["title"] = "Registro de Empleado";
 }
 <div class="row">
-    <form class="col-lg-8 offset-2 rounded py-3 pr-5 border border-secondary-100" method="post" id="formEUP">
+    <form class="col-lg-8 offset-2 rounded py-3 pr-5 border border-secondary-100" method="POST" id="formEUP" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div id="FormEmpleado" class="ml-4">
             <div class="row">
@@ -105,13 +105,12 @@ ViewData["title"] = "Registro de Empleado";
                 </div>
                 <div class="col-lg-7 pt-5">
                     <div class="form-group row offset-3 text-center">
-                        <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" height="80%;"
-                            width="80%;">
+                        <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle" style="width:300px;height:280px;" id="vpimagen">
                     </div>
                     <div class="form-group offset-1">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="pdimagen">
-                            <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                            <input asp-for="Archivo" class="custom-file-input">
+                            <label asp-for="Archivo" class="custom-file-label">Seleccione..</label>
                         </div>
                     </div>
                 </div>
@@ -138,9 +137,11 @@ ViewData["title"] = "Registro de Empleado";
         </div>
     </div>
 </div>
+@section Styles{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+}
 @section Scripts
 {
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script>
     $(function () {
@@ -164,8 +165,21 @@ ViewData["title"] = "Registro de Empleado";
             return '<span class="h6">' + gens[index].elemento + ' ' + gens[index].texto + '</span>';
         }
     });
+    var InputImg = document.querySelector("#Usuario_Archivo");
     var frmEUP = document.querySelector("#formEUP");
     var inputRC = document.querySelector("#claverepeat");
+    InputImg.addEventListener("change", function (){
+        readURL(document.querySelector("#Usuario_Archivo"));
+        function readURL(InputImg) {
+            if (InputImg.files && InputImg.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.querySelector("#vpimagen").setAttribute("src",e.target.result);
+                }
+                reader.readAsDataURL(InputImg.files[0]);
+            }
+        }
+    });
     inputRC.addEventListener("input", ()=>{
         document.querySelector("#valcontra").setAttribute("hidden","");
     });
@@ -178,7 +192,7 @@ ViewData["title"] = "Registro de Empleado";
         e.preventDefault();
         //Aqui se va a enviar el Formulario al servidor via ajax
         if(ClaveCoincide()){
-            let form = new FormData(document.querySelector("#formEUP"));
+            let form = new FormData(document.querySelector('#formEUP'));
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -195,10 +209,9 @@ ViewData["title"] = "Registro de Empleado";
                 }
             };
             xhttp.open("POST", "RegistroEmpleado", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             var inputToken = document.getElementsByName("__RequestVerificationToken");
             xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-            xhttp.send(new URLSearchParams(form));
+            xhttp.send(form);
         }else{
             document.querySelector("#valcontra").removeAttribute("hidden");
         }
@@ -206,7 +219,7 @@ ViewData["title"] = "Registro de Empleado";
     function ClaveCoincide(){
         var input1 =  document.querySelector("#Usuario_Clave").value;
         var input2 =  document.querySelector("#claverepeat").value;
-        if(input1 === input2){
+        if(input1 === input2 && input1 != ""){
             return true
         }else{
             return false;

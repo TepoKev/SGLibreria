@@ -20,8 +20,8 @@ float porcentaje = 100 / Model.CantidadPorFila;
 @for ( i = 0; i < Model.Productos.Count; i++) {
     <!--div row -->
     <div class="row">
-    @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) { 
-        obj = Model.Productos[i+j]; 
+    @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) {
+        obj = Model.Productos[i+j];
         <!--div style porcentaje-->
         <div class="px-0 d-flex" style="width:@porcentaje%;">
             <div class="card">
@@ -48,13 +48,12 @@ float porcentaje = 100 / Model.CantidadPorFila;
                 <div class="card-body p-0 m-0 d-flex align-items-end">
                     <p class="card-text"></p>
                 </div>
-                
                 <div class="card-footer text-primary p-y m-0">
                     @if(obj.Precioventa.Count>0) {
                         <small class="font-weight-bold h6">
                             Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor 
                             <button data-idproducto='@obj.Id' type='button'
-                                     class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
+                                    class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                         </small>

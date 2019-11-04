@@ -21,11 +21,17 @@ namespace SGLibreria.Pages.Empleados
         }
         public async Task OnGet()
         {
-            this.Empleados = await this._context.Empleados.Include(x => x.IdPersonaNavigation).Include(x => x.IdUsuarioNavigation).ToListAsync();
+            this.Empleados = await this._context.Empleados
+            .Include(x => x.IdPersonaNavigation)
+            .Include(x => x.IdUsuarioNavigation).ToListAsync();
         }
         public async Task<PartialViewResult> OnPostEmpleadoView(int IdEmpleado)
         {
-            this.Empleado = await this._context.Empleados.Include(x => x.IdPersonaNavigation).Include(x => x.IdUsuarioNavigation).FirstOrDefaultAsync(x => x.Id == IdEmpleado);
+            this.Empleado = await this._context.Empleados
+            .Include(x => x.IdPersonaNavigation)
+            .Include(x => x.IdUsuarioNavigation)
+            .ThenInclude(u => u.IdImagenNavigation)
+            .ThenInclude(i => i.IdRutaNavigation).FirstOrDefaultAsync(x => x.Id == IdEmpleado);
             return Partial("_EmpleadoPartial", this);
         }
         public async Task<IActionResult> OnPostEstado(int IdUsuario, int Estado)
@@ -51,7 +57,6 @@ namespace SGLibreria.Pages.Empleados
         {
             this._context.Attach(this.Empleado).State = EntityState.Modified;
             this._context.Attach(this.Empleado.IdPersonaNavigation).State = EntityState.Modified;
-            //this._context.Entry(this.Empleado.IdUsuarioNavigation).Property("Estado").IsModified = false;
             this._context.Entry(this.Empleado.IdUsuarioNavigation).Property("Nombre").IsModified = true;
             this._context.Entry(this.Empleado.IdUsuarioNavigation).Property("Correo").IsModified = true;
             try

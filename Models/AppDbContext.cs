@@ -166,7 +166,7 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Logo)
                     .IsRequired()
-                    .HasColumnType("varchar(256)");
+                    .HasColumnType("text");
 
                 entity.Property(e => e.NombreInstitucion)
                     .IsRequired()
@@ -398,12 +398,12 @@ namespace SGLibreria.Models
 
             modelBuilder.Entity<Marca>(entity =>
             {
-                entity.ToTable("Marca");
+                entity.ToTable("marca");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasColumnName("Nombre")
                     .HasColumnType("varchar(25)");
             });
 
@@ -567,7 +567,6 @@ namespace SGLibreria.Models
                 entity.HasOne(d => d.IdMarcaNavigation)
                     .WithMany(p => p.Producto)
                     .HasForeignKey(d => d.IdMarca)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("producto_ibfk_3");
             });
 
@@ -714,6 +713,9 @@ namespace SGLibreria.Models
             {
                 entity.ToTable("usuario");
 
+                entity.HasIndex(e => e.IdImagen)
+                    .HasName("IdImagen");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Clave)
@@ -731,6 +733,11 @@ namespace SGLibreria.Models
                     .HasColumnType("varchar(20)");
 
                 entity.Property(e => e.Privilegio).HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdImagenNavigation)
+                    .WithMany(p => p.Usuario)
+                    .HasForeignKey(d => d.IdImagen)
+                    .HasConstraintName("usuario_ibfk_1");
             });
 
             modelBuilder.Entity<Venta>(entity =>

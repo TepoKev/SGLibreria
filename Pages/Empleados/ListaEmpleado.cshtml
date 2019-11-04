@@ -116,8 +116,12 @@ ViewData["title"] = "Lista de Empleados";
     </div>
 </div>
 }
+@section Styles{
+    <link href="~/selectric/src/selectric.css" rel="stylesheet">
+}
 @section Scripts
 {
+    <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/busqueda.js"></script>
 <script>
     var btnVermas = document.querySelector("#bodyempleados");

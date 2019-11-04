@@ -26,6 +26,7 @@ namespace SGLibreria.Models
         public string Clave { get; set; }
         public sbyte Estado { get; set; }
 
+        public virtual Imagen IdImagenNavigation { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual ICollection<Bitacora> Bitacora { get; set; }
         public virtual ICollection<Compra> Compra { get; set; }
