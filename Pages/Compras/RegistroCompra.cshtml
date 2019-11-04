@@ -1039,32 +1039,52 @@ ViewData["Title"] = "Registro Compras";
                     document.querySelector("#lis_tel").innerHTML =
                         '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
-                    var h = document.querySelector("#thead");
+                    $('#modalProveedor').modal('hide');
+                    sgl.clearForm(FrmProveedor);
+                    sgl.ajax2({
+                        method: 'get',
+                        url: 'RegistroCompra?handler=ListaProveedores',
+                        done: function (texto) {
+                            var lista = JSON.parse(texto);
+                            var comboProveedores = document.querySelector('#comboProveedores');
+                            comboProveedores.innerHTML = "";
+                            lista.forEach(function (dato) {
+                                var elem = document.createElement('option');
+                                elem.innerHTML = dato.nombre;
+                                elem.value = dato.id;
+                                comboProveedores.appendChild(elem);
+                            });
+                        },
+                        fail: function () {
+
+                        }
+                    });
+                    /*var h = document.querySelector("#thead");
                     h.className = "toast-header bg-success";
                     var i = document.querySelector("#inoti");
                     i.className = "fas fa-check-circle text-success";
                     var t = document.querySelector("#tcuerpo");
                     t.innerHTML = "Registro Exitoso!"
                     var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
+                    $('.toast').toast('show');*/
                 } else {
-                    var h = document.querySelector("#thead");
+                    /*var h = document.querySelector("#thead");
                     h.className = "toast-header bg-danger";
                     var i = document.querySelector("#inoti");
                     i.className = "fas fa-times-circle text-white";
                     var t = document.querySelector("#tcuerpo");
                     t.innerHTML = "Fallo en el Registro!!"
                     var toast = document.getElementById("toastProveedor");
-                    $('.toast').toast('show');
+                    $('.toast').toast('show');*/
                 }
             }
         };
-        // xhttp.open("POST", "RegistroProveedor", true);
-        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        // var inputToken = document.getElementsByName("__RequestVerificationToken");
-        // xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        // xhttp.send(new URLSearchParams(formData));
-        e.preventDefault();
+        xhttp.open("POST", "../Proveedores/RegistroProveedor", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+        /*e.preventDefault();
         sgl.ajax2({
             url: "RegistroCompra?handler=RegistrarProveedor",
             method: "post",
@@ -1090,9 +1110,7 @@ ViewData["Title"] = "Registro Compras";
                 });
             },
             data: FrmProveedor
-        });
-        $('#modalProveedor').modal('hide');
-        sgl.clearForm(FrmProveedor);
+        });*/
     }
 </script>
 }

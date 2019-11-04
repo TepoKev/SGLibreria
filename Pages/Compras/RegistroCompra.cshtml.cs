@@ -36,17 +36,12 @@ namespace SGLibreria.Pages.Compras {
             return Partial("_ProductoPartial",Producto);
         }
 */
-public async Task<JsonResult> OnPost(){
-            //this.Producto.Estado = (sbyte)1;
-            //_context.Productos.Add(Producto);
-            //await _context.SaveChangesAsync();
-            //return Partial("_ProductoPartial",Producto);
-    return new JsonResult(
-        new {
-            Okay = "Okay fin"
-        }
-    );
-}
+    public async Task<IActionResult> OnPost(){
+        this.Producto.Estado = (sbyte)1;
+        _context.Productos.Add(Producto);
+        await _context.SaveChangesAsync();
+        return Partial("_ProductoPartial",Producto);
+    }
 
         public void OnGet () {
         }
@@ -78,7 +73,6 @@ public async Task<JsonResult> OnPost(){
         {
             var tamtel = Telefonos.Length;
             this.Proveedor.Estado = (sbyte)1;
-            
             if(Proveedor.Enlace != null){
                 if (!Proveedor.Enlace.Contains("http"))
                 {
