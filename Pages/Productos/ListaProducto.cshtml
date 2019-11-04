@@ -22,7 +22,7 @@ ViewData["Title"] = "Lista de Productos";
 
   #productos-seleccionados:hover {}
 </style>
-
+<div id='alerta' style='display:none;' class='alert'></div>
 <form id='formToken' method='post'></form>
 <div id='productos' style='margin-top:15px;margin-bottom:100px;'>
 
@@ -175,24 +175,20 @@ ViewData["Title"] = "Lista de Productos";
               </div>
               ​
               <div class="row">
-                <div class='col-lg-6 offset-lg-3'  id="imagePreviewNuevo">
-                <br>
-                <br>
-                <h5 class="text-lg-center">Vista Previa</h5>
-                <br>
-                <br>
-              </div>
+                <div id='vistaPrevia' class="col-lg-6 offset-lg-3">
+                  <h5 id="textoVistaPrevia" class="text-center">Vista Previa</h5>
+                  <img class='img-fluid' id ="imagen"/>
+                </div>
               </div>
         </div>
         <div class="modal-footer">
           <div class="btn btn-group">
-            <button type="button" class="btn btn-outline-primary" id="btnAgregarProducto"><i
+            <button type="submit" class="btn btn-outline-primary" id="btnAgregarProducto"><i
                 class="fas fa-save"> </i> Agregar</button>
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarProducto"><i
                 class="fas fa-times-circle"> </i> Cancelar</button>
           </div>
         </div>
-
       </form>
     </div>
   </div>
@@ -202,10 +198,11 @@ ViewData["Title"] = "Lista de Productos";
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
-  sgl.get('ListaProductoAjax', function (data) {
+  sgl.get('ListaProductoAjax', refrescar);
+  function refrescar(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
-  });
+  };
   var NombreOCodigo = sgl.q('#NombreOCodigo');
   NombreOCodigo.focus();
   NombreOCodigo.oninput = function (e) {
@@ -309,32 +306,7 @@ ViewData["Title"] = "Lista de Productos";
               );
 
               llenarFormProducto(producto);
-              function llenarFormProducto(producto) {
-                
-                sgl.q('#pdid').value = producto.id;
-                sgl.q('#pdnombre').value = producto.nombre;
-                sgl.q('#comboMarcas').value = producto.idMarca;
-                sgl.q('#comboCategorias').value = producto.idCategoria;
-                sgl.q('#pdcodigo').value = producto.codigo;
-                sgl.q('#pddireccion').value = producto.descripcion;
-                sgl.q('#pdstock').value = producto.stockMinimo;
-                sgl.q('#pdfecha').value = producto.fechaVencimiento;
-                
-                if(producto.idImagenNavigation && producto.idImagenNavigation.idRutaNavigation) {
-                  var path ='/'+producto.idImagenNavigation.idRutaNavigation.nombre;
-                  path += '/'+producto.idImagenNavigation.nombre;
-                  var imagen = document.createElement('img');
-                  imagen.src = path;
-                  imagen.className = 'img-fluid';
-                  imagen.id = 'img-producto';
-                  sgl.q('#imagePreviewNuevo').innerHTML = imagen.outerHTML;
-                }
-                console.log(producto);
-                //
-                // codigo para la imagen aquí
-                //
-
-              }
+              
             },
             fail: function () {console.log(this);}
           });
@@ -344,6 +316,41 @@ ViewData["Title"] = "Lista de Productos";
 
     }
   });
+  function llenarFormProducto(producto) {
+
+    sgl.q('#pdid').value = producto.id;
+    sgl.q('#pdnombre').value = producto.nombre;
+    sgl.q('#comboMarcas').value = producto.idMarca;
+    sgl.q('#comboCategorias').value = producto.idCategoria;
+    sgl.q('#pdcodigo').value = producto.codigo;
+    sgl.q('#pddireccion').value = producto.descripcion;
+    sgl.q('#pdstock').value = producto.stockMinimo;
+    sgl.q('#pdfecha').value = producto.fechaVencimiento;
+    
+    var alerta = sgl.q('#alerta');
+    alerta.style.display = 'none';
+    alerta.innerHTML = '';
+    var imagen = sgl.q('#imagen');
+    var textoVistaPrevia = sgl.q('#textoVistaPrevia');
+    var path = '';
+    if (producto.idImagenNavigation && producto.idImagenNavigation.idRutaNavigation) {
+      path = '/' + producto.idImagenNavigation.idRutaNavigation.nombre;
+      path += '/' + producto.idImagenNavigation.nombre;
+      textoVistaPrevia.style.display='none';
+      imagen.style.display='block';
+    } else {
+      textoVistaPrevia.style.display='block';
+      textoVistaPrevia.innerHTML = 'Vista previa';
+      imagen.style.display='none';
+    }
+    imagen.src = path;
+
+    console.log(producto);
+    //
+    // codigo para la imagen aquí
+    //
+
+  }
 
   var formModificar = sgl.q('#formModificarProducto');
   var botonModificar = sgl.q('#btnAgregarProducto');
@@ -355,7 +362,11 @@ ViewData["Title"] = "Lista de Productos";
       if (input.files && input.files[0]) {
           var reader = new FileReader();
           reader.onload = function (e) {
-            $('#img-producto').attr('src', e.target.result);
+            var imagen = sgl.q('#imagen');
+            var textoVistaPrevia = sgl.q('#textoVistaPrevia');
+            imagen.src = e.target.result;
+            imagen.style.display = 'block';
+            textoVistaPrevia.style.display='none';
           }
           reader.readAsDataURL(input.files[0]);
       }
@@ -372,10 +383,19 @@ ViewData["Title"] = "Lista de Productos";
     sgl.ajax2({
       url: "ListaProducto", 
       method: "POST", 
-      data: formModificar, 
-      headers: headers, 
+      data: new FormData(formModificar), 
       done: function(data) {
         var obj = JSON.parse(data);
+        var alerta = sgl.q('#alerta');
+        $('#modalProducto').modal('hide');
+        alerta.style.display= 'block';
+        if(obj.error) {
+          alerta.className = 'alert alert-danger';
+          alerta.innerHTML = obj.error;
+        } else if(obj.mensaje) {
+          alerta.className = 'alert alert-primary';
+          alerta.innerHTML = obj.mensaje;
+        }
         console.log(data);
       },
       fail: function() {
@@ -385,9 +405,7 @@ ViewData["Title"] = "Lista de Productos";
     });
   }
  
-  botonModificar.onclick = function () {
-    formModificar.submit();
-  };
+
   divCategorias.onclick = function (evento) {
     var target = evento.target;
     console.log(target);

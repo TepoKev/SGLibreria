@@ -384,7 +384,7 @@ ViewData["Title"] = "Registro Compras";
 <!-- Modal -->
 <div class="modal fade" id="modalProductoNuevo" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <form id="formProductoNuevo">
+    <form method='post' id="formProductoNuevo">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 
             <div class="modal-content">
@@ -656,10 +656,12 @@ ViewData["Title"] = "Registro Compras";
                 console.log("error");
                 console.log(this);
             },
+            /*
             headers: {
                 "RequestVerificationToken": token.value,
                 "Content-type": "application/x-www-form-urlencoded"
             }
+            */
         });
         //$('#modalProductoNuevo').modal('hide');
         //sgl.clearForm(FrmProductoNuevo);
@@ -909,7 +911,7 @@ ViewData["Title"] = "Registro Compras";
         });
     })();
 </script>
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 <script>
     //Declaracion y obtencion de variables
     var list = document.querySelector("#lis_tel");
