@@ -606,6 +606,37 @@ ViewData["Title"] = "Registro Compras";
     FrmProductoNuevo.onsubmit = function (e) {
         e.preventDefault();
         console.log(this);
+<<<<<<< HEAD
+/*
+        sgl.ajax2(
+            {
+      url: "RegistroCompra", 
+      headers: {"RequestVerificationToken": token.value}, 
+      method: "POST", 
+      data: new FormData(FrmProductoNuevo), 
+      done: function(data) {
+        vardoet obj = JSON.parse(data);
+        var alerta = sgl.q('#alerta');
+        $('#modalProducto').modal('hide');
+        alerta.style.display= 'block';
+        if(obj.error) {
+          alerta.className = 'alert alert-danger';
+          alerta.innerHTML = obj.error;
+        } else if(obj.mensaje) {
+          alerta.className = 'alert alert-primary';
+          alerta.innerHTML = obj.mensaje;
+        }
+        console.log(data);
+      },
+      fail: function() {
+        console.log('error: ');
+        console.log(this);
+      }
+      });
+      */
+/*
+=======
+>>>>>>> 786263f90c69828f42ceda6dfa8e3fc9a6295eac
         sgl.ajax2({
             url: "RegistroCompra",
             headers: {
@@ -632,6 +663,29 @@ ViewData["Title"] = "Registro Compras";
                 console.log(this);
             }
         });
+<<<<<<< HEAD
+*/
+        
+        let formData = new FormData(FrmProductoNuevo);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(FrmProductoNuevo) {
+            if (this.readyState === 4 && this.status === 200) {
+                alert('Posted using XMLHttpRequest');
+            }
+        };
+        xhr.open('POST', 'RegistroCompra', true);
+        
+//        xhr.setRequestHeader("RequestVerificationToken", token.value);
+        //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(formData);
+        
+        //xhr.send("Nombre=1234");
+        //xhr.send(new URLSearchParams(formData));
+        
+        //return false;
+
+        
+=======
         /*
                 sgl.ajax2({
                     method: "post",
@@ -676,6 +730,7 @@ ViewData["Title"] = "Registro Compras";
                 //return false;
         */
 
+>>>>>>> 786263f90c69828f42ceda6dfa8e3fc9a6295eac
 
         //$('#modalProductoNuevo').modal('hide'); 
     }; //form submit event
