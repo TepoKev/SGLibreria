@@ -158,7 +158,7 @@ namespace SGLibreria.Pages.Compras
             }//envio imagen
 
             _context.Productos.Attach(Producto);
-            _context.Entry(Producto).State = EntityState.Modified;
+            _context.Entry(Producto).State = EntityState.Added;
             await _context.SaveChangesAsync();
             Mensaje = "Se ha registrado correctamente";
             return new JsonResult(
