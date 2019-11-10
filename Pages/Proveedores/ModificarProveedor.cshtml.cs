@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -38,25 +39,31 @@ namespace SGLibreria.Pages.Proveedores{
             {
                 return Page();
             }
-
-            _context.Attach(Proveedor).State = EntityState.Modified;
-
+            if (!ProveedorExists(Proveedor.Id))
+            {
+                return NotFound();
+            }
+            if(Proveedor.Enlace != null){
+                if (!Proveedor.Enlace.Contains("http"))
+                {
+                    Proveedor.Enlace = "http://" + Proveedor.Enlace;
+                }
+            }
+            this._context.Attach(this.Proveedor).State = EntityState.Modified;
+            this._context.Entry(this.Proveedor).Property(p => p.Nombre).IsModified = true;
+            this._context.Entry(this.Proveedor).Property(p => p.Estado).IsModified = false;
+            this._context.Entry(this.Proveedor).Property(p => p.Correo).IsModified = true;
+            this._context.Entry(this.Proveedor).Property(p => p.Direccion).IsModified = true;
+            this._context.Entry(this.Proveedor).Property(p => p.Enlace).IsModified = true;
             try
             {
-                await _context.SaveChangesAsync();
+                await this._context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                if (!ProveedorExists(Proveedor.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                Console.WriteLine("Mensaje ="+e.Message);
+                throw;
             }
-
             return RedirectToPage("/Proveedores/ListaProveedor");
         }
         private bool ProveedorExists(int id)
