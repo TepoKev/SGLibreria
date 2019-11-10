@@ -106,10 +106,8 @@ var sgl = {
             var formData, params;
             if(config.data.nodeName == 'FORM') {
                 formData = new FormData(config.data);
-                //params = new URLSearchParams(formData);
                 xhttp.send(formData);
             } else if(config.data instanceof FormData) {
-                //params = new URLSearchParams(config.data);
                 xhttp.send(config.data);
             } else {
                 //if is a literal object
@@ -119,8 +117,7 @@ var sgl = {
                         formData.append(property, config.data[property]);
                     }
                 }
-                params = new URLSearchParams(formData);
-                xhttp.send(params);
+                xhttp.send(formData);
             }
         }
     },
