@@ -41,8 +41,9 @@ namespace SGLibreria.Pages.Proveedores
                 return new JsonResult("Error");
             }
             var Tel = new Telefono();
-            int tam = this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).Count();
-            if(tam == 0){
+            var tam = this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).Count();
+            var TelPrincipar = await this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor && t.Principal == 1).FirstOrDefaultAsync();
+            if(tam == 0 || TelPrincipar.Numero == null){
                 Tel.Principal = (sbyte) 1;
             }else{
                 Tel.Principal = (sbyte) 0;
@@ -61,17 +62,21 @@ namespace SGLibreria.Pages.Proveedores
         public async Task<PartialViewResult> OnPostDelTelefono(int IdTelefono){
             int IdProveedor = -1;
             int Principal = 0;
+            int cant = 0;
             if(TelefonoExists(IdTelefono)){
                 var Telefono = await this._context.Telefonos.FirstOrDefaultAsync(t => t.Id == IdTelefono);
                 Principal = Telefono.Principal;
                 IdProveedor = Telefono.IdProveedor;
                 this._context.Telefonos.Remove(Telefono);
                 await this._context.SaveChangesAsync();
-                if(Principal == 1){
-                    Telefono = await this._context.Telefonos.FirstAsync();
-                    Telefono.Principal = (sbyte) 1;
-                    this._context.Attach(Telefono).State = EntityState.Modified;
-                    await this._context.SaveChangesAsync();
+                cant = this._context.Telefonos.Count();
+                if(cant > 0){
+                    if(Principal == 1){
+                        Telefono = await this._context.Telefonos.FirstAsync();
+                        Telefono.Principal = (sbyte) 1;
+                        this._context.Attach(Telefono).State = EntityState.Modified;
+                        await this._context.SaveChangesAsync();
+                    }
                 }
             }
             this.Telefonos = await this._context.Telefonos.Where(x => x.IdProveedor == IdProveedor).ToListAsync();
@@ -101,6 +106,7 @@ namespace SGLibreria.Pages.Proveedores
         }
         public async Task<PartialViewResult> OnPostNumTelefono(int IdTelefono, string Numero){
             var telefono = await this._context.Telefonos.FirstOrDefaultAsync(x => x.Id == IdTelefono);
+            
             telefono.Numero = Numero;
             this._context.Attach(telefono).State = EntityState.Modified;
             await _context.SaveChangesAsync();

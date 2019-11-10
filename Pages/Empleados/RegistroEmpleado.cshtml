@@ -165,11 +165,11 @@ ViewData["title"] = "Registro de Empleado";
             return '<span class="h6">' + gens[index].elemento + ' ' + gens[index].texto + '</span>';
         }
     });
-    var InputImg = document.querySelector("#Usuario_Archivo");
+    var InputImg = document.querySelector("#Archivo");
     var frmEUP = document.querySelector("#formEUP");
     var inputRC = document.querySelector("#claverepeat");
     InputImg.addEventListener("change", function (){
-        readURL(document.querySelector("#Usuario_Archivo"));
+        readURL(document.querySelector("#Archivo"));
         function readURL(InputImg) {
             if (InputImg.files && InputImg.files[0]) {
                 var reader = new FileReader();
