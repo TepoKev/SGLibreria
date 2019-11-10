@@ -98,15 +98,6 @@ namespace SGLibreria.Pages.Compras
             return Page();
         }
 
-
-        /*
-        public async Task<PartialViewResult> OnPost(){
-            this.Producto.Estado = (sbyte)1;
-            _context.Productos.Add(Producto);
-            await _context.SaveChangesAsync();
-            return Partial("_ProductoPartial",Producto);
-        }
-*/
         public async Task<JsonResult> OnPostAsync(Producto Producto)
         {
             string Mensaje = "";
