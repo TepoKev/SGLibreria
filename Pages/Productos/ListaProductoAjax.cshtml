@@ -7,7 +7,7 @@
 }
 @{
 Producto obj;
-int i,j;
+int i,j, cPrecios = 0;
 string imagen, ruta;
 float porcentaje = 100 / Model.CantidadPorFila;
 }
@@ -22,9 +22,10 @@ float porcentaje = 100 / Model.CantidadPorFila;
     <div class="row">
     @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) {
         obj = Model.Productos[i+j];
+        cPrecios = obj.Precioventa.Count;
         <!--div style porcentaje-->
         <div class="px-0 d-flex" style="width:@porcentaje%;">
-            <div class="card" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@obj.Precioventa[obj.Precioventa.Count-1].Valor">
+            <div class="card" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@cPrecios>0?obj.PrecioVenta.Valor: 0">
                 <div class="card-title mt-3 mx-2">
                     <h5 class="m-0 p-0">@obj.Nombre
                         <span class="badge badge-primary">@obj.StockMinimo</span>
@@ -49,7 +50,7 @@ float porcentaje = 100 / Model.CantidadPorFila;
                     <p class="card-text"></p>
                 </div>
                 <div class="card-footer text-primary p-y m-0">
-                    @if(obj.Precioventa.Count>0) {
+                    @if(cPrecios > 0) {
                         <small class="font-weight-bold h6">
                             Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor 
                             <button data-idproducto='@obj.Id' type='button'
@@ -59,6 +60,10 @@ float porcentaje = 100 / Model.CantidadPorFila;
                         </small>
                     } else {
                         <small class="font-weight-bold h6"> $ no asignado </small>
+                        <button data-idproducto='@obj.Id' type='button'
+                                    class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
+                                <i class="fas fa-pencil-alt"></i>
+                        </button>
                     }
                 </div>
             </div>

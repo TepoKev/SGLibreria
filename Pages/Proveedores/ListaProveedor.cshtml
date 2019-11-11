@@ -48,30 +48,28 @@ ViewData["Title"] = "Lista de Proveedores";
                             </label>
                         </td>
                         <td>
+                            <label class="row col-form-label" data-idp="@item.Id">
                             @if(item.Telefono.Count > 0){
-                            foreach(var tel in item.Telefono){
-                            if(tel.Principal == 1){
-                            <label class="row col-form-label">
-                                <span data-idp="@tel.IdProveedor" class="col-lg-10 p-0">
-                                    @Html.DisplayFor(y => tel.Numero)
-                                </span>
-                                <span>
-                                    <i class="fas fa-ellipsis-h text-primary mano m-0" data-ide="@item.Id"></i>
-                                </span>
-                            </label>
-                            break;
-                            }
-                            }
+                                foreach(var tel in item.Telefono){
+                                    if(tel.Principal == 1){
+                                        <span class="col-lg-10 p-0">
+                                            @Html.DisplayFor(y => tel.Numero)
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-ellipsis-h text-primary mano m-0"></i>
+                                        </span>
+                                        break;
+                                    }
+                                }
                             }else{
-                            <label class="row col-form-label">
                                 <span class="col-lg-9 p-0">
                                     Añadir teléfonos
                                 </span>
                                 <span>
-                                    <i class="fas fa-plus text-primary mano m-0" data-ide="@item.Id"></i>
+                                    <i class="fas fa-plus text-primary mano m-0"></i>
                                 </span>
-                            </label>
                             }
+                            </label>
                         </td>
                         <td class="px-3">
                             <label class="col-form-label">
@@ -170,7 +168,7 @@ ViewData["Title"] = "Lista de Proveedores";
                                 <th>Modificar</th>
                             </tr>
                         </thead>
-                        <tbody id="tbltelefonos">
+                        <tbody id="tbltelefonos" data-idtprov="">
                         </tbody>
                         <tfoot>
                             <tr>
@@ -263,13 +261,21 @@ ViewData["Title"] = "Lista de Proveedores";
             });
         }
         if(btnsi){
-            btnsi.addEventListener("click", function(){
+            btnsi.addEventListener("click", function(e){
+                console.log(e);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         $('#divelim').tooltip('hide');
-                        document.querySelector("#tbltelefonos").innerHTML = this.responseText;
-                        ActPpal();
+                        let tbody = document.querySelector("#tbltelefonos");
+                        tbody.innerHTML = this.responseText;
+                        if(tbody.children.length != 0){
+                            ActPpal();
+                        }else{
+                            console.log(IdProvActual);
+                            var lba = document.querySelector("label[data-idp='"+IdProvActual+"']");
+                            lba.innerHTML = '<span class="col-lg-9 p-0">Añadir teléfonos</span><span><i class="fas fa-plus text-primary mano m-0"></i></span>';
+                        }
                         $('#tefonosModal').modal('show');
                     }
                 };
@@ -283,23 +289,24 @@ ViewData["Title"] = "Lista de Proveedores";
     }
     NewTel.addEventListener("click", NuevoCompTel);
     tbProv.addEventListener("click", procesar);
-    function RegistrarNewTel(){
+    function RegistrarNewTel(e){
+        console.log(e);
         var inputTel = document.querySelector("#inputnewtel");
-        if(inputTel != undefined){
+        if(inputTel){
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var telefono = JSON.parse(this.responseText);
-                    console.log(telefono);
                     if(telefono != "Error"){
                         var tbt = document.querySelector("#tbltelefonos");
                         var tr = tbt.children[tbt.children.length - 1];
                         tr.children[0].innerHTML = '<input type="text" class="form-control" value="'+telefono.numero+'" data-n="'+telefono.numero+'" id="t '+telefono.id+'" disabled>';
-                        if(telefono.estado == 1){
+                        if(telefono.principal == 1){
                             tr.children[1].innerHTML = '<div class="custom-control custom-switch text-center">'
                                 +'<input type="checkbox" class="custom-control-input" id="i '+telefono.id+'" data-number="'+telefono.numero+'" data-idprov="'+telefono.idProveedor+'" checked>'
                                 +'<label class="custom-control-label" for="i '+telefono.id+'"></label>'
                             +'</div>';
+                            ActPpal();
                         }else{
                             tr.children[1].innerHTML = '<div class="custom-control custom-switch text-center">'
                                 +'<input type="checkbox" class="custom-control-input" id="i '+telefono.id+'" data-number="'+telefono.numero+'" data-idprov="'+telefono.idProveedor+'">'
@@ -314,7 +321,6 @@ ViewData["Title"] = "Lista de Proveedores";
                                 +'<i class="fas fa-trash" data-elim="'+telefono.id+'"></i>'
                             +'</button>'
                         +'</div>';
-                        ActPpal();
                     }
                 }
             };
@@ -327,13 +333,14 @@ ViewData["Title"] = "Lista de Proveedores";
     }
     function ActPpal(){
         var num = document.querySelector("td div.custom-control.custom-switch.text-center input[checked]");
-        var tel = document.querySelector('span[data-idp="'+num.getAttribute("data-idprov")+'"]');
-        tel.innerHTML = num.getAttribute("data-number");
+        var tel = document.querySelector('label[data-idp="'+num.getAttribute("data-idprov")+'"]');
+        tel.children[0].innerHTML = num.getAttribute("data-number");
+        tel.children[1].innerHTML = '<i class="fas fa-ellipsis-h text-primary mano m-0"></i>';
     }
     function NuevoCompTel(){
         var tr = document.createElement("tr");
         var tdtel = document.createElement("td");
-        tdtel.innerHTML = '<input type="text" class="form-control" value="" id="inputnewtel">';
+        tdtel.innerHTML = '<input type="text" class="form-control" maxlength="9" value="" id="inputnewtel">';
         tr.appendChild(tdtel);
         tr.appendChild(document.createElement("td"));
         var tdopc = document.createElement("td");
@@ -371,8 +378,8 @@ ViewData["Title"] = "Lista de Proveedores";
             }
         } else {
             if (element.classList.contains("fa-ellipsis-h") || element.classList.contains("fa-plus")) {
-                IdProvActual = element.getAttribute("data-ide");
-                genTels(element);
+                IdProvActual = element.parentNode.parentNode.getAttribute("data-idp");
+                genTels(element.parentNode.parentNode);
             }
         }
     }
@@ -409,7 +416,7 @@ ViewData["Title"] = "Lista de Proveedores";
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var inputToken = document.getElementsByName("__RequestVerificationToken");
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
-        xhttp.send("IdProveedor=" + iItem.getAttribute("data-ide"));
+        xhttp.send("IdProveedor=" + iItem.getAttribute("data-idp"));
     }
     function ModEstTel(element) {
         var id = element.id.substring(2, element.id.length);

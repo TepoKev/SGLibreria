@@ -353,6 +353,7 @@ ViewData["Title"] = "Registro Compras";
 </div>
 <!-- The Modal -->
 <!-- Modal -->
+
 <div class="modal fade" id="modalProductoNuevo" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <form method='post' enctype="multipart/form-data" id="formProductoNuevo">
@@ -365,8 +366,7 @@ ViewData["Title"] = "Registro Compras";
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <div id="formProduct">
+                                            
 
                         <div class="form-group row">
 
@@ -435,7 +435,7 @@ ViewData["Title"] = "Registro Compras";
                             <div class="col-lg-7">
 
                                 <div class="custom-file">
-                                    <input type="file" asp-for="Producto.Archivo" class="custom-file-input"
+                                    <input asp-for="Producto.Archivo" class="custom-file-input"
                                         id="pdimagenNuevo">
                                     <label class="custom-file-label" for="pdimagenNuevo">Seleccione..</label>
                                 </div>
@@ -448,8 +448,6 @@ ViewData["Title"] = "Registro Compras";
                             <br>
                             <br>
                         </div>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <div class="btn btn-group">
@@ -465,9 +463,10 @@ ViewData["Title"] = "Registro Compras";
     </form>
 </div>
 
+
 <div class="modal fade" id="modalProductoAntiguo" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <form id="formProductoAntiguo">
+    <form method="post" enctype="multipart/form-data" id="formProductoAntiguo">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
@@ -594,10 +593,10 @@ ViewData["Title"] = "Registro Compras";
         </div>
     </form>
 </div>
-}
 
+}
 @section Scripts {
-<script src="~/js/busqueda.js"></script>
+
 <script src="~/js/sgl.js"></script>
 <script>
     //Funcion para agregar productos
@@ -606,15 +605,12 @@ ViewData["Title"] = "Registro Compras";
     FrmProductoNuevo.onsubmit = function (e) {
         e.preventDefault();
         console.log(this);
-/*
         sgl.ajax2(
-            {
-      url: "RegistroCompra", 
-      headers: {"RequestVerificationToken": token.value}, 
+            { url: "RegistroCompra", 
       method: "POST", 
-      data: new FormData(FrmProductoNuevo), 
+      data: new FormData(this), 
       done: function(data) {
-        vardoet obj = JSON.parse(data);
+        var obj = JSON.parse(data);
         var alerta = sgl.q('#alerta');
         $('#modalProducto').modal('hide');
         alerta.style.display= 'block';
@@ -632,53 +628,8 @@ ViewData["Title"] = "Registro Compras";
         console.log(this);
       }
       });
-      */
-/*
-        sgl.ajax2({
-            url: "RegistroCompra",
-            headers: {
-                "RequestVerificationToken": token.value
-            },
-            method: "POST",
-            data: new FormData(FrmProductoNuevo),
-            done: function (data) {
-                var obj = JSON.parse(data);
-                var alerta = sgl.q('#alerta');
-                $('#modalProducto').modal('hide');
-                alerta.style.display = 'block';
-                if (obj.error) {
-                    alerta.className = 'alert alert-danger';
-                    alerta.innerHTML = obj.error;
-                } else if (obj.mensaje) {
-                    alerta.className = 'alert alert-primary';
-                    alerta.innerHTML = obj.mensaje;
-                }
-                console.log(data);
-            },
-            fail: function () {
-                console.log('error: ');
-                console.log(this);
-            }
-        });
-*/
-        
-        let formData = new FormData(FrmProductoNuevo);
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(FrmProductoNuevo) {
-            if (this.readyState === 4 && this.status === 200) {
-                alert('Posted using XMLHttpRequest');
-            }
-        };
-        xhr.open('POST', 'RegistroCompra', true);
-        
-//        xhr.setRequestHeader("RequestVerificationToken", token.value);
-        //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send(formData);
-        
-        //xhr.send("Nombre=1234");
-        //xhr.send(new URLSearchParams(formData));
-        
-        //return false;
+
+
         //$('#modalProductoNuevo').modal('hide'); 
     }; //form submit event
     //SCRIPTS PARA LIMPIAR LOS FORMULARIOS DE LA COMRPRA
@@ -691,8 +642,7 @@ ViewData["Title"] = "Registro Compras";
             url: "RegistroCompra?handler=AgregarCategoria",
             method: "post",
             headers: {
-                "RequestVerificationToken": token.value,
-                "Content-type": "application/x-www-form-urlencoded"
+                [sgl.headerToken]: token.value,
             },
             done: function () {
                 sgl.ajax2({
@@ -715,10 +665,10 @@ ViewData["Title"] = "Registro Compras";
                     }
                 });
             },
-            data: FrmCategoria
+            data: this
         });
         $('#modalCategoria').modal('hide');
-        sgl.clearForm(FrmCategoria);
+        sgl.clearForm(this);
     });
 
     var FrmMarca = document.querySelector("#registroMarca");
@@ -729,14 +679,16 @@ ViewData["Title"] = "Registro Compras";
         sgl.ajax2({
             method: "post",
             url: "RegistroCompra?handler=AgregarMarca",
-            headers: {
-                "RequestVerificationToken": token.value,
-                "Content-type": "application/x-www-form-urlencoded"
+            headers: { 
+                [sgl.headerToken]: token.value,
             },
             done: function () {
                 sgl.ajax2({
                     method: 'get',
                     url: 'RegistroCompra?handler=ListaMarcas',
+                    headers: { 
+                        [sgl.headerToken]: token.value,
+                    },
                     done: function (texto) {
                         var lista = JSON.parse(texto);
                         var comboMarcas = document.querySelector('#comboMarcas');
@@ -748,7 +700,6 @@ ViewData["Title"] = "Registro Compras";
                             comboMarcas.appendChild(elem);
                         });
                     },
-                    data: FrmMarca
                 });
             },
             data: FrmMarca
