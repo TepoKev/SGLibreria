@@ -10,8 +10,8 @@ namespace SGLibreria.Models
     {
         public Producto()
         {
+            Detallecompra = new HashSet<Detallecompra>();
             Ofertaproducto = new HashSet<Ofertaproducto>();
-            Preciocompra = new HashSet<Preciocompra>();
             Precioventa = new List<Precioventa>();
         }
 
@@ -20,14 +20,13 @@ namespace SGLibreria.Models
         public string Codigo { get; set; }
         [Display(Name = "Categoría")]
         public int IdCategoria { get; set; }
-
         [NotMapped]
         public IFormFile Archivo {get;set;}
         public int? IdImagen { get; set; }
         [Required(ErrorMessage="El {0} es obligatorio"), StringLength(30, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Nombre { get; set; }
         [Display(Name = "Marca")]
-        public int IdMarca { get; set; }
+        public int? IdMarca { get; set; }
         [Display(Name="Descripción"), StringLength(100, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
         public string Descripcion { get; set; }
         [Display(Name="Existencia mínima")]
@@ -39,8 +38,8 @@ namespace SGLibreria.Models
         public virtual Categoria IdCategoriaNavigation { get; set; }
         public virtual Imagen IdImagenNavigation { get; set; }
         public virtual Marca IdMarcaNavigation { get; set; }
+        public virtual ICollection<Detallecompra> Detallecompra { get; set; }
         public virtual ICollection<Ofertaproducto> Ofertaproducto { get; set; }
-        public virtual ICollection<Preciocompra> Preciocompra { get; set; }
         public virtual List<Precioventa> Precioventa { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace SGLibreria.Pages.Compras {
             Compras = await _context.Compras
             .Include(c => c.IdProveedorNavigation)
             .Include(c => c.Detallecompra)
-            .ThenInclude ( d => d.IdPrecioCompraNavigation)
             .ToListAsync();
         }
         public IActionResult OnGetCompra(int? IdCompra) {
@@ -33,8 +32,6 @@ namespace SGLibreria.Pages.Compras {
             .Include( c=> c.IdProveedorNavigation)
             .Where(c => c.Id == IdCompra).FirstOrDefault();
             Detalles = _context.Detallecompra
-            .Include(d => d.IdPrecioCompraNavigation)
-            .ThenInclude( p => p.IdProductoNavigation)
             .Where(d => d.IdCompra == IdCompra)
             .ToList();
             return Partial("_DetalleCompraPartial", this);
