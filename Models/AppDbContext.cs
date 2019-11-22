@@ -610,23 +610,13 @@ namespace SGLibreria.Models
             {
                 entity.ToTable("servicio");
 
-                entity.HasIndex(e => e.IdImagen)
-                    .HasName("IdImagen");
-
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Estado).HasColumnType("tinyint(3)");
 
-                entity.Property(e => e.IdImagen).HasColumnType("int(11)");
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnType("varchar(20)");
-
-                entity.HasOne(d => d.IdImagenNavigation)
-                    .WithMany(p => p.Servicio)
-                    .HasForeignKey(d => d.IdImagen)
-                    .HasConstraintName("servicio_ibfk_1");
             });
 
             modelBuilder.Entity<Telefono>(entity =>
@@ -663,11 +653,16 @@ namespace SGLibreria.Models
                 entity.HasIndex(e => e.IdServicio)
                     .HasName("IdServicio");
 
+                entity.HasIndex(e => e.IdImagen)
+                    .HasName("IdImagen");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdCompania).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdServicio).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdImagen).HasColumnType("int(11)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -686,6 +681,11 @@ namespace SGLibreria.Models
                     .HasForeignKey(d => d.IdServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tiposervicio_ibfk_2");
+
+                entity.HasOne(d => d.IdImagenNavigation)
+                    .WithMany(p => p.Tiposervicio)
+                    .HasForeignKey(d => d.IdImagen)
+                    .HasConstraintName("tiposervicio_ibfk_3");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
