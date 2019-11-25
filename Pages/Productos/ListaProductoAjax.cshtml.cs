@@ -28,7 +28,6 @@ namespace SGLibreria.Pages.Productos
         }
 
         public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria) {
-            
             IQueryable<Producto> Consulta = _context.Productos
             .Include(p => p.IdCategoriaNavigation)
             .Include(p => p.IdMarcaNavigation)
@@ -40,7 +39,6 @@ namespace SGLibreria.Pages.Productos
             } else {
                 Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
             }
-            
             this.Productos = Consulta.ToList();
             return Page();
         }

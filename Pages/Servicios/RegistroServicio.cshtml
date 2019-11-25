@@ -1,22 +1,18 @@
 @page
 @model Servicios.RegistroServicioModel
-
+@using SGLibreria.Models;
 @{
 ViewData["title"] = "Registro de Servicio";
 }
-
+<form method="post" style="display:none;" id="formToken"></form>
 <div class="pt-3">
     <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post">
         <div class="row">
             <div class="col-lg-6 mt-5">
                 <div class="form-group row offset-1">
-                    <label asp-for="Servicio.Nombre" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
+                    <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Servicio</label>
                     <div class="col-lg-6">
-                        <select>
-                            <option value="">Seleccione</option>
-                            <option value="">Copias</option>
-                            <option value="">Recargas</option>
-                            <option value="">Impresiones</option>
+                        <select class="custom-select form-control" id="comboServicio">
                         </select>
                     </div>
                     <div class="col-lg-2">
@@ -25,20 +21,16 @@ ViewData["title"] = "Registro de Servicio";
                     </div>
                 </div>
                 <div class="form-group row offset-1">
-                    <label asp-for="Tipo.Nombre" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
+                    <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Tipo de servicio</label>
                     <div class="col-lg-6">
                         <input type="text" class="form-control mb-2" asp-for="Tipo.Nombre"
                             placeholder="Nombre del servicio">
                     </div>
                 </div>
                 <div class="form-group row offset-1">
-                    <label asp-for="Compania.Nombre" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
+                    <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Compañia</label>
                     <div class="col-lg-6">
-                        <select>
-                            <option value="">Seleccione</option>
-                            <option>Local</option>
-                            <option>Tigo</option>
-                            <option>Claro</option>
+                        <select class="custom-select form-control" id="comboCompania">
                         </select>
                     </div>
                     <div class="col-lg-2">
@@ -55,19 +47,22 @@ ViewData["title"] = "Registro de Servicio";
             </div>
             <div class="col-lg-6 mt-5">
                 <div class="form-group row offset-3 text-center">
-                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%">
+                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%" id="vpimagen">
                 </div>
                 <div class="form-group offset-2 mr-4">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="pdimagen">
-                        <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
+                        <input asp-for="Archivo" class="custom-file-input">
+                        <label asp-for="Archivo" class="custom-file-label">Seleccione..</label>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 offset-md-4">
+            <div class="offset-md-4 btn btn-group">
                 <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i> Registrar</button>
+                <button type="button" id="btnCancelar" class="btn btn-outline-secondary"><i
+                        class="fas fa-times-circle"></i>
+                    Cancelar</button>
             </div>
         </div>
     </form>
@@ -77,70 +72,211 @@ ViewData["title"] = "Registro de Servicio";
 <!-- Modal Compañia -->
 <div class="modal fade" id="companiaModal" tabindex="-1" role="dialog" aria-labelledby="companiaModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="companiaModalLabel">Registro de Compañia</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label class="offset-1 col-form-label font-weight-bold">Nombre</label>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control mb-2" asp-for="Compania.Nombre"
-                            placeholder="Nombre de la compañia">
+    <form method="post" id="frmCompania">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="companiaModalLabel">Registro de Compañia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label asp-for="Compania.Nombre" class="offset-1 col-form-label font-weight-bold"></label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control mb-2" asp-for="Compania.Nombre"
+                                placeholder="Nombre de la compañia">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer ">
-                <div class="btn btn-group">
-                    <button type="button" class="btn btn-outline-primary" id="btnSaveCompania">Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+                <div class="modal-footer ">
+                    <div class="btn btn-group">
+                        <button type="submit" class="btn btn-outline-primary" id="btnSaveCompania"><i
+                                class="fas fa-save"></i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" id="btnCancelarCompania"
+                            data-dismiss="modal"><i class="fas fa-times-circle"></i> Cancelar</button>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <!-- Modal Servicio -->
 <div class="modal fade" id="servicioModal" tabindex="-1" role="dialog" aria-labelledby="servicioModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="servicioModalLabel">Registro Tipo de Servicio</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label class="offset-1 col-form-label font-weight-bold">Nombre</label>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control mb-2" asp-for="Servicio.Nombre"
-                            placeholder="Nombre del servicio">
+    <form method="post" id="frmServicio">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="servicioModalLabel">Registro de Servicio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label asp-for="Servicio.Nombre" class="offset-1 col-form-label font-weight-bold"></label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control mb-2" asp-for="Servicio.Nombre"
+                                placeholder="Nombre del servicio">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn btn-group">
+                        <button type="submit" class="btn btn-outline-primary" id="btnSaveServicio"><i
+                                class="fas fa-save"></i> Registrar</button>
+                        <button type="button" class="btn btn-outline-secondary" id="btnCancelarServicio"
+                            data-dismiss="modal"><i class="fas fa-times-circle"></i> Cancelar</button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="btn btn-group">
-                    <button type="button" class="btn btn-outline-primary" id="btnSaveCompania">Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
         </div>
-    </div>
+    </form>
 </div>
 }
 
 @section Scripts{
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
+<script src="~/js/sgl.js"></script>
 <script>
-    $(function () {
-        $('select').selectric();
+    //Funcion para agregar las imagenes
+    var InputImg = document.querySelector("#Archivo");
+    InputImg.addEventListener("change", function (){
+        readURL(document.querySelector("#Archivo"));
+        function readURL(InputImg) {
+            if (InputImg.files && InputImg.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.querySelector("#vpimagen").setAttribute("src",e.target.result);
+                }
+                reader.readAsDataURL(InputImg.files[0]);
+            }
+        }
+    });
+
+    //Funcion para limpiar los botones cancelar
+    var btnCancelarServicio = document.querySelector("#btnCancelarServicio");
+    var limpiarServicio = function (e) {
+        sgl.clearForm(document.querySelector("#frmServicio"));
+    }
+    btnCancelarServicio.addEventListener("click", limpiarServicio);
+    var btnCancelarCompania = document.querySelector("#btnCancelarCompania");
+    var limpiarCompania = function (e) {
+        sgl.clearForm(document.querySelector("#frmCompania"));
+    }
+    btnCancelarCompania.addEventListener("click", limpiarCompania);
+
+    //Funcion para agregar Compania
+    var frmCompania = document.querySelector("#frmCompania");
+    var token = document.querySelector("#formToken input[name=__RequestVerificationToken]");
+    frmCompania.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sgl.ajax2({
+            url: "RegistroServicio?handler=AgregarCompania",
+            method: "post",
+            headers: {
+                [sgl.headerToken]: token.value,
+            },
+            done: function () {
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroServicio?handler=ListaCompania',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboCompania = document.querySelector('#comboCompania');
+                        comboCompania.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboCompania.appendChild(elem);
+                        });
+                    },
+                    fail: function () {
+
+                    }
+                });
+            },
+            data: this
+        });
+        $('#companiaModal').modal('hide');
+        sgl.clearForm(this);
+    });
+    //Funcion para agregar Servicio
+    var FrmServicio = document.querySelector("#frmServicio");
+    var token = document.querySelector("#formToken input[name=__RequestVerificationToken]");
+    FrmServicio.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sgl.ajax2({
+            url: "RegistroServicio?handler=AgregarServicio",
+            method: "post",
+            headers: {
+                [sgl.headerToken]: token.value,
+            },
+            done: function () {
+                sgl.ajax2({
+                    method: 'get',
+                    url: 'RegistroServicio?handler=ListaServicio',
+                    done: function (texto) {
+                        var lista = JSON.parse(texto);
+                        var comboServicio = document.querySelector('#comboServicio');
+                        comboServicio.innerHTML = "";
+                        lista.forEach(function (dato) {
+                            var elem = document.createElement('option');
+                            elem.innerHTML = dato.nombre;
+                            elem.value = dato.id;
+                            comboServicio.appendChild(elem);
+                        });
+                    },
+                    fail: function () {
+
+                    }
+                });
+            },
+            data: this
+        });
+        $('#servicioModal').modal('hide');
+        sgl.clearForm(this);
+    });
+
+    //Funcion para llenar combo Servicio
+    sgl.ajax2({
+        method: 'get',
+        url: 'RegistroServicio?handler=ListaServicio',
+        done: function (texto) {
+            var lista = JSON.parse(texto);
+            var comboServicio = document.querySelector('#comboServicio');
+            lista.forEach(function (dato) {
+                var elem = document.createElement('option');
+                elem.innerHTML = dato.nombre;
+                elem.value = dato.id;
+                comboServicio.appendChild(elem);
+            });
+        },
+        fail: function () {
+
+        }
+    });
+
+    //Funcion para llenar combo Servicio
+    sgl.ajax2({
+        method: 'get',
+        url: 'RegistroServicio?handler=ListaCompania',
+        done: function (texto) {
+            var lista = JSON.parse(texto);
+            var comboCompania = document.querySelector('#comboCompania');
+            lista.forEach(function (dato) {
+                var elem = document.createElement('option');
+                elem.innerHTML = dato.nombre;
+                elem.value = dato.id;
+                comboCompania.appendChild(elem);
+            });
+        },
+        fail: function () {
+
+        }
     });
 </script>
 }

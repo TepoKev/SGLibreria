@@ -69,12 +69,14 @@ namespace SGLibreria.Pages.Proveedores
                 IdProveedor = Telefono.IdProveedor;
                 this._context.Telefonos.Remove(Telefono);
                 await this._context.SaveChangesAsync();
-                cant = this._context.Telefonos.Count();
+                cant = this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).Count();
                 if(cant > 0){
                     if(Principal == 1){
-                        Telefono = await this._context.Telefonos.FirstAsync();
+                        Telefono = await this._context.Telefonos.Where(t => t.IdProveedor == IdProveedor).FirstAsync();
                         Telefono.Principal = (sbyte) 1;
                         this._context.Attach(Telefono).State = EntityState.Modified;
+                        this._context.Entry(Telefono).Property(t => t.Principal).IsModified = true;
+                        this._context.Entry(Telefono).Property(t => t.Numero).IsModified = false;
                         await this._context.SaveChangesAsync();
                     }
                 }
