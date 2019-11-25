@@ -22,15 +22,13 @@ namespace SGLibreria.Pages.Servicios
         [BindProperty]
         public Compania Compania { get; set; }
         [BindProperty]
-        public Tiposervicio Tipo { get; set; }
+        public Tiposervicio Tiposervicio { get; set; }
         [BindProperty]
         public IFormFile Archivo { get; set; }
         public IList<Servicio> Servicios { get; set; }
         public IList<Compania> Companias { get; set; }
-        public async Task<IActionResult> OnPost(){
-            if(!ModelState.IsValid){
-                return NotFound();
-            }
+        public async Task<IActionResult> OnPostAgregarTiposervicio(){
+            
             string Ruta = "Servicios";
             Imagen Imagen = new Imagen();
             if (Archivo != null)
@@ -50,7 +48,9 @@ namespace SGLibreria.Pages.Servicios
             }//envio imagen
             await this._context.Imagenes.AddAsync(Imagen);
             await this._context.SaveChangesAsync();
-            //this.Tipo = Imagen.Id;/////////////////////////////////////////////////////////////////////
+            this.Tiposervicio.IdImagen = Imagen.Id;
+            await this._context.Tiposervicio.AddAsync(Tiposervicio);
+            await this._context.SaveChangesAsync();
             return Page();
         }
         public bool ValidFileName(string filepath, string filename) {

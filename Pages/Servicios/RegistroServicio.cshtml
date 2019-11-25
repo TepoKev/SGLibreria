@@ -6,13 +6,13 @@ ViewData["title"] = "Registro de Servicio";
 }
 <form method="post" style="display:none;" id="formToken"></form>
 <div class="pt-3">
-    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post">
+    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post" id="frmTiposervicio">
         <div class="row">
             <div class="col-lg-6 mt-5">
                 <div class="form-group row offset-1">
                     <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Servicio</label>
                     <div class="col-lg-6">
-                        <select class="custom-select form-control" id="comboServicio">
+                        <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicio">
                         </select>
                     </div>
                     <div class="col-lg-2">
@@ -23,14 +23,15 @@ ViewData["title"] = "Registro de Servicio";
                 <div class="form-group row offset-1">
                     <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Tipo de servicio</label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control mb-2" asp-for="Tipo.Nombre"
+                        <input type="text" class="form-control mb-2" asp-for="Tiposervicio.Nombre"
                             placeholder="Nombre del servicio">
                     </div>
                 </div>
                 <div class="form-group row offset-1">
                     <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Compañia</label>
                     <div class="col-lg-6">
-                        <select class="custom-select form-control" id="comboCompania">
+                        <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompania">
+
                         </select>
                     </div>
                     <div class="col-lg-2">
@@ -39,15 +40,15 @@ ViewData["title"] = "Registro de Servicio";
                     </div>
                 </div>
                 <div class="form-group row offset-1">
-                    <label asp-for="Tipo.Precio" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
+                    <label asp-for="Tiposervicio.Precio" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control mb-2" asp-for="Tipo.Precio" placeholder="##.##">
+                        <input type="text" class="form-control mb-2" asp-for="Tiposervicio.Precio" placeholder="##.##">
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 mt-5">
-                <div class="form-group row offset-3 text-center">
-                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%" id="vpimagen">
+                <div class="form-group row offset-3 text-center" id="resetearImagen">
+                    <img src="/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%" id="vpimagen">
                 </div>
                 <div class="form-group offset-2 mr-4">
                     <div class="custom-file">
@@ -141,6 +142,30 @@ ViewData["title"] = "Registro de Servicio";
 @section Scripts{
 <script src="~/js/sgl.js"></script>
 <script>
+    //Funcion para agregar el tiposervicio
+    var frmTiposervicio = document.querySelector("#frmTiposervicio");
+    var token = document.querySelector("#formToken input[name=__RequestVerificationToken]");
+    frmTiposervicio.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sgl.ajax2({
+            url: "RegistroServicio?handler=AgregarTiposervicio",
+            method: "post",
+            headers: {
+                [sgl.headerToken]: token.value,
+            },
+            done: function () {
+                
+
+                var resetearImagen = document.querySelector("#resetearImagen");
+                resetearImagen.innerHTML = '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
+            },
+            data: this
+        });
+        sgl.clearForm(this);
+    });
+
+    
+
     //Funcion para agregar las imagenes
     var InputImg = document.querySelector("#Archivo");
     InputImg.addEventListener("change", function (){
