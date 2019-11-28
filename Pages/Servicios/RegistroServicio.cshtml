@@ -4,9 +4,27 @@
 @{
 ViewData["title"] = "Registro de Servicio";
 }
+
 <form method="post" style="display:none;" id="formToken"></form>
+<div class="col-lg-2">
+    <div class="toast" style="position: absolute; z-index: 1" id="toastProveedor" data-delay="5000" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="" id="notific">
+            <label class="col-form-label text-white">
+                <i class="fas fa-check-circle"></i>
+                <strong class="mr-auto">Registro Empleado</strong>
+            </label>
+            <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="mensaje">
+        </div>
+    </div>
+</div>
 <div class="pt-3">
-    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post" id="frmTiposervicio">
+    <form class="col-lg-10 bg-white offset-lg-1 rounded py-4 border border-secondary-100" method="post"
+        id="frmTiposervicio">
         <div class="row">
             <div class="col-lg-6 mt-5">
                 <div class="form-group row offset-1">
@@ -48,7 +66,8 @@ ViewData["title"] = "Registro de Servicio";
             </div>
             <div class="col-lg-6 mt-5">
                 <div class="form-group row offset-3 text-center" id="resetearImagen">
-                    <img src="/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%" id="vpimagen">
+                    <img src="/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%"
+                        id="vpimagen">
                 </div>
                 <div class="form-group offset-2 mr-4">
                     <div class="custom-file">
@@ -154,27 +173,29 @@ ViewData["title"] = "Registro de Servicio";
                 [sgl.headerToken]: token.value,
             },
             done: function () {
-                
+
 
                 var resetearImagen = document.querySelector("#resetearImagen");
-                resetearImagen.innerHTML = '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
+                resetearImagen.innerHTML =
+                    '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
             },
             data: this
         });
         sgl.clearForm(this);
     });
 
-    
+
 
     //Funcion para agregar las imagenes
     var InputImg = document.querySelector("#Archivo");
-    InputImg.addEventListener("change", function (){
+    InputImg.addEventListener("change", function () {
         readURL(document.querySelector("#Archivo"));
+
         function readURL(InputImg) {
             if (InputImg.files && InputImg.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    document.querySelector("#vpimagen").setAttribute("src",e.target.result);
+                    document.querySelector("#vpimagen").setAttribute("src", e.target.result);
                 }
                 reader.readAsDataURL(InputImg.files[0]);
             }
