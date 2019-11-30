@@ -232,7 +232,7 @@ ViewData["Title"] = "Lista de Productos";
     var cardFooter;
     if (target.matches('img')) {
       card = target.parentNode;
-      cardFooter = card.querySelector('.card-footer')
+      cardFooter = card.querySelector('.card-footer');
       if (card.getAttribute('data-seleccionado') == 'true') {
         cardFooter.classList.remove('bg-primary');
         cardFooter.classList.remove('text-white');
