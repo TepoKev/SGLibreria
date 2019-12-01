@@ -22,8 +22,8 @@ return;
         @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Tiposervicio.Count; j++) { 
             obj=Model.Tiposervicio[i+j];
             <!--div style porcentaje-->
-            <div class="px-0 d-flex" style="width:@porcentaje%;">
-                <div class="card" data-idprod="@obj.Id" data-nombre="@obj.Nombre"
+            <div class="px-0 ml-1 d-flex" style="width:@porcentaje%;">
+                <div class="card ml-3" data-idserv="@obj.Id" data-nombre="@obj.Nombre"
                     data-servicio="@obj.IdServicioNavigation.Nombre"
                     data-compania="@obj.IdCompaniaNavigation.Nombre"
                     data-precio="@obj.Precio">

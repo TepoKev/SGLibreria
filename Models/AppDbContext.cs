@@ -402,6 +402,8 @@ namespace SGLibreria.Models
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
+                entity.Property(e => e.Estado).HasColumnType("int(3)");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnType("varchar(25)");

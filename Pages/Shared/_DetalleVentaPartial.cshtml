@@ -1,0 +1,90 @@
+@model SGLibreria.Pages.Ventas.ListaVentaModel;
+
+<div class="row">
+    <label for="cfecha" class="offset-lg-1 col-lg-6 font-weight-bold col-form-label">Fecha: @Model.Venta.Fecha.ToString("dd/MM/yyyy mm:ss")</label>
+</div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-productos" role="tab"
+            aria-controls="nav-productos" aria-selected="true"><span class="font-weight-bold">@Model.Venta.Detalleventa.Count</span> productos</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-servicios" role="tab"
+            aria-controls="nav-servicios" aria-selected="false"><span class="font-weight-bold">@Model.Venta.Detalleservicio.Count</span> servicios</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-productos" role="tabpanel" aria-labelledby="nav-productos">
+        <table class="table table-sm table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    decimal valor;
+                }
+                @foreach(var item in Model.Venta.Detalleventa){
+                    <tr>
+                        <td>@item.Cantidad</td>
+                        <td>
+                            <a class="text=primary" href="/Productos/ListaProducto">@item.IdPrecioVentaNavigation.IdProductoNavigation.Nombre<i
+                                    class="fas fa-arrow-right"></i></a></td>
+                        <td>$ @item.IdPrecioVentaNavigation.Valor</td>
+                        @{
+                            valor = @item.Cantidad*@item.IdPrecioVentaNavigation.Valor;
+                        }
+                        <td>$ @valor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="nav-servicios" role="tabpanel" aria-labelledby="nav-servicios">
+        <table class="table table-sm table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Tipo de Servicio</th>
+                    <th>Compañia</th>
+                    <th>Precio</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model.Venta.Detalleservicio)
+                {
+                    <tr>
+                        <td>@item.Cantidad</td>
+                        <td>
+                            <a class="text=primary" href="/Servicios/ListaServicio">@item.IdTipoServicioNavigation.IdServicioNavigation.Nombre - 
+                            @item.IdTipoServicioNavigation.Nombre
+                            <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </td>
+                        <td>@item.IdTipoServicioNavigation.IdCompaniaNavigation.Nombre</td>
+                        <td>@item.IdTipoServicioNavigation.Precio</td>
+                        @{
+                            valor = @item.Cantidad*@item.IdTipoServicioNavigation.Precio;
+                        }
+                        <td>$ @valor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <br>
+    <div class="col-lg-7">
+        <p class="text-center h5 text-success font-weight-bold">Total</p>
+    </div>
+    <div class="col-lg-2">
+        <p class="text-right h5 text-success font-weight-bold">$</p>
+    </div>
+    <div class="col-lg-3">
+        <p class="text-left h5 text-success font-weight-bold">@Model.Venta.montoTotal()</p>
+    </div>
+</div>
