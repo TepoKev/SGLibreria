@@ -53,31 +53,77 @@ namespace SGLibreria.Pages.Servicios
         }
         public async Task<IActionResult> OnPostAgregarTiposervicioModificado(){
             
-            string Ruta = "Servicios";
             Imagen Imagen = new Imagen();
-            if (Archivo != null)
+            var temporal = await  _context.Tiposervicio.Select(
+              p => new {
+                p.Id, 
+                p.IdImagen
+              }
+            ).Where( p => p.Id == Tiposervicio.Id).FirstOrDefaultAsync();
+            
+            if(temporal == null) {
+              return new JsonResult(
+                new {
+                  Error = "No existe ningún objeto SERVICIO con el Identificador proporcionado"
+                }
+              );
+            }
+            //envio imagen
+            if (Tiposervicio.Archivo != null)
             {
+                string Ruta = "Servicios";
                 //directorio de destino
                 var filepath = "wwwroot/"+Ruta+"/";
-                var filename = Archivo.FileName;
+                var filename = Tiposervicio.Archivo.FileName;
                 //validar antes de subir
                 var isValidName = ValidFileName(filepath, filename);
-                //nombre valido y el Archivo no existe
+                //nombre valido y el archivo no existe
                 if (isValidName && !FileExists(filepath, filename) )
                 {
-                    await UploadFile(filepath, filename, Archivo);
+                    await UploadFile(filepath, filename, Tiposervicio.Archivo);             
                     Imagen.Nombre = filename;
-                    Imagen.IdRuta = this._context.Rutas.Where(r => r.Nombre.Equals(Ruta)).FirstOrDefault().Id;
+                    //si el producto tiene una imagen, hay que actualizar el nombre de la imagen
+                    if( temporal.IdImagen!=null ) {
+                      Imagen.Id = temporal.IdImagen.Value;
+                      _context.Attach(Imagen);
+                      _context.Entry(Imagen).Property(i=> i.Nombre).IsModified = true;
+                    } else {//si el producto no tiene imagen, hay que agregar un nuevo registro
+                       Imagen.IdRuta = (await _context.Rutas.Where(r => EF.Functions.Like(r.Nombre, $"%{Ruta}%")).FirstOrDefaultAsync()).Id;
+                      _context.Imagenes.Add(Imagen);
+                    }
+                    await _context.SaveChangesAsync();
+                    Tiposervicio.IdImagen = Imagen.Id;
+                    _context.Entry(Tiposervicio).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    Mensaje = "Se modifico correctamente";
+                    //
+                    //
+                    //
+                } else if (FileExists(filepath, filename))
+                { //el ya archivo existe
+                    
+                    Mensaje = "La imagen: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
                 }
+                else if (!isValidName)
+                {
+                    Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
+                }
+                return new JsonResult(
+                  new {
+                    Mensaje
+                  }
+                );
             }//envio imagen
-            _context.Imagenes.Attach(Imagen);
-            await this._context.SaveChangesAsync();
-            this.Tiposervicio.IdImagen = Imagen.Id;
-            //_context.Entry(Tiposervicio).State = EntityState.Modified;
+
             _context.Tiposervicio.Attach(Tiposervicio);
             _context.Entry(Tiposervicio).State = EntityState.Modified;
-            await this._context.SaveChangesAsync();
-            return Page();
+            await _context.SaveChangesAsync();
+            Mensaje = "Se ha modificado correctamente";
+            return new JsonResult(
+              new {
+                Mensaje
+              }
+            );
         }
         public JsonResult OnPostTipoServicio(int? IdTiposervicio)
         {

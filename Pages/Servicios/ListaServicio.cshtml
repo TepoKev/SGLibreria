@@ -1,9 +1,10 @@
 @page
-@model Servicios.ListaServicioModel
+@model Servicios.ListaServicioModel;
 @using SGLibreria.Models;
 @{
-ViewData["title"] = "Lista de Servicios";
+ViewData["Title"] = "Lista de Servicios";
 }
+
 <style>
   body {
     color: #555;
@@ -13,7 +14,7 @@ ViewData["title"] = "Lista de Servicios";
     background-color: #1597a8 !important;
   }
 
-  #servicios-seleccionados {
+  #Servicios-seleccionados {
     right: 0;
     position: absolute;
     transition: max-width .4s;
@@ -21,14 +22,14 @@ ViewData["title"] = "Lista de Servicios";
 </style>
 <div id='alerta' style='display:none;' class='alert'></div>
 <form id='formToken' method='post'></form>
-<div id='servicios' style='margin-top:15px;margin-bottom:100px;'>
+<div id='Servicios' style='margin-top:15px;margin-bottom:100px;'>
 
-</div><!-- #servicios -->
+</div><!-- #Servicios -->
 
 <div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
-  <div class="col-lg-7">
+  <div class="col-lg-4">
     <div class="input-group mb-3">
-      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código de servicio"
+      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código de Servicio"
         aria-describedby="button-addon2">
       <div class="input-group-append">
         <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
@@ -54,276 +55,312 @@ ViewData["title"] = "Lista de Servicios";
       </ul>
     </nav>
   </div>
-</div>
 
-<template id='plantilla-option'>
-  <option value=''></option>
-</template>
+  <template id='plantilla-option'>
+    <option value=''></option>
+  </template>
 
-@section Modal {
-<!-- Modal -->
-<div class="modal fade" id="modalServicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <form class="modal-content" enctype="multipart/form-data" method='post' id="formModificarServicio">
-      <div class="modal-header bg-primary text-white">
-        <h4 class="modal-title">Modificar Servicio</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-6 mt-5">
-            <div class="form-group row offset-1">
-                <input id='sid' name="TipoServicio.Id" type="hidden" />
-              <label class="col-lg-3 col-form-label mr-4 font-weight-bold">Servicio</label>
-              <div class="col-lg-6">
-                <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicio">
-                </select>
-              </div>
-            </div>
-            <div class="form-group row offset-1">
-              <label class="col-lg-3 col-form-label mr-4 font-weight-bold">Tipo de servicio</label>
-              <div class="col-lg-6">
-                <input type="text" class="form-control mb-2" asp-for="Tiposervicio.Nombre"
-                  placeholder="Nombre del servicio" id="stipo">
-              </div>
-            </div>
-            <div class="form-group row offset-1">
-              <label class="col-lg-3 col-form-label mr-4 font-weight-bold">Compañia</label>
-              <div class="col-lg-6">
-                <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompania">
+  @section Modal {
+  <!-- Modal -->
+  <div class="modal fade" id="modalServicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <form class="modal-content" enctype="multipart/form-data" method='post' id="formModificarServicio">
+        <div class="modal-header bg-primary text-white">
+          <h4 class="modal-title">Modificar Servicio</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+              <input id='sid' name="Tiposervicio.Id" type="hidden" />
+            <label asp-for="Tiposervicio.IdServicio" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold" required>Servicio</label>
+            <div class="col-lg-7">
+              <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicios">
 
-                </select>
-              </div>
-            </div>
-            <div class="form-group row offset-1">
-              <label asp-for="Tiposervicio.Precio" class="col-lg-3 col-form-label mr-4 font-weight-bold"></label>
-              <div class="col-lg-6">
-                <input type="text" class="form-control mb-2" asp-for="Tiposervicio.Precio" placeholder="##.##" id="sprecio">
-              </div>
+              </select>
             </div>
           </div>
-          <div class="col-lg-6 mt-5">
-            <div class="form-group row offset-3 text-center" id="resetearImagen">
-              <img src="/img/blank-profile.png" alt="..." class="img-thumbnail" height="75%" width="75%" id="vpimagen">
+          <div class="form-group row">
+            <label asp-for="Tiposervicio.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold" required>Tipo de servicio</label>
+            <div class="col-lg-7">
+              <input asp-for="Tiposervicio.Nombre" type="text" class="form-control" id="snombre">
             </div>
-            <div class="form-group offset-2 mr-4">
+          </div>
+          <div class="form-group row">
+            <label asp-for="Tiposervicio.IdCompania" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Compañia</label>
+            <div class="col-lg-7">
+              <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompanias" required>
+
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="sprecio" asp-for="Tiposervicio.Precio"
+              class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+            <div class="col-lg-7">
+              <input asp-for="Tiposervicio.Precio" class="form-control" id="sprecio" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="pdimagenNuevo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
+              foto</label>
+            <div class="col-lg-7">
+
               <div class="custom-file">
-                <input asp-for="Archivo" class="custom-file-input" id="simagen" value="Archivo.FileName">
-                <label asp-for="Archivo" class="custom-file-label">Seleccione..</label>
+                <input type="file" asp-for="Tiposervicio.Archivo" class="custom-file-input" id="pdimagenNuevo">
+                <label class="custom-file-label" for="pdimagenNuevo">Seleccione..</label>
               </div>
             </div>
           </div>
+          ​
+          <div class="row">
+            <div id='vistaPrevia' class="col-lg-6 offset-lg-3">
+              <h5 id="textoVistaPrevia" class="text-center">Vista Previa</h5>
+              <img class='img-fluid' id="imagen" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <div class="btn btn-group">
-          <button type="submit" class="btn btn-outline-warning" id="btnAgregarServicio"><i class="fas fa-save"> </i>
-            Modificar</button>
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarProducto"><i
-              class="fas fa-times-circle"> </i> Cancelar</button>
+        <div class="modal-footer">
+          <div class="btn btn-group">
+            <button type="submit" class="btn btn-outline-warning" id="btnAgregarServicio"><i class="fas fa-save"> </i>
+              Modificar</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarServicio"><i
+                class="fas fa-times-circle"> </i> Cancelar</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
-}
-
-@section Scripts{
-<script src="~/js/sgl.js"></script>
-
-<script>
-
-  //Funcion para agregar las imagenes
-  var InputImg = document.querySelector("#simagen");
-    InputImg.addEventListener("change", function (){
-        readURL(document.querySelector("#simagen"));
-        function readURL(InputImg) {
-            if (InputImg.files && InputImg.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.querySelector("#vpimagen").setAttribute("src",e.target.result);
-                }
-                reader.readAsDataURL(InputImg.files[0]);
-            }
-        }
-    });
-    //Iniciar codigo para mostrar los servicios
-  sgl.get('ListaServicioAjax', refrescar);
-
-  function refrescar(data) {
-    var divProductos = sgl.q('#servicios');
-    divProductos.innerHTML = data;
-  };
-
-  var NombreOCodigo = sgl.q('#NombreOCodigo');
-  NombreOCodigo.focus();
-  NombreOCodigo.oninput = function (e) {
-    buscarServicio(NombreOCodigo.value);
-  };
-
-  function buscarServicio(NombreCodigo) {
-    params = "";
-    if (NombreCodigo) {
-      params += "NombreOCodigo=" + NombreCodigo;
-    }
-    sgl.get('ListaServicioAjax', function (data) {
-      var divProductos = sgl.q('#servicios');
-      divProductos.innerHTML = data;
-    }, params);
   }
-  var divProductos = sgl.q('#servicios');
+  @section Scripts {
+  <link href="~/selectric/src/selectric.css" rel="stylesheet">
+  <script src="~/selectric/src/jquery.selectric.js"></script>
+  <script src="~/js/sgl.js"></script>
+  <script>
+    sgl.get('ListaServicioAjax', refrescar);
 
-  divProductos.addEventListener('click', function (evento) {
-    var currentTarget = evento.currentTarget;
-    var target = evento.target;
-    var card;
-    var cardFooter;
-    if (target.matches('img')) {
-      card = target.parentNode;
-      cardFooter = card.querySelector('.card-footer')
-      if (card.getAttribute('data-seleccionado') == 'true') {
-        cardFooter.classList.remove('bg-primary');
-        cardFooter.classList.remove('text-white');
-        cardFooter.classList.add('text-primary');
-        card.setAttribute('data-seleccionado', false);
-      } else {
-        cardFooter.classList.add('bg-primary');
-        cardFooter.classList.add('text-white');
-        cardFooter.classList.remove('text-primary');
-        card.setAttribute('data-seleccionado', true);
-      }
-    }
-  });
-
-  //clic en un boton levanta un modal y lo llena
-  divProductos.addEventListener('click', function (evento) {
-    var currentTarget = evento.currentTarget;
-    var target = evento.target;
-    var idservicio;
-
-    var inputToken = sgl.q('#formToken ' + sgl.inputToken);
-    //    console.log(sgl.headerToken, inputToken.value);
-    var headers = {
-      [sgl.headerToken]: inputToken.value
+    function refrescar(data) {
+      var divServicios = sgl.q('#Servicios');
+      divServicios.innerHTML = data;
     };
-    var card;
-    if (target.matches('button[type=button') || target.matches('i')) {
-      if (target.nodeName == 'I') {
-        card = target.parentNode.parentNode.parentNode.parentNode;
-        idservicio = target.parentNode.getAttribute('data-idservicio');
-      } else {
-        card = target.parentNode.parentNode.parentNode;
-        idservicio = target.getAttribute('data-idservicio');
+    var NombreOCodigo = sgl.q('#NombreOCodigo');
+    NombreOCodigo.focus();
+    NombreOCodigo.oninput = function (e) {
+      buscarServicio(NombreOCodigo.value);
+    };
+
+    function buscarServicio(NombreCodigo, IdCategoria) {
+      params = "";
+      if (NombreCodigo) {
+        params += "NombreOCodigo=" + NombreCodigo;
       }
-      
+      sgl.get('ListaServicioAjax', function (data) {
+        var divServicios = sgl.q('#Servicios');
+        divServicios.innerHTML = data;
+      }, params);
+    }
+
+
+    var divServicios = sgl.q('#Servicios');
+
+    //clic la imagen del card activa un elemento
+    divServicios.addEventListener('click', function (evento) {
+      var currentTarget = evento.currentTarget;
+      var target = evento.target;
+      var card;
+      var cardFooter;
+      if (target.matches('img')) {
+        card = target.parentNode;
+        cardFooter = card.querySelector('.card-footer');
+        if (card.getAttribute('data-seleccionado') == 'true') {
+          cardFooter.classList.remove('bg-primary');
+          cardFooter.classList.remove('text-white');
+          cardFooter.classList.add('text-primary');
+          card.setAttribute('data-seleccionado', false);
+        } else {
+          cardFooter.classList.add('bg-primary');
+          cardFooter.classList.add('text-white');
+          cardFooter.classList.remove('text-primary');
+          card.setAttribute('data-seleccionado', true);
+        }
+      }
+    });
+
+    //clic en un boton levanta un modal y lo llena
+    divServicios.addEventListener('click', function (evento) {
+      var currentTarget = evento.currentTarget;
+      var target = evento.target;
+      var idServicio;
+
+      var inputToken = sgl.q('#formToken ' + sgl.inputToken);
+      //    console.log(sgl.headerToken, inputToken.value);
+      var headers = {
+        [sgl.headerToken]: inputToken.value
+      };
+      var card;
+      if (target.matches('button[type=button') || target.matches('i')) {
+        if (target.nodeName == 'I') {
+          card = target.parentNode.parentNode.parentNode.parentNode;
+          idservicio = target.parentNode.getAttribute('data-idservicio');
+        } else {
+          card = target.parentNode.parentNode.parentNode;
+          idservicio = target.getAttribute('data-idservicio');
+        }
+        
+        sgl.ajax2({
+          method: 'post',
+          url: 'ListaServicio?handler=TipoServicio',
+          headers: headers,
+          data: {
+            'idtiposervicio': idservicio
+          },
+          done: function (data) {
+            var servicio = JSON.parse(data);
+            sgl.ajax2({
+              method: 'post',
+              url: 'ListaServicio?handler=ServiciosCompania',
+              headers: headers,
+              done: function (data) {
+                var obj = JSON.parse(data);
+                sgl.setDataSet(card, servicio);
+                var datos = sgl.getDataSet(card);
+                //console.log(Servicio['idMarca'], Servicio['idCategoria'], Servicio);
+                //console.log(obj);
+                $('#modalServicio').modal('show');
+                //llenarCategorias(obj.categorias);
+                //llenarMarcas(obj.marcas);
+
+                sgl.llenarCombo(
+                  sgl.q('#plantilla-option'),
+                  sgl.q('#comboCompanias'),
+                  obj.companias,
+                  'nombre', 'id'
+                );
+
+                sgl.llenarCombo(
+                  sgl.q('#plantilla-option'),
+                  sgl.q('#comboServicios'),
+                  obj.servicios,
+                  'nombre', 'id'
+                );
+
+                llenarFormServicio(servicio);
+
+              },
+              fail: function () {
+                console.log(this);
+              }
+            });
+          },
+          fail: function () {
+            console.log(this)
+          }
+        });
+
+      }
+    });
+
+    function llenarFormServicio(servicio) {
+      console.log(servicio);
+      sgl.q('#sid').value = servicio.id;
+      sgl.q('#comboServicios').value = servicio.idServicio;
+      sgl.q('#snombre').value = servicio.nombre;
+      sgl.q('#comboCompanias').value = servicio.idCompania;
+      sgl.q('#sprecio').value = servicio.precio;
+
+      var alerta = sgl.q('#alerta');
+      alerta.style.display = 'none';
+      alerta.innerHTML = '';
+      var imagen = sgl.q('#imagen');
+      var textoVistaPrevia = sgl.q('#textoVistaPrevia');
+      var path = '';
+      if (servicio.idImagenNavigation && servicio.idImagenNavigation.idRutaNavigation) {
+        path = '/' + servicio.idImagenNavigation.idRutaNavigation.nombre;
+        path += '/' + servicio.idImagenNavigation.nombre;
+        textoVistaPrevia.style.display = 'none';
+        imagen.style.display = 'block';
+      } else {
+        textoVistaPrevia.style.display = 'block';
+        textoVistaPrevia.innerHTML = 'Vista previa';
+        imagen.style.display = 'none';
+      }
+      imagen.src = path;
+
+      console.log(servicio);
+      //
+      // codigo para la imagen aquí
+      //
+
+    }
+
+    var formModificar = sgl.q('#formModificarServicio');
+    var botonModificar = sgl.q('#btnAgregarServicio');
+    var pdimagenNuevo = sgl.q('#pdimagenNuevo');
+    pdimagenNuevo.onchange = function () {
+      readURL(this);
+
+      function readURL(input) {
+
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var imagen = sgl.q('#imagen');
+            var textoVistaPrevia = sgl.q('#textoVistaPrevia');
+            imagen.src = e.target.result;
+            imagen.style.display = 'block';
+            textoVistaPrevia.style.display = 'none';
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    };
+
+
+    formModificar.onsubmit = function (evento) {
+      //   console.log('evento submit llamado');
+      evento.preventDefault();
+      //   if(true) return false;
+      var inputToken = sgl.q('#formToken ' + sgl.inputToken);
+      var headers = {
+        [sgl.headerToken]: inputToken.value
+      };
       sgl.ajax2({
-        method: 'post',
-        url: 'ListaServicio?handler=TipoServicio',
-        headers: headers,
-        data: {
-          'idtiposervicio': idservicio
-        },
+        url: "ListaServicio?handler=AgregarTiposervicioModificado",
+        method: "POST",
+        data: new FormData(formModificar),
         done: function (data) {
-          //console.log(data);
-          var servicio = JSON.parse(data);
-          //console.log(servicio);
-          sgl.ajax2({
-            method: 'post',
-            url: 'ListaServicio?handler=ServiciosCompania',
-            headers: headers,
-            done: function (data) {
-              var obj = JSON.parse(data);
-              sgl.setDataSet(card, servicio);
-              var datos = sgl.getDataSet(card);
-              $('#modalServicio').modal('show');
-
-              var ll = document.querySelector("#comboServicio");
-              ll.innerHTML = "";
-              var l = document.querySelector("#comboCompania");
-              l.innerHTML = "";
-              sgl.llenarCombo(
-                sgl.q('#plantilla-option'),
-                sgl.q('#comboServicio'),
-                obj.servicios,
-                'nombre', 'id'
-              );
-
-              sgl.llenarCombo(
-                sgl.q('#plantilla-option'),
-                sgl.q('#comboCompania'),
-                obj.companias,
-                'nombre', 'id'
-              );
-             
-              llenarFormServicio(servicio);
-
-            },
-            fail: function () {
-              //console.log(this);
-            }
-          });
+          var obj = JSON.parse(data);
+          var alerta = sgl.q('#alerta');
+          $('#modalServicio').modal('hide');
+          alerta.style.display = 'block';
+          if (obj.error) {
+            alerta.className = 'alert alert-danger';
+            alerta.innerHTML = obj.error;
+          } else if (obj.mensaje) {
+            alerta.className = 'alert alert-primary';
+            alerta.innerHTML = obj.mensaje;
+          }
+          sgl.get('ListaServicioAjax', refrescar);
+          console.log(data);
+          limpiarFormulario();
         },
         fail: function () {
-          //console.log(this)
+          console.log('error: ');
+          console.log(this);
         }
       });
-
     }
-  });
 
-  function llenarFormServicio(servicio) {
-    sgl.q('#sid').value = servicio.id;
-    sgl.q('#stipo').value = servicio.nombre;
-    sgl.q('#comboServicio').value = servicio.idServicio;
-    sgl.q('#comboCompania').value = servicio.idCompania;
-    sgl.q('#sprecio').value = servicio.precio;
-    //sgl.q('#simagen').value = "";
-       
-    var alerta = sgl.q('#alerta');
-    alerta.style.display = 'none';
-    alerta.innerHTML = '';
-    var imagen = sgl.q('#vpimagen');
-    var path = '';
-    var path1 = '';
-    if (servicio.idImagenNavigation && servicio.idImagenNavigation.idRutaNavigation) {
-      path = '/' + servicio.idImagenNavigation.idRutaNavigation.nombre;
-      path += '/' + servicio.idImagenNavigation.nombre;
-      path1 = servicio.idImagenNavigation.nombre;
-      imagen.style.display = 'block';
-    } else {
-      imagen.style.display = 'none';
+    var btnCancelarServicio = document.querySelector("#btnCancelarServicio");
+    var limpiarFormulario = function(e){
+      //sgl.clearForm(document.querySelector("#formModificarServicio"));
+      var combos = document.querySelector("#comboServicios");
+      combos.innerHTML = "";
+      var comboc = document.querySelector("#comboCompanias");
+      comboc.innerHTML = "";
     }
-    imagen.src = path;
+    btnCancelarServicio.addEventListener("click", limpiarFormulario);
+  </script>
   }
-
-  var formModificar = sgl.q('#formModificarServicio');
-  var botonModificar = sgl.q('#btnAgregarServicio');
-  
-  formModificar.onsubmit = function (evento) {
-    //   console.log('evento submit llamado');
-    evento.preventDefault();
-    //   if(true) return false;
-    var inputToken = sgl.q('#formToken ' + sgl.inputToken);
-    var headers = {
-      [sgl.headerToken]: inputToken.value
-    };
-    sgl.ajax2({
-      url: "ListaServicio?handler=AgregarTiposervicioModificado",
-      method: "POST",
-      data: sgl.q('#formModificarServicio'),
-      done: function (data) {
-        $('#modalServicio').modal('hide');
-        sgl.get('ListaServicioAjax', refrescar);
-        //console.log(data);
-      },
-      fail: function () {
-        console.log('error: ');
-        console.log(this);
-      }
-    });
-  }
-</script>
-}
