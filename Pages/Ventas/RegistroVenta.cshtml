@@ -24,12 +24,38 @@ ViewData["Title"] = "Registro Venta";
 </style>
 <div class="row" style='margin-top:15px;'>
   <form id='formToken' method='post'></form>
-  <div id='productos' style='margin-top:15px;margin-bottom:100px;'>
-  </div><!-- #productos -->
+  <div class="tab-content" id="myTabContent">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="productos-tab" data-toggle="tab" href="#productosTab" role="tab" aria-controls="productos" aria-selected="true">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="servicios-tab" data-toggle="tab" href="#serviciosTab" role="tab" aria-controls="servicios" aria-selected="false">Servicios</a>
+      </li>
+    </ul>
+    <div class="tab-pane fade show active pt-3" id="productosTab" role="tabpanel" aria-labelledby="productos-tab">
+        <div id='productos' style='margin-top:15px;margin-bottom:100px;'>
+        </div><!-- #productos -->
+    </div>
+    <div class="tab-pane fade pt-3" id="serviciosTab" role="tabpanel" aria-labelledby="servicios-tab">
+        <div id='servicios' style='margin-top:15px;margin-bottom:100px;'>
+        </div><!-- #servicios -->
+    </div>
+  </div>
   <!--columna de productos y servicios -->
-  <div class="col-lg-3  bg-white" id="productos-seleccionados" hidden="">
+  <div class="col-lg-6  bg-white" id="productos-seleccionados" hidden="">
     <h3 class="h5 bg-primary text-white p-1 text-center">Venta a realizar</h3>
-    <div id="contentItems" class="slimscroll-all" style="min-height: 300px;">
+    <div class="row">
+      <div class="col-lg-6">
+          <label class="offset-3">Lista de Productos</label>
+          <div id="contentItems" class="slimscroll-all" style="min-height: 300px;">
+          </div>
+      </div>
+      <div class="col-lg-6">
+          <label class="offset-3">Lista de Servicios</label>
+          <div id="contentItemsServ" class="slimscroll-all" style="min-height: 300px;">
+          </div>
+      </div>
     </div>
     <div class="row alert-info alert font-weight-bold">
         <div class="col-lg-6">Total: $</div>
@@ -43,7 +69,7 @@ ViewData["Title"] = "Registro Venta";
         </div>
       </div>
       <div class="col-lg-6">
-        <a class="btn btn-outline-primary" href="#"> <i class="fas fa-save"></i> Vender </a>
+        <button class="btn btn-outline-primary" id="envVenta"><i class="fas fa-save"></i> Vender</button>
       </div>
     </div>
   </div>
@@ -52,7 +78,7 @@ ViewData["Title"] = "Registro Venta";
   style="bottom:0;border-top:2px solid #e5e5e5; z-index: 3;">
   <div class="col-lg-4">
     <div class="input-group mb-3">
-      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código de producto"
+      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código"
         aria-describedby="button-addon2">
       <div class="input-group-append">
         <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
@@ -97,9 +123,9 @@ ViewData["Title"] = "Registro Venta";
     <label for="" class="col-sm-7 col-form-label col-form-label-sm"></label>
     <div class="col-sm-5">
       <div class="input-group">
-        <input type="number" class="form-control form-control-sm" value="2" placeholder="Cantidad">
-        <div class="input-group-append">
-          <i class="fas fa-trash text-danger mano" data-eprod=""></i>
+        <input type="number" class="form-control form-control-sm" value="1" placeholder="Cantidad">
+        <div class="input-group-append align-items-center">
+          <i class="fas fa-trash text-danger mano ml-2" data-eprod=""></i>
         </div>
       </div>
     </div>
@@ -121,15 +147,105 @@ ViewData["Title"] = "Registro Venta";
   var divProductos = sgl.q('#productos');
   var divCategorias = sgl.q('#categorias');
   var NombreOCodigo = sgl.q('#NombreOCodigo');
+  var divItems = document.querySelector("#contentItems");
+  var divItemsrv = document.querySelector("#contentItemsServ");
+  var eventa = document.querySelector("#envVenta");
+  var divServicios = sgl.q('#servicios');
   var doc = document;
   var prodDisponibles = doc.getElementById('productos');
   var items = [];
-  sgl.get('../Productos/ListaProductoAjax', refrescar);
-
-  function refrescar(data) {
+  var itemsrv = [];
+  sgl.get('../Productos/ListaProductoAjax', refrescarProductos);
+  sgl.get('../Servicios/ListaServicioAjax', refrescarServicios);
+  eventa.addEventListener("click",()=>{
+    if(items.length > 0 || itemsrv.length > 0){
+      var xhttp = new XMLHttpRequest();
+      let formData = new FormData(document.querySelector("#formToken"));
+      for(var i = 0 , len = items.length ; i < len ; i++){
+        formData.append("IdProducto[]", encodeURIComponent(items[i].id));
+        formData.append("CantProducto[]", encodeURIComponent(items[i].cantidad));
+      }
+      for(var i = 0, len = itemsrv.length ; i < len ; i++){
+        formData.append("IdServicio[]", encodeURIComponent(itemsrv[i].id));
+        formData.append("CantServicio[]", encodeURIComponent(itemsrv[i].cantidad));
+      }
+      xhttp.onreadystatechange = function () {
+          if (this.readyState == 4) {
+            if (this.status == 200) {
+              window.location.replace("/Ventas/ListaVenta");
+            } else {
+            }
+          }
+        };
+        xhttp.open("POST", "RegistroVenta", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+      }
+  });
+  function refrescarProductos(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
   }
+  function refrescarServicios(data) {
+    var divServicios = sgl.q('#servicios');
+    divServicios.innerHTML = data;
+  }
+  divItems.addEventListener("change", (e)=>{
+    var element = e.target;
+    if(element.getAttribute("data-iprod") != ""){
+      var idProd = element.getAttribute("data-iprod");
+      if(isNaN(parseInt(element.value))){
+        element.value = 1;
+      }
+      if(element.value < 1){
+        element.value = 1;
+      }
+      var cant = element.value;
+      for(var i = 0, len = items.length; i < len ; i++){
+        if(items[i].id == idProd){
+          items[i].cantidad = cant;
+          actMontoTot();
+          return;
+        }
+      }
+    }
+  });
+  divItems.addEventListener("click", (e)=>{
+    var element = e.target;
+    if(element.classList.contains("fa-trash")){
+      let card = document.querySelector('div[data-idprod="'+element.getAttribute("data-eprod")+'"]');
+      removeList(card);
+    }
+  });
+  divItemsrv.addEventListener("change", (e)=>{
+    var element = e.target;
+    if(element.getAttribute("data-iserv") != ""){
+      var idServ = element.getAttribute("data-iserv");
+      if(isNaN(parseInt(element.value))){
+        element.value = 1;
+      }
+      if(element.value < 1){
+        element.value = 1;
+      }
+      var cant = element.value;
+      for(var i = 0, len = itemsrv.length; i < len ; i++){
+        if(itemsrv[i].id == idServ){
+          itemsrv[i].cantidad = cant;
+          actMontoTot();
+          return;
+        }
+      }
+    }
+  });
+  divItemsrv.addEventListener("click", (e)=>{
+    var element = e.target;
+    if(element.classList.contains("fa-trash")){
+      let card = document.querySelector('div[data-idserv="'+element.getAttribute("data-eserv")+'"]');
+      removeListS(card);
+    }
+  });
   BtnVenta.addEventListener("click",(e)=>{
     var btn = e.currentTarget;
     var divelems = document.querySelector("#productos-seleccionados");
@@ -159,7 +275,7 @@ ViewData["Title"] = "Registro Venta";
       divProductos.innerHTML = data;
     }, params);
   }
-  //clic la imagen del card activa un elemento
+  //clic la imagen del card activa un elemento (Para productos)
   divProductos.addEventListener('click', function (evento) {
     var target = evento.target;
     if (target.matches('img')) {
@@ -169,6 +285,19 @@ ViewData["Title"] = "Registro Venta";
         removeList(card);
       } else {
         addList(card);
+      }
+    }
+  });
+  //clic la imagen del card activa un elemento (Para servicios)
+  divServicios.addEventListener('click', function (evento) {
+    var target = evento.target;
+    if (target.matches('img')) {
+      var card;
+      card = target.parentNode;
+      if (card.getAttribute('data-seleccionado') == 'true') {
+        removeListS(card);
+      } else {
+        addListS(card);
       }
     }
   });
@@ -208,18 +337,19 @@ ViewData["Title"] = "Registro Venta";
       items.splice(pos, 1);
     }
     //Ahora se eliminara de la lista basado en el data-rprod que coincide con el id del producto
-    var divItems = document.querySelector("#contentItems");
+    divItems = document.querySelector("#contentItems");
     let divRel = divItems.querySelector('div[data-rprod="'+ idAct +'"]');
     divItems.removeChild(divRel);
     actMontoTot();
   }
 
-  //Esta funcion nos permitira marcar un elemento de la tabla, agregar un registro al array items y agregarlo a la lista de ventas
+  //Esta funcion nos permitira marcar un elemento de la tabla, agregar un registro al array items y agregarlo a la lista de ventas (Para productos)
   function addList(card){
     var producto = {
       id: "",
       nombre: "",
-      precio: 0
+      precio: 0,
+      cantidad: 1
     };
     producto.id = card.getAttribute("data-idprod");
     producto.nombre = card.getAttribute("data-nombre");
@@ -229,15 +359,18 @@ ViewData["Title"] = "Registro Venta";
     cardFooter.classList.add('text-white');
     cardFooter.classList.remove('text-primary');
     card.setAttribute('data-seleccionado', true);
-    var divItems = document.querySelector("#contentItems");
+    divItems = document.querySelector("#contentItems");
     var temp = document.querySelector("#templateItem");
     var clon = temp.content.cloneNode(true);
+    //Este es el div que tiene la clase row que contiene todos los elemetos del item que se agrega a la lista de compras
     let divR = clon.firstElementChild.setAttribute("data-rprod", producto.id);
     let lbl = clon.firstElementChild.firstElementChild;
     let ipt = clon.firstElementChild.lastElementChild.firstElementChild.firstElementChild;
     let ic = clon.firstElementChild.lastElementChild.firstElementChild.lastElementChild.firstElementChild;
+    //Este es el label que tiene el nombre del producto del item que se agrega a la lista de compras
     lbl.innerHTML = producto.nombre;
     ipt.setAttribute("id", ("p"+producto.id));
+    ipt.setAttribute("data-iprod", producto.id);
     lbl.setAttribute("for",("p"+producto.id));
     ic.setAttribute("data-eprod", producto.id);
     divItems.appendChild(clon);
@@ -245,11 +378,83 @@ ViewData["Title"] = "Registro Venta";
     actMontoTot();
   }
 
+  //Esta funcion nos permitira marcar un elemento de la tabla, agregar un registro al array items y agregarlo a la lista de ventas (Para servicios)
+  function addListS(card){
+    var servicio = {
+      id: "",
+      nombre: "",
+      precio: 0,
+      cantidad: 1
+    };
+    servicio.id = card.getAttribute("data-idserv");
+    servicio.nombre = card.getAttribute("data-servicio") +"-"+ card.getAttribute("data-nombre");
+    servicio.precio = card.getAttribute("data-precio");
+    var cardFooter = card.querySelector('.card-footer');
+    cardFooter.classList.add('bg-primary');
+    cardFooter.classList.add('text-white');
+    cardFooter.classList.remove('text-primary');
+    card.setAttribute('data-seleccionado', true);
+    divItems = document.querySelector("#contentItemsServ");
+    var temp = document.querySelector("#templateItem");
+    var clon = temp.content.cloneNode(true);
+    //Este es el div que tiene la clase row que contiene todos los elemetos del item que se agrega a la lista de compras
+    let divR = clon.firstElementChild.setAttribute("data-rserv", servicio.id);
+    let lbl = clon.firstElementChild.firstElementChild;
+    let ipt = clon.firstElementChild.lastElementChild.firstElementChild.firstElementChild;
+    let ic = clon.firstElementChild.lastElementChild.firstElementChild.lastElementChild.firstElementChild;
+    //Este es el label que tiene el nombre del producto del item que se agrega a la lista de compras
+    lbl.innerHTML = servicio.nombre;
+    ipt.setAttribute("id", ("s"+servicio.id));
+    ipt.setAttribute("data-iserv", servicio.id);
+    lbl.setAttribute("for",("s"+servicio.id));
+    ic.setAttribute("data-eserv", servicio.id);
+    divItems.appendChild(clon);
+    itemsrv.push(servicio);
+    actMontoTot();
+  }
+
+  //Esta funcion nos permitira desmarcar un elemento de la tabla, borrar un registro del array items y eliminarlo de la lista de ventas
+  function removeListS(card){
+    var servicio = {
+      id: "",
+      nombre: "",
+      precio: 0
+    };
+    //En esta parte se elimina el producto del arreglo items y se desmarca
+    servicio.id = card.getAttribute("data-idserv");
+    var idAct = servicio.id;
+    var pos = -1;
+    var cardFooter = card.querySelector('.card-footer');
+    cardFooter.classList.remove('bg-primary');
+    cardFooter.classList.remove('text-white');
+    cardFooter.classList.add('text-primary');
+    card.setAttribute('data-seleccionado', false);
+    itemsrv.forEach(({id}, indice)=>{
+      if(id == idAct){
+        pos = indice;
+      }
+    });
+    if(pos > -1){
+      itemsrv.splice(pos, 1);
+    }
+    //Ahora se eliminara de la lista basado en el data-rprod que coincide con el id del producto
+    divItems = document.querySelector("#contentItemsServ");
+    let divRel = divItems.querySelector('div[data-rserv="'+ idAct +'"]');
+    divItems.removeChild(divRel);
+    actMontoTot();
+  }
+
   function actMontoTot(){
     var suma = 0;
-    console.log(items);
-    items.forEach(({precio})=>{
-      suma = suma + parseFloat(precio);
+    items.forEach(({precio, cantidad})=>{
+      if(parseInt(cantidad) > 0 || !isNaN(parseInt(cantidad))){
+        suma = suma + (parseFloat(precio) * parseInt(cantidad));
+      }
+    });
+    itemsrv.forEach(({precio, cantidad})=>{
+      if(parseInt(cantidad) > 0 || !isNaN(parseInt(cantidad))){
+        suma = suma + (parseFloat(precio) * parseInt(cantidad));
+      }
     });
     document.querySelector("#montTot").innerHTML= Number.parseFloat(suma).toFixed(2);
   }

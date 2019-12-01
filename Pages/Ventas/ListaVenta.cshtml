@@ -1,7 +1,7 @@
 @page
 @model ListaVentaModel;
 @{
-ViewData["Title"] = "Ventas";
+    ViewData["Title"] = "Ventas";
 }
 <style>
     .nav-tabs .nav-item.show .nav-link,
@@ -10,12 +10,11 @@ ViewData["Title"] = "Ventas";
         color: white;
     }
 </style>
-
 <div class="card shadow mb-4">
+    <form method="post"></form>
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
-
     <div class="row">
     <div class="px-5 col-lg-6 form-inline">
         <div class="form-group">
@@ -23,7 +22,6 @@ ViewData["Title"] = "Ventas";
             <input type="date" id="Desde" name="Desde" class="form-control form-control-sm mx-sm-3" />
             <label for="Hasta">Hasta</label>
             <input type="date" id="Hasta" name="Hasta" class="form-control form-control-sm mx-sm-3" />
-
         </div>
     </div>
     <div class="px-4 col-lg-5 pt-3">
@@ -50,34 +48,46 @@ ViewData["Title"] = "Ventas";
                 <th scope="col">Empleado</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Total $</th>
-                <th scope="col">Acción</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>17-07-2019 7:30</td>
-                <td>Juan Perez</td>
-                <td>15</td>
-                <td>$5.00</td>
-                <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
+        <tbody id="tbVentas">
+            @foreach(var item in Model.Ventas){
+                <tr>
+                    <td>@item.Fecha.ToString("dd/MM/yyyy mm:ss")</td>
+                    <td>@item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Nombres 
+                        @item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Apellidos
+                    </td>
+                    <td>$ @item.montoTotal()</td>
+                    <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info" data-idventa="@item.Id"><i
                             class="fas fa-list"></i> Detalles</a></td>
-            </tr>
-            <tr>
-                <td>17-07-2019 8:00</td>
-                <td>Juan Perez</td>
-                <td>2</td>
-                <td>$2.00</td>
-                <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info"><i
-                            class="fas fa-list"></i> Detalles</a></td>
-            </tr>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
-
 </div>
-
-
-
+@section modal {
+<div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title">Detalle de Venta</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="mbDetalle">
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
+                        class="fas fa-times-circle"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
 @section Scripts {
 <link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
@@ -85,156 +95,30 @@ ViewData["Title"] = "Ventas";
     $(function () {
         $('select').selectric();
     });
+    var tbVentas = document.querySelector("#tbVentas");
+    tbVentas.addEventListener("click", (e)=>{
+        var element = e.target;
+        var id = element.getAttribute("data-idventa");
+        if(id){
+            mostrarDetalle(id);
+        }
+    });
+    function mostrarDetalle(id){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    var bModel = document.querySelector("#mbDetalle");
+                    bModel.innerHTML = this.response;
+                } else {
+                }
+            }
+        };
+        xhttp.open("POST", "ListaVenta?handler=Detalle", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("idVenta="+id);
+    }
 </script>
-}
-@section modal {
-<div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title">Detalle de Venta</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row">
-                    <br>
-                    <div class="col-sm-1">
-
-                    </div>
-                    <div class="col-sm-1">
-
-                    </div>
-
-                </div>
-                <div class="row">
-                    <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label">Fecha:</label>
-                    <div class="offset-lg-1 col-lg-3 px-0">
-                        <input type="date" class="form-control form-control-user mb-2" id="cfecha" disabled>
-                    </div>
-
-                </div>
-
-
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-productos"
-                            role="tab" aria-controls="nav-productos" aria-selected="true"><span
-                                class="font-weight-bold">10</span> productos</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-servicios"
-                            role="tab" aria-controls="nav-servicios" aria-selected="false"><span
-                                class="font-weight-bold">2</span> servicios</a>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-productos" role="tabpanel"
-                        aria-labelledby="nav-productos">
-
-                        <table class="table table-sm table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <a class="text=primary" href="/Productos/ListaProducto">Cuaderno Scribe<i
-                                                class="fas fa-arrow-right"></i></a></td>
-                                    <td>1.00</td>
-                                    <td>3.00</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>
-                                        <a class="text=primary" href="/Productos/ListaProducto">Lapiz - Faceela<i
-                                                class="fas fa-arrow-right"></i></a></td>
-                                    <td>0.25</td>
-                                    <td>2.25</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td><a class="text=primary" href="/Productos/ListaProducto">Borrador - Facela <i
-                                                class="fas fa-arrow-right"></i></a></td>
-                                    <td>0.25</td>
-                                    <td>2.25</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="tab-pane fade" id="nav-servicios" role="tabpanel" aria-labelledby="nav-servicios">
-
-                        <table class="table table-sm table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Tipo de Servicio</th>
-                                    <th>Precio</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <a class="text=primary" href="/Servicios/ListaServicio">Recarga - Movistar<i
-                                                class="fas fa-arrow-right"></i></a>
-                                    </td>
-                                    <td>1.00</td>
-                                    <td>3.00</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>
-                                        <a class="text=primary" href="/Servicios/ListaServicio">Impresiones - a color<i
-                                                class="fas fa-arrow-right"></i></a>
-                                    </td>
-                                    <td>0.07</td>
-                                    <td>0.70</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="row">
-                    <br>
-                    <div class="col-lg-7">
-                        <p class="text-center h5 text-success font-weight-bold">Total</p>
-                    </div>
-                    <div class="col-lg-2">
-                        <p class="text-right h5 text-success font-weight-bold">$</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p class="text-left h5 text-success font-weight-bold">5.25</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCerrar"><i
-                        class="fas fa-times-circle"></i> Cerrar</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 }
