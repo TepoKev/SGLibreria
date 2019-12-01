@@ -6,7 +6,7 @@ ViewData["title"] = "Registro de Servicio";
 }
 
 <form method="post" style="display:none;" id="formToken"></form>
-<div class="col-lg-2">
+<div class="offset-lg-10 col-lg-2">
     <div class="toast" style="position: absolute; z-index: 1" id="toastProveedor" data-delay="5000" role="alert"
         aria-live="assertive" aria-atomic="true">
         <div class="" id="notific">
@@ -32,6 +32,7 @@ ViewData["title"] = "Registro de Servicio";
                     <div class="col-lg-6">
                         <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicio">
                         </select>
+                        <span asp-validation-for="Tiposervicio.IdServicio" class="text-danger"></span>
                     </div>
                     <div class="col-lg-2">
                         <button type="button" class="btn btn-outline-success" id="btnTipo" data-toggle="modal"
@@ -41,8 +42,8 @@ ViewData["title"] = "Registro de Servicio";
                 <div class="form-group row offset-1">
                     <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Tipo de servicio</label>
                     <div class="col-lg-6">
-                        <input class="form-control mb-2" asp-for="Tiposervicio.Nombre"
-                            placeholder="Nombre del servicio">
+                        <input class="form-control mb-2" asp-for="Tiposervicio.Nombre" placeholder="Nombre del servicio">
+                        <span asp-validation-for="Tiposervicio.Nombre" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row offset-1">
@@ -51,6 +52,7 @@ ViewData["title"] = "Registro de Servicio";
                         <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompania">
 
                         </select>
+                        <span asp-validation-for="Tiposervicio.IdCompania" class="text-danger"></span>
                     </div>
                     <div class="col-lg-2">
                         <button type="button" class="btn btn-outline-success" id="btnComp" data-toggle="modal"
@@ -61,6 +63,7 @@ ViewData["title"] = "Registro de Servicio";
                     <label asp-for="Tiposervicio.Precio" class="col-lg-2 col-form-label mr-4 font-weight-bold"></label>
                     <div class="col-lg-6">
                         <input class="form-control mb-2" asp-for="Tiposervicio.Precio" placeholder="##.##">
+                        <span asp-validation-for="Tiposervicio.Precio" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -169,22 +172,25 @@ ViewData["title"] = "Registro de Servicio";
         var headers = {
             [sgl.headerToken]: inputToken.value
         };
+        var bandera = false;
         sgl.ajax2({
             url: "RegistroServicio?handler=AgregarTiposervicio",
             method: "POST",
             data: new FormData(frmTiposervicio),
             done: function (data) {
-                console.log("Funciona!!");
+                document.querySelector("#notific").className = "toast-header bg-success";
+                document.querySelector("#mensaje").innerHTML = "Registro exitoso !";
+                $('.toast').toast('show');
+                limpiarTodo();
             },
             fail: function () {
-                console.log('error: ');
-                console.log(this);
+                document.querySelector("#notific").className = "toast-header bg-danger";
+                document.querySelector("#mensaje").innerHTML = "Error al registrar !";
+                $('.toast').toast('show');
+                limpiarTodo();
             }
         });
-        sgl.clearForm(this);
-        var resetearImagen = document.querySelector("#resetearImagen");
-        resetearImagen.innerHTML =
-            '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
+        
     });
 
 
@@ -216,6 +222,15 @@ ViewData["title"] = "Registro de Servicio";
         sgl.clearForm(document.querySelector("#frmCompania"));
     }
     btnCancelarCompania.addEventListener("click", limpiarCompania);
+
+    var btnCancelar = document.querySelector("#btnCancelar");
+    var limpiarTodo = function(e){
+        sgl.clearForm(document.querySelector("#frmTiposervicio"));
+        var resetearImagen = document.querySelector("#resetearImagen");
+        resetearImagen.innerHTML =
+            '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
+    }    
+    btnCancelar.addEventListener("click", limpiarTodo);
 
     //Funcion para agregar Compania
     var frmCompania = document.querySelector("#frmCompania");
