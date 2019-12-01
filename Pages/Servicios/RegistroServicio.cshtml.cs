@@ -17,9 +17,9 @@ namespace SGLibreria.Pages.Servicios
             _context = context;
         }
 
-        [BindProperty]
+        //[BindProperty]
         public Servicio Servicio { get; set; }
-        [BindProperty]
+        //[BindProperty]
         public Compania Compania { get; set; }
         [BindProperty]
         public Tiposervicio Tiposervicio { get; set; }

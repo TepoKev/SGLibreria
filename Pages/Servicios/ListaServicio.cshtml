@@ -73,63 +73,71 @@ ViewData["Title"] = "Lista de Servicios";
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group row">
-              <input id='sid' name="Tiposervicio.Id" type="hidden" />
-            <label asp-for="Tiposervicio.IdServicio" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold" required>Servicio</label>
-            <div class="col-lg-7">
-              <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicios">
 
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label asp-for="Tiposervicio.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold" required>Tipo de servicio</label>
-            <div class="col-lg-7">
-              <input asp-for="Tiposervicio.Nombre" type="text" class="form-control" id="snombre">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label asp-for="Tiposervicio.IdCompania" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Compañia</label>
-            <div class="col-lg-7">
-              <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompanias" required>
+          <div class="row">
+            <div class="col-lg-5 mt-3">
+              <div class="form-group row">
+                <input id='sid' name="Tiposervicio.Id" type="hidden" />
+                <label asp-for="Tiposervicio.IdServicio" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"
+                  required>Servicio</label>
+                <div class="col-lg-7">
+                  <select asp-for="Tiposervicio.IdServicio" class="custom-select form-control" id="comboServicios">
 
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="sprecio" asp-for="Tiposervicio.Precio"
-              class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
-            <div class="col-lg-7">
-              <input asp-for="Tiposervicio.Precio" class="form-control" id="sprecio" required>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="pdimagenNuevo" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Seleccione
-              foto</label>
-            <div class="col-lg-7">
-
-              <div class="custom-file">
-                <input type="file" asp-for="Tiposervicio.Archivo" class="custom-file-input" id="pdimagenNuevo">
-                <label class="custom-file-label" for="pdimagenNuevo">Seleccione..</label>
+                  </select>
+                  <span asp-validation-for="Tiposervicio.IdServicio" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label asp-for="Tiposervicio.Nombre" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"
+                  required>Tipo de servicio</label>
+                <div class="col-lg-7">
+                  <input asp-for="Tiposervicio.Nombre" type="text" class="form-control" id="snombre">
+                  <span asp-validation-for="Tiposervicio.Nombre" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label asp-for="Tiposervicio.IdCompania"
+                  class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Compañia</label>
+                <div class="col-lg-7">
+                  <select asp-for="Tiposervicio.IdCompania" class="custom-select form-control" id="comboCompanias"
+                    required>
+                  </select>
+                  <span asp-validation-for="Tiposervicio.IdCompania" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="sprecio" asp-for="Tiposervicio.Precio"
+                  class="offset-lg-1 col-lg-3 col-form-label font-weight-bold"></label>
+                <div class="col-lg-7">
+                  <input asp-for="Tiposervicio.Precio" class="form-control" id="sprecio" required>
+                  <span asp-validation-for="Tiposervicio.Precio" class="text-danger"></span>
+                </div>
               </div>
             </div>
-          </div>
-          ​
-          <div class="row">
-            <div id='vistaPrevia' class="col-lg-6 offset-lg-3">
-              <h5 id="textoVistaPrevia" class="text-center">Vista Previa</h5>
-              <img class='img-fluid' id="imagen" />
+            <div class="col-lg-6 mt-3">
+              <div class="form-group row text-center">
+                <div id='vistaPrevia' class="form-group row offset-3 text-center">
+                  <h5 id="textoVistaPrevia" class="text-center">Vista Previa</h5>
+                  <img class="img-thumbnail" height="75%" width="75%" id="imagen" />
+                </div>
+              </div>
+              <div class="form-group offset-2 mr-4">
+                <div class="custom-file"> 
+                    <input type="file" asp-for="Tiposervicio.Archivo" class=" custom-file-input" id="pdimagenNuevo">
+                    <label class="custom-file-label" for="pdimagenNuevo">Seleccione..</label>    
+                </div>
+                </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <div class="btn btn-group">
-            <button type="submit" class="btn btn-outline-warning" id="btnAgregarServicio"><i class="fas fa-save"> </i>
-              Modificar</button>
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarServicio"><i
-                class="fas fa-times-circle"> </i> Cancelar</button>
+
+          <div class="modal-footer">
+            <div class="btn btn-group">
+              <button type="submit" class="btn btn-outline-warning" id="btnAgregarServicio"><i class="fas fa-save"> </i>
+                Modificar</button>
+              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="btnCancelarServicio"><i
+                  class="fas fa-times-circle"> </i> Cancelar</button>
+            </div>
           </div>
-        </div>
       </form>
     </div>
   </div>
@@ -208,7 +216,7 @@ ViewData["Title"] = "Lista de Servicios";
           card = target.parentNode.parentNode.parentNode;
           idservicio = target.getAttribute('data-idservicio');
         }
-        
+
         sgl.ajax2({
           method: 'post',
           url: 'ListaServicio?handler=TipoServicio',
@@ -245,7 +253,7 @@ ViewData["Title"] = "Lista de Servicios";
                   obj.servicios,
                   'nombre', 'id'
                 );
-
+                
                 llenarFormServicio(servicio);
 
               },
@@ -354,12 +362,14 @@ ViewData["Title"] = "Lista de Servicios";
     }
 
     var btnCancelarServicio = document.querySelector("#btnCancelarServicio");
-    var limpiarFormulario = function(e){
+    var limpiarFormulario = function (e) {
       //sgl.clearForm(document.querySelector("#formModificarServicio"));
       var combos = document.querySelector("#comboServicios");
       combos.innerHTML = "";
       var comboc = document.querySelector("#comboCompanias");
       comboc.innerHTML = "";
+      var pdimagenNuevo = document.querySelector("#pdimagenNuevo");
+      pdimagenNuevo.value = "";
     }
     btnCancelarServicio.addEventListener("click", limpiarFormulario);
   </script>
