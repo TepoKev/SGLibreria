@@ -220,12 +220,10 @@ ViewData["Title"] = "Lista de Productos";
     }, params);
   }
 
-
-  var divProductos = sgl.q('#productos');
   var divCategorias = sgl.q('#categorias');
-
+  var divProductos = sgl.q('#productos');
   //clic la imagen del card activa un elemento
-  divProductos.addEventListener('click', function (evento) {
+  divProductos.addEventListener('click', function marcarProducto(evento) {
     var currentTarget = evento.currentTarget;
     var target = evento.target;
     var card;
@@ -288,16 +286,21 @@ ViewData["Title"] = "Lista de Productos";
               //llenarCategorias(obj.categorias);
               //llenarMarcas(obj.marcas);
               
+              var comboCategorias = sgl.q('#comboCategorias'), 
+                  comboMarcas = sgl.q('#comboMarcas');
+
+              comboCategorias.innerHTML='';
+              comboMarcas.innerHTML='';
               sgl.llenarCombo(
                 sgl.q('#plantilla-option'), 
-                sgl.q('#comboCategorias'), 
+                comboCategorias, 
                 obj.categorias, 
                 'nombre', 'id'
               );
               
               sgl.llenarCombo(
                 sgl.q('#plantilla-option'), 
-                sgl.q('#comboMarcas'), 
+                comboMarcas, 
                 obj.marcas, 
                 'nombre', 'id'
               );
@@ -394,6 +397,12 @@ ViewData["Title"] = "Lista de Productos";
           alerta.innerHTML = obj.mensaje;
         }
         sgl.get('ListaProductoAjax', refrescar);
+        //cerrar la alerta automaticamente
+        var timeoutID = window.setTimeout(function () {
+            alerta.className = 'alert';
+            alerta.style.display = 'none';
+        }, 3000);
+
         console.log(data);
       },
       fail: function() {
@@ -415,4 +424,4 @@ ViewData["Title"] = "Lista de Productos";
     }
   }
 </script>
-}
+}<!-- section scripts-->

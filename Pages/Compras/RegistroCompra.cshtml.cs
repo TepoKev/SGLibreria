@@ -98,15 +98,17 @@ namespace SGLibreria.Pages.Compras
             return Page();
         }
 
-        public async Task<JsonResult> OnPostAsync(Producto Producto)
+        public async Task<JsonResult> OnPostProductoNuevoAsync(Producto Producto)
         {
             string Mensaje = "";
+            Producto objRet = null;//producto a retornar
             if (!ModelState.IsValid)
             {
                 return new JsonResult(
                   new
                   {
-                      Error = "Ha proporcionado datos incorrectos"
+                      Error = "Ha proporcionado datos incorrectos", 
+                      Producto = (object) null, 
                   }
                 );
             }
@@ -136,6 +138,7 @@ namespace SGLibreria.Pages.Compras
                     _context.Entry(Producto).State = EntityState.Added;
                     await _context.SaveChangesAsync();
                     Mensaje = "Se agrego correctamente";
+                    objRet = Producto;
                     //
                     //
                     //
@@ -144,15 +147,17 @@ namespace SGLibreria.Pages.Compras
                 { //el ya archivo existe
 
                     Mensaje = "La imagen: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
+                    objRet = null;
                 }
                 else if (!isValidName)
                 {
                     Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
+                    objRet = null;
                 }
                 return new JsonResult(
                   new
                   {
-                      Mensaje
+                      Mensaje, Producto = objRet
                   }
                 );
             }//envio imagen
@@ -161,10 +166,11 @@ namespace SGLibreria.Pages.Compras
             _context.Entry(Producto).State = EntityState.Added;
             await _context.SaveChangesAsync();
             Mensaje = "Se ha registrado correctamente";
+            objRet = Producto;
             return new JsonResult(
               new
               {
-                  Mensaje
+                  Mensaje, Producto = objRet
               }
             );
         }
