@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace SGLibreria.Models
 {
@@ -17,6 +20,8 @@ namespace SGLibreria.Models
         [Required(ErrorMessage="El {0} es obligatorio")]
         public decimal Precio { get; set; }
         public int IdCompania { get; set; }
+        [NotMapped]
+        public IFormFile Archivo {get;set;}
         public int? IdImagen { get; set; }
         [Required(ErrorMessage="El {0} es obligatorio"), StringLength(20, ErrorMessage="El campo {0} no puede contener mas de {1} caracteres")]
 
