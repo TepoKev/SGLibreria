@@ -1,0 +1,320 @@
+@page
+@model Marcas.ListaMarcaModel;
+@using SGLibreria.Models;
+@{ ViewData["Title"] = "Registro y Lista de Marcas"; }
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 rounded ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 offset-1">
+                    <form class="mt-4" method="POST" id="formMarcaadd">
+                        <div class="form-group row">
+                            <label for="Nombre" class="col-lg-2 col-form-label">Nombre</label>
+                            <div class="col-lg-4">
+                                <input asp-for="Marca.Nombre" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Libros">
+                                <span asp-validation-for="Marca.Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6" id="btn">
+                                <button type="submit" class="btn btn-outline-primary" id="btnadd"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="mt-4" method="POST" id="formMarcamod" hidden >
+                        <div class="form-group row">
+                            <label for="Nombre" class="col-lg-2 col-form-label">Nombre <span class="font-weight-bold text-danger">*</span></label>
+                            <div class="col-lg-4">
+                                <input id="nombremod" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Facela">
+                                <span asp-validation-for="Marca.Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6" id="btn">
+                                <div class="btn-group" id="btngroup">
+                                    <button type="submit" class="btn btn-outline-warning" id="btnmod"><i class="fas fa-pencil-alt"></i> Modificar</button>
+                                    <button type="button" class="btn btn-outline-danger"><i class="fas fa-times-circle"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2" id="notific">
+        <div class="toast" id="toastProveedor" role="alert" data-delay="5000" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success" id="thead">
+                <label class="col-form-label text-white">
+                        <i class="" id="inoti"></i>
+                        <strong class="mr-auto">Registro Marca</strong>
+                    </label>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="toast-body" id="tcuerpo">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 rounded ">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Marcas</h6>
+            </div>
+
+            <div class="row px-4 pt-3">
+                <label class="px-2 col-form-label">Mostrar</label>
+                <select class="form-control col-lg-2">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                </select>
+            </div>
+
+            <div class="row px-5 pt-3">
+                <table class="table table-sm table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col" style="width:10%">Editar</th>
+                            <th scope="col" style="width:20%">Estado</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tbMarca">
+                        @{
+                            int i;
+                            int len = Model.Marcas.Count;
+                            Marca c;
+                        }
+                        @for(i=0; i < len; i++){
+                            c=Model.Marcas[i];
+                            <tr>
+                            <td>@c.Nombre</td>
+                            <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
+                            </td>
+                            <td>
+                                <div class="col-form-label custom-control custom-switch">
+                                    @if(c.Estado == 1){
+                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
+                                        <label class="custom-control-label" for="@c.Id">Habilitada</label>
+                                    }else{
+                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
+                                        <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
+                                    }
+                                </div>
+                            </td>
+                            </tr>
+                            }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col offset-5">
+                    <nav aria-label="Paginacion ">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Siguiente</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/sgl.js"></script>
+<script>
+    var FrmMarcaAdd = document.querySelector("#formMarcaadd");
+    var FrmMarcaMod = document.querySelector("#formMarcamod");
+    var tbody = document.querySelector("#tbMarca");
+    var divopc = document.querySelector("#btngroup");
+    var btnadd = document.querySelector("#btnadd");
+    divopc.addEventListener("click", function(e){
+        var element = e.target;
+        if(element.classList.contains("btn-outline-danger")){
+            FrmMarcaAdd.removeAttribute("hidden");
+            FrmMarcaMod.setAttribute("hidden","");
+            document.querySelector("#Marca_Nombre").value = "";
+        }
+    });
+    tbody.addEventListener("click", function(e) {
+        var element = e.target;
+        if (element.classList.contains("btn-outline-success")) {
+            FrmMarcaMod.removeAttribute("hidden");
+            divopc.firstElementChild.setAttribute("data-id",element.getAttribute("data-idcat"));
+            FrmMarcaAdd.setAttribute("hidden","");
+            document.querySelector("#nombremod").focus();
+            document.querySelector("#nombremod").value = element.parentNode.previousElementSibling.textContent;
+        } else {
+            if (element.classList.contains("fa-pencil-alt")) {
+                element.focus();
+                FrmMarcaMod.removeAttribute("hidden");
+                divopc.firstElementChild.setAttribute("data-id",element.parentNode.getAttribute("data-idcat"));
+                FrmMarcaAdd.setAttribute("hidden","");
+                document.querySelector("#nombremod").focus();
+                document.querySelector("#nombremod").value = element.parentNode.parentNode.previousElementSibling.textContent;
+            }else{
+                if(element.classList.contains("custom-control-input")){
+                    if(element.checked){
+                        ModEstado(element, 1);
+                    }else{
+                        ModEstado(element, 0);
+                    }
+                }
+            }
+        }
+    });
+    FrmMarcaAdd.addEventListener("submit", function(e){
+        var element = e.target;
+        e.preventDefault();
+        GuardarAjax();
+    });
+    FrmMarcaMod.addEventListener("submit", function(e){
+        e.preventDefault();
+        var element = document.querySelector("#btnmod");
+        ModificarAjax(element.getAttribute("data-id"), document.querySelector("#nombremod").value);
+    });
+    function ModEstado(input, estado){
+        var id = input.getAttribute("data-idc");
+        var label = input.nextElementSibling;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(input.checked){
+                    label.innerHTML="Habilitada";
+                }else{
+                    label.innerHTML="Deshabilitada";
+                }
+            }
+        };
+        xhttp.open("POST", "ListaMarca?handler=Estado", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("IdMarca="+id+"&Estado="+estado);
+    }
+    function ModificarAjax(id, nombre){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    var Marcas = JSON.parse(this.responseText);
+                    if(Marcas != ""){
+                        FrmMarcaAdd.removeAttribute("hidden");
+                        FrmMarcaMod.setAttribute("hidden","");
+                        document.querySelector("#nombremod").value = "";
+                        document.querySelector("#formMarcaadd").reset();
+                        ToastSuccess("Modificacón Exitosa!");
+                        //Actualizacion de la tabla
+                        LlenarTabla(Marcas);
+                    }else{
+                        ToastFail("Fallo en el Registro!!");
+                    }
+                } else {
+                    ToastFail("Fallo la Modificación!!");
+                }
+            }
+        };
+        xhttp.open("POST", "ListaMarca?handler=Editar", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("IdMarca="+id+"&Nombre="+nombre);
+    }
+    function GuardarAjax() {
+        var form = document.querySelector("#formMarcaadd");
+        var formData = new FormData(form);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    var Marcas = JSON.parse(this.responseText);
+                    if(Marcas != ""){
+                        document.querySelector("#Marca_Nombre").value = "";
+                        document.querySelector("#formMarcaadd").reset();
+                        ToastSuccess("Registro Exitoso!");
+                        //Actualizacion de la tabla
+                        LlenarTabla(Marcas);
+                    }else{
+                        ToastFail("Fallo en el Registro!!");
+                    }
+                } else {
+                    ToastFail("Fallo en el Registro!!");
+                }
+            }
+        };
+        xhttp.open("POST", "ListaMarca", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(new URLSearchParams(formData));
+    }
+
+    function LlenarTabla(Marcas){
+        var tbMarcas = document.querySelector("#tbMarca");
+        tbMarcas.innerHTML = "";
+        Marcas.forEach(function(elemento) {
+        var tr = document.createElement("tr");
+        var tdNombre = document.createElement("td");
+        tdNombre.innerHTML = elemento.nombre;
+        tr.appendChild(tdNombre);
+        var tdEditar = document.createElement("td");
+        tdEditar.innerHTML = '<span class="btn btn-sm btn-outline-success mano" data-idcat="'+elemento.id+'"><i class="fas fa-pencil-alt"></i></span>';
+        tr.appendChild(tdEditar);
+        var tdEstado = document.createElement("td");
+        var span = document.createElement("span");
+        span.className = "custom-control custom-switch";
+        if (elemento.estado == true) {
+            span.innerHTML = '<input type="checkbox" class="custom-control-input" data-idc="'+elemento.id+'" id="'+elemento.id+'" checked> <label for="'+elemento.id+'" class="custom-control-label">Habilitada</label>';
+        } else {
+            span.innerHTML = '<input type="checkbox" class="custom-control-input" data-idc="'+elemento.id+'" id="'+elemento.id+'"><label for="'+elemento.id+'" class="custom-control-label">Deshabilitada</label>';
+        }
+        tdEstado.appendChild(span);
+        tr.appendChild(tdEstado);
+        tbMarcas.appendChild(tr);
+        });
+    }
+    //Mensaje toast de exito
+    function ToastSuccess(message){
+        var h = document.querySelector("#thead");
+        h.className = "toast-header bg-success";
+        var i = document.querySelector("#inoti");
+        i.className = "fas fa-check-circle text-success";
+        var t = document.querySelector("#tcuerpo");
+        t.innerHTML = message;
+        var toast = document.getElementById("toastProveedor");
+        $('.toast').toast('show');
+    }
+    //Mensaje toast de fracaso
+    function ToastFail(message){
+        var h = document.querySelector("#thead");
+        h.className = "toast-header bg-danger";
+        var i = document.querySelector("#inoti");
+        i.className = "fas fa-times-circle text-white";
+        var t = document.querySelector("#tcuerpo");
+        t.innerHTML = message;
+        var toast = document.getElementById("toastProveedor");
+        $('.toast').toast('show');
+    }
+</script>
+}

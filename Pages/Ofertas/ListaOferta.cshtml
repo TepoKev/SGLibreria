@@ -25,8 +25,8 @@
             <tbody>
                 @foreach(var Detalle in Model.OfertaProducto){
                     <tr>
-                        <td>@Detalle.IdOfertaNavigation.FechaInicio</td>
-                        <td>@Detalle.IdOfertaNavigation.FechaFin</td>
+                        <td>@Detalle.IdOfertaNavigation.FechaInicio.ToString("dd-MM-yyyy")</td>
+                        <td>@Detalle.IdOfertaNavigation.FechaFin.ToString("dd-MM-yyyy")</td>
                         <td>@Detalle.IdProductoNavigation.Nombre</td>
                         <td>@Detalle.IdOfertaNavigation.Descuento %</td>
                         <td>$ @Detalle.IdProductoNavigation.Precioventa[@Detalle.IdProductoNavigation.Precioventa.Count-1].Valor</td>
