@@ -42,7 +42,8 @@ ViewData["title"] = "Registro de Servicio";
                 <div class="form-group row offset-1">
                     <label class="col-lg-2 col-form-label mr-4 font-weight-bold">Tipo de servicio</label>
                     <div class="col-lg-6">
-                        <input class="form-control mb-2" asp-for="Tiposervicio.Nombre" placeholder="Nombre del servicio">
+                        <input class="form-control mb-2" asp-for="Tiposervicio.Nombre"
+                            placeholder="Nombre del servicio">
                         <span asp-validation-for="Tiposervicio.Nombre" class="text-danger"></span>
                     </div>
                 </div>
@@ -172,10 +173,12 @@ ViewData["title"] = "Registro de Servicio";
         var headers = {
             [sgl.headerToken]: inputToken.value
         };
-        var bandera = false;
         sgl.ajax2({
             url: "RegistroServicio?handler=AgregarTiposervicio",
             method: "POST",
+            headers: {
+                [sgl.headerToken]: token.value,
+            },
             data: new FormData(frmTiposervicio),
             done: function (data) {
                 document.querySelector("#notific").className = "toast-header bg-success";
@@ -190,10 +193,8 @@ ViewData["title"] = "Registro de Servicio";
                 limpiarTodo();
             }
         });
-        
+
     });
-
-
 
     //Funcion para agregar las imagenes
     var InputImg = document.querySelector("#Archivo");
@@ -224,12 +225,12 @@ ViewData["title"] = "Registro de Servicio";
     btnCancelarCompania.addEventListener("click", limpiarCompania);
 
     var btnCancelar = document.querySelector("#btnCancelar");
-    var limpiarTodo = function(e){
+    var limpiarTodo = function (e) {
         sgl.clearForm(document.querySelector("#frmTiposervicio"));
         var resetearImagen = document.querySelector("#resetearImagen");
         resetearImagen.innerHTML =
             '<img src="/img/blank-profile.png" class="img-thumbnail" height="75%" width="75%" id="vpimagen">';
-    }    
+    }
     btnCancelar.addEventListener("click", limpiarTodo);
 
     //Funcion para agregar Compania
