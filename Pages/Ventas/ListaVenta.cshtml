@@ -42,21 +42,29 @@
 </div>
 <div class="px-4">
     <table class="table table-sm table-hover">
-        <thead class="thead-dark">
+        <thead class="thead-dark text-center">
             <tr>
                 <th scope="col">Fecha</th>
                 <th scope="col">Empleado</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Total $</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
-        <tbody id="tbVentas">
+        <tbody id="tbVentas" class="text-center">
+            @{
+                int cantidad = 0;
+            }
             @foreach(var item in Model.Ventas){
                 <tr>
                     <td>@item.Fecha.ToString("dd/MM/yyyy mm:ss")</td>
                     <td>@item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Nombres 
                         @item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Apellidos
                     </td>
+                    @{
+                        cantidad = item.Detalleservicio.Count + item.Detalleventa.Count;
+                    }
+                    <td>@cantidad</td>
                     <td>$ @item.montoTotal()</td>
                     <td><a href='#' data-toggle="modal" data-target="#modalDetalle" class="text-info" data-idventa="@item.Id"><i
                             class="fas fa-list"></i> Detalles</a></td>

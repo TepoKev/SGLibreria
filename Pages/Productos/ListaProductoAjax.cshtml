@@ -23,13 +23,19 @@ float porcentaje = 100 / Model.CantidadPorFila;
     @for( j = 0;j < Model.CantidadPorFila && (i+j)<Model.Productos.Count; j++) {
         obj = Model.Productos[i+j];
         cPrecios = obj.Precioventa.Count;
-        decimal val = 0;
+        decimal val = 0, desc = 0, valNet = 0;
         @if(@cPrecios > 0){
             val = @obj.Precioventa[obj.Precioventa.Count-1].Valor;
+            if(obj.Ofertaproducto.Count > 0){
+                desc = val * ((decimal) obj.Ofertaproducto.FirstOrDefault().IdOfertaNavigation.Descuento * (decimal) 0.01);
+                valNet = val - desc;
+            }else{
+                valNet = val;
+            }
         }
         <!--div style porcentaje-->
         <div class="px-0 ml-1 d-flex" style="width:@porcentaje%;">
-            <div class="card ml-3" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@val" >
+            <div class="card ml-3" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@valNet" >
                 <div class="card-title mt-3 mx-2">
                     <h5 class="m-0 p-0">@obj.Nombre
                         <span class="badge badge-primary">@obj.StockMinimo</span>
@@ -56,18 +62,27 @@ float porcentaje = 100 / Model.CantidadPorFila;
                 <div class="card-footer text-primary p-y m-0">
                     @if(cPrecios > 0) {
                         <small class="font-weight-bold h6">
-                            Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor
-                            <button data-idproducto='@obj.Id' type='button'
-                                    class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
+                            @if(obj.Ofertaproducto.Count > 0){
+                                <div><del>Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor</del></div>
+                                <div class="text-success">Oferta: $ @Math.Round(@valNet, 2)</div>
+                            }else{
+                                <span>Precio: $ @obj.Precioventa[obj.Precioventa.Count-1].Valor</span>
+                            }
+                            @if(Model.Boton == true){
+                                <button data-idproducto='@obj.Id' type='button'
+                                        class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            }
                         </small>
                     } else {
                         <small class="font-weight-bold h6"> $ no asignado </small>
-                        <button data-idproducto='@obj.Id' type='button'
-                                    class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
-                                <i class="fas fa-pencil-alt"></i>
-                        </button>
+                        @if(Model.Boton == true){
+                            <button data-idproducto='@obj.Id' type='button'
+                                        class="btn btn-outline-warning btn-sm" data-idproducto="@obj.Id">
+                                    <i class="fas fa-pencil-alt"></i>
+                            </button>
+                        }
                     }
                 </div>
             </div>

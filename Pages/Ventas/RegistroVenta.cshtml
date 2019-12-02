@@ -155,7 +155,7 @@ ViewData["Title"] = "Registro Venta";
   var prodDisponibles = doc.getElementById('productos');
   var items = [];
   var itemsrv = [];
-  sgl.get('../Productos/ListaProductoAjax', refrescarProductos);
+  sgl.get('../Productos/ListaProductoAjax?Boton=false', refrescarProductos);
   sgl.get('../Servicios/ListaServicioAjax', refrescarServicios);
   eventa.addEventListener("click",()=>{
     if(items.length > 0 || itemsrv.length > 0){

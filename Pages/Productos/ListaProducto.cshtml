@@ -195,7 +195,7 @@ ViewData["Title"] = "Lista de Productos";
 <script src="~/js/sgl.js"></script>
 <script>
 
-  sgl.get('ListaProductoAjax', refrescar);
+  sgl.get('ListaProductoAjax?Boton=true', refrescar);
   function refrescar(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;

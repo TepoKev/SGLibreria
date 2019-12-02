@@ -8,7 +8,6 @@ using SGLibreria.Models;
 namespace SGLibreria.Pages.Ofertas {
     public class ListaOfertaModel : PageModel {
         private readonly AppDbContext _context;
-        [BindProperty]
         public IList<Ofertaproducto> OfertaProducto {get; set;}
 
         public ListaOfertaModel (AppDbContext context) {

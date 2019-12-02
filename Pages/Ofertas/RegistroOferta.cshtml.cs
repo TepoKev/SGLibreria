@@ -26,6 +26,7 @@ namespace SGLibreria.Pages.Ofertas {
                 var OfertaPrducto = new Ofertaproducto();
                 OfertaPrducto.IdProducto = this.IdProductos[i];
                 OfertaPrducto.IdOferta = Oferta.Id;
+                OfertaPrducto.Cantidad = 1;
                 await this._context.AddAsync(OfertaPrducto);
                 await this._context.SaveChangesAsync();
             }
