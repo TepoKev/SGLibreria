@@ -25,6 +25,8 @@ namespace SGLibreria.Pages.Compras {
             Compras = await _context.Compras
             .Include(c => c.IdProveedorNavigation)
             .Include(c => c.Detallecompra)
+            .Include(c => c.Documento)
+            .ThenInclude(d => d.IdRutaNavigation)
             .OrderByDescending(x => x.Fecha)
             .ToListAsync();
         }

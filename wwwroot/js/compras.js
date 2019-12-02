@@ -67,47 +67,88 @@ function Compras() {
             sumaCantidad = 0,
             sumaPrecioCompra = 0,
             sumaPrecioVenta = 0;
+        var tbody = sgl.q('#tablaCompraFilas');
         var rows = tbody.querySelectorAll('tr');
         var cols;
         var input;
+        var cantidad, precioUnitario, precioCompra, precioVenta;
         var data;
+        var form = new FormData();
+        var camposVacios = "No debe dejar campos vacios";
+        var camposPositivos = "Solo debe ingresar valores positivos";
+        var errores = [];
         for (let i = 0; i < rows.length; i++) {
 
             cols = rows[i].querySelectorAll('td');
 
-            input = cols[1].querySelector('input');
-            data = parseFloat(input.value);
+            input = cols[0].querySelector('input[data-idproducto]');
+            data = parseInt(input.value);
+            form.append('Detalles[' + i + '].idproducto', data);
+            if (data <= 0) {
+                errores.push(camposPositivos);
+            }
+
+            input = cols[1].querySelector('input[data-cantidad]');
+            data = parseInt(input.value);
+            form.append('Detalles[' + i + '].cantidad', input.value);
+            if (data <= 0) {
+                errores.push(camposPositivos);
+            }
             sumaCantidad += data;
+            cantidad = data;
 
-            input = cols[2].querySelector('input');
+            input = cols[2].querySelector('input[data-preciocompra]');
             data = parseFloat(input.value);
+            form.append('Detalles[' + i + '].precioCompra', input.value);
+            if (data <= 0) {
+                errores.push(camposPositivos);
+            }
             sumaPrecioCompra += data;
+            precioCompra = data;
 
-            labelUnitario = cols[2].querySelector('label');
-            data = parseFloat(input.value);
-            sumaPrecioCompra += data;
+            precioUnitario = precioCompra / cantidad;
+            labelUnitario = cols[3].querySelector('label');
 
-            input = cols[4].querySelector('input');
+            if (!isNaN(precioUnitario)) {
+                labelUnitario.innerHTML = precioUnitario;
+            } else {
+                labelUnitario.innerHTML = '';
+            }
+
+            input = cols[4].querySelector('input[data-precioventa]');
             data = parseFloat(input.value);
-            sumaPrecioVenta += data;
+            precioVenta = data;
+            form.append('precioVenta', input.value);
+            if (precioUnitario > precioVenta) {
+                errores.push('El precio de venta debe ser mayor al precio de compra');
+            }
+            if (data <= 0) {
+                errores.push(camposPositivos);
+            }
+            sumaPrecioVenta += data*cantidad;
         }
 
-        if (!isNaN(sumaCantidad)) {
+        var error = false;
+
+        console.log(sumaCantidad, sumaPrecioCompra, sumaPrecioVenta);
+        if (!isNaN(sumaCantidad) && sumaCantidad > 0) {
             colSumaCantidad.innerHTML = sumaCantidad;
         } else {
-            colSumaCantidad.innerHTML = 'Datos incorrectos';
+            colSumaCantidad.innerHTML = '...';
+            error = true;
         }
-        if (!isNaN(sumaPrecioCompra)) {
+        if (!isNaN(sumaPrecioCompra) && sumaPrecioCompra > 0) {
             colSumaPrecioCompra.innerHTML = sumaPrecioCompra;
         } else {
-            colSumaPrecioCompra.innerHTML = 'Datos incorrectos';
+            colSumaPrecioCompra.innerHTML = '...';
+            error = true;
         }
-        if (!isNaN(sumaPrecioVenta)) {
+        if (!isNaN(sumaPrecioVenta) && sumaPrecioVenta > 0) {
             colSumaPrecioVenta.innerHTML = sumaPrecioVenta;
         } else {
-            colSumaPrecioVenta.innerHTML = 'Datos incorrectos';
+            colSumaPrecioVenta.innerHTML = '...';
+            error = true;
         }
-
     };
 
 };
@@ -122,44 +163,43 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
     var colSumaPrecioCompra = sgl.q('#sumaPrecioCompra');
     var colSumaPrecioVenta = sgl.q('#sumaPrecioVenta');
     var
-       sumaCantidad = 0,
-       sumaPrecioCompra = 0,
-       sumaPrecioVenta = 0;
+        sumaCantidad = 0,
+        sumaPrecioCompra = 0,
+        sumaPrecioVenta = 0;
     var tbody = sgl.q('#tablaCompraFilas');
     var rows = tbody.querySelectorAll('tr');
     var cols;
     var input;
-    var cantidad, precioUnitario, precioCompra;
+    var cantidad, precioUnitario, precioCompra, precioVenta;
     var data;
     var form = new FormData();
     var camposVacios = "No debe dejar campos vacios";
     var camposPositivos = "Solo debe ingresar valores positivos";
     var errores = [];
     for (let i = 0; i < rows.length; i++) {
-        
+
         cols = rows[i].querySelectorAll('td');
-        
+
         input = cols[0].querySelector('input[data-idproducto]');
-        form.append('Detalles['+i+'].idproducto', input.value);
         data = parseInt(input.value);
-        if(data <= 0 ) {
+        form.append('Detalles[' + i + '].idproducto', data);
+        if (data <= 0) {
             errores.push(camposPositivos);
         }
-        
-        
+
         input = cols[1].querySelector('input[data-cantidad]');
-        form.append('Detalles['+i+'].cantidad', input.value);
         data = parseInt(input.value);
-        if(data <=0 ) {
+        form.append('Detalles[' + i + '].cantidad', input.value);
+        if (data <= 0) {
             errores.push(camposPositivos);
         }
         sumaCantidad += data;
         cantidad = data;
 
         input = cols[2].querySelector('input[data-preciocompra]');
-        form.append('Detalles['+i+'].precioCompra', input.value);
         data = parseFloat(input.value);
-        if(data <=0 ) {
+        form.append('Detalles[' + i + '].precioCompra', input.value);
+        if (data <= 0) {
             errores.push(camposPositivos);
         }
         sumaPrecioCompra += data;
@@ -167,56 +207,64 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
 
         precioUnitario = precioCompra / cantidad;
         labelUnitario = cols[3].querySelector('label');
-        
-        if(!isNaN(precioUnitario)) {
+
+        if (!isNaN(precioUnitario)) {
             labelUnitario.innerHTML = precioUnitario;
         } else {
             labelUnitario.innerHTML = '';
         }
 
         input = cols[4].querySelector('input[data-precioventa]');
-        console.log(input);
-        
-        form.append('precioVenta', input.value);
         data = parseFloat(input.value);
-        if(data <=0 ) {
+        precioVenta = data;
+        form.append('precioVenta', input.value);
+        if (precioUnitario > precioVenta) {
+            errores.push('El precio de venta debe ser mayor al precio de compra');
+        }
+        if (data <= 0) {
             errores.push(camposPositivos);
         }
-        sumaPrecioVenta += data;
+        sumaPrecioVenta += data*cantidad;
     }
 
     var error = false;
+
     console.log(sumaCantidad, sumaPrecioCompra, sumaPrecioVenta);
-    if ( !isNaN(sumaCantidad) && sumaCantidad > 0 ) {
+    if (!isNaN(sumaCantidad) && sumaCantidad > 0) {
         colSumaCantidad.innerHTML = sumaCantidad;
     } else {
         colSumaCantidad.innerHTML = '...';
         error = true;
     }
-    if ( !isNaN(sumaPrecioCompra) && sumaPrecioCompra > 0) {
+    if (!isNaN(sumaPrecioCompra) && sumaPrecioCompra > 0) {
         colSumaPrecioCompra.innerHTML = sumaPrecioCompra;
     } else {
         colSumaPrecioCompra.innerHTML = '...';
         error = true;
     }
-    if ( !isNaN(sumaPrecioVenta) && sumaPrecioVenta > 0  ) {
+    if (!isNaN(sumaPrecioVenta) && sumaPrecioVenta > 0) {
         colSumaPrecioVenta.innerHTML = sumaPrecioVenta;
     } else {
         colSumaPrecioVenta.innerHTML = '...';
         error = true;
     }
 
-    var fecha, proveedor, documento;
+    var fecha, proveedor, comprobante;
     fecha = sgl.q('#cfecha');
     proveedor = sgl.q('#comboProveedores');
-
+    comprobante = sgl.q('#docComprobante');
+    if(fecha.value == '' || proveedor.value == '' || comprobante.files.length == 0) {
+       return false; 
+    }
     form.append('Compra.fecha', fecha.value);
     form.append('Compra.idProveedor', proveedor.value);
-    if(error || errores.length > 9) {
+    form.append('Comprobante', comprobante.files[0]);
+
+    if (error == true || errores.length > 0) {
         console.log('error encontrado');
     } else {
         console.log('todo bien');
-        var inputToken = sgl.q('#formToken '+sgl.inputToken);
+        var inputToken = sgl.q('#formToken ' + sgl.inputToken);
         var headers = { [sgl.headerToken]: inputToken.value };
 
         sgl.ajax2({
@@ -225,7 +273,7 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
             headers: headers,
             data: form,
             done: function procesarRespuesta(data) {
-
+                location.href = '/Compras/ListaCompra';
             }
         });
     }

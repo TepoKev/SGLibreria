@@ -9,7 +9,7 @@ namespace SGLibreria.Models
         public Compra()
         {
             Detallecompra = new HashSet<Detallecompra>();
-            Documento = new HashSet<Documento>();
+            Documento = new List<Documento>();
         }
 
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace SGLibreria.Models
         public virtual Proveedor IdProveedorNavigation { get; set; }
         public virtual Usuario IdUsuarioNavigation { get; set; }
         public virtual ICollection<Detallecompra> Detallecompra { get; set; }
-        public virtual ICollection<Documento> Documento { get; set; }
+        public virtual List<Documento> Documento { get; set; }
     }
 }

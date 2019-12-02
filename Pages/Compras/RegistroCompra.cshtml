@@ -47,12 +47,22 @@ ViewData["Title"] = "Registro Compras";
                 <div class="form-group row m-2 pt-2 rounded">
                     <label for="cfecha" class="col-lg-1 font-weight-bold col-form-label">Fecha</label>
                     <div class="col-lg-3 pt-1">
-                        <input asp-for="Compra.Fecha" type="Date" class="form-control form-control-user mb-2" id="cfecha">
+                        <input asp-for="Compra.Fecha" required type="Date" class="form-control form-control-user mb-2" id="cfecha">
                     </div>
                     <label for="cproveedor" class="col-lg-1 col-form-label font-weight-bold ">Proveedor</label>
                     <div class="pl-5 col-lg-6">
-                        <select asp-for="Compra.IdProveedor" class="custom-select form-control" id="comboProveedores">
+                        <select asp-for="Compra.IdProveedor" required class="custom-select form-control" id="comboProveedores">
                         </select>
+                    </div>
+                    <div class="form-group row">
+                                    <label for="docimagen" class="px-4 col-lg-4 col-form-label font-weight-bold">Seleccione
+                                            Comprobante</label>
+                                    <div class="col-lg-7">
+                                        <div class="custom-file">
+                                            <input asp-for="Comprobante" type="file" class="custom-file-input" id="docComprobante" required>
+                                            <label class="custom-file-label" for="docimagen">Seleccione..</label>
+                                        </div>
+                                    </div>
                     </div>
                 </div>
 
@@ -74,8 +84,8 @@ ViewData["Title"] = "Registro Compras";
                                     data-target="#modalProductoNuevo">Registrar Producto</button>
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalProductoAntiguo">Añadir Productos</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#modalDocumento">Agregar Comprobante</button>
+
+                                
                             </div>
                         </div>
                     </div>
@@ -315,17 +325,7 @@ ViewData["Title"] = "Registro Compras";
                 <div class="modal-body">
                     <form id="documentoImagen">
                         <br>
-                        <div class="form-group row">
-                            <label for="docimagen" class="px-4 col-lg-4 col-form-label font-weight-bold">Seleccione
-                                Documento</label>
-                            <div class="col-lg-7">
-
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="docimagen">
-                                    <label class="custom-file-label" for="docimagen">Seleccione..</label>
-                                </div>
-                            </div>
-                        </div>
+                        
                         ​
                         <div id="imagePreviewDocument">
                             <br>
@@ -422,7 +422,7 @@ ViewData["Title"] = "Registro Compras";
                                     placeholder="10" required>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" style="display:none;">
                             <label for="pdfecha" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                                 vencimiento</label>
                             <div class="col-lg-7">
@@ -560,7 +560,7 @@ ViewData["Title"] = "Registro Compras";
                             <input type="number" class="form-control" id="pdstock1" value="" disabled>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row" style="display:none;">
                         <label for="pdfecha1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                             vencimiento</label>
                         <div class="col-lg-7">

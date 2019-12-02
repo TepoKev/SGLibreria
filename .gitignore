@@ -4,6 +4,7 @@ obj/
 wwwroot/Productos/
 wwwroot/Empleados/
 wwwroot/Servicios/
+wwwroot/Comprobantes/
 wwwroot/node_modules/
 wwwroot/scss/
 appsettings.json

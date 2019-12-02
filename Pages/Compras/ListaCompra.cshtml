@@ -50,16 +50,30 @@ ViewData["Title"] = "Lista de Compras";
                         <th>Fecha</th>
                         <th>Proveedor</th>
                         <th>Cantidad</th>
+                        <th>Documento</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        string nombre, ruta;
+                    }
                     @foreach (var item in Model.Compras)
                     {
                     <tr>
-                        <td>@item.Fecha </td>
+                        <td>@item.Fecha.ToString("dd/MM/yyyy") </td>
                         <td>@item.IdProveedorNavigation.Nombre </td>
                         <td>@item.Detallecompra.Count </td>
+                        @if(item.Documento.Count >0 ) {
+                            ruta = item.Documento[0].IdRutaNavigation.Nombre;
+                            nombre = item.Documento[0].Nombre;
+                            <td>
+                                <a href="/@ruta/@nombre" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i> Comprobante</a>
+                            </td>
+
+                        } else {
+                            <td>...</td>
+                        }
                         <td><a href='#' data-idcompra = "@item.Id" class="text-info"><i class="fas fa-list"></i> Detalles</a></td>
                     </tr>                        
                     }

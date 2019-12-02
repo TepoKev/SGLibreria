@@ -23,6 +23,7 @@ namespace SGLibreria.Pages.Compras
         public Compra Compra { get; set; }
         public Detallecompra [] Detalles { get;set;}
         public decimal [] PrecioVenta { get; set;}
+        public IFormFile Comprobante {get;set;}
         public Producto Producto { get; set;}
         public Categoria Categoria { get; set;}
         public Marca Marca { get; set; }
@@ -46,7 +47,7 @@ namespace SGLibreria.Pages.Compras
             return new JsonResult(this.Marcas);
         }
 
-        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra [] Detalles, decimal [] PrecioVenta) {
+        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra [] Detalles, decimal [] PrecioVenta, IFormFile Comprobante) {
             /*
             Cambiar aqui
 
@@ -58,6 +59,47 @@ namespace SGLibreria.Pages.Compras
             Detallecompra det;
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();
+
+            string Mensaje = "";
+            Documento documento = new Documento();
+            bool error = false;
+            string Ruta = "Comprobantes";
+            //envio imagen
+            if (Comprobante != null)
+            {
+                //directorio de destino
+                var filepath = "wwwroot/" + Ruta + "/";
+                var filename = Comprobante.FileName;
+                //validar antes de subir
+                var isValidName = ValidFileName(filepath, filename);
+                //nombre valido y el archivo no existe
+                if (isValidName && !FileExists(filepath, filename))
+                {
+                    await UploadFile(filepath, filename, Comprobante);
+                    documento.Nombre = filename;
+                    documento.IdCompra = Compra.Id;
+                    documento.IdRuta = (await _context.Rutas.Where(r => EF.Functions.Like(r.Nombre, $"%{Ruta}%")).FirstOrDefaultAsync()).Id;
+                    _context.Documentos.Add(documento);
+                    await _context.SaveChangesAsync();
+                    Mensaje = "Se agrego correctamente";
+                    error = false;
+                    //
+                    //
+                    //
+                }
+                else if (FileExists(filepath, filename))
+                { //el ya archivo existe
+                    Mensaje = "El documento: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
+                    error = true;
+                }
+                else if (!isValidName)
+                {
+                    Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
+                    error = true;
+                }
+            }//envio comprobante
+            
+            //registrar los detalles
             for (var i = 0 ; i < Detalles.Length ; i++)
             {
                 det = Detalles[i];
