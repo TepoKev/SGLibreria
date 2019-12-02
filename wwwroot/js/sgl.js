@@ -207,3 +207,117 @@ var sgl = {
         
         xhr.send(formData);
 */
+/**
+ * https://gomakethings.com/how-to-create-your-own-vanilla-js-dom-manipulation-library-like-jquery/
+ */
+var $s = (function () {
+
+	'use strict';
+
+	/**
+	 * Create the constructor
+	 * @param {String} selector The selector to use
+	 */
+	var Constructor = function (selector) {
+		if (!selector) {
+            this.length = 0;
+            return;
+        }
+		if (selector === 'document') {
+            this.elems = [document];
+            this.length = 1;
+		} else if (selector === 'window') {
+            this.elems = [window];
+            this.length = 1;
+		} else {
+            this.elems = document.querySelectorAll(selector);
+            this.length = this.elems.length;
+		}
+	};
+
+	/**
+	 * Do ajax stuff
+	 * @param  {String} url The URL to get
+	 */
+	Constructor.prototype.ajax = function (url) {
+		// Do some XHR/Fetch thing here
+		console.log(url);
+	};
+
+	/**
+	 * Run a callback on each item
+	 * @param  {Function} callback The callback function to run
+	 */
+	Constructor.prototype.each = function (callback) {
+		if (!callback || typeof callback !== 'function') return;
+		for (var i = 0; i < this.elems.length; i++) {
+			callback(this.elems[i], i);
+		}
+		return this;
+	};
+
+	/**
+	 * Add a class to elements
+	 * @param {String} className The class name
+	 */
+	Constructor.prototype.addClass = function (className) {
+		this.each(function (item) {
+			item.classList.add(className);
+		});
+		return this;
+	};
+
+	/**
+	 * Remove a class to elements
+	 * @param {String} className The class name
+	 */
+	Constructor.prototype.removeClass = function (className) {
+		this.each(function (item) {
+			item.classList.remove(className);
+		});
+		return this;
+    };
+
+    Constructor.prototype.html = function (innerHTML) {
+        if(arguments.length == 0) {
+            return items[0].innerHTML;
+        } else {
+            this.each(function (item) {
+                item.innerHTML = innerHTML;
+            });
+        }
+    }
+
+    Constructor.prototype.text = function (text) {
+        if(arguments.length == 0) {
+            return items[0].innerText || items[0].textContent;
+        } else {
+            this.each(function (item) {
+                item.innerText = text;
+            });
+        }
+    }
+
+    Constructor.prototype.val = function (value) {
+        if(arguments.length == 0 ) {
+            return items[0].value;
+        } else {
+            this.each(function (value) {
+                item.value = value;
+            });
+        }
+    }
+
+	/**
+	 * Instantiate a new constructor
+	 */
+	var instantiate = function (selector) {
+		return new Constructor(selector);
+	};
+
+	/**
+	 * Return the constructor instantiation
+	 */
+	return instantiate;
+
+})();

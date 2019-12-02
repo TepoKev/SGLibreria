@@ -22,6 +22,8 @@ namespace SGLibreria.Pages.Compras
 
         [BindProperty]
         public Compra Compra { get; set; }
+        public Detallecompra [] Detalles { get;set;}
+        public decimal [] PrecioVenta { get; set;}
         public Producto Producto { get; set;}
         public Categoria Categoria { get; set;}
         public Marca Marca { get; set; }
@@ -43,6 +45,37 @@ namespace SGLibreria.Pages.Compras
         {
             this.Marcas = _context.Marcas.ToList();
             return new JsonResult(this.Marcas);
+        }
+
+        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra [] Detalles, decimal [] PrecioVenta) {
+            /*
+            Cambiar aqui
+
+
+
+            */
+            
+            Compra.IdUsuario = 9;//
+
+            _context.Compras.Add(Compra);
+            await _context.SaveChangesAsync();
+            for (var i = 0 ; i < Detalles.Length ; i++)
+            {
+                _context.Precioventa.Add(
+                    new Precioventa {
+                        Fecha = Compra.Fecha, 
+                        IdProducto = Detalles[i].IdProducto, 
+                        Valor = PrecioVenta[i], 
+                    }
+                );
+                _context.Detallecompra.Add(Detalles[i]);
+            }
+            await _context.SaveChangesAsync();
+            return new JsonResult(
+                new {
+                    Mensaje = "Mensaje de Prueba"
+                }
+            );
         }
         public async Task<IActionResult> OnPostAgregarMarca(Marca Marca)
         {
@@ -98,15 +131,17 @@ namespace SGLibreria.Pages.Compras
             return Page();
         }
 
-        public async Task<JsonResult> OnPostAsync(Producto Producto)
+        public async Task<JsonResult> OnPostProductoNuevoAsync(Producto Producto)
         {
             string Mensaje = "";
+            Producto objRet = null;//producto a retornar
             if (!ModelState.IsValid)
             {
                 return new JsonResult(
                   new
                   {
-                      Error = "Ha proporcionado datos incorrectos"
+                      Error = "Ha proporcionado datos incorrectos", 
+                      Producto = (object) null, 
                   }
                 );
             }
@@ -136,6 +171,7 @@ namespace SGLibreria.Pages.Compras
                     _context.Entry(Producto).State = EntityState.Added;
                     await _context.SaveChangesAsync();
                     Mensaje = "Se agrego correctamente";
+                    objRet = Producto;
                     //
                     //
                     //
@@ -144,27 +180,30 @@ namespace SGLibreria.Pages.Compras
                 { //el ya archivo existe
 
                     Mensaje = "La imagen: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
+                    objRet = null;
                 }
                 else if (!isValidName)
                 {
                     Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
+                    objRet = null;
                 }
                 return new JsonResult(
                   new
                   {
-                      Mensaje
+                      Mensaje, Producto = objRet
                   }
                 );
             }//envio imagen
 
             _context.Productos.Attach(Producto);
-            _context.Entry(Producto).State = EntityState.Modified;
+            _context.Entry(Producto).State = EntityState.Added;
             await _context.SaveChangesAsync();
             Mensaje = "Se ha registrado correctamente";
+            objRet = Producto;
             return new JsonResult(
               new
               {
-                  Mensaje
+                  Mensaje, Producto = objRet
               }
             );
         }

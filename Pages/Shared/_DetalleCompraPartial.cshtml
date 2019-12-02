@@ -25,9 +25,9 @@
                 style="text-align: center; background-color: #eaecf4; margin-top: 3px; border-radius: 5px; color: black">
                 Detalle</h4>
         </div>
-        @*@{
+        @{
             decimal valor, total = 0;
-        }*@
+        }
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -38,17 +38,17 @@
                 </tr>
             </thead>
             <tbody>
-            @*Mahe cambia esta onda :"V *@
-            @* @foreach(var item in Model.Detalles){
-                valor = item.Cantidad * item.IdPrecioCompraNavigation.Valor;
+
+            @foreach(var item in Model.Detalles){
+                valor = item.Cantidad * item.PrecioCompra;
                 total += valor;
                 <tr>
                     <td>@item.Cantidad</td>
-                    <td>@item.IdPrecioCompraNavigation.IdProductoNavigation.Nombre</td>
-                    <td>@item.IdPrecioCompraNavigation.Valor</td>
+                    <td>@item.IdProductoNavigation.Nombre</td>
+                    <td>@item.PrecioCompra</td>
                     <td>@valor</td>
                 </tr>
-            }*@
+            }
             </tbody>
         </table>
 

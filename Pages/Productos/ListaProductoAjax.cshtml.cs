@@ -28,18 +28,20 @@ namespace SGLibreria.Pages.Productos
             this.Maximo = this.CantidadPorFila * 3;
             _context = context;
         }
-        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton) {
+        public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton) {
             this.Boton = Boton;
             IQueryable<Producto> Consulta = _context.Productos
             .Include(p => p.IdCategoriaNavigation)
             .Include(p => p.IdMarcaNavigation)
-            .Include(x => x.Precioventa)
-            .Include(x => x.IdImagenNavigation)
-            .ThenInclude(x => x.IdRutaNavigation);
-            if(IdCategoria!=null) {
-                Consulta = Consulta.Where(p => p.IdCategoria == IdCategoria && EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
+            .Include(x=>x.Precioventa)
+            .Include(x=>x.IdImagenNavigation)
+            .ThenInclude(x=>x.IdRutaNavigation);
+            if(Id != null) {
+                Consulta = Consulta.Where(p => p.Id == Id);
+            } else if(IdCategoria!=null) {
+                Consulta = Consulta.Where(p => p.IdCategoria == IdCategoria && (EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%") || EF.Functions.Like(p.Codigo, $"%{NombreOCodigo}%")));
             } else {
-                Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
+                Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%") || EF.Functions.Like(p.Codigo, $"%{NombreOCodigo}%"));
             }
             this.Productos = Consulta.ToList();
             foreach (var item in this.Productos)

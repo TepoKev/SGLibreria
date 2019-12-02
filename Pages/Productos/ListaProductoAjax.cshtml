@@ -35,7 +35,7 @@ float porcentaje = 100 / Model.CantidadPorFila;
         }
         <!--div style porcentaje-->
         <div class="px-0 ml-1 d-flex" style="width:@porcentaje%;">
-            <div class="card ml-3" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@valNet" >
+            <div class="card ml-3" data-id="@obj.Id" data-idprod="@obj.Id" data-nombre="@obj.Nombre" data-categoria="@obj.IdCategoriaNavigation.Nombre" data-precio="@valNet" >
                 <div class="card-title mt-3 mx-2">
                     <h5 class="m-0 p-0">@obj.Nombre
                         <span class="badge badge-primary">@obj.StockMinimo</span>

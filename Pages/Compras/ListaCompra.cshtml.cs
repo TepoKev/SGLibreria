@@ -33,6 +33,7 @@ namespace SGLibreria.Pages.Compras {
             .Where(c => c.Id == IdCompra).FirstOrDefault();
             Detalles = _context.Detallecompra
             .Where(d => d.IdCompra == IdCompra)
+            .Include(x => x.IdProductoNavigation)
             .ToList();
             return Partial("_DetalleCompraPartial", this);
         }
