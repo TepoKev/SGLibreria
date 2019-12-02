@@ -20,7 +20,6 @@ namespace SGLibreria.Pages.Compras
             _context = context;
         }
 
-        [BindProperty]
         public Compra Compra { get; set; }
         public Detallecompra [] Detalles { get;set;}
         public decimal [] PrecioVenta { get; set;}
@@ -56,11 +55,12 @@ namespace SGLibreria.Pages.Compras
             */
             
             Compra.IdUsuario = 9;//
-
+            Detallecompra det;
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();
             for (var i = 0 ; i < Detalles.Length ; i++)
             {
+                det = Detalles[i];
                 _context.Precioventa.Add(
                     new Precioventa {
                         Fecha = Compra.Fecha, 
@@ -68,9 +68,17 @@ namespace SGLibreria.Pages.Compras
                         Valor = PrecioVenta[i], 
                     }
                 );
-                _context.Detallecompra.Add(Detalles[i]);
+                _context.Detallecompra.Add(
+                    new Detallecompra{
+                        Cantidad = Detalles[i].Cantidad, 
+                        IdCompra = Compra.Id, 
+                        IdProducto = det.IdProducto, 
+                        PrecioCompra = det.PrecioCompra
+                    }
+                );
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+            
             return new JsonResult(
                 new {
                     Mensaje = "Mensaje de Prueba"

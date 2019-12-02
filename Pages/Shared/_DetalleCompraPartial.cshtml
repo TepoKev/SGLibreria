@@ -3,14 +3,14 @@
 
 <div class="row">
     <label for="cfecha" class="offset-lg-1 col-lg-1 font-weight-bold col-form-label"> Fecha </label>
-    <div class="offset-lg-1 col-lg-3 px-0">
-        <input asp-for="Compra.Fecha" class="form-control form-control-user mb-2" id="cfecha" disabled>
+    <div class="offset-lg-1 font-weight-bold col-lg-3 px-0">
+        @Model.Compra.Fecha.ToString("dd/MM/yyyy")
     </div>
 </div>
 <div class="row">
     <label for="cproveedor" class="offset-lg-1 col-lg-1 col-form-label font-weight-bold ">Proveedor:</label>
-    <div class="offset-lg-1 col-lg-5 px-0">
-        <input asp-for="Compra.IdProveedorNavigation.Nombre" class="form-control form-control-user mb-2" id="cproveedor" disabled>
+    <div class="offset-lg-1 font-weight-bold col-lg-5 px-0">
+        @Model.Compra.IdProveedorNavigation.Nombre
     </div>
 </div>
 
@@ -68,6 +68,6 @@
         <h2 style="text-align: right">$</h2>
     </div>
     <div class="col-lg-3 text-success font-weight-bold">
-        <h2 style="text-align: left">@*@total*@</h2>
+        <h2 style="text-align: left">@total</h2>
     </div>
 </div>

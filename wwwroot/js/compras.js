@@ -140,14 +140,13 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
         cols = rows[i].querySelectorAll('td');
         
         input = cols[0].querySelector('input[data-idproducto]');
-        form.append('Detalles['+i+'].idProducto', input.value);
-        data = parseFloat(input.value);
-        if(data <=0 ) {
+        form.append('Detalles['+i+'].idproducto', input.value);
+        data = parseInt(input.value);
+        if(data <= 0 ) {
             errores.push(camposPositivos);
         }
         
-        sumaCantidad += data;
-
+        
         input = cols[1].querySelector('input[data-cantidad]');
         form.append('Detalles['+i+'].cantidad', input.value);
         data = parseInt(input.value);
@@ -177,6 +176,7 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
 
         input = cols[4].querySelector('input[data-precioventa]');
         console.log(input);
+        
         form.append('precioVenta', input.value);
         data = parseFloat(input.value);
         if(data <=0 ) {
@@ -210,8 +210,8 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
     fecha = sgl.q('#cfecha');
     proveedor = sgl.q('#comboProveedores');
 
-    form.append('Comopra.Fecha', fecha.value);
-    form.append('Comopra.IdProveedor', proveedor.value);
+    form.append('Compra.fecha', fecha.value);
+    form.append('Compra.idProveedor', proveedor.value);
     if(error || errores.length > 9) {
         console.log('error encontrado');
     } else {
