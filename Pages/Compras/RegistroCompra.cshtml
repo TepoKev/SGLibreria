@@ -22,7 +22,7 @@ ViewData["Title"] = "Registro Compras";
     /*#productos-seleccionados:hover {}*/
 </style>
 <form method="post" style="display:none;" id="formToken"></form>
-<form class="container-fluid " id="registroCompra">
+<form class="container-fluid" method="post" id="registroCompra">
 
     <div class="user">
         <div class="row">
@@ -47,11 +47,11 @@ ViewData["Title"] = "Registro Compras";
                 <div class="form-group row m-2 pt-2 rounded">
                     <label for="cfecha" class="col-lg-1 font-weight-bold col-form-label">Fecha</label>
                     <div class="col-lg-3 pt-1">
-                        <input type="Date" class="form-control form-control-user mb-2" id="cfecha">
+                        <input asp-for="Compra.Fecha" type="Date" class="form-control form-control-user mb-2" id="cfecha">
                     </div>
                     <label for="cproveedor" class="col-lg-1 col-form-label font-weight-bold ">Proveedor</label>
                     <div class="pl-5 col-lg-6">
-                        <select class="custom-select form-control" id="comboProveedores">
+                        <select asp-for="Compra.IdProveedor" class="custom-select form-control" id="comboProveedores">
                         </select>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ ViewData["Title"] = "Registro Compras";
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalProductoNuevo">Registrar Producto</button>
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#modalProductoAntiguo">Añadir Producto</button>
+                                    data-target="#modalProductoAntiguo">Añadir Productos</button>
                                 <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#modalDocumento">Agregar Comprobante</button>
                             </div>
@@ -85,10 +85,10 @@ ViewData["Title"] = "Registro Compras";
                         <table id="tablaCompra" class="table table-sm table-hover bg-white">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Precio Total</th>
-                                    <th scope="col">Precio Unitario</th>
+                                    <th width="25%" scope="col">Nombre</th>
+                                    <th width="15%" scope="col">Cantidad</th>
+                                    <th width="15%" scope="col">Precio Total</th>
+                                    <th width="20%" scope="col">Precio Unitario</th>
                                     <th scope="col">Precio Venta</th>
                                     <th scope="col">Acciones</th>
                                 </tr>
@@ -98,12 +98,12 @@ ViewData["Title"] = "Registro Compras";
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th></th>
                                     <th>Total</th>
+                                    <th id='sumaCantidad'></th>
+                                    <th id='sumaPrecioCompra'></th>
                                     <th></th>
+                                    <th id='sumaPrecioVenta'></th>
                                     <th></th>
-                                    <th></th>
-                                    <th>0.00</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -484,7 +484,7 @@ ViewData["Title"] = "Registro Compras";
                                 <h2 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse"
                                         data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                        Selecciona un producto
+                                        Seleccionar un producto
                                     </button>
                                 </h2>
                             </div>
@@ -503,6 +503,7 @@ ViewData["Title"] = "Registro Compras";
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
+                                            <div id="alerta1" style="display:none;" class="alert"></div>
                                             <div id='productosAjax'>
                                                 <br>
                                                 <!-- Aqui iran los productos -->
@@ -524,8 +525,9 @@ ViewData["Title"] = "Registro Compras";
                     <div class="form-group row">
                         <label for="pdmarca1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Marca</label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control form-control-user mb-2" id="pdmarca1" value=""
-                                disabled>
+                            <select asp-for="Producto.IdMarca" class="custom-select form-control" id="comboMarcas1" readonly required>
+
+                          </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -539,7 +541,9 @@ ViewData["Title"] = "Registro Compras";
                         <label for="pdcategoria1"
                             class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Categoría</label>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="pdcategoria1" value="" disabled>
+                            <select asp-for="Producto.IdCategoria" class="custom-select form-control" id="comboCategorias1" required readonly>
+                                
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -557,10 +561,10 @@ ViewData["Title"] = "Registro Compras";
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="pdfechaA" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
+                        <label for="pdfecha1" class="offset-lg-1 col-lg-3 col-form-label font-weight-bold">Fecha
                             vencimiento</label>
                         <div class="col-lg-7">
-                            <input type="date" class="form-control" id="pdfechaA" placeholder="LF0001">
+                            <input type="date" class="form-control" id="pdfecha1" placeholder="LF0001">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -574,20 +578,23 @@ ViewData["Title"] = "Registro Compras";
                             </div>
                         </div>
                     </div> ​
-                    <div id="imagePreviewAntiguo">
-                        <br>
-                        <br>
-                        <h5 class="text-lg-center">Vista Previa</h5>
-                        <br>
-                        <br>
+
+
+
+                    <div id="vistaPrevia" class="col-lg-6 offset-lg-3">
+                        <h5 id="textoVistaPrevia" class="text-center" style="display: block;">Vista previa</h5>
+                        <img class="img-fluid" id="imagen" style="display: none;" src="">
                     </div>
+
+
+
                 </div>
                 <div class="modal-footer">
                     <div class="btn btn-group">
                         <button id='btnAgregarProductoAntiguo' type="button" class="btn btn-outline-primary" id="btnAgregarProductoAntiguo"><i
                                 class="fas fa-save"> </i> Agregar</button>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-                            id="btnCancelarProductoAntiguo"><i class="fas fa-times-circle"> </i> Cancelar</button>
+                            id="btnCancelarProductoAntiguo"><i class="fas fa-times-circle"> </i> Cerrar modal</button>
                     </div>
                 </div>
             </div>
@@ -596,27 +603,35 @@ ViewData["Title"] = "Registro Compras";
 </div>
 }<!--modal section-->
 
+<template id='plantilla-option'>
+  <option value=''></option>
+</template>
+<!--
+    Ojo con la propiedad name.
+    Esto no será enviado tal cual se ve. 
+    Será modificado en tiempo de ejecución
+-->
 <template id='fila-detalle'>
     <tr>
         <td>
-            <a href='#' class="font-weight-bold text-primary"></a>
-            <input type='hidden' data-idproducto=''/>
+            <a href='#' data-tipobtn='producto' class="font-weight-bold text-primary"></a>
+            <input type='hidden' data-idproducto=''>
         </td>
         <td>
-            <input class="form-control" data-cantidad="true" id="cantidad" value="0" minlength="1" type="number">
+            <input class="form-control" data-cantidad=""value="0" minlength="1" type="number">
         </td>
         <td>
-            <input class="form-control" data-total="true" id="total" value="0.00" minlength="1" type="number">
+            <input class="form-control" data-preciocompra=""step="0.01" value="0.00" minlength="1" type="number">
         </td>
         <td>
-            <input class="form-control" data-unitario="true" id="unitario" value="0.00" minlength="1" type="number" readonly>
-        </td>
+            <label class="form-control" data-unitario="" minlength="1"></label>
+         </td>       
         <td>
-            <input class="form-control" data-venta="true" id="venta" value="0.00" minlength="1" type="number">
+            <input class="form-control" data-precioVenta="" step="0.01" value="0.00" minlength="1" type="number">
         </td>
         <td>
             <div class="pt-2" style="align-content: center;">
-                <a href="" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a>
+                <a href="#" data-tipobtn="eliminar" class="text-danger font-weight-bold" title="Eliminar"><i class="fas fa-trash"></i></a>
             </div>
         </td>
     </tr>
@@ -625,30 +640,7 @@ ViewData["Title"] = "Registro Compras";
 @section Scripts {
 
 <script src="~/js/sgl.js"></script>
-<script>
-    //tempplate es el elemento plantilla html
-    //dest es el elemento table
-    //lista de objetos a agregar
-    //data es el producto
-    var clonarNuevoDetalle =  function (template, dest, data) {
-        //traer todos los td
-        elems = template.content.querySelectorAll("td");
-        //encontrar el primer enlace
-        var enlace = elems[0].querySelector('a');
-        var inputId = elems[0].querySelector('input');
-        enlace.setAttribute('data-idproducto', data.id);
-        enlace.setAttribute('data-idproducto', data.id);
-        enlace.textContent = data.nombre;
-        var clon = document.importNode(template.content, true);
-        dest.appendChild(clon);
-    }
-    //esta funcion solo requiere la data que se mostrara en la plantilla clonada
-    var agregarDetalle = function(data) {
-        var plantilla = sgl.q('#fila-detalle');
-        var destino = sgl.q('#tablaCompra');
-        clonarNuevoDetalle(plantilla, destino, data);
-    }
-</script>
+<script src='/js/compras.js'></script>
 <script>
 
   var NombreOCodigo = sgl.q('#NombreOCodigo');
@@ -671,6 +663,7 @@ ViewData["Title"] = "Registro Compras";
   }
 
 
+
   var divProductos = sgl.q('#productosAjax');
   //clic la imagen del card activa un elemento
   divProductos.addEventListener('click', function marcarProducto(evento) {
@@ -680,7 +673,7 @@ ViewData["Title"] = "Registro Compras";
     var cardFooter;
     if (target.matches('img')) {
       card = target.parentNode;
-      cardFooter = card.querySelector('.card-footer')
+      cardFooter = card.querySelector('.card-footer');
       if (card.getAttribute('data-seleccionado') == 'true') {
         cardFooter.classList.remove('bg-primary');
         cardFooter.classList.remove('text-white');
@@ -691,9 +684,105 @@ ViewData["Title"] = "Registro Compras";
         cardFooter.classList.add('text-white');
         cardFooter.classList.remove('text-primary');
         card.setAttribute('data-seleccionado', true);
+        var idproducto = card.getAttribute('data-id');
+        var inputToken = sgl.q('#formToken '+sgl.inputToken);
+        var headers = { [sgl.headerToken]: inputToken.value };
+        sgl.ajax2({
+        method: 'post',
+        url: '/Productos/ListaProducto?handler=Producto',
+        headers: headers,
+        data: { 'idproducto': idproducto },
+        done: function (data) {
+          var producto = JSON.parse(data);
+          console.log('producto: ', idproducto);
+          console.log(data);
+          sgl.ajax2({
+            method: 'post',
+            url: '/Productos/ListaProducto?handler=CategoriasMarcas',
+            headers: headers,
+            done: function (data) {
+              var obj = JSON.parse(data);
+              sgl.setDataSet(card, producto);
+              var datos = sgl.getDataSet(card);
+              console.log(datos);
+              //console.log(producto['idMarca'], producto['idCategoria'], producto);
+              //console.log(obj);
+              $('#modalProducto').modal('show');
+
+              
+              var comboCategorias = sgl.q('#comboCategorias1'), 
+                  comboMarcas = sgl.q('#comboMarcas1');
+
+              comboCategorias.innerHTML='';
+              comboMarcas.innerHTML='';
+              sgl.llenarCombo(
+                sgl.q('#plantilla-option'), 
+                comboCategorias, 
+                obj.categorias, 
+                'nombre', 'id'
+              );
+              
+              sgl.llenarCombo(
+                sgl.q('#plantilla-option'), 
+                comboMarcas, 
+                obj.marcas, 
+                'nombre', 'id'
+              );
+
+              llenarFormProducto(producto);
+              
+            },
+            fail: function () {console.log(this);}
+          });
+        },
+        fail: function () {console.log(this)}
+      });
+
+        /*
+        var ocultarCollapseID = window.setTimeout(function () {
+            $('#collapseOne').collapse('hide');
+        }, 100);
+        */
       }
     }
   });
+
+  function llenarFormProducto(producto) {
+
+   // sgl.q('#pdid1').value = producto.id;
+    sgl.q('#pdnombre1').value = producto.nombre;
+    sgl.q('#comboMarcas1').value = producto.idMarca;
+    sgl.q('#comboCategorias1').value = producto.idCategoria;
+    sgl.q('#pdcodigo1').value = producto.codigo;
+    sgl.q('#pddescripcion1').value = producto.descripcion;
+    sgl.q('#pdstock1').value = producto.stockMinimo;
+    if(producto.fechaVencimiento) {
+        sgl.q('#pdfecha1').value = producto.fechaVencimiento;
+    }
+    var alerta = sgl.q('#alerta');
+    alerta.style.display = 'none';
+    alerta.innerHTML = '';
+    var imagen = sgl.q('#imagen');
+    var textoVistaPrevia = sgl.q('#textoVistaPrevia');
+    var path = '';
+    if (producto.idImagenNavigation && producto.idImagenNavigation.idRutaNavigation) {
+      path = '/' + producto.idImagenNavigation.idRutaNavigation.nombre;
+      path += '/' + producto.idImagenNavigation.nombre;
+      textoVistaPrevia.style.display='none';
+      imagen.style.display='block';
+    } else {
+      textoVistaPrevia.style.display='block';
+      textoVistaPrevia.innerHTML = 'Vista previa';
+      imagen.style.display='none';
+    }
+    imagen.src = path;
+
+    console.log(producto);
+    //
+    // codigo para la imagen aquí
+    //
+
+  }
 
   var btnAgregarProductoAntiguo = sgl.q('#btnAgregarProductoAntiguo');
   btnAgregarProductoAntiguo.onclick = function agregarProductosAntiguos() {
@@ -707,6 +796,17 @@ ViewData["Title"] = "Registro Compras";
       productos.forEach(function (elem) {
           agregarDetalle(elem);
       });
+      var alerta1 = sgl.q('#alerta1');
+      alerta1.className = "alert alert-info";
+      alerta1.style.display = 'block';
+      alerta1.innerHTML = "Ha agregado "+productos.length+" detalles. Cierre el modal para visualizarlos";
+      cargarProductosAjax();
+
+      var timeoutID = window.setTimeout(function () {
+          alerta1.className = 'alert';
+          alerta1.style.display = 'none';
+      }, 2500);
+
       console.log(sel, productos);
   };
 
@@ -841,7 +941,7 @@ function cargarListaMarcas() {
     var limpiarProductoAntiguo = function (e) {
         sgl.clearForm(sgl.q('#formProductoAntiguo'));
         var btnLimpiar1 = sgl.q('#imagePreviewAntiguo');
-        btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
+        //btnLimpiar1.innerHTML = '<br> <br> <h5 class="text-lg-center">Vista Previa</h5> <br> <br>';
     }
     btnCancelarProductoAntiguo.addEventListener('click', limpiarProductoAntiguo);
 
@@ -884,6 +984,9 @@ function cargarListaMarcas() {
     ////funcion Ajax para recuperar productos miante un Form
     $('#modalProductoAntiguo').on('shown.bs.modal', function (e) {
         var prodAjax = document.getElementById("productosAjax");
+        cargarProductosAjax();
+    })
+    function cargarProductosAjax() {
         sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
             var elem = document.getElementById('productosAjax');
             elem.innerHTML = data;
@@ -893,8 +996,7 @@ function cargarListaMarcas() {
             console.log(input.value);
             
         });
-        
-    })
+    }
     //funcion para agregar el producto a la tabla
 </script>
 

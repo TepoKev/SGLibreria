@@ -22,6 +22,8 @@ namespace SGLibreria.Pages.Compras
 
         [BindProperty]
         public Compra Compra { get; set; }
+        public Detallecompra [] Detalles { get;set;}
+        public decimal [] PrecioVenta { get; set;}
         public Producto Producto { get; set;}
         public Categoria Categoria { get; set;}
         public Marca Marca { get; set; }
@@ -43,6 +45,37 @@ namespace SGLibreria.Pages.Compras
         {
             this.Marcas = _context.Marcas.ToList();
             return new JsonResult(this.Marcas);
+        }
+
+        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra [] Detalles, decimal [] PrecioVenta) {
+            /*
+            Cambiar aqui
+
+
+
+            */
+            
+            Compra.IdUsuario = 9;//
+
+            _context.Compras.Add(Compra);
+            await _context.SaveChangesAsync();
+            for (var i = 0 ; i < Detalles.Length ; i++)
+            {
+                _context.Precioventa.Add(
+                    new Precioventa {
+                        Fecha = Compra.Fecha, 
+                        IdProducto = Detalles[i].IdProducto, 
+                        Valor = PrecioVenta[i], 
+                    }
+                );
+                _context.Detallecompra.Add(Detalles[i]);
+            }
+            await _context.SaveChangesAsync();
+            return new JsonResult(
+                new {
+                    Mensaje = "Mensaje de Prueba"
+                }
+            );
         }
         public async Task<IActionResult> OnPostAgregarMarca(Marca Marca)
         {
