@@ -192,7 +192,7 @@ ViewData["Title"] = "Registro Venta";
     var divServicios = sgl.q('#servicios');
     divServicios.innerHTML = data;
   }
-  divItems.addEventListener("change", (e)=>{
+  divItems.addEventListener("input", (e)=>{
     var element = e.target;
     if(element.getAttribute("data-iprod") != ""){
       var idProd = element.getAttribute("data-iprod");
@@ -219,7 +219,7 @@ ViewData["Title"] = "Registro Venta";
       removeList(card);
     }
   });
-  divItemsrv.addEventListener("change", (e)=>{
+  divItemsrv.addEventListener("input", (e)=>{
     var element = e.target;
     if(element.getAttribute("data-iserv") != ""){
       var idServ = element.getAttribute("data-iserv");

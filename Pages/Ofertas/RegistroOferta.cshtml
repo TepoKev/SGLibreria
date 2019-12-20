@@ -90,6 +90,8 @@
             </div>
         </div>
     </div>
+</form>
+@section modal {
     <!--    Inicia Modal Inventario-->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true" id="producto">
@@ -164,16 +166,12 @@
             </div>
         </div>
     </div>
-</form>
-
+}
 @section Scripts {
-@{
-
-await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script src="~/js/busqueda.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
-    var Productos = [];
     var divProductos = document.getElementById('productosAjax');
     var BtnAdd = document.querySelector("#btnadd");
     var input = document.querySelector("#Oferta_Descuento");
@@ -184,12 +182,12 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     tbprod.addEventListener("click", (e)=>{
         var element = e.target;
         if(element.classList.contains("fa-trash")){
-            var i = Coincide(element.parentNode.parentNode.getAttribute("data-idproducto"));
+            var idp = element.parentNode.parentNode.getAttribute("data-idproducto");
+            var i = Coincide(idp);
             if(i > -1){
-                IdProductos.splice(i, i);
+                IdProductos.splice(i, i+1);
             }
             document.querySelector("#tbproductosel").removeChild(element.parentNode.parentNode);
-
         }
     });
     function Coincide(valor){
@@ -204,20 +202,23 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         RecogerLlenar();
     });
     $('#producto').on('show.bs.modal', function (e) {
-        var prodAjax = document.getElementById("productosAjax");
-        var formProdAjax = document.createElement('form');
-        formProdAjax.innerHTML = prodAjax.outerHTML;
-        var productosAjax = new FormData(formProdAjax);
         sgl.ajax('get', '/Productos/ListaProductoAjax', function (data) {
             divProductos.innerHTML = data;
             var cards = divProductos.querySelectorAll("div.card");
-            for(var i =0 ; i< cards.length ; i++){
-                if(Coincide(cards[i].getAttribute("data-idprod")) > -1){
+            for(var i =0 ; i < cards.length ; i++){
+                var num = Coincide(cards[i].getAttribute("data-idprod"));
+                if(num > -1){
                     let cardFooter = cards[i].querySelector('.card-footer');
                     cardFooter.classList.add('bg-primary');
                     cardFooter.classList.add('text-white');
                     cardFooter.classList.remove('text-primary');
                     cards[i].setAttribute('data-seleccionado', true);
+                } else {
+                    let cardFooter = cards[i].querySelector('.card-footer');
+                    cardFooter.classList.remove('bg-primary');
+                    cardFooter.classList.remove('text-white');
+                    cardFooter.classList.add('text-primary');
+                    cards[i].setAttribute('data-seleccionado', false);
                 }
             }
         });
@@ -277,6 +278,14 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
             card = target.parentNode;
             cardFooter = card.querySelector('.card-footer');
             if (card.getAttribute('data-seleccionado') == 'true') {
+                var idp = card.getAttribute("data-idprod");
+                var i = Coincide(idp);
+                console.log(idp);
+                console.log("Antes", IdProductos);
+                if(i > -1){
+                    IdProductos.splice(i, i+1);
+                }
+                console.log("Despues", IdProductos);
                 cardFooter.classList.remove('bg-primary');
                 cardFooter.classList.remove('text-white');
                 cardFooter.classList.add('text-primary');
@@ -294,10 +303,8 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         var xhttp = new XMLHttpRequest();
         let formData = new FormData(document.querySelector("#frmoferta"));
         for (var i = 0; i < IdProductos.length; i++) {
-            console.log(IdProductos[i]);
             formData.append("IdProductos[]", encodeURIComponent(IdProductos[i]));
         }
-        console.log(formData);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
