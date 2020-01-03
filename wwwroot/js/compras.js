@@ -272,9 +272,13 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
             url: 'RegistroCompra',
             headers: headers,
             data: form,
-            done: function procesarRespuesta(data) {
+            done: function procesarRespuesta(texto) {
+				//redireccion via JS
                 location.href = '/Compras/ListaCompra';
-            }
+            }, 
+			fail: function () {
+				//aqui codigo si falla
+			}
         });
     }
 };
