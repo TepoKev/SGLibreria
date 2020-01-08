@@ -17,5 +17,9 @@ namespace SGLibreria.Models
         public string Direccion { get; set; }
 
         public virtual Empleado Empleado { get; set; }
+
+        public string NombreCompleto() {
+            return $"{this.Nombres} {this.Apellidos}";
+        }
     }
 }
