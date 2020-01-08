@@ -57,7 +57,7 @@
             }
             @foreach(var item in Model.Ventas){
                 <tr>
-                    <td>@item.Fecha.ToString("dd/MM/yyyy mm:ss")</td>
+                    <td>@item.Fecha.ToString("dd/MM/yyyy hh:mm tt")</td>
                     <td>@item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Nombres 
                         @item.IdUsuarioNavigation.Empleado.IdPersonaNavigation.Apellidos
                     </td>

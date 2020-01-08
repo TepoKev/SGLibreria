@@ -52,6 +52,7 @@ namespace SGLibreria.Pages.Empleados
             await this._context.Imagenes.AddAsync(Imagen);
             await this._context.SaveChangesAsync();
             this.Usuario.IdImagen = Imagen.Id;
+            this.Usuario.Clave = Encrypted.Encrypt(this.Usuario.Clave);
             await this._context.Usuarios.AddAsync(this.Usuario);
             await this._context.SaveChangesAsync();
             this.Empleado.IdPersona = this.Persona.Id;
