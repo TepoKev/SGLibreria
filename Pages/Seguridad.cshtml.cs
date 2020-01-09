@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
 using System.Text;
 using MySql.Data.MySqlClient;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
 using System.Data.SqlClient;
 
 namespace SGLibreria.Pages
