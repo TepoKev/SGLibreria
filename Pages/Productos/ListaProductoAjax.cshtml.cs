@@ -43,6 +43,12 @@ namespace SGLibreria.Pages.Productos
             } else {
                 Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%") || EF.Functions.Like(p.Codigo, $"%{NombreOCodigo}%"));
             }
+            var total =  _context.Productos.Select(
+                q => new {
+                    co = Consulta.Count()
+                }
+            ).FirstOrDefault();
+            //var con = total.co;
             this.Productos = Consulta.ToList();
             foreach (var item in this.Productos)
             {

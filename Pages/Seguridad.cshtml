@@ -1,5 +1,5 @@
 @page
-@model IndexModel
+@model SeguridadModel
 @{
 ViewData["Title"] = "Seguridad";
 }
@@ -54,17 +54,18 @@ ViewData["Title"] = "Seguridad";
                 [sgl.headerToken]: inputToken.value
             };
             sgl.ajax2({
-                url: "RegistroServicio?handler=CrearBackup",
-                method: "POST",
+                url: "Seguridad?handler=CrearBackup",
+                method: "post",
+
                 headers: {
                     [sgl.headerToken]: token.value,
                 },
-                data: new FormData(frmCrear),
                 done: function (data) {
                     document.querySelector("#notific").className = "toast-header bg-success";
                     document.querySelector("#mensaje").innerHTML = "Copia de seguridad creada!";
                     $('.toast').toast('show');
-                },
+                    console.log(data);
+                },//wns done
                 fail: function () {
                     document.querySelector("#notific").className = "toast-header bg-danger";
                     document.querySelector("#mensaje").innerHTML = "Error al crear copia de seguridad !";
