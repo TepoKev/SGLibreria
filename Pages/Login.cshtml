@@ -16,13 +16,20 @@
             <div class="text-center">
                 <h1 class="h4 text-white mb-4">!Bienvenido/a a SGLibreria!</h1>
             </div>
-            <form class="user" method="get" action="/">
+            <form class="user" method="post" >
+                @if(Model.Mensaje!=null && Model.Mensaje!="") {
+                    <div class="form-group font-weight-bold text-danger">
+                        @Model.Mensaje
+                    </div>
+                }
+                
                 <div class="form-group">
-                    <input type="email" class="form-control form-control-login form-control-user" id="usuario"
+                    <input type="email" name="Usuario.Correo"
+                    class="form-control form-control-login form-control-user" id="usuario"
                         aria-describedby="emailHelp" placeholder="Usuario">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control form-control-login form-control-user" id="clave"
+                    <input type="password" name="Usuario.Clave" class="form-control form-control-login form-control-user" id="clave"
                         placeholder="Contraseña">
                 </div>
                 <div class="form-group">

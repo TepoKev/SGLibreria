@@ -23,6 +23,18 @@ namespace SGLibreria
         {
             services.AddCors();
             services.AddDbContext<AppDbContext>();
+            
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = System.TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -48,11 +60,29 @@ namespace SGLibreria
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
+            app.Use(
+                async (context, next) => {
+                    int? IdUsuario = context.Session.GetInt32("IdUsuario");
+                    string path = context.Request.Path;
+                    //poner punto de interrupcion aqui si se entra en un bucle infinito
+                    if(IdUsuario == null && path !="/Login" ) {
+                        context.Response.Redirect("/Login");
+                        await next.Invoke();
+                    } else {
+                        await next.Invoke();
+                    }
+//                  await context.Response.WriteAsync("Test");
+                }
+            );
             app.UseMvc();
+
+            
+
         }
     }
 }
