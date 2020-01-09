@@ -29,8 +29,9 @@ namespace SGLibreria.Pages
             StreamReader leer;
             try
             {
-                /*
-                string file = @"C:\Users\Ernesto\Desktop";
+                
+
+                string file = @"C:\output\backup.sql";
                 Process proceso = new Process();
                 proceso.StartInfo.FileName = "cmd.exe";
                 proceso.StartInfo.UseShellExecute = false;
@@ -44,7 +45,8 @@ namespace SGLibreria.Pages
                 escribir.WriteLine("mysqldump -u root libreria > "+file+"");
                 proceso.WaitForExit();
                 proceso.Close();
-                */
+                
+                /*
                 string commandText = $@"BACKUP DATABASE [libreria] TO DISK = N'C:\Users\Ernesto\Desktop\backup.sql' WITH NOFORMAT, INIT, NAME = N'libreria-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
 
                 SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
@@ -64,6 +66,7 @@ namespace SGLibreria.Pages
                         command.ExecuteNonQuery();
                     }
                 }
+                */
             }
             catch (Exception e)
             {
