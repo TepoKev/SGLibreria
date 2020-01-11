@@ -38,8 +38,10 @@ ViewData["Title"] = "Lista de Productos";
     </div>
   </div>
 
-  <div class="col-lg-2" id="paginacion">
-    
+  <div class="col-lg-2" >
+      <ul class="pagination" id="paginacion">
+          
+      </ul>
   </div>
   
   <div class="col-lg-4">
@@ -184,7 +186,14 @@ ViewData["Title"] = "Lista de Productos";
   function refrescar(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
+    var divPaginador = sgl.q('#paginacion');
+    divPaginador.innerHTML = sgl.createPagination(divProductos);
+    console.log(data);
+
   };
+
+  
+
   var NombreOCodigo = sgl.q('#NombreOCodigo');
   NombreOCodigo.focus();
   NombreOCodigo.oninput = function (e) {
