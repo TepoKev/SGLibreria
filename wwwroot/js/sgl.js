@@ -335,7 +335,7 @@ sgl.createPagination = function (container) {
     if (currentPage > 0) {
         elems += '<li class="page-item"><a class="page-item" href="#">';
         elems += `<span aria-hidden="true">&laquo;</span>`;
-        eleme += '</a></li>';
+        elems += '</a></li>';
 
     }
     for (i = 0; i < pages; i++) {
