@@ -22,6 +22,7 @@ namespace SGLibreria.Pages.Productos
         public string NombreOCodigo { get; set;}
         public int Estado { get; set; }
         public bool? Boton { get; set; }
+        public int Total{get;set;}
         public ListaProductoAjaxModel(AppDbContext context) {
             this.Pagina = 0;
             this.CantidadPorFila = 6;
@@ -48,7 +49,7 @@ namespace SGLibreria.Pages.Productos
                     co = Consulta.Count()
                 }
             ).FirstOrDefault();
-            //var con = total.co;
+            this.Total = total.co;
             this.Productos = Consulta.ToList();
             foreach (var item in this.Productos)
             {

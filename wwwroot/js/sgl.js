@@ -324,7 +324,7 @@ var $s = (function () {
 /**
  * container: elemento HTML, que contiene un div id='resultados-filtro'
  */
-sql.createPagination = function (container) {
+sgl.createPagination = function (container) {
     let div = container.querySelector('resultados-filtro');
     let total = div.getAttribute('data-total')
     currentPage = div.getAttribute('data-current-page'),
