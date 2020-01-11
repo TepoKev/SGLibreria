@@ -23,7 +23,7 @@ namespace SGLibreria
         {
             services.AddCors();
             services.AddDbContext<AppDbContext>();
-            
+
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -41,7 +41,8 @@ namespace SGLibreria
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc().AddJsonOptions(options =>{
+            services.AddMvc().AddJsonOptions(options =>
+            {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -60,29 +61,72 @@ namespace SGLibreria
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
             app.Use(
-                async (context, next) => {
+                async (context, next) =>
+                {
                     int? IdUsuario = context.Session.GetInt32("IdUsuario");
                     string path = context.Request.Path;
                     //poner punto de interrupcion aqui si se entra en un bucle infinito
-                    if(IdUsuario == null && path !="/Login" ) {
-                        context.Response.Redirect("/Login");
-                        await next.Invoke();
-                    } else {
+                    //intenta acceder a una ruta fuera de /welcome, 
+                    //entonces debe ser inmediatamente redirigido al login
+                    if (IdUsuario == null && !path.StartsWith("/Welcome/"))
+                    {
+                        context.Response.Redirect("/Welcome/Login");
                         await next.Invoke();
                     }
-//                  await context.Response.WriteAsync("Test");
+                    else if (IdUsuario != null && path.StartsWith("/Welcome/"))
+                    {
+                        //permitir cerrar sesion en esta ruta
+                        if (path == "/Welcome/Logout")
+                        {
+                            await next.Invoke();
+                        }
+                        else //no puede acceder a ninguna pagina dentro de /welcome si ya inicio sesion
+                        {
+                            context.Response.Redirect("/Index");
+                            await next.Invoke();
+                        }
+                    }
+                    else
+                    {
+                        await next.Invoke();
+                    }
+                    //                  await context.Response.WriteAsync("Test");
                 }
             );
+            //app.Map("/Welcome", HandleLoginRequest);
             app.UseMvc();
+        }
+        public static void HandleLoginRequest(IApplicationBuilder app)
+        {
+            app.Use(async (context, next) =>
+            {
+                int? IdUsuario = context.Session.GetInt32("IdUsuario");
+                string path = context.Request.Path;
+                if (IdUsuario == null)
+                {
 
-            
-
+                    await next.Invoke();
+                }
+                else
+                {
+                    if (path == "/Logout")
+                    {
+                        await next.Invoke();
+                    }
+                    else
+                    {
+                        context.Response.Redirect("/Index");
+                        await next.Invoke();
+                    }
+                }
+            }
+            );
         }
     }
 }

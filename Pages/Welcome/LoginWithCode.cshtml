@@ -11,9 +11,14 @@
                 <h1 class="h4 text-white mb-2">Recuperar cuenta</h1>
                 <p class="text-white">Ingrese el código de recuperación que enviamos a su cuenta. </p>
             </div>
-            <form class="user" method="get" action="/">
+            <form class="user" method="post">
+                @if(Model.Mensaje!=null && Model.Mensaje!="") {
+                    <div class="form-group font-weight-bold text-danger">
+                        @Model.Mensaje
+                    </div>
+                }
                 <div class="form-group">
-                    <p class="text-white">Si lo encuentra en los mensajes de entrada, por favor búsquelo en la bandeja de SPAM</p>
+                    <p class="text-white">Si no lo encuentra en los mensajes de entrada, por favor búsquelo en la bandeja de SPAM</p>
                     <input type="text" class="form-control form-control-login form-control-user" id="Codigo" name="Codigo"
                         aria-describedby="emailHelp" placeholder="Por ejemplo: 325698">
                 </div>
@@ -23,7 +28,7 @@
             </form>
             <hr>
             <div class="text-center">
-                <a class="small text-white" href="/ForgetPassword"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <a class="small text-white" href="/Welcome/ForgetPassword"><i class="fas fa-arrow-left"></i> Regresar</a>
             </div>
         </div>
     </div>

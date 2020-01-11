@@ -12,7 +12,7 @@ namespace SGLibreria.Models
         public DateTime FechaEnvio { get; set; }
         public string Codigo { get; set; }
         [Display(Name="Fecha de Recuperación")]
-        public DateTime FechaRecuperacion { get; set; }
+        public DateTime? FechaRecuperacion { get; set; }
         public sbyte Estado { get; set; }
 
         public virtual Usuario IdUsuarioNavigation { get; set; }

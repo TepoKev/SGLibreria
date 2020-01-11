@@ -6,16 +6,18 @@ using SGLibreria.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Net;
+using System.Net.Mail;
 
-namespace SGLibreria.Pages
+namespace SGLibreria.Pages.Welcome
 {
     public class LoginModel : PageModel
     {
         [BindProperty]
         public Usuario Usuario { get; set; }
-        public string Mensaje {get;set;}
-       private readonly AppDbContext _context;
-        
+        public string Mensaje { get; set; }
+        private readonly AppDbContext _context;
+
         public LoginModel(AppDbContext context)
         {
             _context = context;
@@ -26,25 +28,28 @@ namespace SGLibreria.Pages
         public async Task<IActionResult> OnPostAsync(Boolean Logout)
         {
             var Session = HttpContext.Session;
-            if(Logout == true) {
+            if (Logout == true || Usuario.Correo == null)
+            {
                 Session.Clear();
                 return Page();
             }
             Usuario u = await _context.Usuarios
-            .Where( us => 
-                us.Nombre == Usuario.Correo
-                || us.Correo == Usuario.Correo
+            .Where(us =>
+               us.Nombre == Usuario.Correo
+               || us.Correo == Usuario.Correo
             )
             .Include(us => us.IdImagenNavigation)
             .ThenInclude(Img => Img.IdRutaNavigation)
-            .Include(us=> us.Empleado)
+            .Include(us => us.Empleado)
             .ThenInclude(e => e.IdPersonaNavigation)
             .SingleOrDefaultAsync();
-            if(u==null) {
+            if (u == null)
+            {
                 Mensaje = "Su usuario no existe";
                 return Page();
             }
-            if(u!=null && u.Estado==0) {
+            if (u != null && u.Estado == 0)
+            {
                 Mensaje = "¡Acceso denegado. Lo sentimos!";
                 return Page();
             }
@@ -52,15 +57,21 @@ namespace SGLibreria.Pages
             string NombreCompleto = per.NombreCompleto();
             string ruta = "";
             Imagen Imagen = u.IdImagenNavigation;
-            if(Imagen!=null) {
-                ruta = Imagen.IdRutaNavigation.Nombre+"/"
-                    +Imagen.Nombre;
+            if (Imagen != null)
+            {
+                ruta = Imagen.IdRutaNavigation.Nombre + "/"
+                    + Imagen.Nombre;
             }
             Session.SetInt32("IdUsuario", u.Id);
             Session.SetInt32("Privilegio", u.Privilegio);
-            Session.SetString("NombreCompleto",NombreCompleto);
+            Session.SetString("NombreCompleto", NombreCompleto);
             Session.SetString("Ruta", ruta);
             return RedirectToPage("/Index");
+        }
+
+        public void sendEmailTo()
+        {
+            
         }
     }
 }
