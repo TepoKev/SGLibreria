@@ -333,22 +333,22 @@ sgl.createPagination = function (container) {
     var i;
     let elems = '';
     if (currentPage > 0) {
-        elems += '<li class="page-item"><a class="page-item" href="#">';
-        elems += `<span aria-hidden="true">&laquo;</span>`;
+        elems += '<li class="page-item"><a class="page-link" href="#">';
+        elems += `<span aria-hidden="true">Ant</span>`;
         elems += '</a></li>';
 
     }
     for (i = 0; i < pages; i++) {
         if (i == currentPage) {
-            elems += `<li class='page-item'><a class-'page-link active' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class='page-item'><a class='page-link active' data-page='${i}' href="#">${i + 1}</a></li>`;
         } else {
-            elems += `<li class='page-item'><a class-'page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class='page-item'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
         }
     }
     if (currentPage < i) {
-        elems += '<li class="page-item"><a class="page-item" href="#">';
-        elems += `<span aria-hidden="true">&raquo;</span>`;
-        eleme += '</a></li>'
+        elems += '<li class="page-item"><a class="page-link" href="#">';
+        elems += `<span aria-hidden="true">Sig</span>`;
+        elems += '</a></li>'
     }
     return elems;
 }
