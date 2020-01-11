@@ -32,7 +32,7 @@ namespace SGLibreria.Pages
                 string file =
                 Entorno.backupOutputDir
                 + Entorno.prefix
-                + DateTime.Now.ToString("yyyy-MM-ddTHH-mm-sszzz") + ".sql";
+                + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".sql";
                 Console.WriteLine(file);
                 Process proceso = new Process();
                 //shell will be open with, and to it, will be send command
@@ -46,7 +46,8 @@ namespace SGLibreria.Pages
 
                 //send to stdin mysqldump command to backup
                 escribir = proceso.StandardInput;
-                escribir.WriteLine($"mysqldump -u {Entorno.username} {Entorno.dbName} > " + file + "");
+                string command = $"mysqldump -u {Entorno.username} {Entorno.dbName} > " + file + "";
+                escribir.WriteLine(command);
                 //close the stdin
                 escribir.Close();
                 //wait 
