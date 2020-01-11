@@ -6,10 +6,10 @@ var sgl = {
                 callback.call(this, this.responseText);
             }
         };
-        url = url + (params == undefined ? "" : "?"+params);
+        url = url + (params == undefined ? "" : "?" + params);
         xhttp.open("GET", url, true);
-//        console.log(url);
-//        console.log(params);
+        //        console.log(url);
+        //        console.log(params);
         xhttp.send();
     },
     post: function (url, callback, params, token) {
@@ -19,13 +19,13 @@ var sgl = {
                 callback.call(this, this.responseText);
             }
         };
-        xhttp.open("POST", url , true);
-        if(params == undefined) {
+        xhttp.open("POST", url, true);
+        if (params == undefined) {
             xhttp.send();
         } else {
             var formData = new FormData(params);
             var nombreToken = "__RequestVerificationToken";
-//            var token = params.elements.namedItem(nombreToken);
+            //            var token = params.elements.namedItem(nombreToken);
             xhttp.setRequestHeader(nombreToken, token);
             xhttp.send(formData);
         }
@@ -40,8 +40,8 @@ var sgl = {
         return document.querySelectorAll(selector);
     },
     //nombre del token usado por net core
-    inputToken:  'input[name=__RequestVerificationToken]',
-    headerToken: 'RequestVerificationToken', 
+    inputToken: 'input[name=__RequestVerificationToken]',
+    headerToken: 'RequestVerificationToken',
     ajax: function (metodo, url, callback, params) {
         if (metodo.toUpperCase() == 'POST') {
             this.post(url, callback, params);
@@ -61,19 +61,19 @@ var sgl = {
         elems[0].value = "";
         var clon = document.importNode(template.content, true);
         destino.appendChild(clon);
-  
+
         lista.forEach(function (item) {
-          //se accedera al primer elemento ya que solo hay un elemento <option>
-          elems[0].textContent = item[name];
-          elems[0].value = item[value];
-          var clon = document.importNode(template.content, true);
-          destino.appendChild(clon);
+            //se accedera al primer elemento ya que solo hay un elemento <option>
+            elems[0].textContent = item[name];
+            elems[0].value = item[value];
+            var clon = document.importNode(template.content, true);
+            destino.appendChild(clon);
         });
-      },
+    },
     ajax2: function (config) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if(this.readyState == 4) {
+            if (this.readyState == 4) {
                 switch (this.status) {
                     //okay
                     case 200:
@@ -81,38 +81,38 @@ var sgl = {
                         break;
                     //fallo
                     default:
-                        if(config.fail) {
+                        if (config.fail) {
                             config.fail.call(this);
                         }
                         break;
                 }
             }
         };
-        xhttp.open(config.method.toUpperCase(), config.url , true);
-        if(config.headers != undefined) {
-            for(var header in config.headers) {
+        xhttp.open(config.method.toUpperCase(), config.url, true);
+        if (config.headers != undefined) {
+            for (var header in config.headers) {
                 if (config.headers.hasOwnProperty(header)) {
                     xhttp.setRequestHeader(header, config.headers[header]);
                 }
             }
         }
-        if(config.data == undefined) {
+        if (config.data == undefined) {
             xhttp.send();
         } else {
-//            console.log(config.data.elements);
-//            console.log(config.headers);
-//            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//            xhttp.setRequestHeader('RequestVerificationToken', config.headers['RequestVerificationToken']);
+            //            console.log(config.data.elements);
+            //            console.log(config.headers);
+            //            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            //            xhttp.setRequestHeader('RequestVerificationToken', config.headers['RequestVerificationToken']);
             var formData, params;
-            if(config.data.nodeName == 'FORM') {
+            if (config.data.nodeName == 'FORM') {
                 formData = new FormData(config.data);
                 xhttp.send(formData);
-            } else if(config.data instanceof FormData) {
+            } else if (config.data instanceof FormData) {
                 xhttp.send(config.data);
             } else {
                 //if is a literal object
                 formData = new FormData();
-                for(var property in config.data) {
+                for (var property in config.data) {
                     if (config.data.hasOwnProperty(property)) {
                         formData.append(property, config.data[property]);
                     }
@@ -122,10 +122,10 @@ var sgl = {
         }
     },
     setDataSet: function (elem, attr) {
-        if(attr != undefined) {
-            for(var clave in attr) {
+        if (attr != undefined) {
+            for (var clave in attr) {
                 if (attr.hasOwnProperty(clave)) {
-                    elem.setAttribute('data-'+clave, attr[clave]);
+                    elem.setAttribute('data-' + clave, attr[clave]);
                 }
             }
         }
@@ -134,9 +134,9 @@ var sgl = {
         var obj = {};
         var listAttr = elem.attributes;
         var attr;
-        for(var i = 0; i < listAttr.length; i++) {
+        for (var i = 0; i < listAttr.length; i++) {
             attr = listAttr[i];
-            if(attr.nodeName.startsWith("data-")) {
+            if (attr.nodeName.startsWith("data-")) {
                 obj[attr.nodeName.substring(5)] = attr.nodeValue;
             }
         }
@@ -212,74 +212,74 @@ var sgl = {
  */
 var $s = (function () {
 
-	'use strict';
+    'use strict';
 
 	/**
 	 * Create the constructor
 	 * @param {String} selector The selector to use
 	 */
-	var Constructor = function (selector) {
-		if (!selector) {
+    var Constructor = function (selector) {
+        if (!selector) {
             this.length = 0;
             return;
         }
-		if (selector === 'document') {
+        if (selector === 'document') {
             this.elems = [document];
             this.length = 1;
-		} else if (selector === 'window') {
+        } else if (selector === 'window') {
             this.elems = [window];
             this.length = 1;
-		} else {
+        } else {
             this.elems = document.querySelectorAll(selector);
             this.length = this.elems.length;
-		}
-	};
+        }
+    };
 
 	/**
 	 * Do ajax stuff
 	 * @param  {String} url The URL to get
 	 */
-	Constructor.prototype.ajax = function (url) {
-		// Do some XHR/Fetch thing here
-		console.log(url);
-	};
+    Constructor.prototype.ajax = function (url) {
+        // Do some XHR/Fetch thing here
+        console.log(url);
+    };
 
 	/**
 	 * Run a callback on each item
 	 * @param  {Function} callback The callback function to run
 	 */
-	Constructor.prototype.each = function (callback) {
-		if (!callback || typeof callback !== 'function') return;
-		for (var i = 0; i < this.elems.length; i++) {
-			callback(this.elems[i], i);
-		}
-		return this;
-	};
+    Constructor.prototype.each = function (callback) {
+        if (!callback || typeof callback !== 'function') return;
+        for (var i = 0; i < this.elems.length; i++) {
+            callback(this.elems[i], i);
+        }
+        return this;
+    };
 
 	/**
 	 * Add a class to elements
 	 * @param {String} className The class name
 	 */
-	Constructor.prototype.addClass = function (className) {
-		this.each(function (item) {
-			item.classList.add(className);
-		});
-		return this;
-	};
+    Constructor.prototype.addClass = function (className) {
+        this.each(function (item) {
+            item.classList.add(className);
+        });
+        return this;
+    };
 
 	/**
 	 * Remove a class to elements
 	 * @param {String} className The class name
 	 */
-	Constructor.prototype.removeClass = function (className) {
-		this.each(function (item) {
-			item.classList.remove(className);
-		});
-		return this;
+    Constructor.prototype.removeClass = function (className) {
+        this.each(function (item) {
+            item.classList.remove(className);
+        });
+        return this;
     };
 
     Constructor.prototype.html = function (innerHTML) {
-        if(arguments.length == 0) {
+        if (arguments.length == 0) {
             return items[0].innerHTML;
         } else {
             this.each(function (item) {
@@ -289,7 +289,7 @@ var $s = (function () {
     }
 
     Constructor.prototype.text = function (text) {
-        if(arguments.length == 0) {
+        if (arguments.length == 0) {
             return items[0].innerText || items[0].textContent;
         } else {
             this.each(function (item) {
@@ -299,7 +299,7 @@ var $s = (function () {
     }
 
     Constructor.prototype.val = function (value) {
-        if(arguments.length == 0 ) {
+        if (arguments.length == 0) {
             return items[0].value;
         } else {
             this.each(function (value) {
@@ -311,13 +311,44 @@ var $s = (function () {
 	/**
 	 * Instantiate a new constructor
 	 */
-	var instantiate = function (selector) {
-		return new Constructor(selector);
-	};
+    var instantiate = function (selector) {
+        return new Constructor(selector);
+    };
 
 	/**
 	 * Return the constructor instantiation
 	 */
-	return instantiate;
+    return instantiate;
 
 })();
+/**
+ * container: elemento HTML, que contiene un div id='resultados-filtro'
+ */
+sql.createPagination = function (container) {
+    let div = container.querySelector('resultados-filtro');
+    let total = div.getAttribute('data-total')
+    currentPage = div.getAttribute('data-current-page'),
+        max = div.getAttribute('data-max');
+    let pages = total / max;
+    var i;
+    let elems = '';
+    if (currentPage > 0) {
+        elems += '<li class="page-item"><a class="page-item" href="#">';
+        elems += `<span aria-hidden="true">&laquo;</span>`;
+        eleme += '</a></li>';
+
+    }
+    for (i = 0; i < pages; i++) {
+        if (i == currentPage) {
+            elems += `<li class='page-item'><a class-'page-link active' data-page='${i}' href="#">${i + 1}</a></li>`;
+        } else {
+            elems += `<li class='page-item'><a class-'page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
+        }
+    }
+    if (currentPage < i) {
+        elems += '<li class="page-item"><a class="page-item" href="#">';
+        elems += `<span aria-hidden="true">&raquo;</span>`;
+        eleme += '</a></li>'
+    }
+    return elems;
+}
