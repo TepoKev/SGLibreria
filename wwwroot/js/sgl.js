@@ -324,9 +324,9 @@ var $s = (function () {
 /**
  * container: elemento HTML, que contiene un div id='resultados-filtro'
  */
-sgl.createPagination = function (container) {
-    let div = container.querySelector('#resultados-filtro');
-    let total = parseInt(div.getAttribute('data-total'))
+sgl.createPagination = function (container, filtro) {
+    let div = container.querySelector(filtro);
+    let total = parseInt(div.getAttribute('data-total')), 
     currentPage = parseInt(div.getAttribute('data-current-page')),
         max = parseInt(div.getAttribute('data-max'));
     let pages = total / max;
@@ -340,14 +340,14 @@ sgl.createPagination = function (container) {
     }
     for (i = 0; i < pages; i++) {
         if (i == currentPage) {
-            elems += `<li class='page-item'><a class='page-link active' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class='page-item active'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
         } else {
             elems += `<li class='page-item'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
         }
     }
     if (currentPage < i) {
         elems += '<li class="page-item"><a class="page-link" href="#">';
-        elems += `<span aria-hidden="true">Sig</span>`;
+        elems += `<span aria-hidden="true">>></span>`;
         elems += '</a></li>'
     }
     return elems;
