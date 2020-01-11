@@ -287,7 +287,7 @@
                                 <span class="mr-2 d-none d-lg-inline small text-white">@Context.Session.GetString("NombreCompleto")</span>
                                 @{
                                     string Ruta = Context.Session.GetString("Ruta");
-                                
+                                    var Id = Context.Session.GetInt32("IdUsuario");
                                 }
                                 @if(Ruta!=null && Ruta!="") {
                                     <img class="img-profile rounded-circle" alt="img" src="/@Ruta">
@@ -301,7 +301,8 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/Perfil">
+                                <a class="dropdown-item" asp-page="/Perfil"
+                                    asp-route-id="@Id">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
                                 </a>
                                 <a class="dropdown-item" href="/Seguridad">

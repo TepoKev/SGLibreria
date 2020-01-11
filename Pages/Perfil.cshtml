@@ -5,33 +5,42 @@
     ViewData["title"] = "Mi Perfil";
 }
 <div class="pt-5">
-    <form class="col-lg-10 offset-lg-1 rounded border border-secondary-100 py-5" method="post" >
+    <form class="rounded border border-secondary-100 p-5" method="POST" >
         <div class="row" id="frmUser">
-            <div class="col-lg-7 pt-5 mt-5">
-                <div class="form-group row pl-5">
-                    <label class="col-lg-5 col-form-label font-weight-bold">Usuario</label>
+            <input id="idusuario" asp-for="Usuario.Id" hidden>
+            <input id="idempleado" asp-for="Usuario.Empleado.Id" hidden>
+            <input id="idpersona" asp-for="Usuario.Empleado.IdPersonaNavigation.Id" hidden>
+            <div class="col-lg-6 mt-5 p-2 pt-5">
+                <div class="form-group row">
+                    <label asp-for="Usuario.Nombre" class="col-sm-4 col-form-label"></label>
                     <div class="col-lg-7">
-                        <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
+                        <input class="form-control mb-2" id="username" asp-for="Usuario.Nombre" placeholder="Digite su nombre de usuario">
                     </div>
+                    <span id="validateUsername" class="text-danger ml-5"></span>
                 </div>
-                <div class="form-group row pl-5">
-                    <label asp-for="Usuario.Correo" class="col-lg-5 col-form-label font-weight-bold"></label>
+                <div class="form-group row">
+                    <label asp-for="Usuario.Correo" class="col-sm-4 col-form-label"></label>
                     <div class="col-lg-7">
-                        <input class="form-control mb-2" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
+                        <input class="form-control mb-2" id="correo" asp-for="Usuario.Correo" placeholder="ejemplo@dominio.com">
                     </div>
+                    <span id="validateCorreo" class="text-danger ml-5"></span>
                 </div>
-                <div class="form-group row pt-3">
-                    <button type="button" class="col offset-1 btn btn-outline-secondary" id="btnPass"><i class="fas fa-key"></i> Cambiar Contraseña</button>
-                    <button type="button" class="col offset-1 btn btn-outline-secondary" id="btnPerson"><i class="fas fa-users-cog"></i> Cambiar Datos Personales</button>
+                <div class="row pt-3 pl-3">
+                    <button type="button" class="btn btn-outline-secondary mr-2" id="btnPass"><i class="fas fa-key"></i> Cambiar Contraseña</button>
+                    <button type="button" class="btn btn-outline-secondary" id="btnPerson"><i class="fas fa-users-cog"></i> Cambiar Datos Personales</button>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-6">
                 <div class="form-group row">
-                    <img src="~/img/blank-profile.png" alt="..." class="img-thumbnail rounded-circle mx-auto" height="80%" width="80%">
+                    @if(Model.Usuario.IdImagenNavigation == null){
+                        <img src = "/img/blank-profile.png" alt = "..." class="img-thumbnail rounded-circle mx-auto" style="width:22rem;height:22rem;">
+                    }else{
+                        <img src = "/@Model.Usuario.IdImagenNavigation.IdRutaNavigation.Nombre/@Model.Usuario.IdImagenNavigation.Nombre" alt = "Model.Usuario.IdPersonaNavigation.Nombre" class="img-thumbnail rounded-circle mx-auto" style="width:22rem;height:22rem;">
+                    }
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="pdimagen">
+                        <input type="file" class="custom-file-input" id="pdimagen" value="">
                         <label class="custom-file-label" name="pdimagen" for="pdimagen">Seleccione..</label>
                     </div>
                 </div>
@@ -41,33 +50,73 @@
             <div class="form-group row">
                 <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Contraseña Actual</label>
                 <div class="col-lg-6 pl-3">
-                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su contraseña actual">
+                    <input class="form-control mb-2" type="password" id="pass" placeholder="Digite su contraseña actual">
+                    <span id="validatePass" class="text-danger ml-5" hidden></span>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Nueva Contraseña</label>
                 <div class="col-lg-6 pl-3">
-                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Digite su nueva contraseña">
+                    <input class="form-control mb-2" type="password" id="newpass" placeholder="Digite su nueva contraseña">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-lg-3 offset-1 col-form-label font-weight-bold">Repetir Contraseña Nueva</label>
                 <div class="col-lg-6 pl-3">
-                    <input class="form-control mb-2" asp-for="Usuario.Nombre" placeholder="Retipita su contraseña nueva ">
+                    <input class="form-control mb-2" type="password" id="repass" placeholder="Retipita su contraseña nueva ">
+                    <span id="validateNewPass" class="text-danger ml-5"></span>
                 </div>
             </div>
         </div>
-        <div id="frmEmpleado" class="pt-5" hidden>
-            <div class="form-group row mx-auto">
-                <label class="col-lg-2 col-form-label font-weight-bold">Dirección</label>
-                <div class="col-lg-10">
-                    <textarea class="form-control form-control-user" placeholder="Col campos II, Barrio Los Angeles, Apastepeque, San Vicente" style="height: 100px;"></textarea>
+        <div id="frmEmpleado" hidden>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group row pr-1">
+                        <label asp-for="Usuario.Empleado.IdPersonaNavigation.Nombres"></label>
+                        <input asp-for="Usuario.Empleado.IdPersonaNavigation.Nombres" id="nombres" class="form-control" placeholder="Ingrese un nombre">
+                        <span id="validateNombres" class="text-danger ml-5"></span>
+                    </div>
+                    <div class="form-group row pr-1">
+                        <label for="genero">Genéro</label>
+                        <select class="form-control" id="genero">
+                        @if(Model.Usuario.Empleado.IdPersonaNavigation.Genero == 0){
+                            <option value="0" selected>Femenino</option>
+                            <option value="1">Masculino</option>
+                        }else{
+                            <option value="0">Femenino</option>
+                            <option value="1" selected>Masculino</option>
+                        }
+                        </select>
+                        <span id="validateGenero" class="text-danger ml-5"></span>
+                    </div>
+                    <div class="form-group row pr-1">
+                        <label asp-for="Usuario.Empleado.FechaNacimiento"></label>
+                        <input asp-for="Usuario.Empleado.FechaNacimiento" id="fecnac" class="form-control" placeholder="dd/MM/yyyy">
+                        <span id="validateFecha" class="text-danger ml-5"></span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group row pl-1">
+                        <label asp-for="Usuario.Empleado.IdPersonaNavigation.Apellidos"></label>
+                        <input asp-for="Usuario.Empleado.IdPersonaNavigation.Apellidos" id="apellidos" class="form-control" placeholder="Ingrese un apellido">
+                        <span id="validateApellidos" class="text-danger ml-5"></span>
+                    </div>
+                    <div class="form-group row pl-1">
+                        <label asp-for="Usuario.Empleado.IdPersonaNavigation.Telefono"></label>
+                        <input asp-for="Usuario.Empleado.IdPersonaNavigation.Telefono" id="telefono" class="form-control" placeholder="####-####">
+                        <span id="validateTelefono" class="text-danger ml-5"></span>
+                    </div>
+                    <div class="form-group row pl-1">
+                        <label asp-for="Usuario.Empleado.Dui"></label>
+                        <input asp-for="Usuario.Empleado.Dui" id="dui" class="form-control" placeholder="########-#">
+                        <span id="validateDui" class="text-danger ml-5"></span>
+                    </div>
                 </div>
             </div>
-            <div class="form-group row mx-auto">
-                <label class="col-lg-2 col-form-label font-weight-bold">Télefono</label>
-                <div class="form-group col-lg-4">
-                    <input class="form-control form-control-user mb-2" placeholder="####-####">
+            <div class="form-group">
+                <label asp-for="Usuario.Empleado.IdPersonaNavigation.Direccion"></label>
+                <div class="col-lg-10">
+                    <textarea asp-for="Usuario.Empleado.IdPersonaNavigation.Direccion" class="form-control" rows="3"></textarea>
                 </div>
             </div>
         </div>
@@ -84,6 +133,96 @@
         var BtnAtras = document.getElementById("atras");
         var BtnPass = document.getElementById("btnPass");
         var BtnPerson = document.getElementById("btnPerson");
+        var Username = document.querySelector("#username");
+        var Correo = document.querySelector("#correo");
+        var Telefono = document.querySelector("#telefono");
+        var Dui = document.querySelector("#dui");
+        var Pass = document.querySelector("#pass");
+        var NewPass = document.querySelector("#newpass");
+        var RePass = document.querySelector("#repass");
+        const IdUsuario = document.querySelector("#idusuario").value;
+        const IdEmpleado = document.querySelector("#idempleado").value;
+        const IdPersona = document.querySelector("#idpersona").value;
+        var ValidateUsername = document.querySelector("#validateUsername");
+        var ValidateCorreo = document.querySelector("#validateCorreo");
+        var ValidateTelefono = document.querySelector("#validateTelefono");
+        var ValidateDui = document.querySelector("#validateDui");
+        var ValidatePass = document.querySelector("#validatePass");
+        var ValidateNewPass = document.querySelector("#validateNewPass");
+        Username.addEventListener("input", (e)=>{
+            var text = e.currentTarget.value;
+            if(text){
+                ajaxValidateUsername(text);
+            }else{
+                ValidateUsername.innerHTML = "El campo Nombre de Usuario no puede quedar vacío";
+            }
+        });
+        Correo.addEventListener("input", (e)=>{
+            var text = e.currentTarget.value;
+            if(text){
+                ajaxValidateCorreo(text);
+            }else{
+                ValidateCorreo.innerHTML = "El campo Correo no puede quedar vacío";
+            }
+        });
+        Telefono.addEventListener("input", (e)=>{
+            var text = e.currentTarget.value;
+            if(text){
+                ajaxValidateTelefono(text);
+            }else{
+                ValidateTelefono.innerHTML = "El campo Telefono no puede quedar vacío";
+            }
+        });
+        Dui.addEventListener("input", (e)=>{
+            var text = e.currentTarget.value;
+            if(text){
+                ajaxValidateDui(text);
+            }else{
+                ValidateDui.innerHTML = "El campo DUI no puede quedar vacío";
+            }
+        });
+        Pass.addEventListener("focus", (e)=>{
+            ValidatePass.setAttribute("hidden","");
+            ValidatePass.innerHTML = "";
+        });
+        NewPass.addEventListener("focus", (e)=>{
+            let Pass = document.querySelector("#pass").value;
+            let RePass = document.querySelector("#repass").value;
+            if(Pass.length > 0){
+                ajaxValidatePass(Pass);
+            }
+            if(RePass.length > 0){
+                coincidePass();
+            }
+        });
+        RePass.addEventListener("focus", (e)=>{
+            let Pass = document.querySelector("#pass").value;
+            let NewPass = document.querySelector("#newpass").value;
+            if(Pass.length > 0){
+                ajaxValidatePass(Pass);
+            }
+            if(NewPass.length > 0){
+                coincidePass();
+            }
+        });
+        NewPass.addEventListener("input", (e)=>{
+            let RePass = document.querySelector("#repass").value;
+            if(RePass.length > 0){
+                coincidePass();
+            }else{
+                ValidateNewPass.serAttribute("hidden","");
+                ValidateNewPass.innerHTML = ""; 
+            }
+        });
+        RePass.addEventListener("input", (e)=>{
+            let NewPass = document.querySelector("#newpass").value;
+            if(NewPass.length > 0){
+                coincidePass();
+            }else{
+                ValidateNewPass.serAttribute("hidden","");
+                ValidateNewPass.innerHTML = ""; 
+            }
+        });
 
         BtnAtras.addEventListener("click", () => {
             BtnAtras.setAttribute("hidden","");
@@ -114,5 +253,120 @@
             FrmPass.setAttribute("hidden","");
             FrmEmpleado.removeAttribute("hidden");
         });
+        function coincidePass(){
+            let NewPass = document.querySelector("#newpass").value;
+            let RePass = document.querySelector("#repass").value;
+            if(NewPass == RePass){
+                ValidateNewPass.serAttribute("hidden","");
+                ValidateNewPass.innerHTML = "";
+            }else{
+                ValidateNewPass.innerHTML = "Las contraseñas no coinciden";
+                ValidateNewPass.removeAttribute("hidden");
+            }
+        }
+        function ajaxValidateUsername(username){
+            console.log("Username =", username);
+            console.log("idUser =", IdUsuario);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var existe = JSON.parse(this.responseText);
+                    if(existe == "Existe"){
+                        ValidateUsername.innerHTML = "Este Nombre de Usuario ya existe";
+                    }else{
+                        ValidateUsername.innerHTML = "";
+                    }
+                }
+            };
+            xhttp.open("POST", "Perfil?handler=ValidateUsername", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(`username=${username}&idUsuario=${IdUsuario}`);
+        }
+
+        function ajaxValidateCorreo(correo){
+            console.log("Correo =", correo);
+            console.log("idUser =", IdUsuario);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var existe = JSON.parse(this.responseText);
+                    if(existe == "Existe"){
+                        ValidateCorreo.innerHTML = "Este Correo ya existe";
+                    }else{
+                        ValidateCorreo.innerHTML = "";
+                    }
+                }
+            };
+            xhttp.open("POST", "Perfil?handler=ValidateCorreo", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(`correo=${correo}&idUsuario=${IdUsuario}`);
+        }
+
+        function ajaxValidateTelefono(telefono){
+            console.log("Telefono =", telefono);
+            console.log("idPersona =", IdPersona);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var existe = JSON.parse(this.responseText);
+                    if(existe == "Existe"){
+                        ValidateTelefono.innerHTML = "Este Teléfono ya existe";
+                    }else{
+                        ValidateTelefono.innerHTML = "";
+                    }
+                }
+            };
+            xhttp.open("POST", "Perfil?handler=ValidateTelefono", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(`telefono=${telefono}&idPersona=${IdPersona}`);
+        }
+        function ajaxValidateDui(dui){
+            console.log("DUI =", dui);
+            console.log("idEmpleado =", IdEmpleado);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var existe = JSON.parse(this.responseText);
+                    if(existe == "Existe"){
+                        ValidateDui.innerHTML = "Este DUI ya existe";
+                    }else{
+                        ValidateDui.innerHTML = "";
+                    }
+                }
+            };
+            xhttp.open("POST", "Perfil?handler=ValidateDui", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(`dui=${dui}&idEmpleado=${IdEmpleado}`);
+        }
+        function ajaxValidatePass(pass){
+            console.log("pass =", pass);
+            console.log("idUsuario =", IdUsuario);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var existe = JSON.parse(this.responseText);
+                    if(existe == "Existe"){
+                        ValidatePass.setAttribute("hidden","");
+                        ValidatePass.innerHTML = "";
+                    }else{
+                        ValidatePass.innerHTML = "La contraseña ingresada no coincide con la actual";
+                        ValidatePass.removeAttribute("hidden");
+                    }
+                }
+            };
+            xhttp.open("POST", "Perfil?handler=ValidatePass", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send(`password=${pass}&idUsuario=${IdUsuario}`);
+        }
     </script>
 }
