@@ -325,10 +325,10 @@ var $s = (function () {
  * container: elemento HTML, que contiene un div id='resultados-filtro'
  */
 sgl.createPagination = function (container) {
-    let div = container.querySelector('resultados-filtro');
-    let total = div.getAttribute('data-total')
-    currentPage = div.getAttribute('data-current-page'),
-        max = div.getAttribute('data-max');
+    let div = container.querySelector('#resultados-filtro');
+    let total = parseInt(div.getAttribute('data-total'))
+    currentPage = parseInt(div.getAttribute('data-current-page')),
+        max = parseInt(div.getAttribute('data-max'));
     let pages = total / max;
     var i;
     let elems = '';
