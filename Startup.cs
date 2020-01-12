@@ -96,37 +96,9 @@ namespace SGLibreria
                     {
                         await next.Invoke();
                     }
-                    //                  await context.Response.WriteAsync("Test");
                 }
             );
-            //app.Map("/Welcome", HandleLoginRequest);
             app.UseMvc();
-        }
-        public static void HandleLoginRequest(IApplicationBuilder app)
-        {
-            app.Use(async (context, next) =>
-            {
-                int? IdUsuario = context.Session.GetInt32("IdUsuario");
-                string path = context.Request.Path;
-                if (IdUsuario == null)
-                {
-
-                    await next.Invoke();
-                }
-                else
-                {
-                    if (path == "/Logout")
-                    {
-                        await next.Invoke();
-                    }
-                    else
-                    {
-                        context.Response.Redirect("/Index");
-                        await next.Invoke();
-                    }
-                }
-            }
-            );
         }
     }
 }
