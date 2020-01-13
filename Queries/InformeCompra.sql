@@ -1,6 +1,6 @@
 
 SELECT c.`Id`, p.`Nombre` as Proveedor, `Fecha`, count(c.`Id`) as Cantidad, 
-d.`PrecioCompra` as Total,
+sum(d.`PrecioCompra`) as Total,
 (select concat(rut.`Nombre`,'/', doc.`Nombre`) 
 	from documento doc 
 	inner join ruta rut 

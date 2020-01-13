@@ -46,7 +46,7 @@
                 <tr>
                     <td>@item.Cantidad</td>
                     <td>@item.IdProductoNavigation.Nombre</td>
-                    <td>@precioUnitario</td>
+                    <td>@string.Format("{0:0.00}", precioUnitario) </td>
                     <td>@valor</td>
                 </tr>
             }
