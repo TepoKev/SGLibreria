@@ -45,6 +45,7 @@ namespace SGLibreria.Pages.Welcome
             var EstadoParam = new MySqlParameter("@Estadp", "0");
             var IdUsuarioParam = new MySqlParameter("@IdUsuario", Usuario.Id);
             _context.Database.ExecuteSqlCommand(sql, EstadoParam, IdUsuarioParam);
+            
             string recoveryCode = Encrypted.CreatePassword(8);
             Recuperacioncuenta rec = new Recuperacioncuenta
             {

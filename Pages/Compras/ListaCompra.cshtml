@@ -50,7 +50,8 @@ ViewData["Title"] = "Lista de Compras";
                         <th>Fecha</th>
                         <th>Proveedor</th>
                         <th>Cantidad</th>
-                        <th>Documento</th>
+                        <th>Total</th>
+                        <th>Comprobante</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
@@ -58,17 +59,16 @@ ViewData["Title"] = "Lista de Compras";
                     @{
                         string nombre, ruta;
                     }
-                    @foreach (var item in Model.Compras)
+                    @foreach (var item in Model.Informes)
                     {
                     <tr>
                         <td>@item.Fecha.ToString("dd/MM/yyyy") </td>
-                        <td>@item.IdProveedorNavigation.Nombre </td>
-                        <td>@item.Detallecompra.Count </td>
-                        @if(item.Documento.Count >0 ) {
-                            ruta = item.Documento[0].IdRutaNavigation.Nombre;
-                            nombre = item.Documento[0].Nombre;
+                        <td>@item.Proveedor </td>
+                        <td>@item.Cantidad</td>
+                        <td>@item.Total</td>
+                        @if(item.Comprobante != null ) {
                             <td>
-                                <a href="/@ruta/@nombre" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i> Comprobante</a>
+                                <a href="/@item.Comprobante" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i> Comprobante</a>
                             </td>
 
                         } else {

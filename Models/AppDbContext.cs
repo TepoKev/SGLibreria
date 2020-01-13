@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
+using SGLibreria.Informes;
 namespace SGLibreria.Models
 {
     public partial class AppDbContext : DbContext
@@ -44,6 +44,9 @@ namespace SGLibreria.Models
         public virtual DbSet<Venta> Ventas { get; set; }
         public IConfiguration Configuration { get; }
 
+
+        //Informes
+        public virtual DbSet<InformeCompra> InformeCompra {get; set;}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
