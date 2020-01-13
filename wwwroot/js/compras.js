@@ -57,7 +57,7 @@ function Compras() {
                 tbody.removeChild(fila);
 
             } else if (target.matches('a[data-tipobtn=producto]')) {
-                alert('click en producto');
+                console.log('click en producto');
             }
         }
     };
