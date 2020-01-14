@@ -271,9 +271,10 @@ namespace SGLibreria.Pages.Compras
             return System.IO.File.Exists(Path.Combine(filepath, filename));
         }
 
-        public async Task<bool> UploadFile(string filepath, string filename, IFormFile archivo)
+        public async Task<bool> UploadFile(string dirName, string filename, IFormFile archivo)
         {
-            filepath = filepath + filename;
+            string filepath = dirName + filename;
+            System.IO.Directory.CreateDirectory(dirName);
             using (var fileStream = new FileStream(filepath, FileMode.Create))
             {
                 //copiar el archivo al servidor

@@ -29,14 +29,7 @@ namespace SGLibreria.Pages.Compras {
        
         public async Task OnGet() {
             Informes = _context.InformeCompra.FromSql(InformeCompra.query()).ToList();
-            /*Compras = await _context.Compras
-            .Include(c => c.IdProveedorNavigation)
-            .Include(c => c.Detallecompra)
-            .Include(c => c.Documento)
-            .ThenInclude(d => d.IdRutaNavigation)
-            .OrderByDescending(x => x.Fecha)
-            .ToListAsync();
-            */
+            
         }
         public IActionResult OnGetCompra(int? IdCompra) {
             Compra = _context.Compras
@@ -73,4 +66,32 @@ var result = _context.Detallecompra
                 Cantidad = g.Count(),
             })
             .ToList();
+            
 */
+/*
+var query = from detalle in _context.Set<Detallecompra>()
+            join compra in _context.Set<Compra>()
+            on detalle.IdCompra equals compra.Id
+            join proveedor in _context.Set<Proveedor>()
+            on compra.IdProveedor
+            equals proveedor.Id
+            group compra by new {
+                prov = proveedor.Nombre, 
+                cantidad = detalle.Cantidad,
+                Fecha = compra.Fecha
+            } into g
+            select new {
+                g.Key,
+            }
+            ;
+        var result = query.ToList();
+*/
+ 
+ /*Compras = await _context.Compras
+            .Include(c => c.IdProveedorNavigation)
+            .Include(c => c.Detallecompra)
+            .Include(c => c.Documento)
+            .ThenInclude(d => d.IdRutaNavigation)
+            .OrderByDescending(x => x.Fecha)
+            .ToListAsync();
+            */
