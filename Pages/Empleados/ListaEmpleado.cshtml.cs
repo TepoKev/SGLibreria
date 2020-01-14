@@ -75,5 +75,12 @@ namespace SGLibreria.Pages.Empleados
         {
             return _context.Usuarios.Any(u => u.Id == id);
         }
+        public async Task<PartialViewResult> OnGetEmpleadoSelectAsync() {
+            this.Empleados = await this._context.
+            Empleados
+            .Include(e => e.IdPersonaNavigation)
+            .ToListAsync();
+            return Partial("/Pages/Shared/OthersPartials/_EmpleadoSelectPartial.cshtml", this);
+        }
     }
 }

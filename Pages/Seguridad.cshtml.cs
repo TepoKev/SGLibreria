@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
+using SGLibreria.Utils;
 
 namespace SGLibreria.Pages
 {
@@ -23,45 +24,39 @@ namespace SGLibreria.Pages
 
         public async Task<IActionResult> OnPostCrearBackupAsync()
         {
-            StreamWriter escribir;
-            StreamReader leer;
             try
             {
-                /*
-                string file = @"C:\Users\Ernesto\Desktop";
+                StreamWriter escribir;
+                //output file, with absolute path
+                //and current datetime
+                string file =
+                Entorno.backupOutputDir
+                + Entorno.prefix
+                + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".sql";
+                Console.WriteLine(file);
                 Process proceso = new Process();
+                //shell will be open with, and to it, will be send command
                 proceso.StartInfo.FileName = "cmd.exe";
                 proceso.StartInfo.UseShellExecute = false;
-                proceso.StartInfo.WorkingDirectory = @"C:\xampp\mysql\bin";
+                //path to database manager (mysql)
+                proceso.StartInfo.WorkingDirectory = Entorno.DBMSPath;
                 proceso.StartInfo.RedirectStandardInput = true;
                 proceso.StartInfo.RedirectStandardOutput = true;
                 proceso.Start();
 
+                //send to stdin mysqldump command to backup
                 escribir = proceso.StandardInput;
-                leer = proceso.StandardOutput;
-                escribir.WriteLine("mysqldump -u root libreria > "+file+"");
+                string command = $"mysqldump -u {Entorno.username} {Entorno.dbName} > " + file + "";
+                escribir.WriteLine(command);
+                //close the stdin
+                escribir.Close();
+                //wait 
                 proceso.WaitForExit();
-                proceso.Close();
-                */
-                string commandText = $@"BACKUP DATABASE [libreria] TO DISK = N'C:\Users\Ernesto\Desktop\backup.sql' WITH NOFORMAT, INIT, NAME = N'libreria-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
 
-                SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
-                {
-                    DataSource = "localhost",
-                    InitialCatalog = "master",
-                    IntegratedSecurity = true
-                };
-                using (SqlConnection connection = new SqlConnection(connectionStringBuilder.ConnectionString))
-                {
-                    connection.Open();
-                    connection.InfoMessage += Connection_InfoMessage;
-                    using (SqlCommand command = connection.CreateCommand())
-                    {
-                        command.CommandText = commandText;
-                        command.CommandType = CommandType.Text;
-                        command.ExecuteNonQuery();
-                    }
-                }
+                int status = proceso.ExitCode;
+                proceso.Close();
+                //status == 0, means to program finish Okay
+
             }
             catch (Exception e)
             {
@@ -71,7 +66,7 @@ namespace SGLibreria.Pages
             return Page();
         }
 
-         private static void Connection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+        private static void Connection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
         {
             Console.WriteLine(e.Message);
         }

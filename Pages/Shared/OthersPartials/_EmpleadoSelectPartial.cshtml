@@ -1,0 +1,4 @@
+@model Empleados.ListaEmpleadoModel
+@foreach(var item in Model.Empleados) {
+<option value="@item.IdUsuario">@item.IdPersonaNavigation.NombreCompleto()</option>
+}

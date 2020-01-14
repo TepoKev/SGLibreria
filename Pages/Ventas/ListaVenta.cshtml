@@ -28,10 +28,8 @@
         <div class="form-group row">
             <label for="Empleado" class="col-lg-3 col-form-label">Empleado</label>
             <div class="col-lg-9">
-                <select name="Empleado" id="Empleado">
-                    <option disabled>-- Seleccione --</option>
-                    <option value="">Juan Perez</option>
-                    <option value="">Mariela Ramirez</option>
+                <select name="Empleado" id="IdUsuario">
+
                 </select>
             </div>
         </div>
@@ -99,10 +97,22 @@
 @section Scripts {
 <link href="~/selectric/src/selectric.css" rel="stylesheet">
 <script src="~/selectric/src/jquery.selectric.js"></script>
+<script src="~/js/sgl.js"></script>
 <script>
     $(function () {
         $('select').selectric();
+    })
+    
+    sgl.ajax2({
+        method: 'get', 
+        url: '/Empleados/ListaEmpleado?handler=EmpleadoSelect',  
+        done: function (data) {
+            console.log(data);
+            sgl.q('#IdUsuario').innerHTML = data;
+            $('select').selectric('refresh');
+        }
     });
+    ;
     var tbVentas = document.querySelector("#tbVentas");
     tbVentas.addEventListener("click", (e)=>{
         var element = e.target;

@@ -124,5 +124,12 @@ namespace SGLibreria.Pages.Proveedores
         {
             return _context.Telefonos.Any(t => t.Id == id);
         }
+        public async Task<PartialViewResult> OnGetProveedorSelectAsync() {
+            this.Proveedor = await this._context.
+            Proveedores
+            .Include(x => x.Telefono)
+            .ToListAsync();
+            return Partial("/Pages/Shared/OthersPartials/_ProveedorSelectPartial.cshtml", this);
+        }
     }
 }

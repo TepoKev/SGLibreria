@@ -21,10 +21,8 @@ ViewData["Title"] = "Lista de Compras";
                 <input type="date" class="form-control form-control-sm mb-2" id="cfechafin">
             </div>
             <label for="cproveedor" class="col-form-label font-weight-bold ">Proveedor</label>
-            <div class="form-group col-lg-4 " id="cproveedor">
-                <select>
-                    <option disabled>-- Seleccione --</option>
-                    <option value="">Libreria Miriam</option>
+            <div class="form-group col-lg-4 ">
+                <select id='IdProveedor' name="IdProveedor">
                 </select>
             </div>
             <div class="offset-lg-1 pt-2">
@@ -50,25 +48,23 @@ ViewData["Title"] = "Lista de Compras";
                         <th>Fecha</th>
                         <th>Proveedor</th>
                         <th>Cantidad</th>
-                        <th>Documento</th>
+                        <th>Total</th>
+                        <th>Comprobante</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @{
-                        string nombre, ruta;
-                    }
-                    @foreach (var item in Model.Compras)
+
+                    @foreach (var item in Model.Informes)
                     {
                     <tr>
                         <td>@item.Fecha.ToString("dd/MM/yyyy") </td>
-                        <td>@item.IdProveedorNavigation.Nombre </td>
-                        <td>@item.Detallecompra.Count </td>
-                        @if(item.Documento.Count >0 ) {
-                            ruta = item.Documento[0].IdRutaNavigation.Nombre;
-                            nombre = item.Documento[0].Nombre;
+                        <td>@item.Proveedor </td>
+                        <td>@item.Cantidad</td>
+                        <td>@item.Total</td>
+                        @if(item.Comprobante != null ) {
                             <td>
-                                <a href="/@ruta/@nombre" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i> Comprobante</a>
+                                <a href="/@item.Comprobante" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i> Comprobante</a>
                             </td>
 
                         } else {
@@ -149,6 +145,16 @@ ViewData["Title"] = "Lista de Compras";
     $(function () {
         $('select').selectric();
     });
+    console.log('a enviar');
+    sgl.ajax2({
+        method: 'get', 
+        url: '/Proveedores/ListaProveedor?handler=ProveedorSelect',  
+        done: function (data) {
+            console.log(data);
+            sgl.q('#IdProveedor').innerHTML = data;
+            $('select').selectric('refresh');
+        }
+    });
     var tablaCompras = sgl.q('#tablaCompras');
     tablaCompras.onclick = function (e) {
         var id;
@@ -169,6 +175,7 @@ ViewData["Title"] = "Lista de Compras";
                     $('#modalDetalle').modal('show');
                 }
             });
+            
         }
     };
 </script>

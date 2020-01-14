@@ -1,0 +1,4 @@
+@model Proveedores.ListaProveedorModel
+@foreach(var item in Model.Proveedor) {
+<option value="@item.Id">@item.Nombre</option>
+}
