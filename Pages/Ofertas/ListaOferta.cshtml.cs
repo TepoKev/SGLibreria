@@ -14,7 +14,7 @@ namespace SGLibreria.Pages.Ofertas {
             _context = context;
         }
 
-        public void OnGet(){
+        public void OnGet(int? Pagina, int? CantidadPorFila, int? Maximo){
             this.OfertaProducto = this._context.Ofertaproducto
             .Include(of => of.IdOfertaNavigation).OrderBy(of => of.IdOfertaNavigation.FechaFin)
             .Include(of => of.IdProductoNavigation).ThenInclude(p => p.Precioventa).ToList();

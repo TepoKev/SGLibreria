@@ -23,13 +23,23 @@ namespace SGLibreria.Pages.Servicios
             this.Maximo = this.CantidadPorFila * 2;
             _context = context;
         }
-        public IActionResult OnGet(int Pagina, int CantidadPorFila, int? Maximo, string NombreOCodigo)
+        public IActionResult OnGet(int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo)
         {
             IQueryable<Tiposervicio> Consulta = _context.Tiposervicio
             .Include(p => p.IdCompaniaNavigation)
             .Include(p => p.IdServicioNavigation)
             .Include(x => x.IdImagenNavigation)
             .ThenInclude(x => x.IdRutaNavigation);
+
+            if(Pagina == null){
+                Pagina = this.Pagina;
+            }
+            if(CantidadPorFila == null){
+                CantidadPorFila = this.CantidadPorFila;
+            }
+            if(Maximo == null){
+                Maximo = this.Maximo;
+            }
 
             Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%"));
 
@@ -40,9 +50,9 @@ namespace SGLibreria.Pages.Servicios
                         }
                     ).FirstOrDefault();
             this.Total = total.co;
-            
-            Consulta = Consulta.Skip((this.Pagina)* this.Maximo).Take(this.Maximo);
 
+            this.Tiposervicio = Consulta.ToList();
+            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
             this.Tiposervicio = Consulta.ToList();
             return Page();
         }

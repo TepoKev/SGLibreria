@@ -86,24 +86,9 @@ ViewData["Title"] = "Registro Venta";
     </div>
   </div>
   <div class="offset-1 col-lg-3">
-    <nav aria-label="...">
-      <ul class="pagination mb-0">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-            &lt;&lt; </a> </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active" aria-current="page">
-          <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">3</a>
-        </li>
-
-        <li class="page-item">
-          <a class="page-link" href="#">>></a>
-        </li>
+      <ul class="pagination" id="paginacion">
+          
       </ul>
-    </nav>
   </div>
   <div class="col-lg-3">
     <button class="btn btn-outline-success" id="btnVenta">
@@ -187,11 +172,16 @@ ViewData["Title"] = "Registro Venta";
   function refrescarProductos(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
+    var divPaginador = sgl.q('#paginacion');
+    divPaginador.innerHTML = sgl.createPagination(divProductos, "#resultados-filtro");
   }
   function refrescarServicios(data) {
     var divServicios = sgl.q('#servicios');
     divServicios.innerHTML = data;
+    var divPaginador = sgl.q('#paginacion');
+    divPaginador.innerHTML = sgl.createPagination(divServicios, "#resultados-filtro");
   }
+
   divItems.addEventListener("input", (e)=>{
     var element = e.target;
     if(element.getAttribute("data-iprod") != ""){
@@ -212,6 +202,7 @@ ViewData["Title"] = "Registro Venta";
       }
     }
   });
+
   divItems.addEventListener("click", (e)=>{
     var element = e.target;
     if(element.classList.contains("fa-trash")){
@@ -219,6 +210,7 @@ ViewData["Title"] = "Registro Venta";
       removeList(card);
     }
   });
+
   divItemsrv.addEventListener("input", (e)=>{
     var element = e.target;
     if(element.getAttribute("data-iserv") != ""){
@@ -239,6 +231,7 @@ ViewData["Title"] = "Registro Venta";
       }
     }
   });
+
   divItemsrv.addEventListener("click", (e)=>{
     var element = e.target;
     if(element.classList.contains("fa-trash")){
@@ -246,6 +239,7 @@ ViewData["Title"] = "Registro Venta";
       removeListS(card);
     }
   });
+
   BtnVenta.addEventListener("click",(e)=>{
     var btn = e.currentTarget;
     var divelems = document.querySelector("#productos-seleccionados");
@@ -257,24 +251,71 @@ ViewData["Title"] = "Registro Venta";
       btn.firstChild.textContent = "Mostrar Lista de Ventas";
     }
   })
+
+  var eventoClickPaginacion = sgl.q('#paginacion');
+  eventoClickPaginacion.addEventListener('click', clicka) ;
+  //console.log(eventoClickPaginacion);
+  function clicka(e){
+      e.preventDefault();
+      //console.log(e.target.tagName);
+      if(e.target.tagName == 'UL') {
+          return;
+      }
+      let child= e.target.firstElementChild , target = e.target;
+      //console.log(child, target);
+      page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+      console.log(page);
+      buscarProducto();
+      buscarServicios();
+  }
+  let page;
+
   NombreOCodigo.focus();
   NombreOCodigo.oninput = function (e) {
-    buscarProducto(NombreOCodigo.value);
+    buscarProducto();
+    buscarServicios();
   };
 
-  function buscarProducto(NombreCodigo, IdCategoria) {
-    params = "";
-    if (NombreCodigo) {
-      params += "NombreOCodigo=" + NombreCodigo;
+  var IdCategoria;
+function buscarProducto() {
+    var params = "";
+    var nombreOCodigo = NombreOCodigo.value;
+    
+    if (nombreOCodigo) {
+        params += "NombreOCodigo=" + nombreOCodigo;
     }
     if (IdCategoria) {
-      params += "&IdCategoria=" + IdCategoria;
+        params += "&IdCategoria=" + IdCategoria;
     }
-    sgl.get('ListaProductoAjax', function (data) {
-      var divProductos = sgl.q('#productos');
-      divProductos.innerHTML = data;
+    if(page){
+        params += "&Pagina=" + page;
+    }
+    params +='&Boton=true';
+    console.log(params);
+    sgl.get('/Productos/ListaProductoAjax', function (data) {
+        divProductos = sgl.q('#productos');
+        divProductos.innerHTML = data;
+
     }, params);
-  }
+}
+function buscarServicios() {
+    var params = "";
+    var nombreOCodigo = NombreOCodigo.value;
+    
+    if (nombreOCodigo) {
+        params += "NombreOCodigo=" + nombreOCodigo;
+    }
+    if(page){
+        params += "&Pagina=" + page;
+    }
+    params +='&Boton=true';
+    console.log(params);
+    sgl.get('/Servicios/ListaServicioAjax', function (data) {
+        divProductos = sgl.q('#servicios');
+        divProductos.innerHTML = data;
+
+    }, params);
+}
   //clic la imagen del card activa un elemento (Para productos)
   divProductos.addEventListener('click', function (evento) {
     var target = evento.target;
@@ -301,14 +342,14 @@ ViewData["Title"] = "Registro Venta";
       }
     }
   });
+
   divCategorias.onclick = function (evento) {
     var target = evento.target;
-    var IdCategoria = target.getAttribute('data-idcategoria');
-    if (IdCategoria != null) {
-      buscarProducto(NombreOCodigo.value, IdCategoria);
-    } else {
-      buscarProducto(NombreOCodigo.value);
-    }
+    console.log(target);
+    IdCategoria = target.getAttribute('data-idcategoria');
+    console.log(IdCategoria);
+    buscarProducto();
+    buscarServicios();
   }
   //Esta funcion nos permitira desmarcar un elemento de la tabla, borrar un registro del array items y eliminarlo de la lista de ventas
   function removeList(card){
@@ -459,18 +500,5 @@ ViewData["Title"] = "Registro Venta";
     document.querySelector("#montTot").innerHTML= Number.parseFloat(suma).toFixed(2);
   }
 
-  function buscarProducto(NombreCodigo, IdCategoria) {
-    params = "";
-    if (NombreCodigo) {
-      params += "NombreOCodigo=" + NombreCodigo;
-    }
-    if (IdCategoria) {
-      params += "&IdCategoria=" + IdCategoria;
-    }
-    sgl.get('ListaProductoAjax', function (data) {
-      var divProductos = sgl.q('#productos');
-      divProductos.innerHTML = data;
-    }, params);
-  }
 </script>
 }

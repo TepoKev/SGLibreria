@@ -139,25 +139,47 @@ ViewData["Title"] = "Lista de Servicios";
   <script src="~/selectric/src/jquery.selectric.js"></script>
   <script src="~/js/sgl.js"></script>
   <script>
-    sgl.get('ListaServicioAjax', refrescar);
+    sgl.get('Get', refrescar);
 
     function refrescar(data) {
-      var divServicios = sgl.q('#Servicios');
-      divServicios.innerHTML = data;
+      var divMarcas = sgl.q('#divMarcas');
+      divMarcas.innerHTML = data;
       //console.log(data);
       var divPaginador = sgl.q('#paginacion');
-      divPaginador.innerHTML = sgl.createPagination(divServicios, "#resultados-filtro");
+      divPaginador.innerHTML = sgl.createPagination(divMarcas, "#resultados-filtro");
     };
+
+    var eventoClickPaginacion = sgl.q('#paginacion');
+    eventoClickPaginacion.addEventListener('click', clicka) ;
+    console.log(eventoClickPaginacion);
+    function clicka(e){
+        e.preventDefault();
+        //console.log(e.target.tagName);
+        if(e.target.tagName == 'UL') {
+            return;
+        }
+        let child= e.target.firstElementChild , target = e.target;
+        //console.log(child, target);
+        page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+        //console.log(page);
+        buscarServicio();
+    }
+    let page;
+
     var NombreOCodigo = sgl.q('#NombreOCodigo');
     NombreOCodigo.focus();
     NombreOCodigo.oninput = function (e) {
-      buscarServicio(NombreOCodigo.value);
+      buscarServicio();
     };
 
-    function buscarServicio(NombreCodigo, IdCategoria) {
+    function buscarServicio() {
       params = "";
-      if (NombreCodigo) {
-        params += "NombreOCodigo=" + NombreCodigo;
+      var nombreOCodigo = NombreOCodigo.value;
+      if (nombreOCodigo) {
+        params += "NombreOCodigo=" + nombreOCodigo;
+      }
+      if(page){
+        params += "&Pagina=" + page;
       }
       sgl.get('ListaServicioAjax', function (data) {
         var divServicios = sgl.q('#Servicios');

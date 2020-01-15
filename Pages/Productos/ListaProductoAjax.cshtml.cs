@@ -65,10 +65,11 @@ namespace SGLibreria.Pages.Productos
             this.Total = total.co;
 
             if(IdCategoria==null) {
-                Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+               // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
             }
             
-
+            this.Productos = Consulta.ToList();
+            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
             this.Productos = Consulta.ToList();
             foreach (var item in this.Productos)
             {
