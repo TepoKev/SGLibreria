@@ -27,34 +27,25 @@ ViewData["Title"] = "Lista de Servicios";
 </div><!-- #Servicios -->
 
 <div id="nav-inferior" class="row bg-white position-fixed pt-3" style="bottom:0;border-top:2px solid #e5e5e5">
-  <div class="col-lg-7">
-    <div class="input-group mb-3">
-      <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre o código de Servicio"
-        aria-describedby="button-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+  <div class="row">
+      <div class="col-lg-10">
+        <div class="input-group mb-3">
+          <input type="text" id="NombreOCodigo" class="form-control" placeholder="Nombre del Servicio"
+            aria-describedby="button-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
       </div>
-    </div>
+    
+      <div class="col-lg-2">
+        <ul class="pagination" id="paginacion">
+          
+        </ul>
+      </div>
+      
   </div>
-  <div class="col-lg-2">
-    <nav aria-label="...">
-      <ul class="pagination mb-0">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-            <<</a> </li> <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active" aria-current="page">
-          <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">3</a>
-        </li>
-
-        <li class="page-item">
-          <a class="page-link" href="#">>></a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+</div>
 
   <template id='plantilla-option'>
     <option value=''></option>
@@ -141,28 +132,54 @@ ViewData["Title"] = "Lista de Servicios";
       </form>
     </div>
   </div>
+</div>
   }
   @section Scripts {
   <link href="~/selectric/src/selectric.css" rel="stylesheet">
   <script src="~/selectric/src/jquery.selectric.js"></script>
   <script src="~/js/sgl.js"></script>
   <script>
-    sgl.get('ListaServicioAjax', refrescar);
+    sgl.get('Get', refrescar);
 
     function refrescar(data) {
-      var divServicios = sgl.q('#Servicios');
-      divServicios.innerHTML = data;
+      var divMarcas = sgl.q('#divMarcas');
+      divMarcas.innerHTML = data;
+      //console.log(data);
+      var divPaginador = sgl.q('#paginacion');
+      divPaginador.innerHTML = sgl.createPagination(divMarcas, "#resultados-filtro");
     };
+
+    var eventoClickPaginacion = sgl.q('#paginacion');
+    eventoClickPaginacion.addEventListener('click', clicka) ;
+    console.log(eventoClickPaginacion);
+    function clicka(e){
+        e.preventDefault();
+        //console.log(e.target.tagName);
+        if(e.target.tagName == 'UL') {
+            return;
+        }
+        let child= e.target.firstElementChild , target = e.target;
+        //console.log(child, target);
+        page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+        //console.log(page);
+        buscarServicio();
+    }
+    let page;
+
     var NombreOCodigo = sgl.q('#NombreOCodigo');
     NombreOCodigo.focus();
     NombreOCodigo.oninput = function (e) {
-      buscarServicio(NombreOCodigo.value);
+      buscarServicio();
     };
 
-    function buscarServicio(NombreCodigo, IdCategoria) {
+    function buscarServicio() {
       params = "";
-      if (NombreCodigo) {
-        params += "NombreOCodigo=" + NombreCodigo;
+      var nombreOCodigo = NombreOCodigo.value;
+      if (nombreOCodigo) {
+        params += "NombreOCodigo=" + nombreOCodigo;
+      }
+      if(page){
+        params += "&Pagina=" + page;
       }
       sgl.get('ListaServicioAjax', function (data) {
         var divServicios = sgl.q('#Servicios');

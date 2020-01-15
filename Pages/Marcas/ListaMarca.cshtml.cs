@@ -15,13 +15,42 @@ namespace SGLibreria.Pages.Marcas
         public Marca Marca {get;set;}
         public List<Marca> Marcas {get;set;}
         private readonly  AppDbContext _context;
+        public int Pagina { get; set; }
+        public int CantidadPorFila { get; set; }
+        public int Maximo { get; set; }
+        public int Total { get; set; }
         public ListaMarcaModel(AppDbContext context) {
             this._context = context;
             Marcas = new List<Marca>();
+            this.Pagina = 0;
+            this.CantidadPorFila = 6;
+            this.Maximo = this.CantidadPorFila * 2;
         }
 
-        public async Task OnGetAsync(int? Id) {
-            this.Marcas=  _context.Marcas.ToList();
+        public async Task OnGetAsync(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo) {
+            IQueryable<Marca> Consulta =  _context.Marcas;
+            
+            if(Pagina == null){
+                Pagina = this.Pagina;
+            }
+            if(CantidadPorFila == null){
+                CantidadPorFila = this.CantidadPorFila;
+            }
+            if(Maximo == null){
+                Maximo = this.Maximo;
+            }
+
+            var total = _context.Marcas.Select(
+                        q => new
+                        {
+                            co = Consulta.Count()
+                        }
+                    ).FirstOrDefault();
+            this.Total = total.co;
+
+            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+
+            this.Marcas =  _context.Marcas.ToList();
             if(Id !=null){
                 this.Marca = await _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
             }
