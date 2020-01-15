@@ -55,7 +55,7 @@ namespace SGLibreria.Pages.Compras
 
             */
             
-            Compra.IdUsuario = 9;//
+            Compra.IdUsuario = 15;//
             Detallecompra det;
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();

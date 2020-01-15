@@ -5,24 +5,46 @@ function refrescar(data) {
     divProductos.innerHTML = data;
     var divPaginador = sgl.q('#paginacion');
     divPaginador.innerHTML = sgl.createPagination(divProductos, "#resultados-filtro");
-    console.log(data);
+    //console.log(data);
 };
 
+var eventoClickPaginacion = sgl.q('#paginacion');
+eventoClickPaginacion.addEventListener('click', clicka) ;
+console.log(eventoClickPaginacion);
+function clicka(e){
+    e.preventDefault();
+    console.log(e.target.tagName);
+    if(e.target.tagName == 'UL') {
+        return;
+    }
+    let child= e.target.firstElementChild , target = e.target;
+    console.log(child, target);
+    page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+    console.log(page);
+    
+}
+let page;
 var NombreOCodigo = sgl.q('#NombreOCodigo');
 NombreOCodigo.focus();
 NombreOCodigo.oninput = function (e) {
-    buscarProducto(NombreOCodigo.value);
+    buscarProducto();
 };
-
-function buscarProducto(NombreCodigo, IdCategoria) {
-    params = "";
-    if (NombreCodigo) {
-        params += "NombreOCodigo=" + NombreCodigo;
+var IdCategoria;
+function buscarProducto() {
+    var params = "";
+    var nombreOCodigo = NombreOCodigo.value;
+    
+    if (nombreOCodigo) {
+        params += "NombreOCodigo=" + nombreOCodigo;
     }
     if (IdCategoria) {
         params += "&IdCategoria=" + IdCategoria;
     }
+    if(page){
+        params += "&Pagina=" + page;
+    }
     params +='&Boton=true';
+    console.log(params);
     sgl.get('ListaProductoAjax', function (data) {
         var divProductos = sgl.q('#productos');
         divProductos.innerHTML = data;
@@ -239,10 +261,7 @@ formModificar.onsubmit = function (evento) {
 divCategorias.onclick = function (evento) {
     var target = evento.target;
     console.log(target);
-    var IdCategoria = target.getAttribute('data-idcategoria');
-    if (IdCategoria != null) {
-        buscarProducto(NombreOCodigo.value, IdCategoria);
-    } else {
-        buscarProducto(NombreOCodigo.value);
-    }
+    IdCategoria = target.getAttribute('data-idcategoria');
+    console.log(IdCategoria);
+    buscarProducto();
 }
