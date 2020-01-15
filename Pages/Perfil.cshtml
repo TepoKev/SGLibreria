@@ -163,6 +163,8 @@
         var ValidateNewPass = document.querySelector("#validateNewPass");
         var BtnProcess = document.querySelector("#process");
         var InputImg = document.querySelector("#pdimagen");
+        var regexDui = /^\d{8}-\d$/;
+        var regexTelefono = /^\d{4}-\d{4}$/;
         InputImg.addEventListener("change", function (){
             readURL(document.querySelector("#pdimagen"));
             function readURL(InputImg) {
@@ -195,17 +197,41 @@
             }
         });
         Telefono.addEventListener("input", (e)=>{
-            var text = e.currentTarget.value;
+            var element = e.currentTarget;
+            var text = element.value;
             if(text){
-                ajaxValidateTelefono(text);
+                ValidateTelefono.setAttribute("hidden","");
+                ValidateTelefono.innerHTML = "";
+                if(text.length == 9){
+                    if(regexTelefono.test(text)){
+                        ValidateTelefono.setAttribute("hidden","");
+                        ValidateTelefono.innerHTML = "";
+                        ajaxValidateTelefono(text);
+                    }else{
+                        ValidateTelefono.innerHTML = "Formato Teléfono incorrecto";
+                        ValidateTelefono.removeAttribute("hidden");
+                    }
+                }
             }else{
                 ValidateTelefono.innerHTML = "El campo Telefono no puede quedar vacío";
             }
         });
         Dui.addEventListener("input", (e)=>{
-            var text = e.currentTarget.value;
+            var element = e.currentTarget;
+            var text = element.value;
             if(text){
-                ajaxValidateDui(text);
+                ValidateDui.setAttribute("hidden","");
+                ValidateDui.innerHTML = "";
+                if(text.length == 10){
+                    if(regexDui.test(text)){
+                        ValidateDui.setAttribute("hidden","");
+                        ValidateDui.innerHTML = "";
+                        ajaxValidateDui(text);   
+                    }else{
+                        ValidateDui.innerHTML = "Formato de DUI incorrecto";
+                        ValidateDui.removeAttribute("hidden");
+                    }
+                }
             }else{
                 ValidateDui.innerHTML = "El campo DUI no puede quedar vacío";
             }
@@ -295,7 +321,7 @@
             FrmUser.setAttribute("hidden","");
             FrmPass.setAttribute("hidden","");
             FrmEmpleado.removeAttribute("hidden");
-        });
+        }); 
         function coincidePass(){
             let NewPass = document.querySelector("#newpass").value;
             let RePass = document.querySelector("#repass").value;
@@ -369,8 +395,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var existe = JSON.parse(this.responseText);
                     if(existe == "Existe"){
+                        ValidateDui.removeAttribute("hidden");
                         ValidateDui.innerHTML = "Este DUI ya existe";
                     }else{
+                        ValidateDui.setAttribute("hidden","");
                         ValidateDui.innerHTML = "";
                     }
                 }
@@ -408,13 +436,34 @@
             VD = document.querySelector("#validateDui").textContent;
             VP = document.querySelector("#validatePass").textContent;
             VNP = document.querySelector("#validateNewPass").textContent;
+            InpDui = document.querySelector("#dui").value;
+            InpTel = document.querySelector("#telefono").value;
             if(VU == "" && VC == "" && VT == "" && VD == "" && VP == "" && VNP == ""){
-                return true;
+                if(regexDui.test(InpDui) && regexTelefono.test(InpTel)){
+                    ValidateDui.setAttribute("hidden","");
+                    ValidateDui.innerHTML = "";
+                    ValidateTelefono.setAttribute("hidden","");
+                    ValidateTelefono.innerHTML = "";
+                    return true;
+                }else{
+                    if(!regexDui.test(InpDui)){
+                        ValidateDui.innerHTML = "Formato de DUI incorrecto";
+                        ValidateDui.removeAttribute("hidden");
+                    }
+                    if(!regexTelefono.test(InpTel)){
+                        ValidateTelefono.innerHTML = "Formato Teléfono incorrecto";
+                        ValidateTelefono.removeAttribute("hidden");
+                    }
+                    return false;
+                }
             }else{
                 return false;
             }
         }
         function ajaxActualizar(){
+            if(!validacion()){
+                return;
+            }
             let form = new FormData(document.querySelector('#frmusuarioact'));
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
