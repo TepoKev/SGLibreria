@@ -1,7 +1,7 @@
 
 sgl.get('ListaProductoAjax?Boton=true', refrescar);
 function refrescar(data) {
-    var divProductos = sgl.q('#productos');
+    divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
     var divPaginador = sgl.q('#paginacion');
     divPaginador.innerHTML = sgl.createPagination(divProductos, "#resultados-filtro");
@@ -13,15 +13,13 @@ eventoClickPaginacion.addEventListener('click', clicka) ;
 console.log(eventoClickPaginacion);
 function clicka(e){
     e.preventDefault();
-    console.log(e.target.tagName);
     if(e.target.tagName == 'UL') {
         return;
     }
     let child= e.target.firstElementChild , target = e.target;
-    console.log(child, target);
     page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
-    console.log(page);
-    
+    //console.log(page);
+    buscarProducto();
 }
 let page;
 var NombreOCodigo = sgl.q('#NombreOCodigo');
@@ -46,7 +44,7 @@ function buscarProducto() {
     params +='&Boton=true';
     console.log(params);
     sgl.get('ListaProductoAjax', function (data) {
-        var divProductos = sgl.q('#productos');
+        divProductos = sgl.q('#productos');
         divProductos.innerHTML = data;
 
     }, params);
@@ -256,7 +254,6 @@ formModificar.onsubmit = function (evento) {
         }
     });
 }
-
 
 divCategorias.onclick = function (evento) {
     var target = evento.target;

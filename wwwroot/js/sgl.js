@@ -333,7 +333,7 @@ sgl.createPagination = function (container, filtro) {
     var i=0;
     let elems = '';
     if (currentPage > 0) {
-        elems += `<li class="page-item"><a class="page-link" data-page='${i}' href="#">`;
+        elems += `<li class="page-item active"><a class="page-link" data-page='${i}' href="#">`;
         elems += `<<`;
         elems += '</a></li>';
 
@@ -342,12 +342,12 @@ sgl.createPagination = function (container, filtro) {
         if (i == currentPage) {
             elems += `<li class='page-item active'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
         } else {
-            elems += `<li class='page-item'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class='page-item active'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
         }
     }
     console.log(currentPage, i);
     if (currentPage > i) {
-        elems += `<li class="page-item"><a class="page-link" data-page='${i}' href="#">`;
+        elems += `<li class="page-item active"><a class="page-link" data-page='${i}' href="#">`;
         elems += `>>`;
         elems += '</a></li>'
     }
