@@ -118,6 +118,10 @@ namespace SGLibreria.Pages.Compras
                         PrecioCompra = det.PrecioCompra
                     }
                 );
+                int? Existencia = _context.Kardex.Where(K => K.Id);
+                Kardex kardex = new Kardex(
+                    
+                );
                 await _context.SaveChangesAsync();
             }
             
