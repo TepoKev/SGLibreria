@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+using SGLibreria.Informes;
 namespace SGLibreria.Pages.Compras
 {
     public class RegistroCompraModel : PageModel
@@ -118,10 +118,12 @@ namespace SGLibreria.Pages.Compras
                         PrecioCompra = det.PrecioCompra
                     }
                 );
-                int? Existencia = _context.Kardex.Where(K => K.Id);
-                Kardex kardex = new Kardex(
-                    
-                );
+                /*
+                IList<ConsultaKardex> ck =  _context.ConsultaKardex.FromSql(ConsultaKardex.queryOne(), det.IdProducto).ToList();
+                if() {
+
+                }
+                */
                 await _context.SaveChangesAsync();
             }
             
