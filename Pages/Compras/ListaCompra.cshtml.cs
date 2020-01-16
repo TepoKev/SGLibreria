@@ -31,7 +31,7 @@ namespace SGLibreria.Pages.Compras {
             Informes = _context.InformeCompra.FromSql(InformeCompra.query()).ToList();
             
         }
-        public IActionResult OnGetCompra(int? IdCompra) {
+        public IActionResult OnGetCompra(int? IdCompra ) {
             Compra = _context.Compras
             .Include( c=> c.IdProveedorNavigation)
             .Where(c => c.Id == IdCompra).FirstOrDefault();
