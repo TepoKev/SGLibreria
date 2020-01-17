@@ -2,7 +2,7 @@
 @model Marcas.ListaMarcaModel;
 @using SGLibreria.Models;
 @{ ViewData["Title"] = "Registro y Lista de Marcas"; }
-<div id="resultados-filtro"  data-total="@Model.Total" data-current-page="@Model.Pagina" data-max="@Model.Maximo"></div>
+
 <div class="row">
     <div class="col-lg-8 offset-lg-2 rounded ">
         <div class="card shadow mb-4">
@@ -78,13 +78,36 @@
                     </thead>
 
                         <tbody id="tbMarca">
-                       
+                            @{
+                                int i;
+                                int len = Model.Marcas.Count;
+                                Marca c;
+                            }
+                                    @for(i=0; i < len; i++){
+                                    c=Model.Marcas[i];
+                                    <tr>
+                                    <td>@c.Nombre</td>
+                                    <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
+                                    </td>
+                                    <td>
+                                        <div class="col-form-label custom-control custom-switch">
+                                            @if(c.Estado == 1){
+                                                <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
+                                                <label class="custom-control-label" for="@c.Id">Habilitada</label>
+                                            }else{
+                                                <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
+                                                <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
+                                            }
+                                        </div>
+                                    </td>
+                                    </tr>
+                                }
                         </tbody>
                 </table>
             </div>
             <div class="row" id="pag">
                 <ul class="pagination" id="paginacion">  
-                    
+
                 </ul>
             </div>
         </div>
@@ -94,12 +117,11 @@
 @section Scripts{
     <script src="~/js/sgl.js"></script>
 <script>
-    sgl.get('ListaMarca?handler=MarcaPaginacion', refrescar);
+
+    /*sgl.get('ListaMarca?handler=MarcaPaginacion', refrescar);
     function refrescar(data) {
         var div = sgl.q('#tbMarca');
         div.innerHTML = data;
-        var divPaginador = sgl.q('#paginacion');
-        divPaginador.innerHTML = sgl.createPagination(div, "#resultados-filtro");
         console.log(data);
     };
 
@@ -120,17 +142,17 @@
     let page;
     function buscarProducto() {
     var params = "";
-    if(page){
-        params += "&Pagina=" + page;
-    }
-    params +='&Boton=true';
-    console.log(params);
-    sgl.get('ListaMarca?handler=MarcaPaginacion', function (data) {
-        tbMarca = sgl.q('#tbMarca');
-        tbMarca.innerHTML = data;
-        refrescar(data);
-    }, params);
-}
+        if(page){
+            params += "&Pagina=" + page;
+        }
+        params +='&Boton=true';
+        console.log(params);
+        sgl.get('ListaMarca?handler=MarcaPaginacion', function (data) {
+            tbMarca = sgl.q('#tbMarca');
+            tbMarca.innerHTML = data;
+            refrescar(data);
+        }, params);
+    }*/
 
     var FrmMarcaAdd = document.querySelector("#formMarcaadd");
     var FrmMarcaMod = document.querySelector("#formMarcamod");
@@ -206,18 +228,24 @@
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    var Marcas = JSON.parse(this.responseText);
-                    if(Marcas != ""){
-                        FrmMarcaAdd.removeAttribute("hidden");
-                        FrmMarcaMod.setAttribute("hidden","");
-                        document.querySelector("#nombremod").value = "";
-                        document.querySelector("#formMarcaadd").reset();
-                        ToastSuccess("Modificacón Exitosa!");
-                        //Actualizacion de la tabla
-                        LlenarTabla(Marcas);
+                    var obj = JSON.parse(this.responseText);
+                    var Marcas = obj.marcas;
+                    if(obj.error){
+                        ToastFail(obj.error);
                     }else{
-                        ToastFail("Fallo en el Registro!!");
+                        if(Marcas != ""){
+                            FrmMarcaAdd.removeAttribute("hidden");
+                            FrmMarcaMod.setAttribute("hidden","");
+                            document.querySelector("#nombremod").value = "";
+                            document.querySelector("#formMarcaadd").reset();
+                            ToastSuccess("Modificacón Exitosa!");
+                            //Actualizacion de la tabla
+                            LlenarTabla(Marcas);
+                        }else{
+                            ToastFail("Fallo en el Registro!!");
+                        }
                     }
+                    
                 } else {
                     ToastFail("Fallo la Modificación!!");
                 }
@@ -236,8 +264,12 @@
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    var Marcas = JSON.parse(this.responseText);
-                    if(Marcas != ""){
+                    var obj = JSON.parse(this.responseText);
+                    var Marcas = obj.marcas;
+                    if(obj.error){
+                        ToastFail(obj.error);
+                    } else{
+                        if(Marcas != ""){
                         document.querySelector("#Marca_Nombre").value = "";
                         document.querySelector("#formMarcaadd").reset();
                         ToastSuccess("Registro Exitoso!");
@@ -247,6 +279,8 @@
                     }else{
                         ToastFail("Fallo en el Registro!!");
                     }
+                    }
+                    
                 } else {
                     ToastFail("Fallo en el Registro!!");
                 }

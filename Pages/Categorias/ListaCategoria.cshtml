@@ -65,15 +65,6 @@
                 <h6 class="m-0 font-weight-bold text-primary">Categorías</h6>
             </div>
 
-            <div class="row px-4 pt-3">
-                <label class="px-2 col-form-label">Mostrar</label>
-                <select class="form-control col-lg-2">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>15</option>
-                </select>
-            </div>
-
             <div class="row px-5 pt-3">
                 <table class="table table-sm table-hover">
                     <thead class="thead-dark">
@@ -116,25 +107,7 @@
             </div>
             <div class="row">
                 <div class="col offset-5">
-                    <nav aria-label="Paginacion ">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Anterior</span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Siguiente</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    
                 </div>
             </div>
         </div>
@@ -218,18 +191,24 @@
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    var Categorias = JSON.parse(this.responseText);
-                    if(Categorias != ""){
-                        FrmCategoriaAdd.removeAttribute("hidden");
-                        FrmCategoriaMod.setAttribute("hidden","");
-                        document.querySelector("#nombremod").value = "";
-                        document.querySelector("#formcategoriaadd").reset();
-                        ToastSuccess("Modificacón Exitosa!");
-                        //Actualizacion de la tabla
-                        LlenarTabla(Categorias);
+                    var obj = JSON.parse(this.responseText);
+                    var Categorias = obj.categorias;
+                    if(obj.error){
+                        ToastFail(obj.error);
                     }else{
-                        ToastFail("Fallo en el Registro!!");
+                        if(Categorias != ""){
+                            FrmCategoriaAdd.removeAttribute("hidden");
+                            FrmCategoriaMod.setAttribute("hidden","");
+                            document.querySelector("#nombremod").value = "";
+                            document.querySelector("#formcategoriaadd").reset();
+                            ToastSuccess("Modificacón Exitosa!");
+                            //Actualizacion de la tabla
+                            LlenarTabla(Categorias);
+                        }else{
+                            ToastFail("Fallo en el Registro!!");
+                        }
                     }
+                    
                 } else {
                     ToastFail("Fallo la Modificación!!");
                 }
@@ -248,16 +227,22 @@
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    var Categorias = JSON.parse(this.responseText);
-                    if(Categorias != ""){
-                        document.querySelector("#Categoria_Nombre").value = "";
-                        document.querySelector("#formcategoriaadd").reset();
-                        ToastSuccess("Registro Exitoso!");
-                        //Actualizacion de la tabla
-                        LlenarTabla(Categorias);
+                    var obj = JSON.parse(this.responseText);
+                    var Categorias = obj.categorias;
+                    if(obj.error){
+                        ToastFail(obj.error);
                     }else{
-                        ToastFail("Fallo en el Registro!!");
+                        if(Categorias != ""){
+                            document.querySelector("#Categoria_Nombre").value = "";
+                            document.querySelector("#formcategoriaadd").reset();
+                            ToastSuccess("Registro Exitoso!");
+                            //Actualizacion de la tabla
+                            LlenarTabla(Categorias);
+                        }else{
+                            ToastFail("Fallo en el Registro!!");
+                        }
                     }
+                    
                 } else {
                     ToastFail("Fallo en el Registro!!");
                 }

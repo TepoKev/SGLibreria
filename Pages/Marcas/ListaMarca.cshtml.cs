@@ -16,76 +16,18 @@ namespace SGLibreria.Pages.Marcas
         public Marca Marca {get;set;}
         public List<Marca> Marcas {get;set;}
         private readonly  AppDbContext _context;
-        public int Pagina { get; set; }
-        public int CantidadPorFila { get; set; }
-        public int Maximo { get; set; }
-        public int Total { get; set; }
         public ListaMarcaModel(AppDbContext context) {
             this._context = context;
             Marcas = new List<Marca>();
-            this.Pagina = 0;
-            this.CantidadPorFila = 2;
-            this.Maximo = this.CantidadPorFila * 2;
         }
 
-        public async Task OnGetAsync(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo) {
-            IQueryable<Marca> Consulta =  _context.Marcas;
-            
-            if(Pagina == null){
-                Pagina = this.Pagina;
-            }
-            if(CantidadPorFila == null){
-                CantidadPorFila = this.CantidadPorFila;
-            }
-            if(Maximo == null){
-                Maximo = this.Maximo;
-            }
-
-            var total = _context.Marcas.Select(
-                        q => new
-                        {
-                            co = Consulta.Count()
-                        }
-                    ).FirstOrDefault();
-            this.Total = total.co;
-
-            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
-
+        public async Task OnGetAsync(int? Id) {
             this.Marcas =  _context.Marcas.ToList();
             if(Id !=null){
                 this.Marca = await _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
             }
         }
 
-        public PartialViewResult OnGetMarcaPaginacion(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo) {
-            IQueryable<Marca> Consulta =  _context.Marcas;
-            
-            if(Pagina == null){
-                Pagina = this.Pagina;
-            }
-            if(CantidadPorFila == null){
-                CantidadPorFila = this.CantidadPorFila;
-            }
-            if(Maximo == null){
-                Maximo = this.Maximo;
-            }
-
-            var total = _context.Marcas.Select(
-                        q => new
-                        {
-                            co = Consulta.Count()
-                        }
-                    ).FirstOrDefault();
-            this.Total = total.co;
-
-            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
-
-            this.Marcas =  Consulta.ToList();
-            if(Id !=null){
-                //this.Marca =  _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
-            }
-            return Partial("/Pages/Shared/OthersPartials/_MarcaPartial.cshtml", this);
-        }
         public async Task<IActionResult> OnPostEstado(int IdMarca, int Estado)
         {
             if(!MarcaExists(IdMarca)){
@@ -112,39 +54,57 @@ namespace SGLibreria.Pages.Marcas
             return Page();
         }
         public async Task<JsonResult> OnPost(){
-            this.Marca.Estado = (sbyte) 1;
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult("");
+            var existe = _context.Marcas.Where(m => m.Nombre == this.Marca.Nombre).Any();
+            string error=null;
+            if(existe){
+                error = "Ya existe un registro con el mismo nombre";
+            }else{
+                this.Marca.Estado = (sbyte) 1;
+                if (!ModelState.IsValid)
+                {
+                    return new JsonResult("");
+                }
+                _context.Marcas.Add(Marca);
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "registró una marca";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
             }
-            _context.Marcas.Add(Marca);
-            await _context.SaveChangesAsync();
-            this.Marcas=  _context.Marcas.ToList();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "registró una marca";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
-            return new JsonResult(this.Marcas);
+            
+            this.Marcas =  _context.Marcas.ToList();
+            
+            return new JsonResult(
+                new {marcas = this.Marcas, error = error}
+            );
         }
         public async Task<JsonResult> OnPostEditar(int IdMarca, string Nombre){
             this.Marca = await this._context.Marcas.FirstOrDefaultAsync(w => w.Id == IdMarca);
             this.Marca.Nombre = Nombre;
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult("");
+            var existe = _context.Marcas.Where(m => m.Nombre == Nombre).Any();
+            string error=null;
+            if(existe){
+                error = "Ya existe un registro con el mismo nombre";
+            }else{
+                if (!ModelState.IsValid)
+                {
+                    return new JsonResult("");
+                }
+                _context.Entry(this.Marca).Property("Nombre").IsModified = true;
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "modificó datos de una marca";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
             }
-            _context.Entry(this.Marca).Property("Nombre").IsModified = true;
-            await _context.SaveChangesAsync();
+            
             this.Marcas= await _context.Marcas.ToListAsync();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "modificó datos de una marca";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
-            return new JsonResult(this.Marcas);
+            
+            return new JsonResult(new {marcas = this.Marcas, error = error});
         }
         private bool MarcaExists(int id)
         {
