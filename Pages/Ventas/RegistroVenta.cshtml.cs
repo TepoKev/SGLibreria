@@ -56,7 +56,10 @@ namespace SGLibreria.Pages.Ventas
                 if(ck !=null && ck.Count>0) {
                     Existencia = ck.Last().Existencia;
                 }
-                Existencia += dtv.Cantidad;
+                if(Existencia <=0 ) {
+                    //no hay productos
+                }
+                Existencia -= dtv.Cantidad;
                 Kardex kardex = new Kardex {
                     Existencia = Existencia, 
                     IdDetalleVenta = dtv.Id, 
