@@ -41,5 +41,6 @@ namespace SGLibreria.Models
         public virtual ICollection<Detallecompra> Detallecompra { get; set; }
         public virtual ICollection<Ofertaproducto> Ofertaproducto { get; set; }
         public virtual List<Precioventa> Precioventa { get; set; }
+        public virtual List<Kardex> Kardex {get;set;}
     }
 }
