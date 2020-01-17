@@ -22,7 +22,7 @@ namespace SGLibreria.Pages.Categorias
         }
 
         public async Task OnGetAsync(int? Id) {
-            this.Categorias=  _context.Categorias.ToList();
+            this.Categorias =  _context.Categorias.Where(c => c.Estado!= 0).ToList();
             if(Id !=null){
                 this.Categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
             }
