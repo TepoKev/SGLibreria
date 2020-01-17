@@ -23,7 +23,7 @@ namespace SGLibreria.Pages.Marcas
             this._context = context;
             Marcas = new List<Marca>();
             this.Pagina = 0;
-            this.CantidadPorFila = 6;
+            this.CantidadPorFila = 2;
             this.Maximo = this.CantidadPorFila * 2;
         }
 
@@ -54,6 +54,36 @@ namespace SGLibreria.Pages.Marcas
             if(Id !=null){
                 this.Marca = await _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
             }
+        }
+
+        public PartialViewResult OnGetMarcaPaginacion(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo) {
+            IQueryable<Marca> Consulta =  _context.Marcas;
+            
+            if(Pagina == null){
+                Pagina = this.Pagina;
+            }
+            if(CantidadPorFila == null){
+                CantidadPorFila = this.CantidadPorFila;
+            }
+            if(Maximo == null){
+                Maximo = this.Maximo;
+            }
+
+            var total = _context.Marcas.Select(
+                        q => new
+                        {
+                            co = Consulta.Count()
+                        }
+                    ).FirstOrDefault();
+            this.Total = total.co;
+
+            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+
+            this.Marcas =  Consulta.ToList();
+            if(Id !=null){
+                //this.Marca =  _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
+            }
+            return Partial("/Pages/Shared/OthersPartials/_MarcaPartial.cshtml", this);
         }
         public async Task<IActionResult> OnPostEstado(int IdMarca, int Estado)
         {

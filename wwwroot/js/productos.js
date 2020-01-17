@@ -46,7 +46,7 @@ function buscarProducto() {
     sgl.get('ListaProductoAjax', function (data) {
         divProductos = sgl.q('#productos');
         divProductos.innerHTML = data;
-
+        refrescar(data);
     }, params);
 }
 

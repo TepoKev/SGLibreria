@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SGLibreria.Models;
-using System;
 using MySql.Data.MySqlClient;
 using SGLibreria.Informes;
 namespace SGLibreria.Pages.Compras {
@@ -14,6 +13,9 @@ namespace SGLibreria.Pages.Compras {
         private readonly AppDbContext _context;
 
         public ListaCompraModel (AppDbContext context) {
+            this.Pagina = 0;
+            this.CantidadPorFila = 1;
+            this.Maximo = this.CantidadPorFila * 2;
             _context = context;
         }
 
@@ -26,12 +28,16 @@ namespace SGLibreria.Pages.Compras {
         public IList<InformeCompra> Informes{get;set;}
         public IList<Detallecompra> Detalles {get;set;}
 
+        public int Pagina {get;set;}
+        public int CantidadPorFila {get;set;}
+        public int Maximo {get;set;}
+        public int Total{get;set;}
        
         public async Task OnGet() {
             Informes = _context.InformeCompra.FromSql(InformeCompra.query()).ToList();
-            
         }
-        public IActionResult OnGetCompra(int? IdCompra ) {
+        public PartialViewResult OnGetCompra(int? IdCompra) {
+            
             Compra = _context.Compras
             .Include( c=> c.IdProveedorNavigation)
             .Where(c => c.Id == IdCompra).FirstOrDefault();
@@ -39,6 +45,7 @@ namespace SGLibreria.Pages.Compras {
             .Where(d => d.IdCompra == IdCompra)
             .Include(x => x.IdProductoNavigation)
             .ToList();
+
             return Partial("_DetalleCompraPartial", this);
         }
         public async Task<IActionResult> OnPostAsync () {

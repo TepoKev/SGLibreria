@@ -59,7 +59,7 @@ namespace SGLibreria.Pages.Welcome
             };
             _context.Recuperacioncuenta.Add(rec);
             SendCodeForEmail(email, recoveryCode);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToPage("/Welcome/LoginWithCode");
         }
         public void SendCodeForEmail(string email, string code) {

@@ -5,22 +5,22 @@
     int len = Model.Marcas.Count;
     Marca c;
 }
-@for(i=0; i < len; i++){
-    c=Model.Marcas[i];
-    <tr>
-    <td>@c.Nombre</td>
-    <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
-    </td>
-    <td>
-        <div class="col-form-label custom-control custom-switch">
-            @if(c.Estado == 1){
-                <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
-                <label class="custom-control-label" for="@c.Id">Habilitada</label>
-            }else{
-                <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
-                <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
-            }
-        </div>
-    </td>
-    </tr>
+        @for(i=0; i < len; i++){
+        c=Model.Marcas[i];
+        <tr>
+        <td>@c.Nombre</td>
+        <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
+        </td>
+        <td>
+            <div class="col-form-label custom-control custom-switch">
+                @if(c.Estado == 1){
+                    <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
+                    <label class="custom-control-label" for="@c.Id">Habilitada</label>
+                }else{
+                    <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
+                    <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
+                }
+            </div>
+        </td>
+        </tr>
     }

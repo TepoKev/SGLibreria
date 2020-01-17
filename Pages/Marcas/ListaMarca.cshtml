@@ -3,7 +3,6 @@
 @using SGLibreria.Models;
 @{ ViewData["Title"] = "Registro y Lista de Marcas"; }
 
-<div id="resultados-filtro"  data-total="@Model.Total" data-current-page="@Model.Pagina" data-max="@Model.Maximo"></div>
 <div class="row">
     <div class="col-lg-8 offset-lg-2 rounded ">
         <div class="card shadow mb-4">
@@ -78,27 +77,62 @@
 
                     </thead>
 
-                    <tbody id="tbMarca">
+                        <tbody id="tbMarca">
                        
-
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
-            <div class="row">
+            <div class="row" id="pag">
                 <div class="col offset-5" id="divMarcas">
-                    <ul class="pagination" id="paginacion">
-                        
+                    <ul class="pagination" id="paginacion">  
                     </ul>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 @section Scripts{
     <script src="~/js/sgl.js"></script>
 <script>
+    sgl.get('ListaMarca?handler=MarcaPaginacion', refrescar);
+    function refrescar(data) {
+        var div = sgl.q('#tbMarca');
+        div.innerHTML = data;
+        var divPaginador = sgl.q('#paginacion');
+        divPaginador.innerHTML = sgl.createPagination(div, "#resultados-filtro");
+        console.log(data);
+    };
+
+    var eventoClickPaginacion = sgl.q('#paginacion');
+    eventoClickPaginacion.addEventListener('click', clicka) ;
+    //console.log(eventoClickPaginacion);
+    function clicka(e){
+        e.preventDefault();
+        if(e.target.tagName == 'UL') {
+            return;
+        }
+        let child= e.target.firstElementChild , target = e.target;
+        page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+        //console.log(page);
+        buscarProducto();
+    }
+
+    let page;
+    function buscarProducto() {
+    var params = "";
+    if(page){
+        params += "&Pagina=" + page;
+    }
+    params +='&Boton=true';
+    console.log(params);
+    sgl.get('ListaMarca?handler=MarcaPaginacion', function (data) {
+        tbMarca = sgl.q('#tbMarca');
+        tbMarca.innerHTML = data;
+        refrescar(data);
+    }, params);
+}
+
     var FrmMarcaAdd = document.querySelector("#formMarcaadd");
     var FrmMarcaMod = document.querySelector("#formMarcamod");
     var tbody = document.querySelector("#tbMarca");
@@ -226,16 +260,9 @@
         xhttp.send(new URLSearchParams(formData));
     }
 
-    sgl.get('ListaMarca', refrescar);
 
-    function refrescar(data) {
-        console.log(data);
-        var divMarcas = sgl.q('#divMarcas');
-        divMarcas.innerHTML = data;
-        
-        var divPaginador = sgl.q('#paginacion');
-        divPaginador.innerHTML = sgl.createPagination(divMarcas, "#resultados-filtro");
-    };
+
+
 
     function LlenarTabla(Marcas){
         var tbMarcas = document.querySelector("#tbMarca");
