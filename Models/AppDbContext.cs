@@ -368,7 +368,7 @@ namespace SGLibreria.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("imagen_ibfk_1");
             });
-
+            
             modelBuilder.Entity<Kardex>(entity =>
             {
                 entity.ToTable("kardex");
@@ -379,15 +379,18 @@ namespace SGLibreria.Models
                 entity.HasIndex(e => e.IdDetalleVenta)
                     .HasName("fk_IdDetalleVenta");
 
+                entity.HasIndex(e => e.IdProducto)
+                    .HasName("IdProducto");
+
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Existencia).HasColumnType("int(11)");
 
-                entity.Property(e => e.IdDetalleCompra)
-                    .HasColumnName("idDetalleCompra")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.IdDetalleCompra).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdDetalleVenta).HasColumnType("int(11)");
+
+                entity.Property(e => e.IdProducto).HasColumnType("int(11)");
 
                 entity.HasOne(d => d.IdDetalleCompraNavigation)
                     .WithMany(p => p.Kardex)
@@ -398,6 +401,12 @@ namespace SGLibreria.Models
                     .WithMany(p => p.Kardex)
                     .HasForeignKey(d => d.IdDetalleVenta)
                     .HasConstraintName("fk_IdDetalleVenta");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.Kardex)
+                    .HasForeignKey(d => d.IdProducto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("kardex_ibfk_1");
             });
 
             modelBuilder.Entity<Marca>(entity =>
