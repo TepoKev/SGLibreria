@@ -56,7 +56,6 @@ namespace SGLibreria.Pages.Compras
             */
             
             Compra.IdUsuario = 15;//
-            Detallecompra det;
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();
 
@@ -102,28 +101,36 @@ namespace SGLibreria.Pages.Compras
             //registrar los detalles
             for (var i = 0 ; i < Detalles.Length ; i++)
             {
+                Detallecompra det;
                 det = Detalles[i];
+                det.IdProductoNavigation = null;
+                det.Kardex = null;
+                det.IdCompra = Compra.Id;
                 _context.Precioventa.Add(
                     new Precioventa {
                         Fecha = Compra.Fecha, 
-                        IdProducto = Detalles[i].IdProducto, 
+                        IdProducto = det.IdProducto, 
                         Valor = PrecioVenta[i], 
                     }
                 );
                 _context.Detallecompra.Add(
-                    new Detallecompra{
-                        Cantidad = Detalles[i].Cantidad, 
-                        IdCompra = Compra.Id, 
-                        IdProducto = det.IdProducto, 
-                        PrecioCompra = det.PrecioCompra
-                    }
+                    det
                 );
-                /*
-                IList<ConsultaKardex> ck =  _context.ConsultaKardex.FromSql(ConsultaKardex.queryOne(), det.IdProducto).ToList();
-                if() {
-
+               //necesario para que el detalle tenga su id correspondiente 
+                await _context.SaveChangesAsync();
+                int Existencia = 0;
+                //traer la existencia del ultimo kardex 
+                IList<ConsultaKardex> ck =  _context.ConsultaKardex.FromSql(ConsultaKardex.queryOne(), det.IdProducto, det.IdProducto).ToList();
+                if(ck !=null && ck.Count>0) {
+                    Existencia = ck.Last().Existencia;
                 }
-                */
+                Existencia += det.Cantidad;
+                Kardex kardex = new Kardex {
+                    Existencia = Existencia, 
+                    IdDetalleCompra = det.Id, 
+                    IdProducto = det.IdProducto
+                };
+                _context.Kardex.Add(kardex);
                 await _context.SaveChangesAsync();
             }
             
