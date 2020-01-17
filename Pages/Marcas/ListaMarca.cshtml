@@ -2,7 +2,7 @@
 @model Marcas.ListaMarcaModel;
 @using SGLibreria.Models;
 @{ ViewData["Title"] = "Registro y Lista de Marcas"; }
-
+<div id="resultados-filtro"  data-total="@Model.Total" data-current-page="@Model.Pagina" data-max="@Model.Maximo"></div>
 <div class="row">
     <div class="col-lg-8 offset-lg-2 rounded ">
         <div class="card shadow mb-4">
@@ -83,10 +83,9 @@
                 </table>
             </div>
             <div class="row" id="pag">
-                <div class="col offset-5" id="divMarcas">
-                    <ul class="pagination" id="paginacion">  
-                    </ul>
-                </div>
+                <ul class="pagination" id="paginacion">  
+                    
+                </ul>
             </div>
         </div>
     </div>
