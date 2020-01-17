@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,12 @@ namespace SGLibreria.Pages.Proveedores{
                 Console.WriteLine("Mensaje ="+e.Message);
                 throw;
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó datos de un proveedor";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return RedirectToPage("/Proveedores/ListaProveedor");
         }
         private bool ProveedorExists(int id)

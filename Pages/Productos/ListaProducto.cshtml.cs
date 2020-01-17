@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SGLibreria.Models;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace SGLibreria.Pages.Productos
 {
@@ -138,6 +139,12 @@ namespace SGLibreria.Pages.Productos
             _context.Productos.Attach(Producto);
             _context.Entry(Producto).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó datos de un producto";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             Mensaje = "Se ha registrado correctamente";
             return new JsonResult(
               new {

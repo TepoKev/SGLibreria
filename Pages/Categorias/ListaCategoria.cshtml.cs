@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,12 @@ namespace SGLibreria.Pages.Categorias
                 Console.WriteLine("Mensaje ="+e.Message);
                 throw;
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "inhabilitó una categoria";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
         public async Task<JsonResult> OnPost(){
@@ -54,6 +61,12 @@ namespace SGLibreria.Pages.Categorias
             _context.Categorias.Add(Categoria);
             await _context.SaveChangesAsync();
             this.Categorias=  _context.Categorias.ToList();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registro una categoria";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return new JsonResult(this.Categorias);
         }
         public async Task<JsonResult> OnPostEditar(int IdCategoria, string Nombre){
@@ -66,6 +79,12 @@ namespace SGLibreria.Pages.Categorias
             _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
             await _context.SaveChangesAsync();
             this.Categorias= await _context.Categorias.ToListAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó una categoria";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return new JsonResult(this.Categorias);
         }
         private bool CategoriaExists(int id)

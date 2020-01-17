@@ -62,7 +62,13 @@ namespace SGLibreria.Pages.Welcome
                 ruta = Imagen.IdRutaNavigation.Nombre + "/"
                     + Imagen.Nombre;
             }
+            Bitacora Bitacora = new Bitacora();
+            Bitacora.IdUsuario = u.Id;
+            Bitacora.InicioSesion = DateTime.Now;
+            this._context.Bitacoras.Add(Bitacora);
+            this._context.SaveChanges();
             Session.SetInt32("IdUsuario", u.Id);
+            Session.SetInt32("IdBitacora", Bitacora.Id);
             Session.SetInt32("Privilegio", u.Privilegio);
             Session.SetString("NombreCompleto", NombreCompleto);
             Session.SetString("Ruta", ruta);

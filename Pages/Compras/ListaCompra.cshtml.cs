@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using SGLibreria.Models;
 using MySql.Data.MySqlClient;
 using SGLibreria.Informes;
+using Microsoft.AspNetCore.Http;
+
 namespace SGLibreria.Pages.Compras {
     public class ListaCompraModel : PageModel {
         private readonly AppDbContext _context;
@@ -57,6 +59,12 @@ namespace SGLibreria.Pages.Compras {
             }
             _context.Proveedores.Add (Proveedor);
             await _context.SaveChangesAsync ();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó datos de un proveedor";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return RedirectToPage ("/Proveedores/RegistroProveedor");
         }
     }

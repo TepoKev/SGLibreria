@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -118,6 +119,12 @@ namespace SGLibreria.Pages.Servicios
             _context.Tiposervicio.Attach(Tiposervicio);
             _context.Entry(Tiposervicio).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó datos de un tipo de servicio";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             Mensaje = "Se ha modificado correctamente";
             return new JsonResult(
               new {

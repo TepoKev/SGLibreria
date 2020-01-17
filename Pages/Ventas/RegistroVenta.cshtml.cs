@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -77,6 +78,12 @@ namespace SGLibreria.Pages.Ventas
                 await this._context.Detalleservicio.AddAsync(dts);
                 await this._context.SaveChangesAsync();
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró una venta";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return RedirectToPage("/Ventas/ListaVenta");
         }
     }

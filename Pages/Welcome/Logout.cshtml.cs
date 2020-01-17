@@ -30,7 +30,23 @@ namespace SGLibreria.Pages.Welcome
             Logout();
             return RedirectToPage("/Welcome/Login");
         }
-        public void Logout() {
+        public void Logout()
+        {
+            Bitacora bitacora = this._context.Bitacoras.FirstOrDefault(b => b.Id == HttpContext.Session.GetInt32("IdBitacora"));
+            if (bitacora != null)
+            {
+                bitacora.CierreSesion = DateTime.Now;
+                this._context.Entry(bitacora).Property(b => b.CierreSesion).IsModified = true;
+                try
+                {
+                    this._context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    Console.WriteLine("Mensaje =" + e.Message);
+                    throw;
+                }
+            }
             HttpContext.Session.Clear();
         }
     }

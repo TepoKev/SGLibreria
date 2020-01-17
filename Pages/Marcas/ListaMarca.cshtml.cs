@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -102,6 +103,12 @@ namespace SGLibreria.Pages.Marcas
                 Console.WriteLine("Mensaje ="+e.Message);
                 throw;
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "inhabilitò una marca";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
         public async Task<JsonResult> OnPost(){
@@ -113,6 +120,12 @@ namespace SGLibreria.Pages.Marcas
             _context.Marcas.Add(Marca);
             await _context.SaveChangesAsync();
             this.Marcas=  _context.Marcas.ToList();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró una marca";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return new JsonResult(this.Marcas);
         }
         public async Task<JsonResult> OnPostEditar(int IdMarca, string Nombre){
@@ -125,6 +138,12 @@ namespace SGLibreria.Pages.Marcas
             _context.Entry(this.Marca).Property("Nombre").IsModified = true;
             await _context.SaveChangesAsync();
             this.Marcas= await _context.Marcas.ToListAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "modificó datos de una marca";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return new JsonResult(this.Marcas);
         }
         private bool MarcaExists(int id)

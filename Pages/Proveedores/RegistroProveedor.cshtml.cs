@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SGLibreria.Models;
@@ -49,6 +51,12 @@ namespace SGLibreria.Pages.Proveedores
                 }
                 await this._context.SaveChangesAsync();
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registro un proveedor";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
     }

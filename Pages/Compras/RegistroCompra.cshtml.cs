@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SGLibreria.Informes;
+using System;
+
 namespace SGLibreria.Pages.Compras
 {
     public class RegistroCompraModel : PageModel
@@ -133,6 +135,13 @@ namespace SGLibreria.Pages.Compras
                 _context.Kardex.Add(kardex);
                 await _context.SaveChangesAsync();
             }
+
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró una compra";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             
             return new JsonResult(
                 new {
@@ -144,6 +153,12 @@ namespace SGLibreria.Pages.Compras
         {
             _context.Marcas.Add(Marca);
             await _context.SaveChangesAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró una marca";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
         public async Task<IActionResult> OnPostAgregarCategoria(Categoria Categoria)
@@ -151,6 +166,12 @@ namespace SGLibreria.Pages.Compras
             Categoria.Estado = (sbyte)1;
             _context.Categorias.Add(Categoria);
             await _context.SaveChangesAsync();
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró una categoría";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
         public JsonResult OnGetListaProveedores()
@@ -191,6 +212,12 @@ namespace SGLibreria.Pages.Compras
                 }
                 await this._context.SaveChangesAsync();
             }
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró un proveedor";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return Page();
         }
 
@@ -263,6 +290,12 @@ namespace SGLibreria.Pages.Compras
             await _context.SaveChangesAsync();
             Mensaje = "Se ha registrado correctamente";
             objRet = Producto;
+            Accion Accion = new Accion();
+            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+            Accion.Hora = DateTime.Now;
+            Accion.Descripcion = "registró un producto";
+            this._context.Add(Accion);
+            this._context.SaveChanges();
             return new JsonResult(
               new
               {
