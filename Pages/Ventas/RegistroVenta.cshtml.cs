@@ -37,7 +37,6 @@ namespace SGLibreria.Pages.Ventas
             //En el siguiente for se van a registrar los detalles de venta (Productos)
             int i;
             int len = IdProducto.Length;
-            int pv;
             Precioventa precioventa;
             Detalleventa dtv = null;
             Detalleservicio dts = null;

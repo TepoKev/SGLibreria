@@ -36,7 +36,7 @@ namespace SGLibreria.Pages.Compras {
         public int Total{get;set;}
        
         public async Task OnGet() {
-            Informes = _context.InformeCompra.FromSql(InformeCompra.query()).ToList();
+            Informes = await _context.InformeCompra.FromSql(InformeCompra.query()).ToListAsync();
         }
         public PartialViewResult OnGetCompra(int? IdCompra) {
             

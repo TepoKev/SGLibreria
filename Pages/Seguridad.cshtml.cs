@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.IO;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
@@ -22,7 +21,7 @@ namespace SGLibreria.Pages
 
         }
 
-        public async Task<IActionResult> OnPostCrearBackupAsync()
+        public IActionResult OnPostCrearBackupAsync()
         {
             try
             {
