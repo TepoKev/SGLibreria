@@ -22,7 +22,7 @@ namespace SGLibreria.Pages.Categorias
         }
 
         public async Task OnGetAsync(int? Id) {
-            this.Categorias=  _context.Categorias.ToList();
+            this.Categorias =  _context.Categorias.Where(c => c.Estado!= 0).ToList();
             if(Id !=null){
                 this.Categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
             }
@@ -53,39 +53,55 @@ namespace SGLibreria.Pages.Categorias
             return Page();
         }
         public async Task<JsonResult> OnPost(){
-            this.Categoria.Estado = (sbyte) 1;
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult("");
+            var existe = _context.Categorias.Where(m => m.Nombre == this.Categoria.Nombre).Any();
+            string error=null;
+            if(existe){
+                error = "Ya existe un registro con el mismo nombre";
+            }else{
+                this.Categoria.Estado = (sbyte) 1;
+                if (!ModelState.IsValid)
+                {
+                    return new JsonResult("");
+                }
+                _context.Categorias.Add(Categoria);
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "registro una categoria";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
             }
-            _context.Categorias.Add(Categoria);
-            await _context.SaveChangesAsync();
+            
             this.Categorias=  _context.Categorias.ToList();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "registro una categoria";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
-            return new JsonResult(this.Categorias);
+            
+            return new JsonResult(new {categorias = this.Categorias, error = error});
         }
         public async Task<JsonResult> OnPostEditar(int IdCategoria, string Nombre){
             this.Categoria = await this._context.Categorias.FirstOrDefaultAsync(w => w.Id == IdCategoria);
             this.Categoria.Nombre = Nombre;
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult("");
+            var existe = _context.Categorias.Where(m => m.Nombre == Nombre).Any();
+            string error=null;
+            if(existe){
+                error = "Ya existe un registro con el mismo nombre";
+            }else{
+                if (!ModelState.IsValid)
+                {
+                    return new JsonResult("");
+                }
+                _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "modificó una categoria";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
             }
-            _context.Entry(this.Categoria).Property("Nombre").IsModified = true;
-            await _context.SaveChangesAsync();
+            
             this.Categorias= await _context.Categorias.ToListAsync();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "modificó una categoria";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
-            return new JsonResult(this.Categorias);
+           
+            return new JsonResult(new {categorias = this.Categorias, error = error});
         }
         private bool CategoriaExists(int id)
         {

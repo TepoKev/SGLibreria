@@ -40,12 +40,12 @@ namespace SGLibreria.Pages.Compras
         }
         public JsonResult OnGetListaCategorias()
         {
-            this.Categorias = _context.Categorias.ToList();
+            this.Categorias = _context.Categorias.Where(c => c.Estado!=0).ToList();
             return new JsonResult(this.Categorias);
         }
         public JsonResult OnGetListaMarcas()
         {
-            this.Marcas = _context.Marcas.ToList();
+            this.Marcas = _context.Marcas.Where(m => m.Estado!=0).ToList();
             return new JsonResult(this.Marcas);
         }
 
@@ -152,32 +152,44 @@ namespace SGLibreria.Pages.Compras
         }
         public async Task<IActionResult> OnPostAgregarMarca(Marca Marca)
         {
-            _context.Marcas.Add(Marca);
-            await _context.SaveChangesAsync();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "registró una marca";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
+            var estado = await _context.Marcas.AnyAsync(m => m.Nombre == Marca.Nombre);
+            if(estado){
+                return Page();
+            }else{
+                Marca.Estado = (sbyte)1;
+                _context.Marcas.Add(Marca);
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "registró una marca";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
+            }
+            
             return Page();
         }
         public async Task<IActionResult> OnPostAgregarCategoria(Categoria Categoria)
         {
-            Categoria.Estado = (sbyte)1;
-            _context.Categorias.Add(Categoria);
-            await _context.SaveChangesAsync();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "registró una categoría";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
+            var estado = await _context.Categorias.AnyAsync(c => c.Nombre == Categoria.Nombre);
+            if(estado){
+                return Page();
+            }else{
+                Categoria.Estado = (sbyte)1;
+                _context.Categorias.Add(Categoria);
+                await _context.SaveChangesAsync();
+                Accion Accion = new Accion();
+                Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
+                Accion.Hora = DateTime.Now;
+                Accion.Descripcion = "registró una categoría";
+                this._context.Add(Accion);
+                this._context.SaveChanges();
+            }
             return Page();
         }
         public JsonResult OnGetListaProveedores()
         {
-            this.Proveedores = _context.Proveedores.ToList();
+            this.Proveedores = _context.Proveedores.Where(p => p.Estado !=0).ToList();
             return new JsonResult(this.Proveedores);
         }
 

@@ -64,7 +64,7 @@ ViewData["title"] = "Lista de Empleados";
                             }
                         </td>
                         <td>
-                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView"><i class="fas fa-eye"></i>Ver</a>
+                            <a class="btn btn-outline-info" asp-page="/Empleados/BitacoraView" asp-route-id="@Empleado.Id"><i class="fas fa-eye"></i>Ver</a>
                         </td>
                         <td><label class="col-form-label ml-4"><i class="fas fa-bars mano text-primary" id="@Empleado.Id"></i></label></td>
                     </tr>

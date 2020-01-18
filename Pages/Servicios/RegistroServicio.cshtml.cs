@@ -44,8 +44,11 @@ namespace SGLibreria.Pages.Servicios
                     await UploadFile(filepath, filename, Archivo);
                     Imagen.Nombre = filename;
                     Imagen.IdRuta = this._context.Rutas.Where(r => r.Nombre.Equals(Ruta)).FirstOrDefault().Id;
+
+                    
                 }
-            }//envio imagen
+            }
+
             await this._context.Imagenes.AddAsync(Imagen);
             await this._context.SaveChangesAsync();
             this.Tiposervicio.IdImagen = Imagen.Id;

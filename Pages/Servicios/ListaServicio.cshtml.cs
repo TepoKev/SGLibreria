@@ -97,9 +97,6 @@ namespace SGLibreria.Pages.Servicios
                     _context.Entry(Tiposervicio).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                     Mensaje = "Se modifico correctamente";
-                    //
-                    //
-                    //
                 } else if (FileExists(filepath, filename))
                 { //el ya archivo existe
                     
@@ -114,7 +111,11 @@ namespace SGLibreria.Pages.Servicios
                     Mensaje
                   }
                 );
-            }//envio imagen
+            }else{
+                Imagen.Id = temporal.IdImagen.Value;
+                await _context.SaveChangesAsync();
+                Tiposervicio.IdImagen = Imagen.Id;
+            }
 
             _context.Tiposervicio.Attach(Tiposervicio);
             _context.Entry(Tiposervicio).State = EntityState.Modified;

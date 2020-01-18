@@ -30,7 +30,8 @@ namespace SGLibreria.Pages.Ventas
         public async Task<IActionResult> OnPost(int[] IdProducto, int[] CantProducto, int[] IdServicio, int[] CantServicio)
         {
             Venta venta = new Venta();
-            venta.IdUsuario = 15;
+            int IdUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
+            venta.IdUsuario = IdUsuario;
             venta.Fecha = DateTime.Now;
             await this._context.Ventas.AddAsync(venta);
             await this._context.SaveChangesAsync();
