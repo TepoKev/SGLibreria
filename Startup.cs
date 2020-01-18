@@ -66,7 +66,7 @@ namespace SGLibreria
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-            /*
+            
             app.Use(
                 async (context, next) =>
                 {
@@ -99,8 +99,9 @@ namespace SGLibreria
                     }
                 }
             );
-            */
+            
             app.UseMvc();
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env, "..\\Rotativa\\Windows\\");
         }
     }
 }
