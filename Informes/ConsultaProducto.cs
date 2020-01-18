@@ -14,9 +14,13 @@ namespace SGLibreria.Informes
         public decimal? PrecioVenta {get;set;}
         public double? Descuento {get;set;}
         public int StockMinimo {get;set;}
-        public static string sqlAll() {
+        public static string sqlAllCount(string whereIn="", string limit = "") {
+            string sql = ConsultaProducto.sqlAll(whereIn, limit);
+            return "select count(*) from {"+sql+"} as Total";
+        } 
+        public static string sqlAll(string whereIn = "", string limit = "") {
+            whereIn = whereIn == null || whereIn == "" ? "" : " where "+whereIn;
             string sql = @"
-
 select uk.Id, 
 p.`Id` as IdProducto, p.`Nombre` as Producto, 
 c.`Nombre` as Categoria, 
@@ -44,9 +48,13 @@ from (
 select max(kar.Id) as Id
 from kardex kar
 where kar.`IdProducto` in (
-select p.Id from producto p
+select p.Id from producto p 
+inner join categoria c
+on c.Id = p.IdCategoria
+"+whereIn+@" 
 )
 group by kar.IdProducto
+"+limit+@" 
 ) as uk
 
 inner join kardex k 
@@ -57,9 +65,8 @@ on p.`Id` = k.`IdProducto`
 inner join categoria c
 on c.`Id`= p.`IdCategoria`
 inner join marca m
-on m.`Id` = p.`IdMarca`;
-
-
+on m.`Id` = p.`IdMarca`
+where k.Existencia > 0 ;
             ";
             return sql;
         }
