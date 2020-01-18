@@ -74,7 +74,7 @@ namespace SGLibreria.Pages.Welcome
                 mail.From = new MailAddress("SistemGLibreria@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "Recuperación de contraseña de SGLibreria.";
-                mail.Body = "<p style='font-size:16px'> Hola "+usuario.Empleado.IdPersonaNavigation.NombreCompleto()+", este es tu codigo de verificación para recuperar su contraseña: <strong>"+code+"</strong></p>";
+                mail.Body = "<p style='font-size:16px'> Hola "+usuario.Empleado.IdPersonaNavigation.NombreCompleto()+", este es tu codigo de verificación para recuperar tu contraseña: <strong>"+code+"</strong></p>";
                 mail.IsBodyHtml = true;
 
                 SmtpServer.Port = 587;
