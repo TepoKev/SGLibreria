@@ -1,114 +1,27 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Http;
 @{
 ViewData["Title"] = "Inicio";
 }
-<div class="row">
+<style>
+.customText {
+ font-size:5em;
+ font:bold 7.5vw/1.6 'Signika', sans-serif;
+ user-select:none;
+}
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary
-                            text-uppercase mb-1">Ventas (Mes)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$5,000</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+.customText span { 
+    display:inline-block; animation:float .2s ease-in-out infinite;
+    }
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success
-                            text-uppercase mb-1">Ventas (Anual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pending Requests Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning
-                            text-uppercase mb-1">Producto mas Vendido (Semana)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">Cuaderno
-                            Scribe</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-sort-amount-up fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Content Row -->
-
-<div class="row">
-
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center
-                justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Estadísticas de
-                    Ventas</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pie Chart -->
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center
-                justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Top de lo Vendido</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Cuadernos
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Lapices
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Fotocopias
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+.customText span:nth-child(4n) { color:hsl(50, 75%, 55%); text-shadow:1px 1px hsl(50, 75%, 45%), 2px 2px hsl(50, 45%, 45%), 3px 3px hsl(50, 45%, 45%), 4px 4px hsl(50, 75%, 45%); }
+.customText span:nth-child(4n-1) { color:hsl(135, 35%, 55%); text-shadow:1px 1px hsl(135, 35%, 45%), 2px 2px hsl(135, 35%, 45%), 3px 3px hsl(135, 35%, 45%), 4px 4px hsl(135, 35%, 45%); }
+.customText span:nth-child(4n-2) { color:hsl(155, 35%, 60%); text-shadow:1px 1px hsl(155, 25%, 50%), 2px 2px hsl(155, 25%, 50%), 3px 3px hsl(155, 25%, 50%), 4px 4px hsl(140, 25%, 50%); }
+.customText span:nth-child(4n-3) { color:hsl(30, 65%, 60%); text-shadow:1px 1px hsl(30, 45%, 50%), 2px 2px hsl(30, 45%, 50%), 3px 3px hsl(30, 45%, 50%), 4px 4px hsl(30, 45%, 50%); }
+</style>
+<div class="row text-center">
+    <h1 class="customText" style="margin-left: 200px; margin-top: 100px"><span>B</span><span>I</span><span>E</span><span>N</span><span>V</span><span>E</span><span>N</span><span>I</span><span>D</span><span>O</span></h1>
 </div>
 
 @section Scripts{
