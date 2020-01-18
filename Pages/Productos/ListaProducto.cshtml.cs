@@ -134,7 +134,12 @@ namespace SGLibreria.Pages.Productos
                     Mensaje
                   }
                 );
-            }//envio imagen
+            }else{
+                Imagen.Id = temporal.IdImagen.Value;
+                await _context.SaveChangesAsync();
+                Producto.IdImagen = Imagen.Id;
+                temporal =null;
+            }
 
             _context.Productos.Attach(Producto);
             _context.Entry(Producto).State = EntityState.Modified;
@@ -145,7 +150,7 @@ namespace SGLibreria.Pages.Productos
             Accion.Descripcion = "modificó datos de un producto";
             this._context.Add(Accion);
             this._context.SaveChanges();
-            Mensaje = "Se ha registrado correctamente";
+            Mensaje = "Se ha modificado correctamente";
             return new JsonResult(
               new {
                 Mensaje

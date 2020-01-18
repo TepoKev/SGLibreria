@@ -16,20 +16,20 @@ namespace SGLibreria.Pages.Compras
     public class RegistroCompraModel : PageModel
     {
         private readonly AppDbContext _context;
-        
+
         public RegistroCompraModel(AppDbContext context)
         {
             _context = context;
         }
 
         public Compra Compra { get; set; }
-        public Detallecompra [] Detalles { get;set;}
-        public decimal [] PrecioVenta { get; set;}
-        public IFormFile Comprobante {get;set;}
-        public Producto Producto { get; set;}
-        public Categoria Categoria { get; set;}
+        public Detallecompra[] Detalles { get; set; }
+        public decimal[] PrecioVenta { get; set; }
+        public IFormFile Comprobante { get; set; }
+        public Producto Producto { get; set; }
+        public Categoria Categoria { get; set; }
         public Marca Marca { get; set; }
-        public Proveedor Proveedor {get;set;}
+        public Proveedor Proveedor { get; set; }
         public List<Producto> Productos { get; set; }
         public IList<Categoria> Categorias { get; set; }
         public IList<Marca> Marcas { get; set; }
@@ -40,23 +40,24 @@ namespace SGLibreria.Pages.Compras
         }
         public JsonResult OnGetListaCategorias()
         {
-            this.Categorias = _context.Categorias.Where(c => c.Estado!=0).ToList();
+            this.Categorias = _context.Categorias.Where(c => c.Estado != 0).ToList();
             return new JsonResult(this.Categorias);
         }
         public JsonResult OnGetListaMarcas()
         {
-            this.Marcas = _context.Marcas.Where(m => m.Estado!=0).ToList();
+            this.Marcas = _context.Marcas.Where(m => m.Estado != 0).ToList();
             return new JsonResult(this.Marcas);
         }
 
-        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra [] Detalles, decimal [] PrecioVenta, IFormFile Comprobante) {
+        public async Task<JsonResult> OnPost(Compra Compra, Detallecompra[] Detalles, decimal[] PrecioVenta, IFormFile Comprobante)
+        {
             /*
             Cambiar aqui
 
 
 
             */
-            
+
             Compra.IdUsuario = 15;//
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();
@@ -99,9 +100,9 @@ namespace SGLibreria.Pages.Compras
                     error = true;
                 }
             }//envio comprobante
-            
+
             //registrar los detalles
-            for (var i = 0 ; i < Detalles.Length ; i++)
+            for (var i = 0; i < Detalles.Length; i++)
             {
                 Detallecompra det;
                 det = Detalles[i];
@@ -109,28 +110,31 @@ namespace SGLibreria.Pages.Compras
                 det.Kardex = null;
                 det.IdCompra = Compra.Id;
                 _context.Precioventa.Add(
-                    new Precioventa {
-                        Fecha = Compra.Fecha, 
-                        IdProducto = det.IdProducto, 
-                        Valor = PrecioVenta[i], 
+                    new Precioventa
+                    {
+                        Fecha = Compra.Fecha,
+                        IdProducto = det.IdProducto,
+                        Valor = PrecioVenta[i],
                     }
                 );
                 _context.Detallecompra.Add(
                     det
                 );
-               //necesario para que el detalle tenga su id correspondiente 
+                //necesario para que el detalle tenga su id correspondiente 
                 await _context.SaveChangesAsync();
                 int Existencia = 0;
                 //traer la existencia del ultimo kardex 
-                IList<ConsultaKardex> ck =  _context.ConsultaKardex.FromSql(ConsultaKardex.queryOne(), det.IdProducto, det.IdProducto).ToList();
-                if(ck !=null && ck.Count>0) {
+                IList<ConsultaKardex> ck = _context.ConsultaKardex.FromSql(ConsultaKardex.queryOne(), det.IdProducto, det.IdProducto).ToList();
+                if (ck != null && ck.Count > 0)
+                {
                     Existencia = ck.Last().Existencia;
                 }
                 Existencia += det.Cantidad;
-                Kardex kardex = new Kardex {
-                    Existencia = Existencia, 
-                    IdDetalleCompra = det.Id, 
-                    IdProducto = det.IdProducto, 
+                Kardex kardex = new Kardex
+                {
+                    Existencia = Existencia,
+                    IdDetalleCompra = det.Id,
+                    IdProducto = det.IdProducto,
                     Fecha = Compra.Fecha
                 };
                 _context.Kardex.Add(kardex);
@@ -143,9 +147,10 @@ namespace SGLibreria.Pages.Compras
             Accion.Descripcion = "registró una compra";
             this._context.Add(Accion);
             this._context.SaveChanges();
-            
+
             return new JsonResult(
-                new {
+                new
+                {
                     Mensaje = "Mensaje de Prueba"
                 }
             );
@@ -153,9 +158,12 @@ namespace SGLibreria.Pages.Compras
         public async Task<IActionResult> OnPostAgregarMarca(Marca Marca)
         {
             var estado = await _context.Marcas.AnyAsync(m => m.Nombre == Marca.Nombre);
-            if(estado){
+            if (estado)
+            {
                 return Page();
-            }else{
+            }
+            else
+            {
                 Marca.Estado = (sbyte)1;
                 _context.Marcas.Add(Marca);
                 await _context.SaveChangesAsync();
@@ -166,15 +174,18 @@ namespace SGLibreria.Pages.Compras
                 this._context.Add(Accion);
                 this._context.SaveChanges();
             }
-            
+
             return Page();
         }
         public async Task<IActionResult> OnPostAgregarCategoria(Categoria Categoria)
         {
             var estado = await _context.Categorias.AnyAsync(c => c.Nombre == Categoria.Nombre);
-            if(estado){
+            if (estado)
+            {
                 return Page();
-            }else{
+            }
+            else
+            {
                 Categoria.Estado = (sbyte)1;
                 _context.Categorias.Add(Categoria);
                 await _context.SaveChangesAsync();
@@ -189,11 +200,11 @@ namespace SGLibreria.Pages.Compras
         }
         public JsonResult OnGetListaProveedores()
         {
-            this.Proveedores = _context.Proveedores.Where(p => p.Estado !=0).ToList();
+            this.Proveedores = _context.Proveedores.Where(p => p.Estado != 0).ToList();
             return new JsonResult(this.Proveedores);
         }
 
-        public async Task<IActionResult> OnPostRegistrarProveedor(string[] Telefonos,[BindRequired] Proveedor Proveedor)
+        public async Task<IActionResult> OnPostRegistrarProveedor(string[] Telefonos, [BindRequired] Proveedor Proveedor)
         {
             var tamtel = Telefonos.Length;
             Proveedor.Estado = (sbyte)1;
@@ -238,62 +249,80 @@ namespace SGLibreria.Pages.Compras
         {
             string Mensaje = "";
             Producto objRet = null;//producto a retornar
-            if (!ModelState.IsValid)
+            var estado = await _context.Productos.AnyAsync(p => p.Codigo == Producto.Codigo);
+            if (estado)
             {
+                Mensaje = "Código de producto ya existe";
                 return new JsonResult(
-                  new
-                  {
-                      Error = "Ha proporcionado datos incorrectos", 
-                      Producto = (object) null, 
-                  }
-                );
+                      new
+                      {
+                          Error = "Código de producto ya existe",
+                          Producto = (object)null,
+                      }
+                    );
             }
-            Imagen Imagen = new Imagen();
-            
-            //envio imagen
-            if (Producto.Archivo != null)
+            else
             {
-                string Ruta = "Productos";
-                //directorio de destino
-                var filepath = "wwwroot/" + Ruta + "/";
-                var filename = Producto.Archivo.FileName;
-                //validar antes de subir
-                var isValidName = ValidFileName(filepath, filename);
-                //nombre valido y el archivo no existe
-                if (isValidName && !FileExists(filepath, filename))
+                
+                if (!ModelState.IsValid)
                 {
-                    await UploadFile(filepath, filename, Producto.Archivo);
-                    Imagen.Nombre = filename;
-                    
-                    //Como es producto nuevo, hay que agregar un nuevo registro
-                    Imagen.IdRuta = (await _context.Rutas.Where(r => EF.Functions.Like(r.Nombre, $"%{Ruta}%")).FirstOrDefaultAsync()).Id;
-                    _context.Imagenes.Add(Imagen);
-                    
-                    await _context.SaveChangesAsync();
-                    Producto.IdImagen = Imagen.Id;
-                    _context.Entry(Producto).State = EntityState.Added;
-                    await _context.SaveChangesAsync();
-                    Mensaje = "Se agrego correctamente";
-                    objRet = Producto;
-                    //
-                    //
-                    //
+                    return new JsonResult(
+                      new
+                      {
+                          Error = "Ha proporcionado datos incorrectos",
+                          Producto = (object)null,
+                      }
+                    );
                 }
-                else if (FileExists(filepath, filename))
-                { //el ya archivo existe
+                Imagen Imagen = new Imagen();
 
-                    Mensaje = "La imagen: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
-                    objRet = null;
-                }
-                else if (!isValidName)
+                //envio imagen
+                if (Producto.Archivo != null)
                 {
-                    Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
-                    objRet = null;
+                    string Ruta = "Productos";
+                    //directorio de destino
+                    var filepath = "wwwroot/" + Ruta + "/";
+                    var filename = Producto.Archivo.FileName;
+                    //validar antes de subir
+                    var isValidName = ValidFileName(filepath, filename);
+                    //nombre valido y el archivo no existe
+                    if (isValidName && !FileExists(filepath, filename))
+                    {
+                        await UploadFile(filepath, filename, Producto.Archivo);
+                        Imagen.Nombre = filename;
+
+                        //Como es producto nuevo, hay que agregar un nuevo registro
+                        Imagen.IdRuta = (await _context.Rutas.Where(r => EF.Functions.Like(r.Nombre, $"%{Ruta}%")).FirstOrDefaultAsync()).Id;
+                        _context.Imagenes.Add(Imagen);
+
+                        await _context.SaveChangesAsync();
+                        Producto.IdImagen = Imagen.Id;
+                        _context.Entry(Producto).State = EntityState.Added;
+                        await _context.SaveChangesAsync();
+                        Mensaje = "Se agrego correctamente";
+                        objRet = Producto;
+                        //
+                        //
+                        //
+                    }
+                    else if (FileExists(filepath, filename))
+                    { //el ya archivo existe
+
+                        Mensaje = "La imagen: " + filename + " ya existe. por favor cambie el nombre del archivo que quiere subir e intentelo de nuevo";
+                        objRet = null;
+                    }
+                    else if (!isValidName)
+                    {
+                        Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
+                        objRet = null;
+                    }
                 }
+
                 return new JsonResult(
                   new
                   {
-                      Mensaje, Producto = objRet
+                      Mensaje,
+                      Producto = objRet
                   }
                 );
             }//envio imagen
@@ -312,7 +341,8 @@ namespace SGLibreria.Pages.Compras
             return new JsonResult(
               new
               {
-                  Mensaje, Producto = objRet
+                  Mensaje,
+                  Producto = objRet
               }
             );
         }
