@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,57 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
 using SGLibreria.Models;
 
-namespace SGLibreria.Pages.Ventas
+namespace SGLibreria.Pages.Reportes
 {
-    public class ListaVentaModel: PageModel
+    public class ReporteVentasModel : PageModel
     {
         private readonly AppDbContext _context;
-        [BindProperty]
-        public List<Venta> Ventas {get;set;}
-        [BindProperty]
-        public Venta Venta { get; set; }
-        [BindProperty]
-        public List<ProductoT> productosT { get; set; }
-        public ListaVentaModel(AppDbContext context) {
+        public ReporteVentasModel(AppDbContext context)
+        {
             _context = context;
         }
-        public async Task<IActionResult> OnGet() {
-            this.Ventas = await this._context.Ventas
-                .Include(v => v.Detalleventa)
-                .ThenInclude(dtv => dtv.IdPrecioVentaNavigation)
-                .ThenInclude(dtv => dtv.IdProductoNavigation)
-                .Include(v => v.Detalleservicio)
-                .ThenInclude(dts => dts.IdTipoServicioNavigation)
-                .ThenInclude(tps => tps.IdServicioNavigation)
-                .Include(v => v.IdUsuarioNavigation)
-                .ThenInclude(u => u.Empleado)
-                .ThenInclude(e => e.IdPersonaNavigation).ToListAsync();
-            return Page();
-        }
-        public async Task<PartialViewResult> OnPostDetalle(int idVenta){
-            this.Venta = await this._context.Ventas.Where(v => v.Id == idVenta)
-                .Include(v => v.Detalleventa)
-                    .ThenInclude(dtv => dtv.IdPrecioVentaNavigation)
-                    .ThenInclude(dtv => dtv.IdProductoNavigation)
-                .Include(v => v.Detalleservicio)
-                    .ThenInclude(dts => dts.IdTipoServicioNavigation)
-                        .ThenInclude(tps => tps.IdServicioNavigation)
-                .Include(v => v.IdUsuarioNavigation)
-                    .ThenInclude(u => u.Empleado)
-                    .ThenInclude(e => e.IdPersonaNavigation).FirstOrDefaultAsync();
-            foreach (var item in this.Venta.Detalleservicio)
-            {
-                item.IdTipoServicioNavigation.IdCompaniaNavigation = await this._context.Companias.Where(c => c.Id == item.IdTipoServicioNavigation.IdCompania).FirstOrDefaultAsync();
-            }
-            return Partial("_DetalleVentaPartial", this);
+
+        public async Task<IActionResult> OnGet()
+        {
+            // return View(await _context.Customers.ToListAsync());
+            return new ViewAsPdf("ReporteVentas", await ReporteVentaMes());
+            //return Page();
         }
 
-        public PartialViewResult OnPostReporteVentaMes(){
+        public async Task<List<ProductoT>> ReporteVentaMes(){
             DateTime mes = DateTime.Now.Date;
-            IList<Venta> ventas = this._context.Ventas
+            IList<Venta> ventas = await this._context.Ventas
             .Where(v => v.Fecha.Date.CompareTo(mes) == 0 )
             .Include(v => v.Detalleventa).ThenInclude(dtv => dtv.IdPrecioVentaNavigation).ThenInclude(pv => pv.IdProductoNavigation).ThenInclude(p => p.Ofertaproducto).ThenInclude(ofp => ofp.IdOfertaNavigation)
-            .ToList();
+            .ToListAsync();
             List<Conjunto> Conjuntos = new List<Conjunto>();
             Conjunto Conjunto;
             foreach(var venta in ventas){
@@ -77,7 +48,7 @@ namespace SGLibreria.Pages.Ventas
                     Conjuntos.Add(Conjunto);
                 }
             }
-            productosT = new List<ProductoT>();
+            List<ProductoT> productosT = new List<ProductoT>();
             ProductoT productoT ;
             foreach (var conjunto in Conjuntos)
             {
@@ -104,11 +75,9 @@ namespace SGLibreria.Pages.Ventas
                     productosT.Add(productoT);
                 }
             }
-            return Partial("_ReporteVentaPartial", this);
+            return productosT;
         }
-
     }
-
     public class Conjunto{
         public Producto Producto { get; set; }
         public Detalleventa Detalleventa { get; set; }

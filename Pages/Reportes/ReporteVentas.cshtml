@@ -1,10 +1,12 @@
 @page
+@model Reportes.ReporteVentasModel
 @{
-    Layout = null;
+Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,28 +22,30 @@
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="container">
-        <iv class="row">
-            <div class="offset-8 colo-lg-4">Fecha</div>
-        </iv>
-        <iv class="row">
-            <div class="col-lg-4">Logo</div>
-            <div class="col-lg-8">Encabezado</div>
-        </iv>
-        <iv class="row">
-            <span class="text-center">Titulo del Reporte</span>
-        </iv>
-        <iv class="row">
-            Detalle
-        </iv>
-        <iv class="row">
+        <form method="POST"></form>
+        <div class="row">
+            <div class="offset-8 colo-lg-4">@{<span>@DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")</span>}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4"><img src="~/img/logov1.png" alt="logo" width="100rem" height="100rem"></div>
+        </div>
+        <div class="text-center">Libreria de la Universidad Panamericana, San Vicente </div>
+        <div class="text-center">Avenida Doctor Aguilar, San Vicente</div>
+        <div class="text-center">2527-2000</div>
+        <div class="text-center mt-3 font-weight-bold"> Ventas del mes de
+            @{<span>@DateTime.Now.ToString("dd/MM/yyyy")</span>}</div>
+        <div class="row" id="tabla">
+        </div>
+        <div class="row">
             Pie de pagina
-        </iv>
-        <iv class="row">
+        </div>
+        <div class="row">
             <div class="offset-10 colo-lg-2">Numero de Pagina</div>
-        </iv>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
@@ -51,5 +55,21 @@
     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin-2.min.js"></script>
+    <script>
+        (function ajaxCarga(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.querySelector("#tabla").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("POST", "/Ventas/ListaVenta?handler=ReporteVentaMes", false);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var inputToken = document.getElementsByName("__RequestVerificationToken");
+            xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+            xhttp.send();
+        })()
+    </script>
 </body>
+
 </html>

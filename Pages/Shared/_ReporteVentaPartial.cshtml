@@ -1,0 +1,63 @@
+@model Ventas.ListaVentaModel
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio Unitario $</th>
+            <th>Cantidad</th>
+            <th>Sub Total $</th>
+            <th>Descuento $</th>
+            <th>Total $</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            Decimal TotalMes = 0;
+            Decimal SubTotal = 0;
+            Decimal Total = 0;
+        }
+            @foreach(var producto in Model.productosT){
+                TotalMes = TotalMes + producto.PrecioUnitario * producto.Cantidad - producto.TotalDesc;
+                <tr>
+                    <td>
+                        @producto.Producto.Nombre
+                    </td>
+                    <td>
+                        @producto.PrecioUnitario
+                    </td>
+                    <td>
+                        @producto.Cantidad
+                    </td>
+                    <td>
+                        @{
+                            SubTotal = producto.PrecioUnitario*producto.Cantidad;
+                        }
+                        @SubTotal
+                    </td>
+                    <td>
+                        @producto.TotalDesc
+                    </td>
+                    <td>
+                        @{
+                            Total = producto.PrecioUnitario*producto.Cantidad-producto.TotalDesc;
+                        }
+                        @Total
+                    </td>
+                </tr>                           
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Total del mes</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>
+            @{
+                <span>@TotalMes</span>
+            }
+            </th>
+        </tr>
+    </tfoot>
+</table>
