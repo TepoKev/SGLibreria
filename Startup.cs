@@ -101,7 +101,6 @@ namespace SGLibreria
             );
             
             app.UseMvc();
-            Rotativa.AspNetCore.RotativaConfiguration.Setup(env, "..\\Rotativa\\Windows\\");
         }
     }
 }

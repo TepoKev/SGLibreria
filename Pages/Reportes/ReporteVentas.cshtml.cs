@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
 using SGLibreria.Models;
 
 namespace SGLibreria.Pages.Reportes
@@ -20,8 +19,6 @@ namespace SGLibreria.Pages.Reportes
 
         public IActionResult OnGet()
         {
-            // return View(await _context.Customers.ToListAsync());
-            //return new ViewAsPdf("ReporteVentas", this);
             return Page();
         }
     }
