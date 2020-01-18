@@ -1,221 +1,44 @@
 @page
 @model StockModel
-
+@using SGLibreria.Informes
+@using SGLibreria.Models
 @{
     ViewData["title"] = "Stock de Productos";
+    ConsultaProducto obj;
 }
-
 <div class="row form-control-plaintext px-2 text-center">
     <label class="h2">Poductos próximos a agotarse</label>
 </div>
+@if(Model.ListProductos.Count == 0) {
+    <div class="alert alert-danger">
+        No hay ninún producto que mostrar
+    </div>
+    return;
+}
+<div class="row pl-5">
+@for ( var i = 0; i < Model.ListProductos.Count; i++) {
+    obj = Model.ListProductos[i];
+    <!--div row -->
+        
+            <div class="card ">
+                <div class="card-title mt-3 mx-2">
+                    <h5 class="m-0 p-0">@obj.Producto <span class="badge badge-danger">@obj.Existencia</span></h5>
+                </div>
+                <div class="card-img-top">
+                    <img src="/@obj.Imagen" class="img-fluid" alt="..." width="150px">
+                </div>
+                <div class="card-body">
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        
+    <!--div row -->
+}
+</div>
 
-<div class="row pl-5">
-    <div class="card-group">
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row pl-5">
-    <div class="card-group">
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row pl-5">
-    <div class="card-group">
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Borradores <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/borradores.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Lapiceros <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="/Productos/lapiceros.jpg" class="img-fluid" alt="..." width="150px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title mt-3 mx-2">
-                <h5 class="m-0 p-0">Sacapuntas <span class="badge badge-danger">10</span></h5>
-            </div>
-            <div class="card-img-top">
-                <img src="~/Productos/zacapuntas.jpg" class="img-fluid" alt="..." width="200px">
-            </div>
-            <div class="card-body">
-                <p class="card-text"></p>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+
+
+
+

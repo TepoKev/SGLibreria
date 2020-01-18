@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+
 namespace SGLibreria.Informes
 {
     public class ConsultaKardex
@@ -9,7 +11,8 @@ namespace SGLibreria.Informes
         public int Existencia { get; set; }
         public int StockMinimo { get; set; }
 
-        public static string queryOne() {
+        public static string queryOne()
+        {
             return @"
             (
 select kc.Id as Id,  prod.Id as IdProducto,
@@ -40,9 +43,14 @@ limit 1
 order by Id;
             ";
         }
-        public static string queryList() {
+        public static string queryList()
+        {
             return "";
         }
+        public static IQueryable<ConsultaKardex> q()
+        {
+            return null;
+        }
     }
-
 }
+
