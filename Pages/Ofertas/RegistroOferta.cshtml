@@ -222,13 +222,13 @@
             tr.appendChild(tdc);
             tdpn = document.createElement("td");
             let preciov = carprodsel[i].getAttribute("data-precio");
-            tdpn.innerHTML = preciov;
+            tdpn.innerHTML = parseFloat(preciov).toFixed(2);
             tr.appendChild(tdpn);
             tdpo = document.createElement("td");
             if(descuento == 0){
-                tdpo.innerHTML = preciov;
+                tdpo.innerHTML = parseFloat(preciov).toFixed(2);
             }else{
-                tdpo.innerHTML = preciov - (preciov*(descuento*0.01));
+                tdpo.innerHTML = parseFloat((preciov - (preciov*(descuento*0.01)))).toFixed(2);
             }
             tr.appendChild(tdpo);
             tdd = document.createElement("td");
