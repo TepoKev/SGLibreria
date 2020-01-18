@@ -110,7 +110,7 @@ function Compras() {
             labelUnitario = cols[3].querySelector('label');
 
             if (!isNaN(precioUnitario)) {
-                labelUnitario.innerHTML = precioUnitario;
+                labelUnitario.innerHTML = precioUnitario.toFixed(2);
             } else {
                 labelUnitario.innerHTML = '';
             }
