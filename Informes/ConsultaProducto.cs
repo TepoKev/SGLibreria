@@ -8,7 +8,7 @@ namespace SGLibreria.Informes
         public string Imagen { get;set; }
         public string Categoria {get;set; }
         public int Existencia {get;set; }
-        public decimal Precio {get;set;}
+        public decimal PrecioVenta {get;set;}
         public decimal? PrecioOferta {get;set;}
 
     }

@@ -369,7 +369,7 @@ namespace SGLibreria.Models
                     .HasConstraintName("imagen_ibfk_1");
             });
             
-            modelBuilder.Entity<Kardex>(entity =>
+          modelBuilder.Entity<Kardex>(entity =>
             {
                 entity.ToTable("kardex");
 
@@ -385,6 +385,8 @@ namespace SGLibreria.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Existencia).HasColumnType("int(11)");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
 
                 entity.Property(e => e.IdDetalleCompra).HasColumnType("int(11)");
 
@@ -407,7 +409,7 @@ namespace SGLibreria.Models
                     .HasForeignKey(d => d.IdProducto)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("kardex_ibfk_1");
-            });
+            }); 
 
             modelBuilder.Entity<Marca>(entity =>
             {

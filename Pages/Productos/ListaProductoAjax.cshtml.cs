@@ -15,67 +15,109 @@ namespace SGLibreria.Pages.Productos
         CantidadPorFila: número de productos que irán en cada <div class="card-group">
         */
         private readonly AppDbContext _context;
-        public List<Producto> Productos {get;set;}
-        public int Pagina {get;set;}
-        public int CantidadPorFila {get;set;}
-        public int Maximo {get;set;}
-        public string NombreOCodigo { get; set;}
+        public List<Producto> Productos { get; set; }
+        public int Pagina { get; set; }
+        public int CantidadPorFila { get; set; }
+        public int Maximo { get; set; }
+        public string NombreOCodigo { get; set; }
         public int Estado { get; set; }
         public bool? Boton { get; set; }
-        public int Total{get;set;}
-        public ListaProductoAjaxModel(AppDbContext context) {
+        public int Total { get; set; }
+        public ListaProductoAjaxModel(AppDbContext context)
+        {
             this.Pagina = 0;
             this.CantidadPorFila = 6;
             this.Maximo = this.CantidadPorFila * 2;
             _context = context;
         }
-        public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton) {
+        public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton)
+        {
             this.Boton = Boton;
             IQueryable<Producto> Consulta = _context.Productos
             .Include(p => p.IdCategoriaNavigation)
             .Include(p => p.IdMarcaNavigation)
-            .Include(x=>x.Precioventa)
-            .Include(x=>x.IdImagenNavigation)
-            .ThenInclude(x=>x.IdRutaNavigation);
+            .Include(x => x.Precioventa)
+            .Include(x => x.IdImagenNavigation)
+            .ThenInclude(x => x.IdRutaNavigation);
+            List<Producto> prodTemporal = _context.Productos
+            .Include(p => p.IdCategoriaNavigation)
+            .Include(p => p.IdMarcaNavigation)
+            .Include(x => x.Precioventa)
+            .Include(p => p.IdImagenNavigation)
+            .ToList();
+            List<Kardex> ultimoMovimiento = new List<Kardex>();
+            List<Producto> productos = new List<Producto>();
+            foreach (var item in prodTemporal)
+            {
 
-            if(Pagina == null){
+                List<Kardex> lk = _context.Kardex.Where(x => x.IdProducto == item.Id)
+                .OrderByDescending(x => x.Id)
+                .Take(1).ToList();
+                Kardex k = null;
+                if (lk.Count > 0)
+                {
+                    k = lk[0];
+                    k.IdProductoNavigation = item;
+                    ultimoMovimiento.Add(k);
+
+                }
+
+            }
+        
+            if (Pagina == null)
+            {
                 Pagina = this.Pagina;
             }
-            if(CantidadPorFila == null){
+            if (CantidadPorFila == null)
+            {
                 CantidadPorFila = this.CantidadPorFila;
             }
-            if(Maximo == null){
+            if (Maximo == null)
+            {
                 Maximo = this.Maximo;
             }
-            
-            if(Id != null) {
+
+            if (Id != null)
+            {
                 Consulta = Consulta.Where(p => p.Id == Id);
-            } else if(IdCategoria!=null) {
+            }
+            else if (IdCategoria != null)
+            {
                 Consulta = Consulta.Where(p => p.IdCategoria == IdCategoria && (EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%") || EF.Functions.Like(p.Codigo, $"%{NombreOCodigo}%")));
-            } else {
+            }
+            else
+            {
                 Consulta = Consulta.Where(p => EF.Functions.Like(p.Nombre, $"%{NombreOCodigo}%") || EF.Functions.Like(p.Codigo, $"%{NombreOCodigo}%"));
             }
 
-            var total =  _context.Productos.Select(
-                q => new {
+            var total = _context.Productos.Select(
+                q => new
+                {
                     co = Consulta.Count()
                 }
             ).FirstOrDefault();
-            
+
             this.Total = total.co;
 
-            if(IdCategoria==null) {
-               // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
-            }
-            
+            if (IdCategoria == null)
+            {
+    // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+}
+
             this.Productos = Consulta.ToList();
-            Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+Consulta = Consulta.Skip((Pagina.Value) * Maximo.Value).Take(Maximo.Value);
             this.Productos = Consulta.ToList();
+
+            foreach (var item in ultimoMovimiento)
+            {
+    item.IdProductoNavigation.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.IdProductoNavigation.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
+}
             foreach (var item in this.Productos)
             {
-                item.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
-            }
+    item.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
+}
+            
             return Page();
-        }
+}
     }
 }
