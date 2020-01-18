@@ -130,7 +130,8 @@ namespace SGLibreria.Pages.Compras
                 Kardex kardex = new Kardex {
                     Existencia = Existencia, 
                     IdDetalleCompra = det.Id, 
-                    IdProducto = det.IdProducto
+                    IdProducto = det.IdProducto, 
+                    Fecha = Compra.Fecha
                 };
                 _context.Kardex.Add(kardex);
                 await _context.SaveChangesAsync();
