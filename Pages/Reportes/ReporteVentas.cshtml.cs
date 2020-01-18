@@ -21,8 +21,8 @@ namespace SGLibreria.Pages.Reportes
         public async Task<IActionResult> OnGet()
         {
             // return View(await _context.Customers.ToListAsync());
-            return new ViewAsPdf("ReporteVentas", await ReporteVentaMes());
-            //return Page();
+            //return new ViewAsPdf("ReporteVentas", await ReporteVentaMes());
+            return Page();
         }
 
         public async Task<List<ProductoT>> ReporteVentaMes(){
