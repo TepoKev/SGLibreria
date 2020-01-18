@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SGLibreria.Models;
+using SGLibreria.Informes;
+
 namespace SGLibreria.Pages.Productos
 {
     public class ListaProductoAjaxModel : PageModel
@@ -23,6 +25,7 @@ namespace SGLibreria.Pages.Productos
         public int Estado { get; set; }
         public bool? Boton { get; set; }
         public int Total { get; set; }
+        public IList<ConsultaProducto> ListProductos {get; set;}
         public ListaProductoAjaxModel(AppDbContext context)
         {
             this.Pagina = 0;
@@ -31,6 +34,13 @@ namespace SGLibreria.Pages.Productos
             _context = context;
         }
         public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton)
+        {
+            this.Boton = Boton;
+            this.ListProductos = _context.ConsultaProducto.FromSql(ConsultaProducto.sqlAll()).ToList();
+            return Page();
+        }
+
+        public IActionResult OnGetOld(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton)
         {
             this.Boton = Boton;
             IQueryable<Producto> Consulta = _context.Productos
@@ -63,7 +73,7 @@ namespace SGLibreria.Pages.Productos
                 }
 
             }
-        
+
             if (Pagina == null)
             {
                 Pagina = this.Pagina;
@@ -101,23 +111,23 @@ namespace SGLibreria.Pages.Productos
 
             if (IdCategoria == null)
             {
-    // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
-}
+                // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
+            }
 
             this.Productos = Consulta.ToList();
-Consulta = Consulta.Skip((Pagina.Value) * Maximo.Value).Take(Maximo.Value);
+            Consulta = Consulta.Skip((Pagina.Value) * Maximo.Value).Take(Maximo.Value);
             this.Productos = Consulta.ToList();
 
             foreach (var item in ultimoMovimiento)
             {
-    item.IdProductoNavigation.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.IdProductoNavigation.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
-}
+                item.IdProductoNavigation.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.IdProductoNavigation.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
+            }
             foreach (var item in this.Productos)
             {
-    item.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
-}
-            
+                item.Ofertaproducto = this._context.Ofertaproducto.Where(of => of.IdProducto == item.Id && of.IdOfertaNavigation.FechaFin.CompareTo(DateTime.Now) > 0).Include(of => of.IdOfertaNavigation).OrderBy(o => o.IdOfertaNavigation.FechaInicio).ToList();
+            }
+
             return Page();
-}
+        }
     }
 }

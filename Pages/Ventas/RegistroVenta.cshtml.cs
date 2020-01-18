@@ -64,7 +64,8 @@ namespace SGLibreria.Pages.Ventas
                 Kardex kardex = new Kardex {
                     Existencia = Existencia, 
                     IdDetalleVenta = dtv.Id, 
-                    IdProducto = precioventa.IdProducto
+                    IdProducto = precioventa.IdProducto, 
+                    Fecha = venta.Fecha
                 };
                 _context.Kardex.Add(kardex);
                 await _context.SaveChangesAsync();

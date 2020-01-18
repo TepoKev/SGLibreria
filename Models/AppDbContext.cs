@@ -48,6 +48,7 @@ namespace SGLibreria.Models
         //Informes
         public virtual DbSet<InformeCompra> InformeCompra {get; set;}
         public virtual DbSet<ConsultaKardex> ConsultaKardex {get;set;}
+        public virtual DbSet<ConsultaProducto> ConsultaProducto {get;set;}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
