@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>Development</AspNetCoreHostingModel>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
 
@@ -10,7 +10,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="pomelo.entityframeworkcore.mysql" Version="2.2.0" />
-    <PackageReference Include="Rotativa.AspNetCore" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

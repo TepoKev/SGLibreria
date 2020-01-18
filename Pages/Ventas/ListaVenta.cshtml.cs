@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
 using SGLibreria.Models;
 
 namespace SGLibreria.Pages.Ventas
