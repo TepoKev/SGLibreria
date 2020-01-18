@@ -1,37 +1,21 @@
 @page
 @model MiBitacoraModel
-
 @{
 ViewData["title"] = "Mi Actividad";
 }
 <div class="row">
     <label class="offset-lg-4 h3">Criterios de Busqueda</label>
+    <input type="text" id="opc" hidden = "one">
 </div>
 <div class="row">
     <label class="col-form-label offset-lg-1">Por Fecha: </label>
     <div class="form-group pr-5 pl-4">
-        <label asp-for="Desde" class="col-form-label"></label>
-        <input type="date" asp-for="Desde" class="form-control" value="">
+        <label for="desde" class="col-form-label"></label>
+        <input type="date" id="desde" class="form-control" value="">
     </div>
     <div class="form-group">
-        <label asp-for="Hasta" class="col-form-label"></label>
-        <input type="date" asp-for="Hasta" class="form-control" value="">
-    </div>
-    <div class="form-group pl-3">
-        <label class="col-form-label ml-5">Por Sección</label>
-        <div class="col-lg-12 mx-4">
-            <select class="custom-options">
-                <option value="">Seleccione...</option>
-                <option value="0">Proveedores</option>
-                <option value="1">Compras</option>
-                <option value="2">Ventas</option>
-                <option value="3">Productos</option>
-                <option value="4">Servicios</option>
-                <option value="5">Ofertas</option>
-                <option value="6">Categorias</option>
-                <option value="7">Empleados</option>
-            </select>
-        </div>
+        <label for="hasta" class="col-form-label"></label>
+        <input type="date" id="hasta" class="form-control" value="">
     </div>
     <div class="form-group offset-lg-1 pt-5">
         <span class="col pl-5"><a href="#" role="button" id="expandir" data-toggle="tooltip" data-placement="top"
@@ -41,196 +25,84 @@ ViewData["title"] = "Mi Actividad";
     </div>
 </div>
 <div class="row">
-    <div class="accordion col-lg-12">
+    <div class="accordion col-lg-12" id="bitacoras">
+        @foreach (var Bitacora in Model.Bitacoras)
+        {
         <div class="card">
-            <div class="card-header color-head" id="headingOne">
+            <div class="card-header color-head" id="heading-@Bitacora.Id">
                 <h2 class="mb-0">
                     <button class="btn btn-bit collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseOne" aria-controls="collapseOne">
-                        2 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
+                        data-target="#collapse-@Bitacora.Id" aria-controls="collapse-@Bitacora.Id">
+                        @if(DateTime.MinValue.Date.ToString("dd/MM/yyyy").Equals(Bitacora.CierreSesion.Date.ToString("dd/MM/yyyy"))){
+                            <span> @Bitacora.InicioSesion.ToString("dd/MM/yyy") (@Bitacora.InicioSesion.ToString("hh:mm tt") - en curso) </span>
+                        }else{
+                            @if(Bitacora.InicioSesion.Date.CompareTo(Bitacora.CierreSesion.Date) != 0){
+                                <span> @Bitacora.InicioSesion.ToString("dd/MM/yyyy hh:mm tt") - @Bitacora.CierreSesion.ToString("dd/MM/yyyy hh:mm tt")</span>
+                            }else{
+                                <span> @Bitacora.InicioSesion.ToString("dd/MM/yyy") (@Bitacora.InicioSesion.ToString("hh:mm tt") - @Bitacora.CierreSesion.ToString("hh:mm tt")) </span>
+                            }
+                        }
+                        <i class="fas fa-chevron-down"></i>
                     </button>
                 </h2>
             </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+            <div id="collapse-@Bitacora.Id" class="collapse" aria-labelledby="heading-@Bitacora.Id">
                 <div class="card-body">
                     <div class="col-lg-12 contenedor">
                         <div class="box">
-                            <ul id="first-list">
-                                <li>
-                                    <span></span>
-                                    <div class="info">Inicio de sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>10:00 AM</span>
-                                    </div>
-                                <li>
-                                    <span></span>
-                                    <div class="title">Compras</div>
-                                    <div class="info">Se registro una compra <a href="#">Ver detalles</a></div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>11:00 AM</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span></span>
-                                    <div class="info">Finaliazción de la sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>2:00 PM</span>
-                                    </div>
-                                </li>
-                            </ul>
+                            
+                                @if(Bitacora.Accion.Count == 0){
+                                    <label class="text-white">Sin acciones</label>
+                                }else{
+                                    <ul id="first-list">
+                                        @foreach (var accion in Bitacora.Accion)
+                                        {
+
+                                            <li>
+                                                <span></span>
+                                                <div class="info">@accion.Descripcion</div>
+                                                <div class="time">
+                                                    <span>@accion.Hora.ToString("dd, MM")</span>
+                                                    <span>@accion.Hora.ToString("hh:mm tt")</span>
+                                                </div>
+                                            </li>   
+                                        }
+                                    </ul>
+                                }
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header  color-head" id="headingTwo">
-                <h2 class="mb-0">
-                    <button class="btn btn-bit collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseTwo" aria-controls="collapseTwo">
-                        3 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
-                <div class="card-body">
-                    <div class="col-lg-12 contenedor">
-                        <div class="box">
-                            <ul id="first-list">
-                                <li>
-                                    <span></span>
-                                    <div class="info">Inicio de sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>10:00 AM</span>
-                                    </div>
-                                <li>
-                                    <span></span>
-                                    <div class="title">Compras</div>
-                                    <div class="info">Se registro una compra <a href="#">Ver detalles</a></div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>11:00 AM</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span></span>
-                                    <div class="info">Finaliazción de la sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>2:00 PM</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header color-head" id="headingThree">
-                <h2 class="mb-0">
-                    <button class="btn btn-bit collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseThree" aria-controls="collapseThree">
-                        4 de Septiembre de 2019 <i class="fas fa-chevron-down"></i>
-                    </button>
-                </h2>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
-                <div class="card-body">
-                    <div class="col-lg-12 contenedor">
-                        <div class="box">
-                            <ul id="first-list">
-                                <li>
-                                    <div class="info">Inicio de sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>10:00 AM</span>
-                                    </div>
-                                <li>
-                                    <div class="title">Compras</div>
-                                    <div class="info">Se registro una compra <a href="#">Ver detalles</a></div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>11:00 AM</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span></span>
-                                    <div class="info">Finaliazción de la sesión</div>
-                                    <div class="time">
-                                        <span>2, Sep</span>
-                                        <span>2:00 PM</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>    
+        }
     </div>
 </div>
 
 @section Scripts{
-<link href="~/selectric/src/selectric.css" rel="stylesheet">
-<link href="~/css/styles.css" rel="stylesheet">
-<script src="~/selectric/src/jquery.selectric.js"></script>
-<script src="~/js/linetime.js"></script>
-<script>
-    $(function () {
-        $('select').selectric();
-    });
-    var tipos = [{
-            elemento: '',
-            texto: 'Seleccione...'
-        },
-        {
-            elemento: '<i class="far fa-address-card"></i>',
-            texto: 'Proveedores'
-        },
-        {
-            elemento: '<i class="fas fa-store-alt"></i>',
-            texto: 'Compras'
-        },
-        {
-            elemento: '<i class="fas fa-shopping-cart"></i>',
-            texto: 'Ventas'
-        },
-        {
-            elemento: '<i class="fab fa-product-hunt"></i>',
-            texto: 'Productos'
-        },
-        {
-            elemento: '<i class="fas fa-print"></i> <i class="ml-0 fas fa-phone"></i>',
-            texto: 'Servicios'
-        },
-        {
-            elemento: '<i class="fas fa-tag"></i>',
-            texto: 'Ofertas'
-        },
-        {
-            elemento: '<i class="fas fa-layer-group"></i>',
-            texto: 'Categorias'
-        },
-        {
-            elemento: '<i class="fas fa-users"></i>',
-            texto: 'Empleados'
-        }
-    ];
-    $('.custom-options').selectric({
-        optionsItemBuilder: function (itemData, element, index) {
-            return '<span>' + tipos[index].elemento + ' ' + tipos[index].texto + '</span>';
-        }
-    });
-</script>
 <script>
     var Expandir = document.getElementById("expandir");
     var Contraer = document.getElementById("contraer");
     var btn = document.getElementsByClassName("btn btn-light collapsed");
+    var fdesde = document.querySelector("#desde");
+    var fhasta = document.querySelector("#hasta");
+    fdesde.addEventListener("input", (e)=>{
+        debugger;
+        let cdesde = e.currentTarget.value;
+        let chasta = document.querySelector("#hasta").value;
+        if(cdesde.length == 10 && chasta.length == 10){
+            //llamada al metodo filtrar por fecha
+            filtrarFechOne(cdesde, chasta);
+        }
+    });
+    fhasta.addEventListener("input", (e)=>{
+        debugger;
+        let chasta = e.currentTarget.value;
+        let cdesde = document.querySelector("#desde").value;
+        if(cdesde.length == 10 && chasta.length == 10){
+            //llamada al metodo filtrar por fecha
+            filtrarFechOne(cdesde, chasta);
+        }
+    });
     for (var i = 0; i < btn.length; i++) {
         btn[i].addEventListener("click", (e) => {
             var btn = e.currentTarget;
@@ -257,5 +129,19 @@ ViewData["title"] = "Mi Actividad";
             colapse[i].children[1].className = "collapse";
         }
     });
+    function filtrarFechOne(desde, hasta){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.querySelector("#bitacoras").innerHTML = this.responseText;
+                document.querySelector("#opc").value = "one";
+            }
+        };
+        xhttp.open("POST", "MiActividad?handler=BitacoraFechaOne", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send(`desde=${desde}&hasta=${hasta}`);
+    }
 </script>
 }
