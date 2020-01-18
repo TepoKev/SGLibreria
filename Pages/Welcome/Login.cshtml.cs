@@ -33,6 +33,10 @@ namespace SGLibreria.Pages.Welcome
                 Session.Clear();
                 return Page();
             }
+
+            var user = await _context.Usuarios.AnyAsync(uc => uc.Correo == this.Usuario.Correo);
+            var clave = await _context.Usuarios.AnyAsync(uc => uc.Clave == Encrypted.Encrypt(this.Usuario.Clave));
+            
             Usuario u = await _context.Usuarios
             .Where(us =>
                us.Nombre == Usuario.Correo
@@ -53,25 +57,34 @@ namespace SGLibreria.Pages.Welcome
                 Mensaje = "¡Acceso denegado. Lo sentimos!";
                 return Page();
             }
-            Persona per = u.Empleado.IdPersonaNavigation;
-            string NombreCompleto = per.NombreCompleto();
-            string ruta = "";
-            Imagen Imagen = u.IdImagenNavigation;
-            if (Imagen != null)
-            {
-                ruta = Imagen.IdRutaNavigation.Nombre + "/"
-                    + Imagen.Nombre;
+            if(!clave){
+                Mensaje = "Contraseña incorrecta!.";
+                return Page();
             }
-            Bitacora Bitacora = new Bitacora();
-            Bitacora.IdUsuario = u.Id;
-            Bitacora.InicioSesion = DateTime.Now;
-            this._context.Bitacoras.Add(Bitacora);
-            this._context.SaveChanges();
-            Session.SetInt32("IdUsuario", u.Id);
-            Session.SetInt32("IdBitacora", Bitacora.Id);
-            Session.SetInt32("Privilegio", u.Privilegio);
-            Session.SetString("NombreCompleto", NombreCompleto);
-            Session.SetString("Ruta", ruta);
+            if(u!=null && u.Estado == 1 && user && clave){
+                
+               
+                Persona per = u.Empleado.IdPersonaNavigation;
+                string NombreCompleto = per.NombreCompleto();
+                string ruta = "";
+                Imagen Imagen = u.IdImagenNavigation;
+                if (Imagen != null)
+                {
+                    ruta = Imagen.IdRutaNavigation.Nombre + "/"
+                        + Imagen.Nombre;
+                }
+                Bitacora Bitacora = new Bitacora();
+                Bitacora.IdUsuario = u.Id;
+                Bitacora.InicioSesion = DateTime.Now;
+                this._context.Bitacoras.Add(Bitacora);
+                this._context.SaveChanges();
+                Session.SetInt32("IdUsuario", u.Id);
+                Session.SetInt32("IdBitacora", Bitacora.Id);
+                Session.SetInt32("Privilegio", u.Privilegio);
+                Session.SetString("NombreCompleto", NombreCompleto);
+                Session.SetString("Ruta", ruta);
+            }
+            
             return RedirectToPage("/Index");
         }
 
