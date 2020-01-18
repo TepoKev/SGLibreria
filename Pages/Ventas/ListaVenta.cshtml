@@ -10,6 +10,7 @@
         color: white;
     }
 </style>
+<button type="button" id="prueba"> click para probar</button>
 <div class="card shadow mb-4">
     <form method="post"></form>
     <div class="card-header py-3">
@@ -102,7 +103,22 @@
     $(function () {
         $('select').selectric();
     })
-    
+    var click = document.querySelector("#prueba");
+    click.addEventListener("click", () =>{
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                } else {
+                }
+            }
+        };
+        xhttp.open("POST", "ListaVenta?handler=ReporteVentaMes", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var inputToken = document.getElementsByName("__RequestVerificationToken");
+        xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
+        xhttp.send("mes=01/17/2020");
+    });
     sgl.ajax2({
         method: 'get', 
         url: '/Empleados/ListaEmpleado?handler=EmpleadoSelect',  
