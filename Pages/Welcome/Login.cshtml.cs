@@ -49,9 +49,14 @@ namespace SGLibreria.Pages.Welcome
                 .Include(us => us.Empleado)
                 .ThenInclude(e => e.IdPersonaNavigation)
                 .SingleOrDefaultAsync();
-                if (u == null)
+                
+                if (!user)
                 {
                     Mensaje = "Su usuario no existe";
+                    return Page();
+                }
+                if(!clave){
+                    Mensaje = "Contraseña incorrecta!.";
                     return Page();
                 }
                 if (u != null && u.Estado == 0)
@@ -59,13 +64,7 @@ namespace SGLibreria.Pages.Welcome
                     Mensaje = "¡Acceso denegado. Lo sentimos!";
                     return Page();
                 }
-                if(!clave){
-                    Mensaje = "Contraseña incorrecta!.";
-                    return Page();
-                }
                 if(u!=null && u.Estado == 1 && user && clave){
-                    
-                
                     Persona per = u.Empleado.IdPersonaNavigation;
                     string NombreCompleto = per.NombreCompleto();
                     string ruta = "";
