@@ -50,23 +50,6 @@ namespace SGLibreria.Pages.Compras {
 
             return Partial("_DetalleCompraPartial", this);
         }
-        public async Task<IActionResult> OnPostAsync () {
-            if (!ModelState.IsValid) {
-                return Page ();
-            }
-            if (!Proveedor.Enlace.Contains ("http")) {
-                Proveedor.Enlace = "http://" + Proveedor.Enlace;
-            }
-            _context.Proveedores.Add (Proveedor);
-            await _context.SaveChangesAsync ();
-            Accion Accion = new Accion();
-            Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
-            Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "modificó datos de un proveedor";
-            this._context.Add(Accion);
-            this._context.SaveChanges();
-            return RedirectToPage ("/Proveedores/RegistroProveedor");
-        }
     }
 }
 

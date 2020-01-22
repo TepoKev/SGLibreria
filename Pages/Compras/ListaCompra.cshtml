@@ -116,11 +116,12 @@ ViewData["Title"] = "Lista de Compras";
 <script src="~/selectric/src/jquery.selectric.js"></script>
 <script src="~/js/sgl.js"></script>
 <script>
-
+    
     $(function () {
         $('select').selectric();
     });
     console.log('a enviar');
+    
     sgl.ajax2({
         method: 'get', 
         url: '/Proveedores/ListaProveedor?handler=ProveedorSelect',  

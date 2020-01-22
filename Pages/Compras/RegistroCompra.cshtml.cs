@@ -58,7 +58,7 @@ namespace SGLibreria.Pages.Compras
 
             */
 
-            Compra.IdUsuario = 15;//
+            Compra.IdUsuario = HttpContext.Session.GetInt32("IdUsuario").Value;
             _context.Compras.Add(Compra);
             await _context.SaveChangesAsync();
 
@@ -154,7 +154,7 @@ namespace SGLibreria.Pages.Compras
                     Mensaje = "Mensaje de Prueba"
                 }
             );
-        }
+        }//fin OnPost
         public async Task<IActionResult> OnPostAgregarMarca(Marca Marca)
         {
             var estado = await _context.Marcas.AnyAsync(m => m.Nombre == Marca.Nombre);
@@ -316,7 +316,7 @@ namespace SGLibreria.Pages.Compras
                         Mensaje = "El nombre de archivo: " + filename + " es incorrecto";
                         objRet = null;
                     }
-                }
+                }//fin Producto.Archivo=null
 
                 return new JsonResult(
                   new
