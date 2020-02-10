@@ -38,7 +38,7 @@ Layout = null;
         <div class="text-center">2527-2000</div>
         <div class="text-center mt-3 font-weight-bold"> Ventas del mes de
             @{<span>@DateTime.Now.ToString("dd/MM/yyyy")</span>}</div>
-        <div class="row" id="tabla" style="margin-top: 20px">
+        <div class="row" id="tabla">
         </div>
         <script>
         (function ajaxCarga(){
@@ -55,8 +55,11 @@ Layout = null;
             xhttp.send();
         })()
     </script>
-        <div class="row" style="margin-top: 1000px">
-            <div class="offset-10 colo-lg-2">Pagina 1 de 1</div>
+        <div class="row">
+            Pie de pagina
+        </div>
+        <div class="row">
+            <div class="offset-10 colo-lg-2">Numero de Pagina</div>
         </div>
     </div>
 
