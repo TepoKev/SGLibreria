@@ -642,8 +642,9 @@ ViewData["Title"] = "Registro Compras";
 <script src="~/js/sgl.js"></script>
 <script src='/js/compras.js'></script>
 <script>
-
+  
   var NombreOCodigo = sgl.q('#NombreOCodigo');
+  //asignacion de evento de cualquier entrada de usuario que se produzca
   NombreOCodigo.oninput = function (e) {
     buscarProducto(this.value);
   };
@@ -656,6 +657,7 @@ ViewData["Title"] = "Registro Compras";
     if (IdCategoria) {
       params += "&IdCategoria=" + IdCategoria;
     }
+    //peticion por AJAX
     sgl.get('/Productos/ListaProductoAjaxTodo', function (data) {
       var divProductos = sgl.q('#productosAjax');
       divProductos.innerHTML = data;
@@ -1215,26 +1217,30 @@ function cargarListaMarcas() {
                 Telefonos.push(arrayli[i].firstChild.textContent);
             }
         }
-        var xhttp = new XMLHttpRequest();
+        
         let formData = new FormData(sgl.q("#frmProveedor"));
         for (var i = 0; i < Telefonos.length; i++) {
             if (Telefonos[i] != "Sin registros") {
                 formData.append("Telefonos[]", encodeURIComponent(Telefonos[i]));
             }
         }
+        var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4) {
+                //codigo de estado 200 indica que todo fue bien en el registro de proveedor
                 if (this.status == 200) {
                     sgl.q("#lis_tel").innerHTML =
                         '<li class="list-group-item py-1">Sin registros</li>';
                     document.getElementById("frmProveedor").reset();
                     $('#modalProveedor').modal('hide');
                     sgl.clearForm(FrmProveedor);
+                    //ahora solicitar 
                     sgl.ajax2({
                         method: 'get',
                         url: 'RegistroCompra?handler=ListaProveedores',
                         done: function (texto) {
                             var lista = JSON.parse(texto);
+
                             var comboProveedores = sgl.q('#comboProveedores');
                             comboProveedores.innerHTML = "";
                             lista.forEach(function (dato) {

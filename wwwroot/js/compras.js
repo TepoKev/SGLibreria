@@ -225,7 +225,7 @@ formCompra.onsubmit = function enviarFormCompra(ev) {
             errores.push(camposPositivos);
         }
         sumaPrecioVenta += data*cantidad;
-    }
+    }//fin de la validacion de cada detalle
 
     var error = false;
 

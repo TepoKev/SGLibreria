@@ -1,4 +1,5 @@
 using System; 
+
 namespace SGLibreria.Informes
 {
     public class InformeCompra
