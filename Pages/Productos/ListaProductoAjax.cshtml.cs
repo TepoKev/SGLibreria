@@ -1,4 +1,5 @@
 using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -51,18 +52,25 @@ namespace SGLibreria.Pages.Productos
                 Maximo = this.Maximo;
             }
             List<string> whereInLimit = new List<string>();
+            List<object> whereInLimitParams = new List<object>();
             int i = 0;
             if (Id != null)
             {
-                whereInLimit.Add("p.Id = "+Id+" ");
+                whereInLimit.Add("p.Id =  "+Id+"+");
+                whereInLimitParams.Add(Id);
             }
             else if (IdCategoria != null)
             {
                 whereInLimit.Add("IdCategoria = "+IdCategoria.Value+" and  (p.Nombre like '%"+NombreOCodigo+"%' or p.Codigo like '%"+NombreOCodigo+"%')");
+                whereInLimitParams.Add(IdCategoria.Value);
+                whereInLimitParams.Add(NombreOCodigo);
+                whereInLimitParams.Add(NombreOCodigo);
             }
             else if(NombreOCodigo != null &&  NombreOCodigo!="")
             {
                 whereInLimit.Add($"p.Nombre like '%"+NombreOCodigo+"%' or p.Codigo like '%"+NombreOCodigo+"%'");
+                whereInLimitParams.Add(NombreOCodigo);
+                whereInLimitParams.Add(NombreOCodigo);
             }
             
             if (IdCategoria == null)
