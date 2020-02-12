@@ -16,7 +16,6 @@ namespace SGLibreria.Informes
             
             public static string query() {
                 return @"
-
 SELECT c.`Id`, p.`Nombre` as Proveedor, `Fecha`, count(c.`Id`) as Cantidad, 
 sum(d.`PrecioCompra`) as Total,
 (select concat(rut.`Nombre`,'/', doc.`Nombre`) 

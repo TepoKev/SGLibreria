@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SGLibreria.Models;
 using SGLibreria.Informes;
-
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using System.Linq;
 namespace SGLibreria.Pages.Productos
 {
     public class ListaProductoAjaxModel : PageModel
@@ -51,40 +53,45 @@ namespace SGLibreria.Pages.Productos
             {
                 Maximo = this.Maximo;
             }
-            List<string> whereInLimit = new List<string>();
-            List<object> whereInLimitParams = new List<object>();
+            List<string> whereIn = new List<string>();
+            List<MySqlParameter> wParams = new List<MySqlParameter>();
             int i = 0;
             if (Id != null)
             {
-                whereInLimit.Add("p.Id =  "+Id+"+");
-                whereInLimitParams.Add(Id);
+                whereIn.Add("p.Id = @Id");
+                wParams.Add(new MySqlParameter("@Id", Id));
             }
             else if (IdCategoria != null)
             {
-                whereInLimit.Add("IdCategoria = "+IdCategoria.Value+" and  (p.Nombre like '%"+NombreOCodigo+"%' or p.Codigo like '%"+NombreOCodigo+"%')");
-                whereInLimitParams.Add(IdCategoria.Value);
-                whereInLimitParams.Add(NombreOCodigo);
-                whereInLimitParams.Add(NombreOCodigo);
+                whereIn.Add("IdCategoria = @IdCategoria and  (p.Nombre like @NombreOCodigo or p.Codigo like @NombreOCodigo)");
+                wParams.Add(new MySqlParameter("@IdCategoria", IdCategoria.Value));
+                wParams.Add(new MySqlParameter("@NombreOCodigo", "%"+NombreOCodigo+"%"));
             }
             else if(NombreOCodigo != null &&  NombreOCodigo!="")
             {
-                whereInLimit.Add($"p.Nombre like '%"+NombreOCodigo+"%' or p.Codigo like '%"+NombreOCodigo+"%'");
-                whereInLimitParams.Add(NombreOCodigo);
-                whereInLimitParams.Add(NombreOCodigo);
+                whereIn.Add("p.Nombre like @NombreOCodigo or p.Codigo like @NombreOCodigo");
+                wParams.Add(new MySqlParameter("@NombreOCodigo", "%"+NombreOCodigo+"%"));
             }
-            
             if (IdCategoria == null)
             {
                 // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
             }
-            string str = String.Join(" and ", whereInLimit.ToArray());
+            string str = String.Join(" and ", whereIn.ToArray());
             string limit = " limit "+Pagina.Value*Maximo.Value+"," +Maximo.Value;
+
+            /*
+            MySqlParameter mysqlp;
+            mysqlp = new MySqlParameter("@NombreOCodigo", "%Cuaderno%");
+            string lquery = "Select * from Producto where Nombre LIKE @NombreOCodigo or Codigo LIKE @NombreOCodigo";
+            var list = _context.Productos.FromSql(lquery, mysqlp).ToList();
+            */
             string sql = ConsultaProducto.sqlAll(str, limit);
             Console.WriteLine(sql);
-            
             string sqlCount = ConsultaProducto.sqlAllCount(str, limit);
-            this.ListProductos = _context.ConsultaProducto.FromSql(sql).ToList();
-            //var total  = _context.ConsultaProducto.FromSql(sqlCount).Single();
+            this.ListProductos = _context.ConsultaProducto.FromSql(sql, wParams.ToArray())
+            .ToList();
+
+            Total = _context.ConsultaProducto.FromSql(sql, wParams.ToArray()).Count();
             return Page();
         }
     }

@@ -24,7 +24,7 @@ namespace SGLibreria.Informes
             string sql = @"
 select uk.Id, 
 p.`Id` as IdProducto, p.`Nombre` as Producto, 
-c.`Nombre` as Categoria, 
+cat.`Nombre` as Categoria, 
 p.`StockMinimo` as StockMinimo, k.`Existencia`, 
 m.`Nombre` as Marca, 
 (select concat(r.`Nombre`, '/', i.`Nombre` )
@@ -50,8 +50,8 @@ select max(kar.Id) as Id
 from kardex kar
 where kar.`IdProducto` in (
 select p.Id from producto p 
-inner join categoria c
-on c.Id = p.IdCategoria
+inner join categoria cat
+on cat.Id = p.IdCategoria
 "+whereIn+@" 
 )
 group by kar.IdProducto
@@ -63,11 +63,11 @@ on k.`Id` = uk.Id
 inner join producto p
 on p.`Id` = k.`IdProducto`
 
-inner join categoria c
-on c.`Id`= p.`IdCategoria`
+inner join categoria cat
+on cat.`Id`= p.`IdCategoria`
 inner join marca m
 on m.`Id` = p.`IdMarca`
-where k.Existencia > 0 ;
+where k.Existencia > 0 
             ";
             return sql;
         }
