@@ -220,6 +220,8 @@
         xhttp.setRequestHeader("RequestVerificationToken", inputToken[0].value);
         xhttp.send("IdCategoria="+id+"&Nombre="+nombre);
     }
+
+    
     function GuardarAjax() {
         var form = document.querySelector("#formcategoriaadd");
         var formData = new FormData(form);
