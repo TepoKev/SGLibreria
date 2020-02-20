@@ -32,12 +32,14 @@ NombreOCodigo.oninput = function (e) {
     buscarProducto();
 };
 var IdCategoria;
+var IdMarca;
 function buscarProducto() {
     var params = {
         boton : true, 
         nombreOCodigo : NombreOCodigo.value,
-        IdCategoria: IdCategoria, 
-        Pagina: page
+        idCategoria: IdCategoria, 
+        pagina: page, 
+        idMarca: IdMarca
     };
     console.log(params);
     sgl.get('ListaProductoAjax', function (data) {
@@ -59,14 +61,10 @@ divProductos.addEventListener('click', function marcarProducto(evento) {
         card = target.parentNode;
         cardFooter = card.querySelector('.card-footer');
         if (card.getAttribute('data-seleccionado') == 'true') {
-            cardFooter.classList.remove('bg-primary');
-            cardFooter.classList.remove('text-white');
-            cardFooter.classList.add('text-primary');
+            cardFooter.className = 'card-footer text-primary m-0';
             card.setAttribute('data-seleccionado', false);
         } else {
-            cardFooter.classList.add('bg-primary');
-            cardFooter.classList.add('text-white');
-            cardFooter.classList.remove('text-primary');
+            cardFooter.className = 'card-footer bg-primary text-white m-0';
             card.setAttribute('data-seleccionado', true);
         }
     }
@@ -278,8 +276,8 @@ divMarcas.onclick = function (evento) {
     });
     target.className = 'btn btn-sm btn-primary active';
     console.log(target);
-    IdCategoria = target.getAttribute('data-idmarca');
-    console.log(IdCategoria);
+    IdMarca = target.getAttribute('data-idmarca');
+    console.log(IdMarca);
     page = 0;
     buscarProducto();
 }
