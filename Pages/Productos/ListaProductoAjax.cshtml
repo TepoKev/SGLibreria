@@ -9,7 +9,7 @@
 }
 @{
 ConsultaProducto obj;
-int i,j, cPrecios = 0;
+int i,j;
 string imagen;
 float porcentaje = 100 / Model.CantidadPorFila;
 }
@@ -57,7 +57,7 @@ float porcentaje = 100 / Model.CantidadPorFila;
                 <div class="card-body p-0 m-0 d-flex align-items-end">
                     <p class="card-text"></p>
                 </div>
-                <div class="card-footer text-primary p-y m-0">
+                <div class="card-footer text-primary m-0">
                     @if(obj.PrecioVenta !=null ) {
                         <small class="font-weight-bold h6">
                             @if(obj.Descuento != null){
