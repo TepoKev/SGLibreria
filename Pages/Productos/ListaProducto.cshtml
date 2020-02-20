@@ -19,7 +19,6 @@ ViewData["Title"] = "Lista de Productos";
     position: absolute;
     transition: max-width .4s;
   }
-
 </style>
 <div id='alerta' style='display:none;' class='alert'></div>
 <form id='formToken' method='post'></form>
@@ -38,22 +37,31 @@ ViewData["Title"] = "Lista de Productos";
     </div>
   </div>
 
-  <div class="col-lg-2" >
+  <div class="col-lg-4" >
       <ul class="pagination" id="paginacion">
           
       </ul>
   </div>
-  
-  <div class="col-lg-4">
-      
-  </div>
 
-<div class="btn-group" id="categorias" role="group" aria-label="Basic example">
-    @foreach (var Cat in Model.Categorias) {
-          <button type="button" data-IdCategoria="@Cat.Id" class="btn btn-dark">@Cat.Nombre</button>
+<div class="col-lg-6">
+<div class="bg-dark" id="categorias" role="group" aria-label="Basic example">
+    @foreach (var Categoria in Model.Categorias) {
+          <button type="button" data-IdCategoria="@Categoria.Id" class="btn btn-sm btn-dark">@Categoria.Nombre</button>
     }
-    <button type="button" class="btn btn-dark"> <i class="fas fa-redo-alt"></i> </button>
+    
+    <button type="button" class="btn btn-sm btn-dark"> <i class="fas fa-redo-alt"></i> </button>
   </div>
+</div>
+<div class="col-lg-6">
+<div class="bg-dark" id="marcas" role="group" aria-label="Basic example">
+    @foreach (var Marca in Model.Marcas) {
+          <button type="button" data-IdMarca="@Marca.Id" class="btn btn-sm btn-dark">@Marca.Nombre</button>
+    }
+    
+    
+    <button type="button" class="btn btn-sm btn-dark"> <i class="fas fa-redo-alt"></i> </button>
+  </div>
+</div>
 </div>
 
 <template id='plantilla-option'>

@@ -32,7 +32,7 @@ namespace SGLibreria.Pages.Productos
         {
             this.Pagina = 0;
             this.CantidadPorFila = 6;
-            this.Maximo = this.CantidadPorFila * 18;
+            this.Maximo = this.CantidadPorFila * 1;
             _context = context;
         }
         public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, bool? Boton)
@@ -41,17 +41,18 @@ namespace SGLibreria.Pages.Productos
            
             this.Boton = Boton;
 
-            if (Pagina == null)
+            if (Pagina != null)
             {
-                Pagina = this.Pagina;
+                this.Pagina = Pagina.Value;
             }
-            if (CantidadPorFila == null)
+            if (CantidadPorFila != null)
             {
-                CantidadPorFila = this.CantidadPorFila;
+            
+                this.CantidadPorFila = CantidadPorFila.Value;
             }
-            if (Maximo == null)
+            if (Maximo != null)
             {
-                Maximo = this.Maximo;
+                this.Maximo = Maximo.Value;
             }
             List<string> whereIn = new List<string>();
             List<MySqlParameter> wParams = new List<MySqlParameter>();
@@ -77,7 +78,7 @@ namespace SGLibreria.Pages.Productos
                 // Consulta = Consulta.Skip((Pagina.Value)* Maximo.Value).Take(Maximo.Value);
             }
             string str = String.Join(" and ", whereIn.ToArray());
-            string limit = " limit "+Pagina.Value*Maximo.Value+"," +Maximo.Value;
+            string limit = " limit "+this.Pagina*this.Maximo+"," +this.Maximo;
 
             /*
             MySqlParameter mysqlp;
@@ -87,10 +88,9 @@ namespace SGLibreria.Pages.Productos
             */
             string sql = ConsultaProducto.sqlAll(str, limit);
             Console.WriteLine(sql);
-            string sqlCount = ConsultaProducto.sqlAllCount(str, limit);
             this.ListProductos = _context.ConsultaProducto.FromSql(sql, wParams.ToArray())
             .ToList();
-
+            sql = ConsultaProducto.sqlAll(str);
             Total = _context.ConsultaProducto.FromSql(sql, wParams.ToArray()).Count();
             return Page();
         }

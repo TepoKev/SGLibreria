@@ -37,14 +37,14 @@ namespace SGLibreria.Pages.Productos {
                 .Include (x => x.IdImagenNavigation)
                 .ThenInclude (x => x.IdRutaNavigation);
 
-            if (Pagina == null) {
-                Pagina = this.Pagina;
+            if (Pagina != null) {
+                this.Pagina = Pagina.Value;
             }
-            if (CantidadPorFila == null) {
-                CantidadPorFila = this.CantidadPorFila;
+            if (CantidadPorFila != null) {
+                this.CantidadPorFila = CantidadPorFila.Value;
             }
-            if (Maximo == null) {
-                Maximo = this.Maximo;
+            if (Maximo != null) {
+                this.Maximo = Maximo.Value;
             }
 
             if (Id != null) {
@@ -68,11 +68,14 @@ namespace SGLibreria.Pages.Productos {
             }
 
             this.Productos = Consulta.ToList ();
-            Consulta = Consulta.Skip ((Pagina.Value) * Maximo.Value).Take (Maximo.Value);
+            Consulta = Consulta.Skip ((this.Pagina) * this.Maximo).Take (this.Maximo);
             this.Productos = Consulta.ToList ();
 
             foreach (var item in this.Productos) {
-                item.Ofertaproducto = this._context.Ofertaproducto.Where ( of => of .IdProducto == item.Id && of .IdOfertaNavigation.FechaFin.CompareTo (DateTime.Now) > 0).Include ( of => of .IdOfertaNavigation).OrderBy (o => o.IdOfertaNavigation.FechaInicio).ToList ();
+                item.Ofertaproducto = this._context.Ofertaproducto
+                .Where ( of => of .IdProducto == item.Id && of .IdOfertaNavigation.FechaFin.CompareTo (DateTime.Now) > 0)
+                .Include ( of => of .IdOfertaNavigation).OrderBy (o => o.IdOfertaNavigation.FechaInicio)
+                .ToList ();
             }
             return Page ();
         }

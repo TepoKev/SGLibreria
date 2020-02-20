@@ -1,5 +1,5 @@
 
-sgl.get('ListaProductoAjax?Boton=true', refrescar);
+sgl.get('ListaProductoAjax?'+sgl.serialize({boton: true}), refrescar);
 function refrescar(data) {
     divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;
@@ -18,30 +18,27 @@ function clicka(e){
     }
     let child= e.target.firstElementChild , target = e.target;
     page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+    console.log(page, page.trim());
+    if(page !== null && page.trim() !== '') {
+        buscarProducto();        
+    }
     //console.log(page);
-    buscarProducto();
 }
 let page;
 var NombreOCodigo = sgl.q('#NombreOCodigo');
 NombreOCodigo.focus();
 NombreOCodigo.oninput = function (e) {
+    page = 0;
     buscarProducto();
 };
 var IdCategoria;
 function buscarProducto() {
-    var params = "";
-    var nombreOCodigo = NombreOCodigo.value;
-    
-    if (nombreOCodigo) {
-        params += "NombreOCodigo=" + nombreOCodigo;
-    }
-    if (IdCategoria) {
-        params += "&IdCategoria=" + IdCategoria;
-    }
-    if(page){
-        params += "&Pagina=" + page;
-    }
-    params +='&Boton=true';
+    var params = {
+        boton : true, 
+        nombreOCodigo : NombreOCodigo.value,
+        IdCategoria: IdCategoria, 
+        Pagina: page
+    };
     console.log(params);
     sgl.get('ListaProductoAjax', function (data) {
         divProductos = sgl.q('#productos');
@@ -50,7 +47,7 @@ function buscarProducto() {
     }, params);
 }
 
-var divCategorias = sgl.q('#categorias');
+
 var divProductos = sgl.q('#productos');
 //clic la imagen del card activa un elemento
 divProductos.addEventListener('click', function marcarProducto(evento) {
@@ -254,11 +251,35 @@ formModificar.onsubmit = function (evento) {
         }
     });
 }
-
+var divCategorias = sgl.q('#categorias');
 divCategorias.onclick = function (evento) {
     var target = evento.target;
+    target = target.tagName === 'I' ? target.parentNode : target;
+    var children = target.parentNode.children;
+    console.log(children);
+    children.forEach(element => {
+        element.className = 'btn btn-sm btn-dark';
+    });
+    target.className = 'btn btn-sm btn-primary active';
     console.log(target);
     IdCategoria = target.getAttribute('data-idcategoria');
     console.log(IdCategoria);
+    page = 0;
+    buscarProducto();
+}
+var divMarcas = sgl.q('#marcas');
+divMarcas.onclick = function (evento) {
+    var target = evento.target;
+    target = target.tagName === 'I' ? target.parentNode : target;
+    var children = target.parentNode.children;
+    console.log(children);
+    children.forEach(element => {
+        element.className = 'btn btn-sm btn-dark';
+    });
+    target.className = 'btn btn-sm btn-primary active';
+    console.log(target);
+    IdCategoria = target.getAttribute('data-idmarca');
+    console.log(IdCategoria);
+    page = 0;
     buscarProducto();
 }

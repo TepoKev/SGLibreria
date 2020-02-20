@@ -16,6 +16,7 @@ namespace SGLibreria.Pages.Productos
     {
 
         public List<Categoria> Categorias { get; set; }
+        public List<Marca> Marcas { get; set; }
         private readonly AppDbContext _context;
         [BindProperty]
         public Producto Producto { get; set; }
@@ -62,6 +63,7 @@ namespace SGLibreria.Pages.Productos
         public void OnGet()
         {
             Categorias = _context.Categorias.ToList();
+            Marcas = _context.Marcas.ToList();
         }
         public async Task<JsonResult> OnPost()
         {

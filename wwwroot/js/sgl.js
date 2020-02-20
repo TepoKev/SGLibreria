@@ -6,7 +6,11 @@ var sgl = {
                 callback.call(this, this.responseText);
             }
         };
-        url = url + (params == undefined ? "" : "?" + params);
+        if(typeof params === 'object') {
+            url = url + '?' + sgl.serialize(params);
+        } else {
+            url = url + (params == undefined ? "" : "?" + params);
+        }
         xhttp.open("GET", url, true);
         //        console.log(url);
         //        console.log(params);
@@ -171,27 +175,31 @@ var sgl = {
         }
     }
 };
-/*
-(function () {
-    sgl.ajax('get', 'formulario.html', function (data) {
-        var elem = document.getElementById('salida');
-        elem.innerHTML = data;
-    });
+
+sgl.init = (function () {
+    //por comodidad, para poder usar forEach, con HTMLCollection y NodeList
+    HTMLCollection.prototype.forEach = Array.prototype.forEach;
+    NodeList.prototype.forEach = Array.prototype.forEach;
 })();
-*/
-/*
-(function (){
-    var elem = document.createElement('a');
-    datos = {
-        'nombres': "Diego",
-        'apellidos': 'Palacios'
-    };
-    console.log(datos);
-    sgl.setDataSet(elem, datos);
-    console.log(elem);
-    console.log(sgl.getDataSet(elem));
-})();
-*/
+
+/**
+ * https://stackoverflow.com/questions/1714786/query-string-encoding-of-a-javascript-object
+ */
+sgl.serialize = function (obj, prefix) {
+    var str = [],
+        p;
+    for (p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            var k = prefix ? prefix + "[" + p + "]" : p,
+                v = obj[p];
+            str.push((v !== null && typeof v === "object") ?
+                serialize(v, k) :
+                encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
+    }
+    return str.join("&");
+}
+
 /*
         let formData = new FormData(FrmProductoNuevo);
         var xhr = new XMLHttpRequest();
@@ -326,30 +334,32 @@ var $s = (function () {
  */
 sgl.createPagination = function (container, filtro) {
     let div = container.querySelector(filtro);
-    let total = parseInt(div.getAttribute('data-total')), 
-    currentPage = parseInt(div.getAttribute('data-current-page')),
+    if (div === null) {
+        return '';
+    }
+    let total = parseInt(div.getAttribute('data-total')),
+        currentPage = parseInt(div.getAttribute('data-current-page')),
         max = parseInt(div.getAttribute('data-max'));
     let pages = total / max;
-    var i=0;
+    var i = 0;
     let elems = '';
-    if (currentPage > 0) {
-        elems += `<li class="page-item active"><a class="page-link" data-page='${i}' href="#">`;
-        elems += `<<`;
-        elems += '</a></li>';
-
-    }
-    for (;i < pages; i++) {
+    let disabled;
+    disabled = currentPage > 0 ? '' : 'disabled';
+    let prevPage = currentPage - 1;
+    prevPage = prevPage < 0 ? '' : prevPage;
+    elems += `<li class="page-item ${disabled}"><a class="page-link" data-page="${prevPage}" href="#">&lt;&lt;</a></li>`;
+    for (; i < pages; i++) {
         if (i == currentPage) {
-            elems += `<li class='page-item active'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class="page-item active"><a class="page-link" data-page="${i}" href="#">${i + 1}</a></li>`;
         } else {
-            elems += `<li class='page-item active'><a class='page-link' data-page='${i}' href="#">${i + 1}</a></li>`;
+            elems += `<li class="page-item"><a class="page-link" data-page="${i}" href="#">${i + 1}</a></li>`;
         }
     }
-    console.log(currentPage, i);
-    if (currentPage > i) {
-        elems += `<li class="page-item active"><a class="page-link" data-page='${i}' href="#">`;
-        elems += `>>`;
-        elems += '</a></li>'
-    }
+    //console.log(currentPage, i);
+    let nextPage = currentPage + 1;
+    disabled = currentPage < i - 1 ? '' : 'disabled';
+    nextPage = nextPage < i ? nextPage : '';
+    elems += `<li class="page-item ${disabled}"><a class="page-link" data-page="${nextPage}" href="#">&gt;&gt;</a></li>`;
+    //console.log("paginacion: ", elems);
     return elems;
 }
