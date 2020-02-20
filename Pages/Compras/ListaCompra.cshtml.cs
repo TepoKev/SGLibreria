@@ -16,8 +16,7 @@ namespace SGLibreria.Pages.Compras {
 
         public ListaCompraModel (AppDbContext context) {
             this.Pagina = 0;
-            this.CantidadPorFila = 1;
-            this.Maximo = this.CantidadPorFila * 2;
+            this.Maximo = 2;
             _context = context;
         }
 
@@ -30,14 +29,64 @@ namespace SGLibreria.Pages.Compras {
         public IList<InformeCompra> Informes{get;set;}
         public IList<Detallecompra> Detalles {get;set;}
 
-        public int Pagina {get;set;}
+        public int? Pagina {get;set;}
         public int CantidadPorFila {get;set;}
-        public int Maximo {get;set;}
+        public int? Maximo {get;set;}
         public int Total{get;set;}
        
-        public async Task OnGet() {
-            Informes = await _context.InformeCompra.FromSql(InformeCompra.query()).ToListAsync();
+        public  async Task<PartialViewResult> OnGetTabla(int? IdProveedor, int? Pagina, int? Maximo) {
+            string sql = InformeCompra.query();
+            if(Pagina != null){
+                this.Pagina = Pagina.Value;
+            }
+            if(Maximo != null){
+                this.Maximo = Maximo.Value;
+            }
+
+            Informes =  await _context.InformeCompra.FromSql(sql).ToListAsync();
+            /**/
+            var total = _context.InformeCompra
+            .FromSql(sql)
+            .Count();
+            this.Total = total;
+
+
+            //IdProveedor = 65;//???????
+            List<string> whereIn = new List<string>();
+            List<MySqlParameter> wParams = new List<MySqlParameter>();
+            int i = 0;
+            if (IdProveedor != null)
+            {
+                //@Id le puedes poner como quieras
+                //pero es mejor que sea algo representativo ya que es idproveedor no idcompra
+                whereIn.Add("c.IdProveedor = @IdProveedor");
+                wParams.Add(new MySqlParameter("@IdProveedor", IdProveedor));
+            }
+            
+            string str = String.Join(" and ", whereIn.ToArray());
+            //string limit = " limit "+Pagina.Value*Maximo.Value+"," +Maximo.Value;
+
+            /*
+            MySqlParameter mysqlp;
+            mysqlp = new MySqlParameter("@NombreOCodigo", "%Cuaderno%");
+            string lquery = "Select * from Producto where Nombre LIKE @NombreOCodigo or Codigo LIKE @NombreOCodigo";
+            var list = _context.Productos.FromSql(lquery, mysqlp).ToList();
+            */
+            string sqlprueba = InformeCompra.query(str);
+            //Console.WriteLine(sqlprueba);
+            /*
+            this.Informes = _context.InformeCompra.FromSql(sqlprueba, wParams.ToArray())
+            .ToList();
+            */
+            this.Informes = _context.InformeCompra.FromSql(sqlprueba, wParams.ToArray())
+            .Skip((this.Pagina.Value)* this.Maximo.Value).Take(this.Maximo.Value).ToList();
+
+            Total = _context.InformeCompra.FromSql(sqlprueba, wParams.ToArray()).Count();
+            return Partial("/Pages/Shared/OthersPartials/_TablaComprasPartial.cshtml", this);
         }
+
+        
+
         public PartialViewResult OnGetCompra(int? IdCompra) {
             
             Compra = _context.Compras

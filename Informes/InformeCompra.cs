@@ -14,7 +14,12 @@ namespace SGLibreria.Informes
 
 
             
-            public static string query() {
+            public static string query(string where = "") {
+                if(where == null || where  =="") {
+                    where  = "";
+                } else {
+                    where =  " where "+where;
+                }
                 return @"
 SELECT c.`Id`, p.`Nombre` as Proveedor, `Fecha`, count(c.`Id`) as Cantidad, 
 sum(d.`PrecioCompra`) as Total,
@@ -32,9 +37,11 @@ inner join proveedor p
 on c.`IdProveedor` = p.`Id`
 inner join producto prod
 on prod.`Id` = d.`IdProducto`
-group by
-c.`Id`
-;
+
+"+where+@"
+
+group by c.`Id`
+
                 ";
             }
     }

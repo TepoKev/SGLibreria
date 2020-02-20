@@ -169,6 +169,7 @@ ViewData["Title"] = "Registro Venta";
         xhttp.send(new URLSearchParams(formData));
       }
   });
+  
   function refrescarProductos(data) {
     var divProductos = sgl.q('#productos');
     divProductos.innerHTML = data;

@@ -1,0 +1,22 @@
+@model Compras.ListaCompraModel
+<tbody id="resultados-filtro" data-total="@Model.Total" data-current-page="@Model.Pagina" data-max="@Model.Maximo">
+    @foreach (var item in Model.Informes)
+    {
+    <tr>
+        <td>@item.Fecha.ToString("dd/MM/yyyy") </td>
+        <td>@item.Proveedor </td>
+        <td>@item.Cantidad</td>
+        <td>@item.Total</td>
+        @if(item.Comprobante != null ) {
+        <td>
+            <a href="/@item.Comprobante" class="btn btn-secondary btn-sm"> <i class="fas fa-download"></i>
+                Comprobante</a>
+        </td>
+
+        } else {
+        <td>...</td>
+        }
+        <td><a href='#' data-idcompra="@item.Id" class="text-info"><i class="fas fa-list"></i> Detalles</a></td>
+    </tr>
+    }
+</tbody>

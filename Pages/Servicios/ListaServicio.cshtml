@@ -141,12 +141,13 @@ ViewData["Title"] = "Lista de Servicios";
   <script>
     sgl.get('ListaServicioAjax?Boton=true', refrescar);
     function refrescar(data) {
-    divServicios = sgl.q('#Servicios');
-    divServicios.innerHTML = data;
-    var divPaginador = sgl.q('#paginacion');
-    divPaginador.innerHTML = sgl.createPagination(divServicios, "#resultados-filtro");
-    //console.log(data);
-};
+      divServicios = sgl.q('#Servicios');
+      divServicios.innerHTML = data;
+      console.log(data);
+      var divPaginador = sgl.q('#paginacion');
+      divPaginador.innerHTML = sgl.createPagination(divServicios, "#resultados-filtro");
+      //console.log(data);
+    };
 
     var eventoClickPaginacion = sgl.q('#paginacion');
     eventoClickPaginacion.addEventListener('click', clicka) ;
