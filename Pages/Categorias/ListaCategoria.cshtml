@@ -73,16 +73,13 @@
                             <th scope="col" style="width:10%">Editar</th>
                             <th scope="col" style="width:20%">Estado</th>
                         </tr>
-
                     </thead>
-
                     <tbody id="tbcategoria" ></tbody>
                 </table>
             </div>
             <div class="row">
                 <div class="col offset-5">
                     <ul class="pagination" id="paginacion">
-                    
                     </ul>
                 </div>
             </div>
@@ -91,8 +88,14 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/sgl.js"></script>
+<script src="~/js/sgl.js"></script>
 <script>
+    var FrmCategoriaAdd = document.querySelector("#formcategoriaadd");
+    var FrmCategoriaMod = document.querySelector("#formcategoriamod");
+    var table = document.querySelector("#divTabla");
+    console.log(table);
+    var divopc = document.querySelector("#btngroup");
+    var btnadd = document.querySelector("#btnadd");
     var eventoClickPaginacion = sgl.q('#paginacion');
     eventoClickPaginacion.addEventListener('click', clicka) ;
     //console.log(eventoClickPaginacion);
@@ -106,23 +109,21 @@
         page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
         console.log(page, page.trim());
         if(page !== null && page.trim() !== '') {
-            buscar();     
+            buscar();
         }
-        console.log(page);
-        
     }
     let page;
 
     function buscar() {
-      params = "";
-      if(page){
+        params = "";
+        if(page){
         params += "&Pagina=" + page;
-      }
-      //console.log(params);
-      sgl.ajax2({
-        method: 'get', 
-        url: 'ListaCategoria?handler=Tabla&'+params,  
-        done: refrescar, 
+    }
+    //console.log(params);
+    sgl.ajax2({
+        method: 'get',
+        url: 'ListaCategoria?handler=Tabla&'+params,
+        done: refrescar,
         fail: function () {
             console.log(this.responseText);
         }
@@ -130,9 +131,9 @@
     }
 
     sgl.ajax2({
-        method: 'get', 
-        url: 'ListaCategoria?handler=Tabla',  
-        done: refrescar, 
+        method: 'get',
+        url: 'ListaCategoria?handler=Tabla',
+        done: refrescar,
         fail: function () {
             console.log(this.responseText);
         }
@@ -142,18 +143,9 @@
         var divTabla =  sgl.q("#divTabla");
         var tbody = sgl.q('#tbcategoria');
         tbody.outerHTML = data;
-        console.log(data);
         var divPaginador = sgl.q('#paginacion');
         divPaginador.innerHTML = sgl.createPagination(divTabla, "#tbcategoria");
     }
-
-
-
-    var FrmCategoriaAdd = document.querySelector("#formcategoriaadd");
-    var FrmCategoriaMod = document.querySelector("#formcategoriamod");
-    var tbody = document.querySelector("#tbcategoria");
-    var divopc = document.querySelector("#btngroup");
-    var btnadd = document.querySelector("#btnadd");
     divopc.addEventListener("click", function(e){
         var element = e.target;
         if(element.classList.contains("btn-outline-danger")){
@@ -162,8 +154,9 @@
             document.querySelector("#Categoria_Nombre").value = "";
         }
     });
-    tbody.addEventListener("click", function(e) {
+    table.addEventListener("click", function(e) {
         var element = e.target;
+        console.log("event", element);
         if (element.classList.contains("btn-outline-success")) {
             FrmCategoriaMod.removeAttribute("hidden");
             divopc.firstElementChild.setAttribute("data-id",element.getAttribute("data-idcat"));
@@ -201,7 +194,8 @@
     });
     function ModEstado(input, estado){
         var id = input.getAttribute("data-idc");
-        console.log(id);
+        console.log("id",id);
+        console.log("estado",estado);
         var label = input.nextElementSibling;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -237,9 +231,9 @@
                             ToastSuccess("Modificacón Exitosa!");
                             //Actualizacion de la tabla
                             sgl.ajax2({
-                                method: 'get', 
-                                url: 'ListaCategoria?handler=Tabla',  
-                                done: refrescar, 
+                                method: 'get',
+                                url: 'ListaCategoria?handler=Tabla',
+                                done: refrescar,
                                 fail: function () {
                                     console.log(this.responseText);
                                 }
@@ -248,7 +242,6 @@
                             ToastFail("Fallo en el Registro!!");
                         }
                     }
-                    
                 } else {
                     ToastFail("Fallo la Modificación!!");
                 }
@@ -261,7 +254,6 @@
         xhttp.send("IdCategoria="+id+"&Nombre="+nombre);
     }
 
-    
     function GuardarAjax() {
         var form = document.querySelector("#formcategoriaadd");
         var formData = new FormData(form);
@@ -280,9 +272,9 @@
                             ToastSuccess("Registro Exitoso!");
                             //Actualizacion de la tabla
                             sgl.ajax2({
-                                method: 'get', 
-                                url: 'ListaCategoria?handler=Tabla',  
-                                done: refrescar, 
+                                method: 'get',
+                                url: 'ListaCategoria?handler=Tabla',
+                                done: refrescar,
                                 fail: function () {
                                     console.log(this.responseText);
                                 }
@@ -291,7 +283,6 @@
                             ToastFail("Fallo en el Registro!!");
                         }
                     }
-                    
                 } else {
                     ToastFail("Fallo en el Registro!!");
                 }
