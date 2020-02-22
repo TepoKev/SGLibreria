@@ -66,7 +66,7 @@
             </div>
 
             <div class="row px-5 pt-3">
-                <table class="table table-sm table-hover">
+                <table class="table table-sm table-hover" id="divTabla">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Nombre</th>
@@ -76,38 +76,14 @@
 
                     </thead>
 
-                    <tbody id="tbcategoria">
-                        @{
-                            int i;
-                            int len = Model.Categorias.Count;
-                            Categoria c;
-                        }
-                        @for(i=0; i < len; i++){
-                            c=Model.Categorias[i];
-                            <tr>
-                            <td>@c.Nombre</td>
-                            <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
-                            </td>
-                            <td>
-                                <div class="col-form-label custom-control custom-switch">
-                                    @if(c.Estado == 1){
-                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
-                                        <label class="custom-control-label" for="@c.Id">Habilitada</label>
-                                    }else{
-                                        <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
-                                        <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
-                                    }
-                                </div>
-                            </td>
-                            </tr>
-                            }
-
-                    </tbody>
+                    <tbody id="tbcategoria" ></tbody>
                 </table>
             </div>
             <div class="row">
                 <div class="col offset-5">
+                    <ul class="pagination" id="paginacion">
                     
+                    </ul>
                 </div>
             </div>
         </div>
@@ -117,6 +93,62 @@
 @section Scripts{
     <script src="~/js/sgl.js"></script>
 <script>
+    var eventoClickPaginacion = sgl.q('#paginacion');
+    eventoClickPaginacion.addEventListener('click', clicka) ;
+    //console.log(eventoClickPaginacion);
+    function clicka(e){
+        e.preventDefault();
+        //console.log(e.target.tagName);
+        if(e.target.tagName == 'UL') {
+            return;
+        }
+        let child= e.target.firstElementChild , target = e.target;
+        page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+        console.log(page, page.trim());
+        if(page !== null && page.trim() !== '') {
+            buscar();     
+        }
+        console.log(page);
+        
+    }
+    let page;
+
+    function buscar() {
+      params = "";
+      if(page){
+        params += "&Pagina=" + page;
+      }
+      //console.log(params);
+      sgl.ajax2({
+        method: 'get', 
+        url: 'ListaCategoria?handler=Tabla&'+params,  
+        done: refrescar, 
+        fail: function () {
+            console.log(this.responseText);
+        }
+    });
+    }
+
+    sgl.ajax2({
+        method: 'get', 
+        url: 'ListaCategoria?handler=Tabla',  
+        done: refrescar, 
+        fail: function () {
+            console.log(this.responseText);
+        }
+    });
+
+    function refrescar(data){
+        var divTabla =  sgl.q("#divTabla");
+        var tbody = sgl.q('#tbcategoria');
+        tbody.outerHTML = data;
+        console.log(data);
+        var divPaginador = sgl.q('#paginacion');
+        divPaginador.innerHTML = sgl.createPagination(divTabla, "#tbcategoria");
+    }
+
+
+
     var FrmCategoriaAdd = document.querySelector("#formcategoriaadd");
     var FrmCategoriaMod = document.querySelector("#formcategoriamod");
     var tbody = document.querySelector("#tbcategoria");
@@ -169,6 +201,7 @@
     });
     function ModEstado(input, estado){
         var id = input.getAttribute("data-idc");
+        console.log(id);
         var label = input.nextElementSibling;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -203,7 +236,14 @@
                             document.querySelector("#formcategoriaadd").reset();
                             ToastSuccess("Modificacón Exitosa!");
                             //Actualizacion de la tabla
-                            LlenarTabla(Categorias);
+                            sgl.ajax2({
+                                method: 'get', 
+                                url: 'ListaCategoria?handler=Tabla',  
+                                done: refrescar, 
+                                fail: function () {
+                                    console.log(this.responseText);
+                                }
+                            });
                         }else{
                             ToastFail("Fallo en el Registro!!");
                         }
@@ -239,7 +279,14 @@
                             document.querySelector("#formcategoriaadd").reset();
                             ToastSuccess("Registro Exitoso!");
                             //Actualizacion de la tabla
-                            LlenarTabla(Categorias);
+                            sgl.ajax2({
+                                method: 'get', 
+                                url: 'ListaCategoria?handler=Tabla',  
+                                done: refrescar, 
+                                fail: function () {
+                                    console.log(this.responseText);
+                                }
+                            });
                         }else{
                             ToastFail("Fallo en el Registro!!");
                         }

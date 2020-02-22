@@ -16,17 +16,42 @@ namespace SGLibreria.Pages.Categorias
         public Categoria Categoria {get;set;}
         public List<Categoria> Categorias {get;set;}
         private readonly  AppDbContext _context;
+        public int? Pagina {get;set;}
+        public int? Maximo {get;set;}
+        public int Total{get;set;}
         public ListaCategoriaModel(AppDbContext context) {
             this._context = context;
             Categorias = new List<Categoria>();
+            this.Pagina = 0;
+            this.Maximo = 2;
         }
 
-        public async Task OnGetAsync(int? Id) {
-            this.Categorias =  _context.Categorias.Where(c => c.Estado!= 0).ToList();
+
+
+        public  async Task<PartialViewResult> OnGetTabla(int? Id, int? Pagina, int? Maximo) {
+            if(Pagina != null){
+                this.Pagina = Pagina.Value;
+            }
+            if(Maximo != null){
+                this.Maximo = Maximo.Value;
+            }
+            this.Categorias = _context.Categorias.ToList();
+            var total = _context.Categorias.Select(
+                        q => new
+                        {
+                            co = Categorias.Count()
+                        }
+                    ).FirstOrDefault();
+            this.Total = total.co;
+            this.Categorias =  _context.Categorias.Where(c => c.Estado!= 0).
+            Skip((this.Pagina.Value)* this.Maximo.Value).Take(this.Maximo.Value).ToList();
+            
             if(Id !=null){
                 this.Categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == Id);
             }
+            return Partial("/Pages/Shared/OthersPartials/_TablaCategoriasPartial.cshtml", this);
         }
+
         public async Task<IActionResult> OnPostEstado(int IdCategoria, int Estado)
         {
             if(!CategoriaExists(IdCategoria)){

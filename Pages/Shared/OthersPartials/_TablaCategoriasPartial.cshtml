@@ -1,0 +1,29 @@
+@using Models
+@model Categorias.ListaCategoriaModel
+
+<tbody id="tbcategoria" data-total="@Model.Total" data-current-page="@Model.Pagina" data-max="@Model.Maximo">
+    @{
+        int i;
+        int len = Model.Categorias.Count;
+        Categoria c;
+    }
+    @for(i=0; i < len; i++){
+        c=Model.Categorias[i];
+        <tr>
+        <td>@c.Nombre</td>
+        <td><span class='btn btn-sm btn-outline-success mano' data-idcat="@c.Id"><i class="fas fa-pencil-alt"></i></span>
+        </td>
+        <td>
+            <div class="col-form-label custom-control custom-switch">
+                @if(c.Estado == 1){
+                    <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id" checked>
+                    <label class="custom-control-label" for="@c.Id">Habilitada</label>
+                }else{
+                    <input type="checkbox" class="custom-control-input" data-idc="@c.Id" id="@c.Id">
+                    <label class="custom-control-label" for="@c.Id">Deshabilitada</label>
+                }
+            </div>
+        </td>
+        </tr>
+        }
+</tbody>
