@@ -16,16 +16,40 @@ namespace SGLibreria.Pages.Marcas
         public Marca Marca {get;set;}
         public List<Marca> Marcas {get;set;}
         private readonly  AppDbContext _context;
+        public int? Pagina {get;set;}
+        public int? Maximo {get;set;}
+        public int Total{get;set;}
         public ListaMarcaModel(AppDbContext context) {
             this._context = context;
             Marcas = new List<Marca>();
+            this.Pagina = 0;
+            this.Maximo = 2;
         }
 
-        public async Task OnGetAsync(int? Id) {
-            this.Marcas =  _context.Marcas.ToList();
+
+
+        public  async Task<PartialViewResult> OnGetTabla(int? Id, int? Pagina, int? Maximo) {
+            if(Pagina != null){
+                this.Pagina = Pagina.Value;
+            }
+            if(Maximo != null){
+                this.Maximo = Maximo.Value;
+            }
+            this.Marcas = _context.Marcas.ToList();
+            var total = _context.Marcas.Select(
+                        q => new
+                        {
+                            co = Marcas.Count()
+                        }
+                    ).FirstOrDefault();
+            this.Total = total.co;
+            this.Marcas =  _context.Marcas.
+            Skip((this.Pagina.Value)* this.Maximo.Value).Take(this.Maximo.Value).ToList();
+            
             if(Id !=null){
                 this.Marca = await _context.Marcas.FirstOrDefaultAsync(c => c.Id == Id);
             }
+            return Partial("/Pages/Shared/OthersPartials/_TablaMarcasPartial.cshtml", this);
         }
 
         public async Task<IActionResult> OnPostEstado(int IdMarca, int Estado)
@@ -48,7 +72,7 @@ namespace SGLibreria.Pages.Marcas
             Accion Accion = new Accion();
             Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
             Accion.Hora = DateTime.Now;
-            Accion.Descripcion = "inhabilitò una marca";
+            Accion.Descripcion = "inhabilitó una Marca";
             this._context.Add(Accion);
             this._context.SaveChanges();
             return Page();
@@ -69,16 +93,14 @@ namespace SGLibreria.Pages.Marcas
                 Accion Accion = new Accion();
                 Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
                 Accion.Hora = DateTime.Now;
-                Accion.Descripcion = "registró una marca";
+                Accion.Descripcion = "registro una Marca";
                 this._context.Add(Accion);
                 this._context.SaveChanges();
             }
             
-            this.Marcas =  _context.Marcas.ToList();
+            this.Marcas=  _context.Marcas.ToList();
             
-            return new JsonResult(
-                new {marcas = this.Marcas, error = error}
-            );
+            return new JsonResult(new {Marcas = this.Marcas, error = error});
         }
         public async Task<JsonResult> OnPostEditar(int IdMarca, string Nombre){
             this.Marca = await this._context.Marcas.FirstOrDefaultAsync(w => w.Id == IdMarca);
@@ -97,14 +119,14 @@ namespace SGLibreria.Pages.Marcas
                 Accion Accion = new Accion();
                 Accion.IdBitacora = HttpContext.Session.GetInt32("IdBitacora").Value;
                 Accion.Hora = DateTime.Now;
-                Accion.Descripcion = "modificó datos de una marca";
+                Accion.Descripcion = "modificó una Marca";
                 this._context.Add(Accion);
                 this._context.SaveChanges();
             }
             
             this.Marcas= await _context.Marcas.ToListAsync();
-            
-            return new JsonResult(new {marcas = this.Marcas, error = error});
+           
+            return new JsonResult(new {Marcas = this.Marcas, error = error});
         }
         private bool MarcaExists(int id)
         {

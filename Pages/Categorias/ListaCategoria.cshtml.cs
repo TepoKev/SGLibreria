@@ -43,7 +43,7 @@ namespace SGLibreria.Pages.Categorias
                         }
                     ).FirstOrDefault();
             this.Total = total.co;
-            this.Categorias =  _context.Categorias.Where(c => c.Estado!= 0).
+            this.Categorias =  _context.Categorias.
             Skip((this.Pagina.Value)* this.Maximo.Value).Take(this.Maximo.Value).ToList();
             
             if(Id !=null){
