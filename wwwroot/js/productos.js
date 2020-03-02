@@ -1,3 +1,10 @@
+var params = {
+    boton : true, 
+    nombreOCodigo : '',
+    idMarca: '',
+    idCategoria: '', 
+    pagina: 0
+};
 
 sgl.get('ListaProductoAjax?'+sgl.serialize({boton: true}), refrescar);
 function refrescar(data) {
@@ -17,36 +24,29 @@ function clicka(e){
         return;
     }
     let child= e.target.firstElementChild , target = e.target;
-    page = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
-    console.log(page, page.trim());
-    if(page !== null && page.trim() !== '') {
+    params.pagina = target.getAttribute('data-page') === null? child.getAttribute('data-page') : target.getAttribute('data-page');
+    console.log(params.pagina, params.pagina.trim());
+    if(params.pagina !== null && params.pagina.trim() !== '') {
         buscarProducto();        
     }
     //console.log(page);
 }
-let page;
+
 var NombreOCodigo = sgl.q('#NombreOCodigo');
 NombreOCodigo.focus();
 NombreOCodigo.oninput = function (e) {
-    page = 0;
+    params.pagina = 0;
+    params.nombreOCodigo = this.value;
     buscarProducto();
 };
-var IdCategoria;
-var IdMarca;
 function buscarProducto() {
-    var params = {
-        boton : true, 
-        nombreOCodigo : NombreOCodigo.value,
-        idCategoria: IdCategoria, 
-        pagina: page, 
-        idMarca: IdMarca
-    };
     console.log(params);
     sgl.get('ListaProductoAjax', function (data) {
         divProductos = sgl.q('#productos');
         divProductos.innerHTML = data;
         refrescar(data);
     }, params);
+    //params es variable global
 }
 
 
@@ -249,9 +249,13 @@ formModificar.onsubmit = function (evento) {
         }
     });
 }
+
 var divCategorias = sgl.q('#categorias');
 divCategorias.onclick = function (evento) {
     var target = evento.target;
+    if(target === this) {
+        return;
+    }
     target = target.tagName === 'I' ? target.parentNode : target;
     var children = target.parentNode.children;
     console.log(children);
@@ -260,24 +264,26 @@ divCategorias.onclick = function (evento) {
     });
     target.className = 'btn btn-sm btn-primary active';
     console.log(target);
-    IdCategoria = target.getAttribute('data-idcategoria');
-    console.log(IdCategoria);
-    page = 0;
+    params.idCategoria = target.getAttribute('data-idcategoria');
+    console.log(params.idCategoria);
+    params.pagina = 0;
     buscarProducto();
 }
 var divMarcas = sgl.q('#marcas');
 divMarcas.onclick = function (evento) {
     var target = evento.target;
+    if(target === this) {
+        return;
+    }
     target = target.tagName === 'I' ? target.parentNode : target;
     var children = target.parentNode.children;
-    console.log(children);
     children.forEach(element => {
         element.className = 'btn btn-sm btn-dark';
     });
     target.className = 'btn btn-sm btn-primary active';
     console.log(target);
-    IdMarca = target.getAttribute('data-idmarca');
-    console.log(IdMarca);
-    page = 0;
+    params.idMarca = target.getAttribute('data-idmarca');
+    console.log(params.idMarca);
+    params.pagina = 0;
     buscarProducto();
 }

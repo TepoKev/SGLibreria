@@ -38,16 +38,12 @@ namespace SGLibreria.Pages.Productos
         public IActionResult OnGet(int? Id, int? Pagina, int? CantidadPorFila, int? Maximo, string NombreOCodigo, int? IdCategoria, int? IdMarca, bool? Boton)
         {
             this.Boton = Boton;
-
-            this.Boton = Boton;
-
             if (Pagina != null)
             {
                 this.Pagina = Pagina.Value;
             }
             if (CantidadPorFila != null)
             {
-
                 this.CantidadPorFila = CantidadPorFila.Value;
             }
             if (Maximo != null)

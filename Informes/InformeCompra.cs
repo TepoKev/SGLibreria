@@ -41,7 +41,7 @@ on prod.`Id` = d.`IdProducto`
 "+where+@"
 
 group by c.`Id`
-
+order by c.Fecha desc
                 ";
             }
     }

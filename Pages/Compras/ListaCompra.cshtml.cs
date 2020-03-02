@@ -16,7 +16,7 @@ namespace SGLibreria.Pages.Compras {
 
         public ListaCompraModel (AppDbContext context) {
             this.Pagina = 0;
-            this.Maximo = 2;
+            this.Maximo = 4;
             _context = context;
         }
 
